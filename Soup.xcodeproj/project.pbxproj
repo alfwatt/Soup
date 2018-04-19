@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		758A1A7E20886B6300122965 /* Reference */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Reference; sourceTree = "<group>"; };
 		75EA39BC1B20D6340058E49D /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -15,6 +16,7 @@
 			isa = PBXGroup;
 			children = (
 				75EA39BC1B20D6340058E49D /* Readme.md */,
+				758A1A7E20886B6300122965 /* Reference */,
 			);
 			sourceTree = "<group>";
 		};

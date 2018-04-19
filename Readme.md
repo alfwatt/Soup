@@ -34,6 +34,15 @@ The ability to build union soups and for entreis to be adoped from one soup to a
 
 The Soup framework consists of the following objects:
 
+- ILSoup
+- ILSoupDelegate
+- ILSoupUnionSoup
+- ILUnionSoupDelegate
+- ILSSoupEntry
+- ILSoupCursor
+- ILSoupIndex
+- ILSoupSequence
+
 === ILSoup
 
 ILSoup is the peer of the newtSoup proto
@@ -66,10 +75,12 @@ ILSoup is the peer of the newtSoup proto
     - (ILSoupCursor*) query:(NSPredicate*) query
 
     #pragma mark - Soup Managment
-    - (void) doneWithSoup(NSString* appIdentifier)
+    
+    - (void) doneWithSoup:(NSString*) appIdentifier
     - (void) fillNewSoup
     
     @end
+
 
 === ILSoupDelegate
 
@@ -83,6 +94,7 @@ Delegate methods for ILSoup
     - (void) soup:(ILSoup*) deJour setQuery:(NSPredicate*) query
     
     @end
+
 
 === ILUnionSoup
 
@@ -100,6 +112,7 @@ Compines soups into a single virutal store
     
     @end
 
+
 === ILUnionSoupDelegate
 
 Delegate messages relating to the soup
@@ -108,10 +121,11 @@ Delegate messages relating to the soup
     
     - (void) unionSoup:(ILUnionSoup*) union addedSoup:(ILSoup*) soup
     - (void) unionSoup:(ILUnionSoup*) union removedSoup:(ILSoup*) soup
-    - (void) unionSoup:(ILUnionSoup*) union suspendedSoup:(ILSoup*) soup //
+    - (void) unionSoup:(ILUnionSoup*) union suspendedSoup:(ILSoup*) soup
     - (void) unionSoup:(ILUnionSoup*) union resumedSoup:(ILSoup*) soup
     
     @end
+
 
 === ILSSoupEntry
 
@@ -125,6 +139,17 @@ SoupEntries implement the following protocol
     
     @end
 
+
+=== ILSoupCursor
+
+A collection of objects returned from a search
+
+    @interface
+    @property(readonly) NSArray<ILSoupEntry*>* entries
+    
+    @end
+
+
 === ILSoupIndex
 
 Searchable index on a set
@@ -136,14 +161,29 @@ Searchable index on a set
     - (void) indexEntry:(ILSoupEntry*) entry
     - (void) removeEntry:(ILSoupEntry*) entry
     - (BOOL) includesEntry:(ILSoupEntry*) entry
-    // TODO
+    - (ILSoupCursor*) entriesWithValue:(id) value
     
     @end
 
-=== ILSoupCursor
 
-    @interface
-    @property(readonly) NSArray<ILSoupEntry*>* entries
+=== ILSoupSequence
+
+Maintain a time sequence for an indexPath property
+
+    @interface ILSoupSequence
+    @property(readonly) NSString* indexPath
+    @property(readonly) NSDictionary<NSArray<NSDate*>*>* sequenceTimes
+    @proeprty(readonly) NSDictionary<NSArray<NSNumber*>*>* sequenceValues
+    
+    - (void) sequenceEntry:(ILSoupEntry*) entry atTime:(NSDate*) timeIndex;
+    - (void) removeEntry:(ILSoupEntry*) entry;
+    - (BOOL) includesEntry:(ILSoupEntry*) entry;
+
+    #pragma mark - fetching sequence data
+
+    - (BOOL) fetchSequenceFor:(ILSoupEntry*) entry times:(NSArray<NSDate*>**) timeArray values:(NSArray<NSNumber*>**) valueArray
+
+    
     @end
 
 
