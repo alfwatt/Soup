@@ -55,7 +55,7 @@ Soup brings back the simplicity and clarity of the Newton Soup API, adds modern 
 
 === Simplicity of Design
 
-Soups clear, simple design makes it easy to underdant and intergrate.
+Soups clear, simple design makes it easy to understand and to quickly intergrate int apps.
 
 
 === Optimized for Presentaion
@@ -69,166 +69,58 @@ The ability to build union soups and for entreis to be adoped from one soup to a
 have local, online, and peer soups which are merged into a single data source for an applicaiton to present to the user.
 
 
-== Soup Objects
+== Soup Protocols
 
-The Soup framework consists of the following objects:
+The Soup framework consists of the following protocols:
 
-- ILSoup
-- ILSoupDelegate
-- ILSoupUnionSoup
-- ILUnionSoupDelegate
-- ILSSoupEntry
-- ILSoupCursor
-- ILSoupIndex
-- ILSoupSequence
+- ILSoup — ILSoup is the peer of the newtSoup proto
+    - ILSoupDelegate — recieves messages when the soup performs operations or encouters errors
+- ILSoupEntry — basic data storage unit in a soup
+    - ILSoupMutableEntry — allows for mutation of elements
+- ILSoupIndex — fast access to soup entries by property index
+    - ILSoupCursor — index operations return cursors, which contain a list of entries
+- ILSoupSequence — fast access to time sequence datat for numeric properties of entries
+    - ILSoupSequceSource — Impedence match with SparkKit
 
+== Soup Stock
 
-=== ILSoup
+Stock in-memory implemenatilns of the Soup Protocols
 
-ILSoup is the peer of the newtSoup proto
+- ILSoupStock
+- ILSoupStockEntry
+    - ILSoupStockMutableEntry
+- ILSoupStockIndex 
+    - ILSoupStockCursor
+- ILSoupStockSequence 
+    - ILSoupStockSequenceSource
 
-    @interface ILSoup
-    @property(retain) NSString* soupName
-    @property(retain) NSUUID* soupUUID
-    @property(retain) NSArray<ILSoupIndex*>* soupIndicies
-    @property(retain) NSPredicate* soupQuery
-    @property(retain) NSStirng* soupDescr
-    @property(assign) Class defaultDataType
-    @property(assing) id<ILSoupDelegate> delegate
+== Soup Flavors
+
+The Soup framework includes a few pre-made flavors which you may find useful in your applications
+
+- ILMemorySoup — in-memory soup made with Stock ingredients
+- ILFileSoup — file-system based soup, entries are written to files
+- ILSynchSoup — synchronized access to a soup, so that it can safely be mutated across multiple threads
+- ILUnionSoup — Combines several soups into a single virutal store
+    - ILUnionSoupDelegate — Delegate messages relating to the soup
+
+== TODO Flavors
+
+- ILRemoteSoup — fetches soup contents from a remote source
+- ILQueuedSoup — performs all queue opertaions on a serial background queue, and all delegate callbacks on a specified serial queue 
+
+== Example: Address Book
+
+    ILMemorySoup* memory = [ILMemorySoup new];
+    memory.soupName = @"Address Book";
+    [memory createIndex:@"name"];
+    [memory createIndex:@"email"];
+    [memory createIndex:@"phone"];
+    [memory createIndex:@"url"];
+    [memory createIndex:@"birthday"];
     
-    + (ILSoup*) makeSoup:(NSString*) appIdentifier
+    NSLog(@"Create Address Book: %@ %@\n%@", memory.soupName, memory.soupUUID, memory.soupIndicis);
     
-    #pragma mark - Entries
-    - (void) addEntry:(ILSoupEntry*) entry
-    - (void) adoptEntry:(ILSoupEntry*) entry type:(Class) type
-    - (ILSoupEntry*) createBlankEntry
-    - (void) deleteEntry:(ILSoupEntry*) entry
-    - (ILSoupEntry*) duplicateEntry:(ILSoupEntry*) entry
-    - (id) getAlias:(ILSoupEntry*) entry // alias or path?
-    - (ILSoupEntry*) gotoAlias:(id) alias
+    ILSoupEntry* entry = [memory createBlankEntry];
     
-    #pragma mark - Cursor
     
-    - (void) setupCursor() // create or reset cursor after setting soupQuery
-    - (ILSoupCursor*) getCursor() // query param?
-    - (id) getCursorPosition // alias or path?
-    - (ILSoupCursor*) query:(NSPredicate*) query
-
-    #pragma mark - Soup Managment
-    
-    - (void) doneWithSoup:(NSString*) appIdentifier
-    - (void) fillNewSoup
-    
-    @end
-
-
-=== ILSoupDelegate
-
-Delegate methods for ILSoup
-
-    @protocol ILSoupDelegate
-    
-    - (void) soup:(ILSoup*) deJour addedEntry:(ILSoupEntry*) entry
-    - (void) soup:(ILSoup*) deJour adoptedEntry:(ILSoupEntry*) entry
-    - (void) soup:(ILSoup*) deJour createdEntry:(ILSopuEntry*) entry
-    - (void) soup:(ILSoup*) deJour setQuery:(NSPredicate*) query
-    
-    @end
-
-
-=== ILUnionSoup
-
-Compines soups into a single virutal store
-
-    @interface
-    @property(readonly) NSArray<ILSoup*>* soups
-    @property(assign) id<ILUnionSoupDelegate> delegate
-    
-    - (void) addSoup:(ILSoup*) soup // adds a soup to the union
-    - (void) insertSoup:(ILSoup*) soup atIndex:(NSUnsignedInteger) index // insert at index in the stack
-    - (void) removeSoup:(ILSoup*) soup // removes a soup from the union
-    - (void) suspendSoup:(ILSoup*) soup // retains a soup in the union, but suspend operations
-    - (void) resumeSoup:(ILSoup*) soup // attempt to resume operations on a soup
-    
-    @end
-
-
-=== ILUnionSoupDelegate
-
-Delegate messages relating to the soup
-
-    @protocol ILUnionSoupDelegate
-    
-    - (void) unionSoup:(ILUnionSoup*) union addedSoup:(ILSoup*) soup
-    - (void) unionSoup:(ILUnionSoup*) union removedSoup:(ILSoup*) soup
-    - (void) unionSoup:(ILUnionSoup*) union suspendedSoup:(ILSoup*) soup
-    - (void) unionSoup:(ILUnionSoup*) union resumedSoup:(ILSoup*) soup
-    
-    @end
-
-
-=== ILSSoupEntry
-
-SoupEntries implement the following protocol
-
-    @protocol ILSoupEntry
-    @property(readonly) NSString* entryHash
-    @property(retain) NSDictionary* entryKeys
-    
-    + (instancetype) soupEntryFromKeys:(NSDictionary*) entryKeys;
-    
-    @end
-
-
-=== ILSoupCursor
-
-A collection of objects returned from a search
-
-    @interface
-    @property(readonly) NSArray<ILSoupEntry*>* entries
-    
-    @end
-
-
-=== ILSoupIndex
-
-Searchable index on a set
-
-    @interface ILSoupIndex
-    @property(readonly) NSString* indexPath
-    @property(readonly) NSDictionary* index
-    
-    - (void) indexEntry:(ILSoupEntry*) entry
-    - (void) removeEntry:(ILSoupEntry*) entry
-    - (BOOL) includesEntry:(ILSoupEntry*) entry
-    - (ILSoupCursor*) entriesWithValue:(id) value
-    
-    @end
-
-
-=== ILSoupSequence
-
-Maintain a time sequence for an indexPath property
-
-    @interface ILSoupSequence
-    @property(readonly) NSString* indexPath
-    @property(readonly) NSDictionary<NSArray<NSDate*>*>* sequenceTimes
-    @proeprty(readonly) NSDictionary<NSArray<NSNumber*>*>* sequenceValues
-    
-    - (void) sequenceEntry:(ILSoupEntry*) entry atTime:(NSDate*) timeIndex;
-    - (void) removeEntry:(ILSoupEntry*) entry;
-    - (BOOL) includesEntry:(ILSoupEntry*) entry;
-
-    #pragma mark - fetching sequence data
-
-    - (BOOL) fetchSequenceFor:(ILSoupEntry*) entry times:(NSArray<NSDate*>**) timeArray values:(NSArray<NSNumber*>**) valueArray
-
-    
-    @end
-
-
-=== Example: Names Soup
-
-
-
-
