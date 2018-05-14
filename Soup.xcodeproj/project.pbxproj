@@ -29,12 +29,12 @@
 		7543242420A384C9006EE620 /* ILSoupStock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543242220A384C9006EE620 /* ILSoupStock.m */; };
 		7543242D20A39B5C006EE620 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543242C20A39B5C006EE620 /* main.m */; };
 		7543243320A39B8B006EE620 /* Soup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 754323FF20A3786F006EE620 /* Soup.framework */; };
-		7543243720A3A153006EE620 /* ILSoupStockEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243520A3A153006EE620 /* ILSoupStockEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7543243820A3A153006EE620 /* ILSoupStockEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243620A3A153006EE620 /* ILSoupStockEntry.m */; };
-		7543243C20A3A2E4006EE620 /* ILSoupStockIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243A20A3A2E4006EE620 /* ILSoupStockIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7543243D20A3A2E4006EE620 /* ILSoupStockIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243B20A3A2E4006EE620 /* ILSoupStockIndex.m */; };
-		7543244020A3A312006EE620 /* ILSoupStockSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243E20A3A312006EE620 /* ILSoupStockSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7543244120A3A312006EE620 /* ILSoupStockSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243F20A3A312006EE620 /* ILSoupStockSequence.m */; };
+		7543243720A3A153006EE620 /* ILStockEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243520A3A153006EE620 /* ILStockEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7543243820A3A153006EE620 /* ILStockEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243620A3A153006EE620 /* ILStockEntry.m */; };
+		7543243C20A3A2E4006EE620 /* ILStockIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243A20A3A2E4006EE620 /* ILStockIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7543243D20A3A2E4006EE620 /* ILStockIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243B20A3A2E4006EE620 /* ILStockIndex.m */; };
+		7543244020A3A312006EE620 /* ILStockSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243E20A3A312006EE620 /* ILStockSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7543244120A3A312006EE620 /* ILStockSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243F20A3A312006EE620 /* ILStockSequence.m */; };
 		7543244420A8B289006EE620 /* ILSynchSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543244220A8B289006EE620 /* ILSynchSoup.h */; };
 		7543244520A8B289006EE620 /* ILSynchSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543244320A8B289006EE620 /* ILSynchSoup.m */; };
 /* End PBXBuildFile section */
@@ -86,12 +86,12 @@
 		7543242220A384C9006EE620 /* ILSoupStock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSoupStock.m; sourceTree = "<group>"; };
 		7543242A20A39B5B006EE620 /* addresses */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = addresses; sourceTree = BUILT_PRODUCTS_DIR; };
 		7543242C20A39B5C006EE620 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		7543243520A3A153006EE620 /* ILSoupStockEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupStockEntry.h; sourceTree = "<group>"; };
-		7543243620A3A153006EE620 /* ILSoupStockEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSoupStockEntry.m; sourceTree = "<group>"; };
-		7543243A20A3A2E4006EE620 /* ILSoupStockIndex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupStockIndex.h; sourceTree = "<group>"; };
-		7543243B20A3A2E4006EE620 /* ILSoupStockIndex.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSoupStockIndex.m; sourceTree = "<group>"; };
-		7543243E20A3A312006EE620 /* ILSoupStockSequence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupStockSequence.h; sourceTree = "<group>"; };
-		7543243F20A3A312006EE620 /* ILSoupStockSequence.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSoupStockSequence.m; sourceTree = "<group>"; };
+		7543243520A3A153006EE620 /* ILStockEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILStockEntry.h; sourceTree = "<group>"; };
+		7543243620A3A153006EE620 /* ILStockEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILStockEntry.m; sourceTree = "<group>"; };
+		7543243A20A3A2E4006EE620 /* ILStockIndex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILStockIndex.h; sourceTree = "<group>"; };
+		7543243B20A3A2E4006EE620 /* ILStockIndex.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILStockIndex.m; sourceTree = "<group>"; };
+		7543243E20A3A312006EE620 /* ILStockSequence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILStockSequence.h; sourceTree = "<group>"; };
+		7543243F20A3A312006EE620 /* ILStockSequence.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILStockSequence.m; sourceTree = "<group>"; };
 		7543244220A8B289006EE620 /* ILSynchSoup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSynchSoup.h; sourceTree = "<group>"; };
 		7543244320A8B289006EE620 /* ILSynchSoup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSynchSoup.m; sourceTree = "<group>"; };
 		758A1A7E20886B6300122965 /* Reference */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Reference; sourceTree = "<group>"; };
@@ -204,12 +204,12 @@
 			children = (
 				7543242120A384C9006EE620 /* ILSoupStock.h */,
 				7543242220A384C9006EE620 /* ILSoupStock.m */,
-				7543243520A3A153006EE620 /* ILSoupStockEntry.h */,
-				7543243620A3A153006EE620 /* ILSoupStockEntry.m */,
-				7543243A20A3A2E4006EE620 /* ILSoupStockIndex.h */,
-				7543243B20A3A2E4006EE620 /* ILSoupStockIndex.m */,
-				7543243E20A3A312006EE620 /* ILSoupStockSequence.h */,
-				7543243F20A3A312006EE620 /* ILSoupStockSequence.m */,
+				7543243520A3A153006EE620 /* ILStockEntry.h */,
+				7543243620A3A153006EE620 /* ILStockEntry.m */,
+				7543243A20A3A2E4006EE620 /* ILStockIndex.h */,
+				7543243B20A3A2E4006EE620 /* ILStockIndex.m */,
+				7543243E20A3A312006EE620 /* ILStockSequence.h */,
+				7543243F20A3A312006EE620 /* ILStockSequence.m */,
 			);
 			path = Stock;
 			sourceTree = "<group>";
@@ -244,9 +244,9 @@
 				7543244420A8B289006EE620 /* ILSynchSoup.h in Headers */,
 				7543240E20A3792B006EE620 /* ILSoupSequence.h in Headers */,
 				7543242320A384C9006EE620 /* ILSoupStock.h in Headers */,
-				7543243720A3A153006EE620 /* ILSoupStockEntry.h in Headers */,
-				7543243C20A3A2E4006EE620 /* ILSoupStockIndex.h in Headers */,
-				7543244020A3A312006EE620 /* ILSoupStockSequence.h in Headers */,
+				7543243720A3A153006EE620 /* ILStockEntry.h in Headers */,
+				7543243C20A3A2E4006EE620 /* ILStockIndex.h in Headers */,
+				7543244020A3A312006EE620 /* ILStockSequence.h in Headers */,
 				7543240F20A3792B006EE620 /* ILMemorySoup.h in Headers */,
 				7543241020A3792B006EE620 /* ILFileSoup.h in Headers */,
 				7543241320A3792B006EE620 /* ILUnionSoup.h in Headers */,
@@ -351,11 +351,11 @@
 				7543241720A37958006EE620 /* ILMemorySoup.m in Sources */,
 				7543241820A37958006EE620 /* ILFileSoup.m in Sources */,
 				7543242420A384C9006EE620 /* ILSoupStock.m in Sources */,
-				7543243D20A3A2E4006EE620 /* ILSoupStockIndex.m in Sources */,
+				7543243D20A3A2E4006EE620 /* ILStockIndex.m in Sources */,
 				7543241B20A37959006EE620 /* ILUnionSoup.m in Sources */,
 				7543241C20A37959006EE620 /* NSData+Hashcodes.m in Sources */,
-				7543243820A3A153006EE620 /* ILSoupStockEntry.m in Sources */,
-				7543244120A3A312006EE620 /* ILSoupStockSequence.m in Sources */,
+				7543243820A3A153006EE620 /* ILStockEntry.m in Sources */,
+				7543244120A3A312006EE620 /* ILStockSequence.m in Sources */,
 				7543244520A8B289006EE620 /* ILSynchSoup.m in Sources */,
 				7543241D20A37959006EE620 /* NSString+Hashcodes.m in Sources */,
 				7543241E20A37959006EE620 /* NSDictionary+Hashcodes.m in Sources */,

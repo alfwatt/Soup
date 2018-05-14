@@ -87,12 +87,12 @@ The Soup framework consists of the following protocols:
 Stock in-memory implemenatilns of the Soup Protocols
 
 - ILSoupStock
-- ILSoupStockEntry
-    - ILSoupStockMutableEntry
-- ILSoupStockIndex 
-    - ILSoupStockCursor
-- ILSoupStockSequence 
-    - ILSoupStockSequenceSource
+- ILStockEntry
+    - ILStockMutableEntry
+- ILStockIndex 
+    - ILStockCursor
+- ILStockSequence 
+    - ILStockSequenceSource
 
 == Soup Flavors
 

@@ -1,8 +1,8 @@
-#import "ILSoupStockIndex.h"
+#import "ILStockIndex.h"
 #import "ILSoupEntry.h"
 
 
-@interface ILSoupStockIndex ()
+@interface ILStockIndex ()
 @property(nonatomic, retain) NSString* indexPathStorage;
 @property(nonatomic, retain) NSMutableDictionary* indexStorage;
 
@@ -10,11 +10,11 @@
 
 #pragma mark -
 
-@implementation ILSoupStockIndex
+@implementation ILStockIndex
 
 + (instancetype) indexWithPath:(NSString *)indexPath
 {
-    ILSoupStockIndex* stockIndex = [ILSoupStockIndex new];
+    ILStockIndex* stockIndex = [ILStockIndex new];
     stockIndex.indexPathStorage = indexPath;
     stockIndex.indexStorage = [NSMutableDictionary new];
 
@@ -73,15 +73,15 @@
 
 - (id<ILSoupCursor>) entriesWithValue:(id) value
 {
-    ILSoupStockCursor* cursor = nil;
+    ILStockCursor* cursor = nil;
 
     if (value) {
         NSMutableSet<id<ILSoupEntry>>* entrySet = self.indexStorage[value];
-        cursor = [[ILSoupStockCursor alloc] initWithEntries:entrySet.allObjects];
+        cursor = [[ILStockCursor alloc] initWithEntries:entrySet.allObjects];
     }
     else {
         NSArray<id<ILSoupEntry>>* entryList = self.indexStorage.allValues;
-        cursor = [[ILSoupStockCursor alloc] initWithEntries:entryList];
+        cursor = [[ILStockCursor alloc] initWithEntries:entryList];
     }
     
     return cursor;
@@ -98,7 +98,7 @@
 
 #pragma mark - ILSoupStockCursor Private
 
-@interface ILSoupStockCursor ()
+@interface ILStockCursor ()
 @property(nonatomic, retain) NSArray<id<ILSoupEntry>>* entriesStorage;
 @property(nonatomic, assign) NSUInteger indexStorage;
 
@@ -106,7 +106,7 @@
 
 #pragma mark -
 
-@implementation ILSoupStockCursor
+@implementation ILStockCursor
 
 - (instancetype) initWithEntries:(NSArray<id<ILSoupEntry>>*) entries
 {

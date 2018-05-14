@@ -1,7 +1,7 @@
-#import "ILSoupStockSequence.h"
+#import "ILStockSequence.h"
 #import "ILSoupEntry.h"
 
-@interface ILSoupStockSequenceEntry : NSObject
+@interface ILStockSequenceEntry : NSObject
 @property(retain) NSString* entryHash; // at the time
 @property(retain) NSNumber* entryValue;
 @property(retain) NSDate* entryDate;
@@ -10,24 +10,24 @@
 
 #pragma mark -
 
-@implementation ILSoupStockSequenceEntry
+@implementation ILStockSequenceEntry
 
 @end
 
 #pragma mark -
 
-@interface ILSoupStockSequence ()
+@interface ILStockSequence ()
 @property(retain) NSString* sequencePathStorage;
 @property(retain) NSMutableDictionary<NSString*,id>* sequenceStorage;
 @end
 
 #pragma mark -
 
-@implementation ILSoupStockSequence
+@implementation ILStockSequence
 
 + (instancetype) sequenceWithPath:(NSString*) sequencePath
 {
-    ILSoupStockSequence* stockSequence = [ILSoupStockSequence new];
+    ILStockSequence* stockSequence = [ILStockSequence new];
     stockSequence.sequencePathStorage = sequencePath;
     stockSequence.sequenceStorage = [NSMutableDictionary new];
 
@@ -53,7 +53,7 @@
     }
     
     if (numberValue) {
-        ILSoupStockSequenceEntry* sequencyEntry = [ILSoupStockSequenceEntry new];
+        ILStockSequenceEntry* sequencyEntry = [ILStockSequenceEntry new];
         sequencyEntry.entryHash = entry.entryHash;
         sequencyEntry.entryDate = timeIndex;
         sequencyEntry.entryValue = numberValue;
@@ -83,17 +83,17 @@
 
 - (BOOL) fetchSequenceFor:(id<ILSoupEntry>) entry times:(NSArray<NSDate*>**) timeArray values:(NSArray<NSNumber*>**) valueArray
 {
-    NSArray<ILSoupStockSequenceEntry*>* sequence = [self.sequenceStorage[entry.entryKeys[ILSoupEntryUUID]] copy]; // snapshot
-    NSMutableArray* dateSequence = [NSMutableArray arrayWithCapacity:sequence.count];
+    NSArray<ILStockSequenceEntry*>* sequence = [self.sequenceStorage[entry.entryKeys[ILSoupEntryUUID]] copy]; // snapshot
+    NSMutableArray* timeSequence = [NSMutableArray arrayWithCapacity:sequence.count];
     NSMutableArray* valueSequence = [NSMutableArray arrayWithCapacity:sequence.count];
     NSUInteger index = 0;
-    for (ILSoupStockSequenceEntry* entry in sequence) {
-        dateSequence[index] = entry.entryDate;
+    for (ILStockSequenceEntry* entry in sequence) {
+        timeSequence[index] = entry.entryDate;
         valueSequence[index] = entry.entryValue;
         index++;
     }
     
-    *timeArray = dateSequence;
+    *timeArray = timeSequence;
     *valueArray = valueSequence;
 
     return (sequence != nil);
@@ -101,21 +101,30 @@
 
 - (id<ILSoupSequenceSource>) fetchSequenceSourceFor:(id<ILSoupEntry>) entry
 {
-    return nil;
+    ILStockSequenceSource* source;
+//    NSArray<NSDate*>* sequenceTimes;
+//    NSArray<NSNumber*>* sequenceValues;
+//
+//    if ([self fetchSequenceFor:entry times:&sequenceTimes value:&sequenceValues]) {
+//        source = [ILStockSequenceSource sequencSourceWithTimes:sequenceTimes andValues:sequenceValues];
+//    }
+
+    return source;
 }
 
 #pragma mark - NSObject
 
 - (NSString*) description
 {
-    return [NSString stringWithFormat:@"%@ %@ %lu entries", self.className, self.sequencePath, self.sequenceStorage.allKeys.count];
+    return [NSString stringWithFormat:@"%@ %@ %lu entries",
+        self.className, self.sequencePath, self.sequenceStorage.allKeys.count];
 }
 
 @end
 
 #pragma mark -
 
-@interface ILSoupStockSequenceSource ()
+@interface ILStockSequenceSource ()
 @property(nonatomic, retain) NSArray<NSDate*>* sequenceDates;
 @property(nonatomic, retain) NSArray<NSNumber*>* sequenceValues;
 
@@ -123,13 +132,13 @@
 
 #pragma mark -
 
-@implementation ILSoupStockSequenceSource
+@implementation ILStockSequenceSource
 
-+ (instancetype) stockSequencSourceWithDates:(NSArray<NSDate*>*) dates andValues:(NSArray<NSNumber*>*) values
++ (instancetype) sequencSourceWithTimes:(NSArray<NSDate*>*) seqenceTimes andValues:(NSArray<NSNumber*>*) sequenceValues;
 {
-    ILSoupStockSequenceSource* stockSource = [ILSoupStockSequenceSource new];
-    stockSource.sequenceDates = dates;
-    stockSource.sequenceValues = values;
+    ILStockSequenceSource* stockSource = [ILStockSequenceSource new];
+    stockSource.sequenceDates = seqenceTimes;
+    stockSource.sequenceValues = sequenceValues;
     return stockSource;
 }
 

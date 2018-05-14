@@ -2,6 +2,6 @@
 #import <Soup/ILSoupEntry.h>
 
 /* @brief Stock in-memory implementaion of the ILSoupEntry protocol */
-@interface ILSoupStockEntry : NSObject <ILMutableSoupEntry>
+@interface ILStockEntry : NSObject <ILMutableSoupEntry>
 
 @end

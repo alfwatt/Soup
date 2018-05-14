@@ -1,7 +1,7 @@
-#import "ILSoupStockEntry.h"
+#import "ILStockEntry.h"
 #import "NSDictionary+Hashcodes.h"
 
-@interface ILSoupStockEntry ()
+@interface ILStockEntry ()
 @property(nonatomic,retain) NSDictionary* entryKeysStorage;
 
 - (instancetype) initWithKeys:(NSDictionary*) entryKeys;
@@ -13,11 +13,11 @@
 NSString* ILSoupEntryUUID = @"uuid";
 NSString* ILSoupEntryCreationDate = @"created";
 
-@implementation ILSoupStockEntry
+@implementation ILStockEntry
 
 + (instancetype) soupEntryFromKeys:(NSDictionary*) entryKeys
 {
-    return [[ILSoupStockEntry alloc] initWithKeys:entryKeys];
+    return [[ILStockEntry alloc] initWithKeys:entryKeys];
 }
 
 #pragma mark - ILSoupStockEntry
@@ -62,7 +62,7 @@ NSString* ILMutableSoupEntryMutationDate = @"mutated";
 {
     NSMutableDictionary* mutatedKeys = [self.entryKeysStorage mutableCopy];
     mutatedKeys[mutatedKey] = value;
-    return [ILSoupStockEntry soupEntryFromKeys:mutatedKeys];
+    return [ILStockEntry soupEntryFromKeys:mutatedKeys];
 }
 
 - (id<ILSoupEntry>) mutatedEntry:(NSDictionary*) mutatedValues
@@ -73,7 +73,7 @@ NSString* ILMutableSoupEntryMutationDate = @"mutated";
     }
     mutatedKeys[ILMutableSoupEntryAncestorKey] = self.entryHash;
     mutatedKeys[ILMutableSoupEntryMutationDate] = [NSDate date];
-    return [ILSoupStockEntry soupEntryFromKeys:mutatedKeys];
+    return [ILStockEntry soupEntryFromKeys:mutatedKeys];
 }
 
 #pragma mark - Ancestry

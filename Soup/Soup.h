@@ -12,9 +12,9 @@
 #pragma mark - Soup Stock
 
 #import <Soup/ILSoupStock.h>
-#import <Soup/ILSoupStockEntry.h>
-#import <Soup/ILSoupStockIndex.h>
-#import <Soup/ILSoupStockSequence.h>
+#import <Soup/ILStockEntry.h>
+#import <Soup/ILStockIndex.h>
+#import <Soup/ILStockSequence.h>
 
 #pragma mark - Soup Flavors
 

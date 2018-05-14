@@ -1,7 +1,7 @@
 #import "ILMemorySoup.h"
-#import "ILSoupStockEntry.h"
-#import "ILSoupStockIndex.h"
-#import "ILSoupStockSequence.h"
+#import "ILStockEntry.h"
+#import "ILStockIndex.h"
+#import "ILStockSequence.h"
 
 @implementation ILMemorySoup
 

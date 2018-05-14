@@ -1,7 +1,7 @@
 #import "ILSoupStock.h"
-#import "ILSoupStockEntry.h"
-#import "ILSoupStockIndex.h"
-#import "ILSoupStockSequence.h"
+#import "ILStockEntry.h"
+#import "ILStockIndex.h"
+#import "ILStockSequence.h"
 
 @interface ILSoupStock ()
 @property(nonatomic, retain) NSString* soupUUIDStorage;
@@ -79,7 +79,7 @@
 
 - (id<ILSoupEntry>)createBlankEntry
 {
-    return [ILSoupStockEntry soupEntryFromKeys:self.defaultEntry];
+    return [ILStockEntry soupEntryFromKeys:self.defaultEntry];
 }
 
 - (void)deleteEntry:(id<ILSoupEntry>)entry
@@ -91,14 +91,14 @@
 {
     NSMutableDictionary* duplicateKeys = [entry.entryKeys mutableCopy];
     [duplicateKeys removeObjectForKey:ILSoupEntryUUID];
-    return [ILSoupStockEntry soupEntryFromKeys:duplicateKeys];
+    return [ILStockEntry soupEntryFromKeys:duplicateKeys];
 }
 
 #pragma mark - Indicies
 
 - (id<ILSoupIndex>)createIndex:(NSString *)indexPath
 {
-    ILSoupStockIndex* stockIndex = [ILSoupStockIndex indexWithPath:indexPath];
+    ILStockIndex* stockIndex = [ILStockIndex indexWithPath:indexPath];
     [self.soupIndiciesStorage addObject:stockIndex];
     return stockIndex;
 }
@@ -141,7 +141,7 @@
 
 - (id<ILSoupSequence>)createSequence:(NSString *)sequencePath
 {
-    ILSoupStockSequence* stockSequence = [ILSoupStockSequence sequenceWithPath:sequencePath];
+    ILStockSequence* stockSequence = [ILStockSequence sequenceWithPath:sequencePath];
     [self.soupSequencesStorage addObject:stockSequence];
     return stockSequence;
 }
