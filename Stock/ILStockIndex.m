@@ -129,7 +129,15 @@
 
 - (id<ILSoupCursor>) entriesWithValuesBetween:(NSNumber*) min and:(NSNumber*) max
 {
-    return nil;
+    NSMutableSet* matching = [NSMutableSet new];
+
+    for (NSNumber* keyNumber in self.indexStorage.allKeys) {
+        if ([keyNumber isGreaterThanOrEqualTo:min] && [keyNumber isLessThanOrEqualTo:max]) {
+            [matching addObjectsFromArray:self.indexStorage[keyNumber]];
+        }
+    }
+
+    return [[ILStockCursor alloc] initWithEntries:matching.allObjects];
 }
 
 @end
@@ -140,7 +148,15 @@
 
 - (id<ILSoupCursor>) entriesWithDatesBetween:(NSDate*) earliest and:(NSDate*) latest
 {
-    return nil;
+    NSMutableSet* matching = [NSMutableSet new];
+
+    for (NSDate* keyDate in self.indexStorage.allKeys) {
+        if ([keyDate isGreaterThanOrEqualTo:earliest] && [keyDate isLessThanOrEqualTo:latest]) {
+            [matching addObjectsFromArray:self.indexStorage[keyDate]];
+        }
+    }
+
+    return [[ILStockCursor alloc] initWithEntries:matching.allObjects];
 }
 
 @end
