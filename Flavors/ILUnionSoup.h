@@ -44,7 +44,7 @@
 /* @brief removed a soup from the union */
 - (void) unionSoup:(ILUnionSoup*) unionSoup removedSoup:(id<ILSoup>) soup;
 
-#pragma mark - Entry Managment
+#pragma mark - 
 
 /* @brief union copied entry from one soup to another */
 - (void) unionSoup:(ILUnionSoup*) unionSoup copiedEntry:(id<ILSoupEntry>) entry fromSoup:(id<ILSoupEntry>) fromSoup toSoup:(id<ILSoupEntry>) toSoup;

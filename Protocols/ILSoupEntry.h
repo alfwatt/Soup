@@ -28,10 +28,10 @@ extern NSString* ILSoupEntryCreationDate; // NSDate*
 #pragma mark -
 
 /* @brief NSString* hash of the ancestor for a mutated entry */
-extern NSString* ILMutableSoupEntryAncestorKey;
+extern NSString* ILSoupEntryAncestorKey;
 
 /* @brief NSDate* that the entry was mutated */
-extern NSString* ILMutableSoupEntryMutationDate;
+extern NSString* ILSoupEntryMutationDate;
 
 /* @brief protocol for mutable entries in ILSoup */
 @protocol ILMutableSoupEntry <ILSoupEntry>

@@ -1,4 +1,5 @@
 #import "ILUnionSoup.h"
+#import "ILSoupEntry.h"
 
 @interface ILUnionSoup ()
 @property(retain) NSMutableArray<id<ILSoup>>* loadedSoupsStorage;
@@ -110,11 +111,13 @@
 
 #pragma mark - ILSoupStock Overrides
 
-- (void)addEntry:(id<ILSoupEntry>)entry
+- (NSString*)addEntry:(id<ILSoupEntry>)entry
 {
     for (id<ILSoup> member in self.loadedSoups) {
         [member addEntry:entry];
     }
+    
+    return entry.entryHash;
 }
 
 - (void) deleteEntry:(id<ILSoupEntry>) entry
@@ -128,7 +131,7 @@
 {
     NSString* alias;
     for (id<ILSoup> member in self.loadedSoups) {
-        alias = [member getAlias:entry];
+        alias = [member entryAlias:entry];
         if (alias) break; // for
     }
     return alias;

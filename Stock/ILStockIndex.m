@@ -14,7 +14,7 @@
 
 + (instancetype) indexWithPath:(NSString *)indexPath
 {
-    ILStockIndex* stockIndex = [ILStockIndex new];
+    ILStockIndex* stockIndex = [self new];
     stockIndex.indexPathStorage = indexPath;
     stockIndex.indexStorage = [NSMutableDictionary new];
 
@@ -96,6 +96,39 @@
 
 @end
 
+#pragma mark -
+
+@implementation ILStockTextIndex
+
+- (id<ILSoupCursor>) entriesWithStringValueMatching:(NSString*) pattern;
+{
+    return nil;
+}
+
+@end
+
+#pragma mark -
+
+@implementation ILStockNumberIndex
+
+- (id<ILSoupCursor>) entriesWithValuesBetween:(NSNumber*) min and:(NSNumber*) max
+{
+    return nil;
+}
+
+@end
+
+#pragma mark -
+
+@implementation ILStockDateIndex
+
+- (id<ILSoupCursor>) entriesWithDatesBetween:(NSDate*) earliest and:(NSDate*) latest
+{
+    return nil;
+}
+
+@end
+
 #pragma mark - ILSoupStockCursor Private
 
 @interface ILStockCursor ()
@@ -111,7 +144,7 @@
 - (instancetype) initWithEntries:(NSArray<id<ILSoupEntry>>*) entries
 {
     if (self = [super init]) {
-        self.entriesStorage = entries;
+        self.entriesStorage = [NSArray arrayWithArray:entries]; // don't want someone sneaking in a mutable array here
         self.indexStorage = 0;
     }
     
@@ -134,14 +167,24 @@
 
 - (id<ILSoupEntry>) nextEntry
 {
-    id<ILSoupEntry> next = self.entriesStorage[self.indexStorage];
-    self.indexStorage = (self.indexStorage + 1);
+    id<ILSoupEntry> next = nil;
+    if (self.indexStorage < self.entriesStorage.count) {
+        next = self.entriesStorage[self.indexStorage];
+        self.indexStorage++;
+    }
     return next;
 }
 
 - (void) resetCursor
 {
     self.indexStorage = 0;
+}
+
+#pragma mark - NSObject
+
+- (NSString*) description
+{
+    return [NSString stringWithFormat:@"%@ %lu items, index %lu", self.className, self.entries.count, self.index];
 }
 
 @end

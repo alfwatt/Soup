@@ -54,8 +54,8 @@ NSString* ILSoupEntryCreationDate = @"created";
 
 #pragma mark - ILMutableSoupEntry
 
-NSString* ILMutableSoupEntryAncestorKey = @"ancestor";
-NSString* ILMutableSoupEntryMutationDate = @"mutated";
+NSString* ILSoupEntryAncestorKey = @"ancestor";
+NSString* ILSoupEntryMutationDate = @"mutated";
 
 
 - (id<ILSoupEntry>) mutatedEntry:(NSString*) mutatedKey newValue:(id) value
@@ -71,8 +71,8 @@ NSString* ILMutableSoupEntryMutationDate = @"mutated";
     for (id key in mutatedValues.allKeys) {
         mutatedKeys[key] = mutatedValues[key];
     }
-    mutatedKeys[ILMutableSoupEntryAncestorKey] = self.entryHash;
-    mutatedKeys[ILMutableSoupEntryMutationDate] = [NSDate date];
+    mutatedKeys[ILSoupEntryAncestorKey] = self.entryHash;
+    mutatedKeys[ILSoupEntryMutationDate] = [NSDate date];
     return [ILStockEntry soupEntryFromKeys:mutatedKeys];
 }
 
@@ -80,7 +80,7 @@ NSString* ILMutableSoupEntryMutationDate = @"mutated";
 
 - (NSString*) ancestorEntryHash
 {
-    return self.entryKeys[ILMutableSoupEntryAncestorKey];
+    return self.entryKeys[ILSoupEntryAncestorKey];
 }
 
 #pragma mark -

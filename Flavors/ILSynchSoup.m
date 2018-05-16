@@ -88,28 +88,12 @@
     }
 }
 
-#pragma mark -
-
-- (NSArray<id<ILSoupIndex>>*) soupIndicies
-{
-    @synchronized(self.synchronized) {
-        return self.synchronized.soupIndicies;
-    }
-}
-
-- (NSArray<id<ILSoupSequence>>*) soupSequences
-{
-    @synchronized(self.synchronized) {
-        return self.synchronized.soupSequences;
-    }
-}
-
 #pragma mark - Entries
 
-- (void) addEntry:(id<ILSoupEntry>) entry;
+- (NSString*) addEntry:(id<ILSoupEntry>) entry;
 {
     @synchronized(self.synchronized) {
-        [self.synchronized addEntry:entry];
+        return [self.synchronized addEntry:entry];
     }
 }
 
@@ -134,10 +118,10 @@
     }
 }
 
-- (NSString*) getAlias:(id<ILSoupEntry>) entry;
+- (NSString*) entryAlias:(id<ILSoupEntry>) entry;
 {
     @synchronized(self.synchronized) {
-        return [self.synchronized getAlias:entry];
+        return [self.synchronized entryAlias:entry];
     }
 }
 
@@ -150,6 +134,13 @@
 
 #pragma mark - Indicies
 
+- (NSArray<id<ILSoupIndex>>*) soupIndicies
+{
+    @synchronized(self.synchronized) {
+        return self.synchronized.soupIndicies;
+    }
+}
+
 - (id<ILSoupIndex>) createIndex:(NSString*)indexPath;
 {
     @synchronized(self.synchronized) {
@@ -157,12 +148,37 @@
     }
 }
 
+- (id<ILSoupDateIndex>)createDateIndex:(NSString *)indexPath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized createDateIndex:indexPath];
+    }
+}
+
+- (id<ILSoupNumberIndex>)createNumberIndex:(NSString *)indexPath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized createNumberIndex:indexPath];
+    }
+}
+
+
+- (id<ILSoupTextIndex>)createTextIndex:(NSString *)indexPath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized createTextIndex:indexPath];
+    }
+}
+
+- (id<ILSoupIndex>)queryIndex:(NSString *)indexPath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized queryIndex:indexPath];
+    }
+}
+
 #pragma mark - Default Cursor
 
-- (void) setupCursor
+- (id<ILSoupCursor>) setupCursor
 {
     @synchronized(self.synchronized) {
-        [self.synchronized setupCursor];
+        return [self.synchronized setupCursor];
     }
 }
 
@@ -173,19 +189,32 @@
     }
 }
 
-- (id<ILSoupCursor>) quey:(NSPredicate*) query
+- (id<ILSoupCursor>) querySoup:(NSPredicate*) query
 {
     @synchronized(self.synchronized) {
-        return [self.synchronized quey:query];
+        return [self.synchronized querySoup:query];
     }
 }
 
 #pragma mark - Sequences
 
+- (NSArray<id<ILSoupSequence>>*) soupSequences
+{
+    @synchronized(self.synchronized) {
+        return self.synchronized.soupSequences;
+    }
+}
+
 - (id<ILSoupSequence>) createSequence:(NSString*) sequencePath
 {
     @synchronized(self.synchronized) {
         return [self.synchronized createSequence:sequencePath];
+    }
+}
+
+- (id<ILSoupSequence>)querySequence:(NSString *)sequencePath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized querySequence:sequencePath];
     }
 }
 

@@ -6,6 +6,9 @@
 @protocol ILSoupEntry;
 @protocol ILMutableSoupEntry;
 @protocol ILSoupIndex;
+@protocol ILSoupTextIndex;
+@protocol ILSoupNumberIndex;
+@protocol ILSoupDateIndex;
 @protocol ILSoupCursor;
 @protocol ILSoupDelegate;
 @protocol ILSoupSequence;
@@ -31,15 +34,7 @@
 @property(nonatomic, retain) NSDictionary* defaultEntry; // XXX replace with generator block
 
 /* @brief the <ILSoupDelegate> whis is notified when changes are made */
-@property(nonatomic, assign) id<ILSoupDelegate> delegate;
-
-#pragma mark -
-
-/* @breif the indexes currently maintained for this soup */
-@property(nonatomic, readonly) NSArray<id<ILSoupIndex>>* soupIndicies;
-
-/* @brief the sequences currently maintained for this soup */
-@property(nonatomic, readonly) NSArray<id<ILSoupSequence>>* soupSequences;
+@property(nonatomic, assign) NSObject<ILSoupDelegate>* delegate;
 
 #pragma mark -
 
@@ -48,82 +43,110 @@
 
 #pragma mark - Entries
 
-/* @brief add an entry to this soup */
-- (void) addEntry:(id<ILSoupEntry>) entry;
-
-/* @breif create a new blank entry, with the defaults for this soup and a new UUID */
+/*  @brief create a new blank entry, with the defaults for this soup and a new UUID,
+    NB that the new entry is not yet stored in the soup */
 - (id<ILMutableSoupEntry>) createBlankEntry;
 
-/* @brief delete an entry from this soup */
-- (void) deleteEntry:(id<ILSoupEntry>) entry;
+/*  @brief store an entry to this soup
+    @returns the alias used to store the entry */
+- (NSString*) addEntry:(id<ILSoupEntry>) entry;
 
-/* @breif duplicate an entry, providing a mutable entry with a new UUID */
+/*  @brief duplicate the entry entry, providing a mutable entry with a new UUID,
+    NB that the duplicate entry is not yet stored in the soup */
 - (id<ILMutableSoupEntry>) duplicateEntry:(id<ILSoupEntry>) entry;
 
-/* @brief get the soups alias the entry (may be the hash, UUID or other string) */
-- (NSString*) getAlias:(id<ILSoupEntry>) entry;
+/*  @brief delete an entry from this soup */
+- (void) deleteEntry:(id<ILSoupEntry>) entry;
 
-/* @brief the the item from the soup, based on the alias provided */
+#pragma mark - Aliases
+
+/*  @brief get the soups alias the entry (may be the hash, UUID or other string) */
+- (NSString*) entryAlias:(id<ILSoupEntry>) entry;
+
+/*  @brief the the item from the soup, based on the alias provided */
 - (id<ILSoupEntry>) gotoAlias:(NSString*) alias;
+
+#pragma mark - Queries
+
+/*  @brief a cursor with items specified by the predicate, O(N) time */
+- (id<ILSoupCursor>) querySoup:(NSPredicate*) query;
 
 #pragma mark - Indicies
 
-/* @brief create a new index on this soup with the path provided */
+/* @breif the indexes currently maintained for this soup */
+@property(nonatomic, readonly) NSArray<id<ILSoupIndex>>* soupIndicies;
+
+/*  @brief create a new index on this soup with the path provided */
 - (id<ILSoupIndex>) createIndex:(NSString*)indexPath;
+
+/*  @brief create a new index on this soup with the path provided */
+- (id<ILSoupTextIndex>) createTextIndex:(NSString*)indexPath;
+
+/*  @brief create a new index on this soup with the path provided */
+- (id<ILSoupNumberIndex>) createNumberIndex:(NSString*)indexPath;
+
+/*  @brief create a new index on this soup with the path provided */
+- (id<ILSoupDateIndex>) createDateIndex:(NSString*)indexPath;
+
+/* @brief returns the index for the path provided */
+- (id<ILSoupIndex>) queryIndex:(NSString*)indexPath;
 
 #pragma mark - Default Cursor
 
-/* @brief create or reset cursor after setting soupQuery */
-- (void) setupCursor;
+/*  @brief create or reset cursor after setting soupQuery */
+- (id<ILSoupCursor>) setupCursor;
 
-/* @brief the default cursor for this soup */
+/*  @brief the default cursor for this soup */
 - (id<ILSoupCursor>) getCursor;
-
-/* @brief a cursor with items specified by the query */
-- (id<ILSoupCursor>) quey:(NSPredicate*) query;
 
 #pragma mark - Sequences
 
-/* @brief create a sequence for numbers with the provided path */
+/* @brief the sequences currently maintained for this soup */
+@property(nonatomic, readonly) NSArray<id<ILSoupSequence>>* soupSequences;
+
+/*  @brief create a sequence for numbers with the provided path */
 - (id<ILSoupSequence>) createSequence:(NSString*) sequencePath;
+
+/* @brief returns the sequence for the path provided */
+- (id<ILSoupSequence>) querySequence:(NSString*) sequencePath;
 
 #pragma mark - Soup Managment
 
-/* @brief we're done here */
-- (void) doneWithSoup:(NSString*) appIdentifier;
-
-/* @brief if you need to do setup, now is the time */
+/*  @brief if you need to do setup, now is the time */
 - (void) fillNewSoup;
+
+/*  @brief we're done here */
+- (void) doneWithSoup:(NSString*) appIdentifier;
 
 @end
 
 #pragma mark -
 
-/* @brief delegate protocol for <ILSoup>  */
+/*  @brief delegate protocol for <ILSoup>  */
 @protocol ILSoupDelegate
 @optional
 
-/* @brief entry was added to the soup */
+/* @brief entry was created from the soup defaults */
+- (void) soup:(id<ILSoup>) deJour createdEntry:(id<ILSoupEntry>) entry;
+
+/*  @brief entry was added to the soup */
 - (void) soup:(id<ILSoup>) deJour addedEntry:(id<ILSoupEntry>) entry;
 
 /* @brief entry was deleted from the soup */
 - (void) soup:(id<ILSoup>) deJour deletedEntry:(id<ILSoupEntry>) entry;
 
-/* @brief entry was created from the soup defaults */
-- (void) soup:(id<ILSoup>) deJour createdEntry:(id<ILSoupEntry>) entry;
-
 #pragma mark - Indicies & Sequences
 
 /* @brief index was added to the soup */
-- (void) soup:(id<ILSoup>) deJour createIndex:(id<ILSoupIndex>) index;
+- (void) soup:(id<ILSoup>) deJour createdIndex:(id<ILSoupIndex>) index;
 
 /* @brief sequence was added to the soup */
-- (void) soup:(id<ILSoup>) deJour createSequence:(id<ILSoupSequence>) sequence;
+- (void) soup:(id<ILSoup>) deJour createdSequence:(id<ILSoupSequence>) sequence;
 
 #pragma mark - Lifecycle
 
 /* @brief soup was initially filled */
-- (void) soupFill:(id<ILSoup>) deJour;
+- (void) soupFilled:(id<ILSoup>) deJour;
 
 /* @brief soup is done */
 - (void) soupDone:(id<ILSoup>) deJour;

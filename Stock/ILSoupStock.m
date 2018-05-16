@@ -5,9 +5,10 @@
 
 @interface ILSoupStock ()
 @property(nonatomic, retain) NSString* soupUUIDStorage;
-@property(nonatomic, retain) NSMutableDictionary<NSString*,id<ILSoupEntry>>* soupEntryStorage;
-@property(nonatomic, retain) NSMutableArray<id<ILSoupIndex>>* soupIndiciesStorage;
-@property(nonatomic, retain) NSMutableArray<id<ILSoupSequence>>* soupSequencesStorage;
+@property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILSoupEntry>>* soupEntryStorage;
+@property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILSoupIndex>>* soupIndiciesStorage;
+@property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILSoupSequence>>* soupSequencesStorage;
+@property(nonatomic, retain) id<ILSoupCursor> soupCursor;
 
 - (instancetype) initWithSoupName:(NSString*) soupName;
 
@@ -16,10 +17,10 @@
 #pragma mark -
 
 @implementation ILSoupStock
-@synthesize defaultEntry;
-@synthesize soupDescription;
 @synthesize soupName;
+@synthesize soupDescription;
 @synthesize soupQuery;
+@synthesize defaultEntry;
 @synthesize delegate;
 
 #pragma mark -
@@ -37,16 +38,13 @@
         self.soupName = soupName;
         self.soupUUIDStorage = [[NSUUID UUID] UUIDString];
         self.soupEntryStorage = [NSMutableDictionary new];
-        self.soupIndiciesStorage = [NSMutableArray new];
-        self.soupSequencesStorage = [NSMutableArray new];
+        self.soupIndiciesStorage = [NSMutableDictionary new];
+        self.soupSequencesStorage = [NSMutableDictionary new];
     }
     return self;
 }
 
-- (NSArray<id<ILSoupIndex>>*) soupIndicies
-{
-    return self.soupIndiciesStorage;
-}
+#pragma mark - Properties
 
 - (NSString*) soupUUID
 {
@@ -55,10 +53,20 @@
 
 #pragma mark - Entries
 
-- (void)addEntry:(id<ILSoupEntry>)entry
+- (id<ILSoupEntry>)createBlankEntry
+{
+    id<ILSoupEntry> entry = [ILStockEntry soupEntryFromKeys:self.defaultEntry];
+
+    if ([self.delegate respondsToSelector:@selector(soup:createdEntry:)]) { // notify
+        [self.delegate soup:self createdEntry:entry];
+    }
+    return entry;
+}
+
+- (NSString*)addEntry:(id<ILSoupEntry>)entry
 {
     self.soupEntryStorage[entry.entryHash] = entry;
-    NSDate* date = entry.entryKeys[ILMutableSoupEntryMutationDate]; // try to get the mutation date
+    NSDate* date = entry.entryKeys[ILSoupEntryMutationDate]; // try to get the mutation date
 
     if (!date) { // try for the creation date
         date = entry.entryKeys[ILSoupEntryCreationDate];
@@ -75,80 +83,169 @@
     for (id<ILSoupSequence> sequence in self.soupSequences) { // add item to the sequences
         [sequence sequenceEntry:entry atTime:date];
     }
-}
-
-- (id<ILSoupEntry>)createBlankEntry
-{
-    return [ILStockEntry soupEntryFromKeys:self.defaultEntry];
-}
-
-- (void)deleteEntry:(id<ILSoupEntry>)entry
-{
-    [self.soupEntryStorage removeObjectForKey:entry.entryHash];
+    
+    if ([self.delegate respondsToSelector:@selector(soup:addedEntry:)]) { // notify
+        [self.delegate soup:self addedEntry:entry];
+    }
+    
+    return [self entryAlias:entry];
 }
 
 - (id<ILSoupEntry>)duplicateEntry:(id<ILSoupEntry>)entry
 {
     NSMutableDictionary* duplicateKeys = [entry.entryKeys mutableCopy];
     [duplicateKeys removeObjectForKey:ILSoupEntryUUID];
-    return [ILStockEntry soupEntryFromKeys:duplicateKeys];
+    id<ILSoupEntry> duplicate = [ILStockEntry soupEntryFromKeys:duplicateKeys];
+
+    if ([self.delegate respondsToSelector:@selector(soup:createdEntry:)]) { // notify
+        [self.delegate soup:self createdEntry:duplicate];
+    }
+
+    return duplicate;
 }
 
-#pragma mark - Indicies
-
-- (id<ILSoupIndex>)createIndex:(NSString *)indexPath
+- (void)deleteEntry:(id<ILSoupEntry>)entry
 {
-    ILStockIndex* stockIndex = [ILStockIndex indexWithPath:indexPath];
-    [self.soupIndiciesStorage addObject:stockIndex];
-    return stockIndex;
+    [self.soupEntryStorage removeObjectForKey:entry.entryHash];
+
+    if ([self.delegate respondsToSelector:@selector(soup:deletedEntry:)]) { // notify
+        [self.delegate soup:self deletedEntry:entry];
+    }
 }
 
-- (void)doneWithSoup:(NSString *)appIdentifier
-{
-}
+#pragma mark - Aliases
 
-- (void)fillNewSoup {
-}
-
-- (id)getAlias:(id<ILSoupEntry>)entry
+- (NSString*)entryAlias:(id<ILSoupEntry>)entry
 {
     return entry.entryHash;
 }
 
-- (id<ILSoupCursor>)getCursor
-{
-    return nil;
-}
-
-- (id)getCursorPosition
-{
-    return nil;
-}
-
 - (id<ILSoupEntry>)gotoAlias:(id)alias
 {
-    return nil;
+    return self.soupEntryStorage[alias];
 }
 
-- (id<ILSoupCursor>)quey:(NSPredicate *)query
+#pragma mark - Queries
+
+- (id<ILSoupCursor>)querySoup:(NSPredicate *)query
 {
-    return nil;
+    NSArray* allEntries = self.soupEntryStorage.allValues;
+    return [[ILStockCursor alloc] initWithEntries:[allEntries filteredArrayUsingPredicate:query]];
 }
 
-- (void)setupCursor
+#pragma mark - Indicies
+
+- (void) loadIndex:(NSString*) indexPath index:(id<ILSoupIndex>) stockIndex
 {
+    self.soupIndiciesStorage[indexPath] = stockIndex;
+    
+    for (id<ILSoupEntry> entry in self.soupEntryStorage.allKeys) {
+        [stockIndex indexEntry:entry];
+    }
+
+    if ([self.delegate respondsToSelector:@selector(soup:createdIndex:)]) { // notify
+        [self.delegate soup:self createdIndex:stockIndex];
+    }
+}
+
+- (NSArray<id<ILSoupIndex>>*) soupIndicies
+{
+    return [self.soupIndiciesStorage allValues];
+}
+
+- (id<ILSoupIndex>)createIndex:(NSString *)indexPath
+{
+    ILStockIndex* stockIndex = [ILStockIndex indexWithPath:indexPath];
+    [self loadIndex:indexPath index:stockIndex];
+    return stockIndex;
+}
+
+- (id<ILSoupTextIndex>)createTextIndex:(NSString *)indexPath {
+    ILStockTextIndex* stockIndex = [ILStockTextIndex indexWithPath:indexPath];
+    [self loadIndex:indexPath index:stockIndex];
+    return stockIndex;
+}
+
+- (id<ILSoupDateIndex>)createDateIndex:(NSString *)indexPath {
+    ILStockDateIndex* stockIndex = [ILStockDateIndex indexWithPath:indexPath];
+    [self loadIndex:indexPath index:stockIndex];
+    return stockIndex;
+}
+
+
+- (id<ILSoupNumberIndex>)createNumberIndex:(NSString *)indexPath {
+    ILStockNumberIndex* stockIndex = [ILStockNumberIndex indexWithPath:indexPath];
+    [self loadIndex:indexPath index:stockIndex];
+    return stockIndex;
+}
+
+- (id<ILSoupIndex>)queryIndex:(NSString *)indexPath
+{
+    return self.soupIndiciesStorage[indexPath];
+}
+
+#pragma mark - Cursor
+
+- (id<ILSoupCursor>)getCursor
+{
+    return self.soupCursor;
+}
+
+- (id<ILSoupCursor>)setupCursor
+{
+    if (self.soupQuery) {
+        self.soupCursor = [self querySoup:self.soupQuery];
+    }
+    else { // create a cursor with all the items
+        self.soupCursor = [[ILStockCursor alloc] initWithEntries:self.soupEntryStorage.allValues];
+    }
+    
+    return self.soupCursor;
+}
+
+#pragma mark - Sequences
+
+- (NSArray<id<ILSoupSequence>>*)soupSequences
+{
+    return self.soupSequencesStorage.allValues;
 }
 
 - (id<ILSoupSequence>)createSequence:(NSString *)sequencePath
 {
     ILStockSequence* stockSequence = [ILStockSequence sequenceWithPath:sequencePath];
-    [self.soupSequencesStorage addObject:stockSequence];
+    self.soupSequencesStorage[sequencePath] = stockSequence;
+
+    for (id<ILSoupEntry> entry in self.soupEntryStorage.allKeys) {
+        NSDate* date = entry.entryKeys[ILSoupEntryMutationDate]; // try to get the mutation date
+
+        if (!date) { // try for the creation date
+            date = entry.entryKeys[ILSoupEntryCreationDate];
+        }
+
+        if (!date) { // now's the time
+            date = [NSDate new];
+        }
+        
+        [stockSequence sequenceEntry:entry atTime:date];
+    }
+
     return stockSequence;
 }
 
-- (NSArray<id<ILSoupSequence>>*)soupSequences
+- (id<ILSoupSequence>)querySequence:(NSString *)sequencePath
 {
-    return self.soupSequencesStorage;
+    return self.soupSequencesStorage[sequencePath];
+}
+
+#pragma mark - Soup Managment
+
+- (void)fillNewSoup {
+    // ??? create some default indexes (UUID, for e.g.)
+}
+
+- (void)doneWithSoup:(NSString *)appIdentifier
+{
+    // ??? delete all the indexes?
 }
 
 #pragma mark - NSObject

@@ -63,7 +63,7 @@
 #pragma mark -
 
 /* @brief only indexes values which are strings, can be searched with a regex  */
-@protocol ILSoupStringIndex <ILSoupIndex>
+@protocol ILSoupTextIndex <ILSoupIndex>
 
 /* @brief a cursor with all items matching the regular expression pattern provided */
 - (id<ILSoupCursor>) entriesWithStringValueMatching:(NSString*) pattern;
@@ -76,7 +76,7 @@
 @protocol ILSoupNumberIndex <ILSoupIndex>
 
 /* @brief a cursor of items with values between the numbers provided */
-- (id<ILSoupCursor>) entriesWithValueBetween:(NSNumber*) min and:(NSNumber*) max;
+- (id<ILSoupCursor>) entriesWithValuesBetween:(NSNumber*) min and:(NSNumber*) max;
 
 @end
 
