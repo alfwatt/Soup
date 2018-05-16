@@ -148,9 +148,33 @@
     }
 }
 
+- (id<ILSoupIndex>)queryIndex:(NSString *)indexPath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized queryIndex:indexPath];
+    }
+}
+
+- (id<ILSoupTextIndex>)createTextIndex:(NSString *)indexPath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized createTextIndex:indexPath];
+    }
+}
+
+- (id<ILSoupTextIndex>)queryTextIndex:(NSString *)indexPath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized queryTextIndex:indexPath];
+    }
+}
+
 - (id<ILSoupDateIndex>)createDateIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized createDateIndex:indexPath];
+    }
+}
+
+- (id<ILSoupDateIndex>)queryDateIndex:(NSString *)indexPath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized queryDateIndex:indexPath];
     }
 }
 
@@ -160,16 +184,9 @@
     }
 }
 
-
-- (id<ILSoupTextIndex>)createTextIndex:(NSString *)indexPath {
+- (id<ILSoupNumberIndex>)queryNumberIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
-        return [self.synchronized createTextIndex:indexPath];
-    }
-}
-
-- (id<ILSoupIndex>)queryIndex:(NSString *)indexPath {
-    @synchronized(self.synchronized) {
-        return [self.synchronized queryIndex:indexPath];
+        return [self.synchronized queryNumberIndex:indexPath];
     }
 }
 

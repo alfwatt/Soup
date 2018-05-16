@@ -1,5 +1,10 @@
-#import <Foundation/Foundation.h>
 #import <Soup/Soup.h>
+
+static NSString* const ILName = @"name";
+static NSString* const ILEmail = @"email";
+static NSString* const ILPhone = @"phone";
+static NSString* const ILURL = @"url";
+static NSString* const ILNotes = @"notes";
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
@@ -8,31 +13,27 @@ int main(int argc, const char * argv[]) {
         [memory createIndex:ILSoupEntryAncestorKey];
         [memory createDateIndex:ILSoupEntryCreationDate];
         [memory createDateIndex:ILSoupEntryMutationDate];
-        [memory createIndex:@"name"];
-        [memory createIndex:@"email"];
-        [memory createIndex:@"phone"];
-        [memory createIndex:@"url"];
-        [memory createTextIndex:@"notes"];
-
-        memory.defaultEntry = @{
-            @"name":  @"",
-            @"email": @"",
-            @"phone": @"",
-            @"url":   @""
-        };
+        [memory createTextIndex:ILName];
+        [memory createIndex:ILEmail];
+        [memory createIndex:ILPhone];
+        [memory createIndex:ILURL];
+        [memory createTextIndex:ILNotes];
         
         [memory addEntry:[[memory createBlankEntry] mutatedEntry:@{
-            @"name":  @"iStumbler Labs",
-            @"email": @"support@istumbler.net",
-            @"url":   @"https://istumbler.net/labs",
-            @"phone": @"415-449-0905"
+            ILName:  @"iStumbler Labs",
+            ILEmail: @"support@istumbler.net",
+            ILURL:   @"https://istumbler.net/labs",
+            ILPhone: @"415-449-0905"
         }]];
 
         [memory addEntry:[[memory createBlankEntry] mutatedEntry:@{
-            @"name":  @"John Doe",
-            @"email": @"j.doe@example.com",
-            @"phone": @"555-555-5555",
-            @"url":   @"https://example.com/"
+            ILName:  @"John Doe",
+            ILEmail: @"j.doe@example.com"
+        }]];
+
+        [memory addEntry:[[memory createBlankEntry] mutatedEntry:@{
+            ILName:  @"Jane Doe",
+            ILEmail: @"jane.d@example.com"
         }]];
 
         NSLog(@"%@", memory);
@@ -43,9 +44,9 @@ int main(int argc, const char * argv[]) {
         }
         NSLog(@"cursor: %@", [memory getCursor]);
         
-        id<ILSoupCursor> does = [[memory queryIndex:@"name"] entriesWithValue:@"John Doe"];
+        id<ILSoupCursor> does = [[memory queryTextIndex:ILName] entriesWithStringValueMatching:@".* Doe"];
         while ((entry = [does nextEntry])) {
-            NSLog(@"doe: %@", entry);
+            NSLog(@"doe %lu: %@", does.index, entry);
         }
     }
     return 0;

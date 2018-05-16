@@ -79,17 +79,26 @@
 /*  @brief create a new index on this soup with the path provided */
 - (id<ILSoupIndex>) createIndex:(NSString*)indexPath;
 
+/* @brief returns the index for the path provided */
+- (id<ILSoupIndex>) queryIndex:(NSString*)indexPath;
+
 /*  @brief create a new index on this soup with the path provided */
 - (id<ILSoupTextIndex>) createTextIndex:(NSString*)indexPath;
 
+/* @brief returns the index for the path provided */
+- (id<ILSoupTextIndex>) queryTextIndex:(NSString*)indexPath;
+
 /*  @brief create a new index on this soup with the path provided */
 - (id<ILSoupNumberIndex>) createNumberIndex:(NSString*)indexPath;
+
+/* @brief returns the index for the path provided */
+- (id<ILSoupNumberIndex>) queryNumberIndex:(NSString*)indexPath;
 
 /*  @brief create a new index on this soup with the path provided */
 - (id<ILSoupDateIndex>) createDateIndex:(NSString*)indexPath;
 
 /* @brief returns the index for the path provided */
-- (id<ILSoupIndex>) queryIndex:(NSString*)indexPath;
+- (id<ILSoupDateIndex>) queryDateIndex:(NSString*)indexPath;
 
 #pragma mark - Default Cursor
 

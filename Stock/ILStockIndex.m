@@ -102,7 +102,23 @@
 
 - (id<ILSoupCursor>) entriesWithStringValueMatching:(NSString*) pattern;
 {
-    return nil;
+    NSError* patternError = nil;
+    NSRegularExpression* patternExpression = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:&patternError];
+
+    if (!patternExpression && patternError) {
+        NSLog(@"ERROR %@ compiling expression %@", patternError, pattern);
+        return nil;
+    }
+    
+    NSMutableSet* matching = [NSMutableSet new];
+    
+    for (NSString* keyString in self.indexStorage.allKeys) {
+        if ([patternExpression matchesInString:keyString options:0 range:NSMakeRange(0, keyString.length)].count > 0) {
+            [matching addObjectsFromArray:[[self entriesWithValue:keyString] entries]];
+        }
+    }
+    
+    return [[ILStockCursor alloc] initWithEntries:matching.allObjects];
 }
 
 @end

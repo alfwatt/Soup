@@ -25,7 +25,7 @@ NSString* ILSoupEntryCreationDate = @"created";
 - (instancetype) initWithKeys:(NSDictionary*) entryKeys
 {
     if (self = [super init]) {
-        NSMutableDictionary* newEntryKeys = [entryKeys mutableCopy];
+        NSMutableDictionary* newEntryKeys = [NSMutableDictionary dictionaryWithDictionary:entryKeys];
         if (![[newEntryKeys allKeys] containsObject:ILSoupEntryUUID]) { // create a new UUID for the entry
             newEntryKeys[ILSoupEntryUUID] = [[NSUUID UUID] UUIDString];
         }

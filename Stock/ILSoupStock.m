@@ -160,10 +160,20 @@
     return stockIndex;
 }
 
+- (id<ILSoupIndex>)queryIndex:(NSString *)indexPath
+{
+    return self.soupIndiciesStorage[indexPath];
+}
+
 - (id<ILSoupTextIndex>)createTextIndex:(NSString *)indexPath {
     ILStockTextIndex* stockIndex = [ILStockTextIndex indexWithPath:indexPath];
     [self loadIndex:indexPath index:stockIndex];
     return stockIndex;
+}
+
+- (id<ILSoupTextIndex>)queryTextIndex:(NSString *)indexPath
+{
+    return (id<ILSoupTextIndex>)self.soupIndiciesStorage[indexPath];
 }
 
 - (id<ILSoupDateIndex>)createDateIndex:(NSString *)indexPath {
@@ -172,6 +182,10 @@
     return stockIndex;
 }
 
+- (id<ILSoupTextIndex>)queryDateIndex:(NSString *)indexPath
+{
+    return (id<ILSoupTextIndex>)self.soupIndiciesStorage[indexPath];
+}
 
 - (id<ILSoupNumberIndex>)createNumberIndex:(NSString *)indexPath {
     ILStockNumberIndex* stockIndex = [ILStockNumberIndex indexWithPath:indexPath];
@@ -179,9 +193,9 @@
     return stockIndex;
 }
 
-- (id<ILSoupIndex>)queryIndex:(NSString *)indexPath
+- (id<ILSoupNumberIndex>)queryNumberIndex:(NSString *)indexPath
 {
-    return self.soupIndiciesStorage[indexPath];
+    return (id<ILSoupNumberIndex>)self.soupIndiciesStorage[indexPath];
 }
 
 #pragma mark - Cursor
