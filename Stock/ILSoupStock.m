@@ -66,23 +66,9 @@
 - (NSString*)addEntry:(id<ILSoupEntry>)entry
 {
     self.soupEntryStorage[entry.entryHash] = entry;
-    NSDate* date = entry.entryKeys[ILSoupEntryMutationDate]; // try to get the mutation date
 
-    if (!date) { // try for the creation date
-        date = entry.entryKeys[ILSoupEntryCreationDate];
-    }
-
-    if (!date) { // now's the time
-        date = [NSDate new];
-    }
-    
-    for (id<ILSoupIndex> index in self.soupIndicies) { // add item to the indexes
-        [index indexEntry:entry];
-    }
-    
-    for (id<ILSoupSequence> sequence in self.soupSequences) { // add item to the sequences
-        [sequence sequenceEntry:entry atTime:date];
-    }
+    [self indexEntry:entry];
+    [self sequenceEntry:entry];
     
     if ([self.delegate respondsToSelector:@selector(soup:addedEntry:)]) { // notify
         [self.delegate soup:self addedEntry:entry];
@@ -110,6 +96,30 @@
 
     if ([self.delegate respondsToSelector:@selector(soup:deletedEntry:)]) { // notify
         [self.delegate soup:self deletedEntry:entry];
+    }
+}
+
+- (void) indexEntry:(id<ILSoupEntry>) entry
+{
+    for (id<ILSoupIndex> index in self.soupIndicies) { // add item to the indexes
+        [index indexEntry:entry];
+    }
+}
+
+- (void) sequenceEntry:(id<ILSoupEntry>) entry
+{
+    NSDate* date = entry.entryKeys[ILSoupEntryMutationDate]; // try to get the mutation date
+
+    if (!date) { // try for the creation date
+        date = entry.entryKeys[ILSoupEntryCreationDate];
+    }
+
+    if (!date) { // now's the time
+        date = [NSDate new];
+    }
+    
+    for (id<ILSoupSequence> sequence in self.soupSequences) { // add item to the sequences
+        [sequence sequenceEntry:entry atTime:date];
     }
 }
 
@@ -230,17 +240,7 @@
     self.soupSequencesStorage[sequencePath] = stockSequence;
 
     for (id<ILSoupEntry> entry in self.soupEntryStorage.allKeys) {
-        NSDate* date = entry.entryKeys[ILSoupEntryMutationDate]; // try to get the mutation date
-
-        if (!date) { // try for the creation date
-            date = entry.entryKeys[ILSoupEntryCreationDate];
-        }
-
-        if (!date) { // now's the time
-            date = [NSDate new];
-        }
-        
-        [stockSequence sequenceEntry:entry atTime:date];
+        [self sequenceEntry:entry];
     }
 
     return stockSequence;

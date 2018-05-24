@@ -1,8 +1,8 @@
-#import "ILSynchSoup.h"
+#import "ILSynchedSoup.h"
 
-@implementation ILSynchSoup
-@synthesize defaultEntry;
-@synthesize delegate;
+@implementation ILSynchedSoup
+
+#pragma mark -
 
 + (instancetype) makeSoup:(NSString*) soupName
 {
@@ -11,7 +11,7 @@
 
 + (instancetype) synchronizedSoup:(id<ILSoup>) synched
 {
-    ILSynchSoup* soup = [ILSynchSoup new];
+    ILSynchedSoup* soup = [ILSynchedSoup new];
     soup.synchronized = synched;
     return soup;
 }
@@ -81,10 +81,17 @@
     }
 }
 
-- (id<ILSoupDelegate>) delegate
+- (NSObject<ILSoupDelegate>*) delegate
 {
     @synchronized(self.synchronized) {
         return self.synchronized.delegate;
+    }
+}
+
+- (void) setDelegate:(NSObject<ILSoupDelegate>*) delegate
+{
+    @synchronized(self.synchronized) {
+        self.synchronized.delegate = delegate;
     }
 }
 

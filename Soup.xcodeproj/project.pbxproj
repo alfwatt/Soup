@@ -35,8 +35,10 @@
 		7543243D20A3A2E4006EE620 /* ILStockIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243B20A3A2E4006EE620 /* ILStockIndex.m */; };
 		7543244020A3A312006EE620 /* ILStockSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243E20A3A312006EE620 /* ILStockSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7543244120A3A312006EE620 /* ILStockSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243F20A3A312006EE620 /* ILStockSequence.m */; };
-		7543244420A8B289006EE620 /* ILSynchSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543244220A8B289006EE620 /* ILSynchSoup.h */; };
-		7543244520A8B289006EE620 /* ILSynchSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543244320A8B289006EE620 /* ILSynchSoup.m */; };
+		7543244420A8B289006EE620 /* ILSynchedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543244220A8B289006EE620 /* ILSynchedSoup.h */; };
+		7543244520A8B289006EE620 /* ILSynchedSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543244320A8B289006EE620 /* ILSynchedSoup.m */; };
+		754324B920AE39FF006EE620 /* ILQueuedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754324B720AE39FF006EE620 /* ILQueuedSoup.h */; };
+		754324BA20AE39FF006EE620 /* ILQueuedSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754324B820AE39FF006EE620 /* ILQueuedSoup.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,8 +94,10 @@
 		7543243B20A3A2E4006EE620 /* ILStockIndex.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILStockIndex.m; sourceTree = "<group>"; };
 		7543243E20A3A312006EE620 /* ILStockSequence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILStockSequence.h; sourceTree = "<group>"; };
 		7543243F20A3A312006EE620 /* ILStockSequence.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILStockSequence.m; sourceTree = "<group>"; };
-		7543244220A8B289006EE620 /* ILSynchSoup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSynchSoup.h; sourceTree = "<group>"; };
-		7543244320A8B289006EE620 /* ILSynchSoup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSynchSoup.m; sourceTree = "<group>"; };
+		7543244220A8B289006EE620 /* ILSynchedSoup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSynchedSoup.h; sourceTree = "<group>"; };
+		7543244320A8B289006EE620 /* ILSynchedSoup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSynchedSoup.m; sourceTree = "<group>"; };
+		754324B720AE39FF006EE620 /* ILQueuedSoup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILQueuedSoup.h; sourceTree = "<group>"; };
+		754324B820AE39FF006EE620 /* ILQueuedSoup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILQueuedSoup.m; sourceTree = "<group>"; };
 		758A1A7E20886B6300122965 /* Reference */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Reference; sourceTree = "<group>"; };
 		75EA39BC1B20D6340058E49D /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -145,14 +149,16 @@
 		754323E720A2BF27006EE620 /* Flavors */ = {
 			isa = PBXGroup;
 			children = (
-				754323EB20A2C055006EE620 /* ILMemorySoup.h */,
-				754323EC20A2C055006EE620 /* ILMemorySoup.m */,
 				754323ED20A2C0B7006EE620 /* ILFileSoup.h */,
 				754323EE20A2C0B7006EE620 /* ILFileSoup.m */,
+				754323EB20A2C055006EE620 /* ILMemorySoup.h */,
+				754323EC20A2C055006EE620 /* ILMemorySoup.m */,
+				754324B720AE39FF006EE620 /* ILQueuedSoup.h */,
+				754324B820AE39FF006EE620 /* ILQueuedSoup.m */,
+				7543244220A8B289006EE620 /* ILSynchedSoup.h */,
+				7543244320A8B289006EE620 /* ILSynchedSoup.m */,
 				754323F620A373F3006EE620 /* ILUnionSoup.h */,
 				754323F720A373F3006EE620 /* ILUnionSoup.m */,
-				7543244220A8B289006EE620 /* ILSynchSoup.h */,
-				7543244320A8B289006EE620 /* ILSynchSoup.m */,
 			);
 			path = Flavors;
 			sourceTree = "<group>";
@@ -241,7 +247,7 @@
 				7543240B20A3792B006EE620 /* ILSoup.h in Headers */,
 				7543240C20A3792B006EE620 /* ILSoupEntry.h in Headers */,
 				7543240D20A3792B006EE620 /* ILSoupIndex.h in Headers */,
-				7543244420A8B289006EE620 /* ILSynchSoup.h in Headers */,
+				7543244420A8B289006EE620 /* ILSynchedSoup.h in Headers */,
 				7543240E20A3792B006EE620 /* ILSoupSequence.h in Headers */,
 				7543242320A384C9006EE620 /* ILSoupStock.h in Headers */,
 				7543243720A3A153006EE620 /* ILStockEntry.h in Headers */,
@@ -253,6 +259,7 @@
 				7543241420A37938006EE620 /* NSData+Hashcodes.h in Headers */,
 				7543241520A37938006EE620 /* NSString+Hashcodes.h in Headers */,
 				7543241620A37938006EE620 /* NSDictionary+Hashcodes.h in Headers */,
+				754324B920AE39FF006EE620 /* ILQueuedSoup.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,8 +363,9 @@
 				7543241C20A37959006EE620 /* NSData+Hashcodes.m in Sources */,
 				7543243820A3A153006EE620 /* ILStockEntry.m in Sources */,
 				7543244120A3A312006EE620 /* ILStockSequence.m in Sources */,
-				7543244520A8B289006EE620 /* ILSynchSoup.m in Sources */,
+				7543244520A8B289006EE620 /* ILSynchedSoup.m in Sources */,
 				7543241D20A37959006EE620 /* NSString+Hashcodes.m in Sources */,
+				754324BA20AE39FF006EE620 /* ILQueuedSoup.m in Sources */,
 				7543241E20A37959006EE620 /* NSDictionary+Hashcodes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
