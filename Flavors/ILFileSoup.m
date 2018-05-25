@@ -1,9 +1,32 @@
 #import "ILFileSoup.h"
 #import "ILSoupStock.h"
 #import "ILStockEntry.h"
+#import "ILStockIndex.h"
+#import "ILStockSequence.h"
+
+@interface ILFileIndex : ILStockIndex
+
+@end
+
+#pragma mark -
+
+@interface ILFileCursor : ILStockCursor
+
++ (instancetype) fileCursorWithPaths:(NSArray*) filePaths;
+
+@end
+
+#pragma mark -
+
+@interface ILFileSequence : ILStockSequence
+
+@end
+
 
 @interface ILFileSoup ()
 @property(nonatomic, retain) NSString* filePathStorage;
+
+- (instancetype) initWithFilePath:(NSString*) filePath;
 
 @end
 
@@ -13,9 +36,19 @@
 
 + (ILFileSoup*) fileSoupAtPath:(NSString*) filePath
 {
-    ILFileSoup* fileSoup = [ILFileSoup new];
-    fileSoup.filePathStorage = filePath;
-    return fileSoup;
+    return [[ILFileSoup alloc] initWithFilePath:filePath];
+}
+
+#pragma mark -
+
+- (instancetype) initWithFilePath:(NSString*) filePath;
+{
+    if (self = [super init]) {
+        self.filePathStorage = filePath;
+        self.soupName = filePath.lastPathComponent;
+    }
+    
+    return self;
 }
 
 #pragma mark -
@@ -46,19 +79,49 @@
 
 - (NSString*)addEntry:(id<ILSoupEntry>)entry
 {
-    NSString* entryPath = [self pathForEntryHash:entry.entryHash];
+    NSMutableDictionary* jsonKeys = [NSMutableDictionary new];
+    
+    for (NSString* key in entry.entryKeys.allKeys) {
+        id value = entry.entryKeys[key];
+        
+        // TODO convert other value types (URL, Image, etc)
+        // if ([value isKindOfClass:[NSString class]]
+        // || [value isKindOfClass:[NSNumber class]]) {
+        // } else
+        if ([value isKindOfClass:[NSDate class]]) { // convert to a number
+            jsonKeys[key] = @([value timeIntervalSinceReferenceDate]);
+        }
+        else if ([value isKindOfClass:[NSURL class]]) { // convert to a number
+            jsonKeys[key] = [value absoluteString];
+        }
+        else {
+            jsonKeys[key] = value;
+        }
+    }
+
+    NSString* entryPath = [[self pathForEntryHash:entry.entryHash] stringByExpandingTildeInPath];
+    NSString* entriesDir = [entryPath stringByDeletingLastPathComponent];
+    [[NSFileManager defaultManager] createDirectoryAtPath:entriesDir withIntermediateDirectories:YES attributes:nil error:nil];
     NSOutputStream* fileStream = [NSOutputStream outputStreamToFileAtPath:entryPath append:NO];
-    [NSJSONSerialization writeJSONObject:entry.entryKeys toStream:fileStream options:0 error:nil];
+    [fileStream open];
+    [NSJSONSerialization writeJSONObject:jsonKeys toStream:fileStream options:(NSJSONWritingPrettyPrinted) error:nil];
     [fileStream close];
     
     [self indexEntry:entry];
+    [self setupCursor]; // we changed the entry set
     return entry.entryHash;
 }
 
 - (void)deleteEntry:(id<ILSoupEntry>)entry
 {
     NSString* entryPath = [self pathForEntryHash:entry.entryHash];
+    
+    [self removeFromIndicies:entry];
+    [self removeFromSequences:entry];
+    
     [[NSFileManager defaultManager] removeItemAtPath:entryPath error:nil];
+
+    [self setupCursor]; // we changed the entry set
 }
 
 #pragma mark - Aliases
@@ -92,12 +155,15 @@
 
 - (id<ILSoupCursor>)setupCursor
 {
+    NSArray* soupEntries = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self.filePathStorage stringByAppendingPathComponent:@"entries"] error:nil];
+    // ILFileCursor* fileCursor = [ILFileCursor fileCursorWithEntries:soupEntries];
+    
     return nil;
 }
 
 #pragma mark - Sequences
 
-- (id<ILSoupSequence>)createSequence:(NSString *)sequencePath
+- (id<ILSoupSequence>)createSequence:(NSString*)sequencePath
 {
     return nil;
 }

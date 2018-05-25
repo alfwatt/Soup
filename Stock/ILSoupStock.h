@@ -5,6 +5,9 @@
 @interface ILSoupStock : NSObject <ILSoup>
 
 - (void) indexEntry:(id<ILSoupEntry>) entry;
+- (void) removeFromIndicies:(id<ILSoupEntry>) entry;
+
 - (void) sequenceEntry:(id<ILSoupEntry>) entry;
+- (void) removeFromSequences:(id<ILSoupEntry>) entry;
 
 @end

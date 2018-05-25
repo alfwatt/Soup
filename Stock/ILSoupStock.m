@@ -27,20 +27,29 @@
 
 + (id<ILSoup>)makeSoup:(NSString*)soupName
 {
-    return [[ILSoupStock alloc] initWithSoupName:soupName];
+    return [[self alloc] initWithSoupName:soupName];
 }
 
 #pragma mark -
 
-- (instancetype) initWithSoupName:(NSString*) soupName
+- (instancetype) init
 {
     if (self = [super init]) {
-        self.soupName = soupName;
         self.soupUUIDStorage = [[NSUUID UUID] UUIDString];
         self.soupEntryStorage = [NSMutableDictionary new];
         self.soupIndiciesStorage = [NSMutableDictionary new];
         self.soupSequencesStorage = [NSMutableDictionary new];
     }
+    
+    return self;
+}
+
+- (instancetype) initWithSoupName:(NSString*) soupName
+{
+    if (self = [self init]) {
+        self.soupName = soupName;
+    }
+    
     return self;
 }
 
@@ -106,6 +115,13 @@
     }
 }
 
+- (void) removeFromIndicies:(id<ILSoupEntry>) entry
+{
+    for (id<ILSoupIndex> index in self.soupIndicies) {
+        [index removeEntry:entry];
+    }
+}
+
 - (void) sequenceEntry:(id<ILSoupEntry>) entry
 {
     NSDate* date = entry.entryKeys[ILSoupEntryMutationDate]; // try to get the mutation date
@@ -120,6 +136,13 @@
     
     for (id<ILSoupSequence> sequence in self.soupSequences) { // add item to the sequences
         [sequence sequenceEntry:entry atTime:date];
+    }
+}
+
+- (void) removeFromSequences:(id<ILSoupEntry>) entry
+{
+    for (id<ILSoupSequence> sequence in self.soupSequences) { // add item to the sequences
+        [sequence removeEntry:entry];
     }
 }
 

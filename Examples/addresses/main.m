@@ -8,7 +8,14 @@ static NSString* const ILNotes = @"notes";
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
+        // create a file/memory union soup
+        ILUnionSoup* soup = [ILUnionSoup new];
         ILMemorySoup* memory = [ILMemorySoup makeSoup:@"Address Book"];
+        ILFileSoup* files = [ILFileSoup fileSoupAtPath:@"~/Desktop/AddressBook.soup"];
+        [soup addSoup:files];
+        [soup addSoup:memory];
+
+        // setup memory soup
         memory.soupDescription = @"Example Address Book Soup";
         [memory createIndex:ILSoupEntryAncestorKey];
         [memory createDateIndex:ILSoupEntryCreationDate];
@@ -19,19 +26,20 @@ int main(int argc, const char * argv[]) {
         [memory createIndex:ILURL];
         [memory createTextIndex:ILNotes];
         
-        [memory addEntry:[[memory createBlankEntry] mutatedEntry:@{
+        // add some entries to the union
+        [soup addEntry:[[memory createBlankEntry] mutatedEntry:@{
             ILName:  @"iStumbler Labs",
             ILEmail: @"support@istumbler.net",
-            ILURL:   @"https://istumbler.net/labs",
+            ILURL:   [NSURL URLWithString:@"https://istumbler.net/labs"],
             ILPhone: @"415-449-0905"
         }]];
 
-        [memory addEntry:[[memory createBlankEntry] mutatedEntry:@{
+        [soup addEntry:[[memory createBlankEntry] mutatedEntry:@{
             ILName:  @"John Doe",
             ILEmail: @"j.doe@example.com"
         }]];
 
-        [memory addEntry:[[memory createBlankEntry] mutatedEntry:@{
+        [soup addEntry:[[memory createBlankEntry] mutatedEntry:@{
             ILName:  @"Jane Doe",
             ILEmail: @"jane.d@example.com"
         }]];
