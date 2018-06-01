@@ -16,14 +16,12 @@ int main(int argc, const char * argv[]) {
         [soup addSoup:memory];
 
         // setup memory soup
-        memory.soupDescription = @"Example Address Book Soup";
+        memory.soupDescription = @"Address Book Example Soup";
         [memory createIndex:ILSoupEntryAncestorKey];
         [memory createDateIndex:ILSoupEntryCreationDate];
         [memory createDateIndex:ILSoupEntryMutationDate];
         [memory createTextIndex:ILName];
-        [memory createIndex:ILEmail];
-        [memory createIndex:ILPhone];
-        [memory createIndex:ILURL];
+        [memory createTextIndex:ILEmail];
         [memory createTextIndex:ILNotes];
         
         // add some entries to the union
@@ -50,11 +48,18 @@ int main(int argc, const char * argv[]) {
         while ((entry = [[memory getCursor] nextEntry])) {
             NSLog(@"entry: %@", entry);
         }
-        NSLog(@"cursor: %@", [memory getCursor]);
+        NSLog(@"memory cursor: %@", [memory getCursor]);
         
         id<ILSoupCursor> does = [[memory queryTextIndex:ILName] entriesWithStringValueMatching:@".* Doe"];
         while ((entry = [does nextEntry])) {
             NSLog(@"doe %lu: %@", does.index, entry);
+        }
+        
+        [files setupCursor];
+        id<ILSoupCursor> fileItems = [files getCursor];
+        NSLog(@"file items: %@", fileItems);
+        while ((entry = [fileItems nextEntry])) {
+            NSLog(@"file %lu: %@", fileItems.index, entry);
         }
     }
     return 0;

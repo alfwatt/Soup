@@ -1,4 +1,5 @@
 #import "ILStockIndex.h"
+#import "ILSoup.h"
 #import "ILSoupEntry.h"
 
 
@@ -161,7 +162,7 @@
 
 @end
 
-#pragma mark - ILSoupStockCursor Private
+#pragma mark -
 
 @interface ILStockCursor ()
 @property(nonatomic, retain) NSArray<id<ILSoupEntry>>* entriesStorage;
@@ -200,9 +201,10 @@
 - (id<ILSoupEntry>) nextEntry
 {
     id<ILSoupEntry> next = nil;
-    if (self.indexStorage < self.entriesStorage.count) {
+    NSUInteger index = self.indexStorage;
+    if (index < self.entriesStorage.count) {
         next = self.entriesStorage[self.indexStorage];
-        self.indexStorage++;
+        self.indexStorage = (index + 1);
     }
     return next;
 }
@@ -217,6 +219,78 @@
 - (NSString*) description
 {
     return [NSString stringWithFormat:@"%@ %lu items, index %lu", self.className, self.entries.count, self.index];
+}
+
+@end
+
+#pragma mark -
+
+@interface ILStockAliasCursor()
+@property(nonatomic, retain) NSArray<NSString*>* aliasStorage;
+@property(nonatomic, assign) NSUInteger indexStorage;
+@property(nonatomic, assign) id<ILSoup> soupStorage;
+@end
+
+#pragma mark -
+
+@implementation ILStockAliasCursor
+
+- (instancetype) initWithAliases:(NSArray<NSString*>*) aliases inSoup:(id<ILSoup>) sourceSoup
+{
+    if (self = [super init]) {
+        self.aliasStorage = [NSArray arrayWithArray:aliases]; // no mutants
+        self.indexStorage = 0;
+        self.soupStorage = sourceSoup;
+    }
+    
+    return self;
+}
+
+#pragma mark - Properties
+
+- (NSArray<id<ILSoupEntry>>*) entries
+{
+    return nil; // self.aliasStorage;
+}
+
+- (NSUInteger) index
+{
+    return self.indexStorage;
+}
+
+#pragma mark -
+
+- (NSString*) nextAlias
+{
+    NSString* next = nil;
+    NSUInteger index = self.indexStorage;
+    if (index < self.aliasStorage.count) {
+        next = self.aliasStorage[self.indexStorage];
+        self.indexStorage = (index + 1);
+    }
+    return next;
+}
+
+#pragma mark -
+
+- (id<ILSoupEntry>) nextEntry
+{
+    id<ILSoupEntry> nextEntry = nil;
+    NSString* nextAlias = [self nextAlias];
+    if (nextAlias) {
+        nextEntry = [self.soupStorage gotoAlias:nextAlias];
+    }
+    return nextEntry;
+}
+
+- (instancetype)initWithEntries:(NSArray<id<ILSoupEntry>> *)entries
+{
+    return nil;
+}
+
+- (void) resetCursor
+{
+    self.indexStorage = 0;
 }
 
 @end

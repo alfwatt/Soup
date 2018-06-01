@@ -25,6 +25,7 @@
 
 @interface ILFileSoup ()
 @property(nonatomic, retain) NSString* filePathStorage;
+@property(nonatomic, retain) id<ILSoupCursor> fileSoupCursor;
 
 - (instancetype) initWithFilePath:(NSString*) filePath;
 
@@ -55,24 +56,24 @@
 
 - (NSString*) pathForEntryHash:(NSString*) entryHash
 {
-    return [[self.filePathStorage stringByAppendingPathComponent:@"entries"] stringByAppendingPathComponent:entryHash];
+    return [[self.filePath stringByAppendingPathComponent:@"entries"] stringByAppendingPathComponent:entryHash];
 }
 
 - (NSString*) pathForIndex:(NSString*) indexPath
 {
-    return [[self.filePathStorage stringByAppendingPathComponent:@"indicies"] stringByAppendingPathComponent:indexPath];
+    return [[self.filePath stringByAppendingPathComponent:@"indicies"] stringByAppendingPathComponent:indexPath];
 }
 
 - (NSString*) pathForSequence:(NSString*) sequencePath
 {
-    return [[self.filePathStorage stringByAppendingPathComponent:@"sequences"] stringByAppendingPathComponent:sequencePath];
+    return [[self.filePath stringByAppendingPathComponent:@"sequences"] stringByAppendingPathComponent:sequencePath];
 }
 
 #pragma mark -
 
 - (NSString*) filePath
 {
-    return self.filePathStorage;
+    return [self.filePathStorage stringByExpandingTildeInPath];
 }
 
 #pragma mark -
@@ -91,15 +92,26 @@
         if ([value isKindOfClass:[NSDate class]]) { // convert to a number
             jsonKeys[key] = @([value timeIntervalSinceReferenceDate]);
         }
-        else if ([value isKindOfClass:[NSURL class]]) { // convert to a number
+        else if ([value isKindOfClass:[NSURL class]]) { // convert to a string
             jsonKeys[key] = [value absoluteString];
         }
+#if TARGET_OS_MAC
+/*
+        else if ([value isKindOfClass:[NSImage class]]) { // write to a file in the container
+        
+        }
+*/
+#elif TARGET_OS_IPHONE || TARGET_OS_TV
+        else if ([value isKindOfClass:[UIImage class]]) { // write into a file in the container
+            
+        }
+#endif
         else {
             jsonKeys[key] = value;
         }
     }
 
-    NSString* entryPath = [[self pathForEntryHash:entry.entryHash] stringByExpandingTildeInPath];
+    NSString* entryPath = [[self pathForEntryHash:entry.entryHash] stringByAppendingPathComponent:@"entry.json"];
     NSString* entriesDir = [entryPath stringByDeletingLastPathComponent];
     [[NSFileManager defaultManager] createDirectoryAtPath:entriesDir withIntermediateDirectories:YES attributes:nil error:nil];
     NSOutputStream* fileStream = [NSOutputStream outputStreamToFileAtPath:entryPath append:NO];
@@ -128,8 +140,9 @@
 
 - (id<ILSoupEntry>)gotoAlias:(NSString*)alias
 {
-    NSString* entryPath = [self pathForEntryHash:alias];
+    NSString* entryPath = [[[self pathForEntryHash:alias] stringByExpandingTildeInPath] stringByAppendingPathComponent:@"entry.json"];
     NSInputStream* fileStream = [NSInputStream inputStreamWithFileAtPath:entryPath];
+    [fileStream open];
     NSDictionary* entryKeys = [NSJSONSerialization JSONObjectWithStream:fileStream options:0 error:nil];
     [fileStream close];
     
@@ -153,12 +166,24 @@
 
 #pragma mark - Cursor
 
+- (id<ILSoupCursor>)getCursor
+{
+    return self.fileSoupCursor;
+}
+
 - (id<ILSoupCursor>)setupCursor
 {
-    NSArray* soupEntries = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self.filePathStorage stringByAppendingPathComponent:@"entries"] error:nil];
-    // ILFileCursor* fileCursor = [ILFileCursor fileCursorWithEntries:soupEntries];
+    NSString* entriesPath = [self.filePath stringByAppendingPathComponent:@"entries"];
+    NSMutableArray* soupEntries = [NSMutableArray new];
+    for (NSString* filePath in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:entriesPath error:nil]) {
+        if ([filePath rangeOfString:@"."].location !=0) { // skip the dot files
+            [soupEntries addObject:filePath];
+        }
+    }
     
-    return nil;
+    self.fileSoupCursor = [[ILStockAliasCursor alloc] initWithAliases:soupEntries inSoup:self];
+
+    return self.fileSoupCursor;
 }
 
 #pragma mark - Sequences
