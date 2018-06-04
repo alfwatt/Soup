@@ -113,10 +113,15 @@ The Soup framework includes a few pre-made flavors which you may find useful in 
 
 ## Example: Address Book
 
-    // create a file/memory union soup
+    // define some keys for our address book
+    static NSString* const ILName = @"name";
+    static NSString* const ILEmail = @"email";
+    static NSString* const ILNotes = @"notes";
+
+    // create a stock memory soup
     ILMemorySoup* memory = [ILMemorySoup makeSoup:@"Address Book"];
 
-    // setup memory soup
+    // prep the soup with some default indexes
     memory.soupDescription = @"Address Book Example Soup";
     [memory createIndex:ILSoupEntryAncestorKey];
     [memory createDateIndex:ILSoupEntryCreationDate];
