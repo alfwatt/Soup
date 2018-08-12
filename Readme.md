@@ -75,31 +75,31 @@ have local, online, and peer soups which are merged into a single data source fo
 
 The Soup framework consists of the following protocols:
 
-- <a href="Protocol/ILSoup.h">ILSoup</a> — ILSoup is the peer of the newtSoup proto
+- <a href="Protocols/ILSoup.h">ILSoup</a> — ILSoup is the peer of the newtSoup proto
     - ILSoupDelegate — recieves messages when the soup performs operations or encouters errors
-- <a href="Protocol/ILSoup.h">ILSoupEntry</a> — basic data storage unit in a soup
+- <a href="Protocols/ILSoup.h">ILSoupEntry</a> — basic data storage unit in a soup
     - ILMutableSoupEntry — allows for mutation of elements
-- <a href="Protocol/ILSoup.h">ILSoupIndex</a> — fast access to soup entries by property index
+- <a href="Protocols/ILSoup.h">ILSoupIndex</a> — fast access to soup entries by property index
     - ILSoupCursor — index operations return cursors, which contain a list of entries
     - ILSoupTextIndex — index which can be queried for text
     - ILSoupDateIndex — index which can be queried for dates and ranges
     - ILSoupNumberIndex — index which can be queried for numbers and ranges
-- <a href="Protocol/ILSoup.h">ILSoupSequence</a> — fast access to time sequence datat for numeric properties of entries
+- <a href="Protocols/ILSoup.h">ILSoupSequence</a> — fast access to time sequence datat for numeric properties of entries
     - ILSoupSequceSource — Impedence match with SparkKit
 
 ## Soup Stock
 
 Stock in-memory implemenatilns of the Soup Protocols
 
-- <a href="Stock/ILSoupStock.h">ILSoupStock</a>
-- <a href="Stock/ILStockEntry.h">ILStockEntry</a>
+- <a href="Stock/ILSoupStock.h">ILSoupStock</a> <a href="Stock/ILSoupStock.m">[.m]</a>
+- <a href="Stock/ILStockEntry.h">ILStockEntry</a> <a href="Stock/ILStockEntry.m">[.m]</a>
     - ILMutableStockEntry
-- <a href="Stock/ILStockIndex.h">ILStockIndex </a>
+- <a href="Stock/ILStockIndex.h">ILStockIndex </a> <a href="Stock/ILStockIndex.m">[.m]</a>
     - ILStockCursor
     - ILStockTextIndex
     - ILStockDateIndex
     - ILStockNumberIndex
-- <a href="Stock/ILStockSequence.h">ILStockSequence </a>
+- <a href="Stock/ILStockSequence.h">ILStockSequence </a> <a href="Stock/ILStockSequence.m">[.m]</a>
     - ILStockSequenceSource 
 
 ## Soup Flavors
@@ -115,7 +115,6 @@ The Soup framework includes a few pre-made flavors which you may find useful in 
 
 ## Example: Address Book
 
-<a href="Examples/addresses/main.m">Example Code</a>
 
     // define some keys for our address book
     static NSString* const ILName = @"name";
@@ -158,7 +157,9 @@ The Soup framework includes a few pre-made flavors which you may find useful in 
     while ((entry = [does nextEntry])) {
         NSLog(@"doe %lu: %@", does.index, entry);
     }
-    
+
+<a href="Examples/addresses/main.m">Example Code</a>
+
 ## License
 
     The MIT License (MIT)
