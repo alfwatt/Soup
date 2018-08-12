@@ -8,8 +8,8 @@ An object oriented persistance framework modeled on the Apple Newton API.
 <a id="contents"></a>
 ## Contents
 
-- <a href="#history">Goals</a>
-- <a href="#whyyyy">Classes</a>
+- <a href="#history">History</a>
+- <a href="#whyyyy">Why Soup?</a>
 - <a href="#protocols">Protocols</a>
 - <a href="#stock">Stock</a>
 - <a href="#flavors">Flavors</a>
