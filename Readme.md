@@ -51,7 +51,7 @@ as one big soup containing all the entries by using a union soup. Union soups ta
 into account any choices you make for default storage location and add new entries to 
 a union soup in the member soup which resides on your default store.
 
-<a href="https://web.archive.org/web/20060210184323/http://www.canicula.com/newton/prog/soups.htm">Ian Robinson</a>
+- <a href="https://web.archive.org/web/20060210184323/http://www.canicula.com/newton/prog/soups.htm">Ian Robinson</a>
 </blockquote>
 
 <a href="http://en.m.wikipedia.org/wiki/Soup_(Apple_Newton)">Soup (Wikipedia)</a>
