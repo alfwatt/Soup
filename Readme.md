@@ -1,7 +1,7 @@
 
 # Soup
 
-<img src="Artwork/Soup-Logo.png" width="128" height="128" style="float:left; padding-right: 2em;>
+<img src="Artwork/Soup-Logo.png" width="128" height="128" style="float:left; padding-right: 2em;">
 
 An object oriented persistance framework modeled on the Apple Newton API.
 
