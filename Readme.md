@@ -75,45 +75,47 @@ have local, online, and peer soups which are merged into a single data source fo
 
 The Soup framework consists of the following protocols:
 
-- ILSoup — ILSoup is the peer of the newtSoup proto
+- <a href="Protocol/ILSoup.h">ILSoup</a> — ILSoup is the peer of the newtSoup proto
     - ILSoupDelegate — recieves messages when the soup performs operations or encouters errors
-- ILSoupEntry — basic data storage unit in a soup
+- <a href="Protocol/ILSoup.h">ILSoupEntry</a> — basic data storage unit in a soup
     - ILMutableSoupEntry — allows for mutation of elements
-- ILSoupIndex — fast access to soup entries by property index
+- <a href="Protocol/ILSoup.h">ILSoupIndex</a> — fast access to soup entries by property index
     - ILSoupCursor — index operations return cursors, which contain a list of entries
     - ILSoupTextIndex — index which can be queried for text
     - ILSoupDateIndex — index which can be queried for dates and ranges
     - ILSoupNumberIndex — index which can be queried for numbers and ranges
-- ILSoupSequence — fast access to time sequence datat for numeric properties of entries
+- <a href="Protocol/ILSoup.h">ILSoupSequence</a> — fast access to time sequence datat for numeric properties of entries
     - ILSoupSequceSource — Impedence match with SparkKit
 
 ## Soup Stock
 
 Stock in-memory implemenatilns of the Soup Protocols
 
-- ILSoupStock
-- ILStockEntry
+- <a href="Stock/ILSoupStock.h">ILSoupStock</a>
+- <a href="Stock/ILStockEntry.h">ILStockEntry</a>
     - ILMutableStockEntry
-- ILStockIndex 
+- <a href="Stock/ILStockIndex.h">ILStockIndex </a>
     - ILStockCursor
     - ILStockTextIndex
     - ILStockDateIndex
     - ILStockNumberIndex
-- ILStockSequence 
+- <a href="Stock/ILStockSequence.h">ILStockSequence </a>
     - ILStockSequenceSource 
 
 ## Soup Flavors
 
 The Soup framework includes a few pre-made flavors which you may find useful in your applications
 
-- ILFileSoup — file-system based soup, entries are written to files
-- ILMemorySoup — in-memory soup made with Stock - 
-- ILQueuedSoup — performs all queue and delegate operations on serial background queues 
-- ILSynchedSoup — synchronized access to a soup, so that it can safely be mutated across multiple threads
-- ILUnionSoup — Combines several soups into a single virutal store
+- <a href="Flavors/ILFileSoup.h">ILFileSoup</a> — file-system based soup, entries are written to files
+- <a href="Flavors/ILMemorySoup.h">ILMemorySoup</a> — in-memory soup made with Stock - 
+- <a href="Flavors/ILQueuedSoup.h">ILQueuedSoup</a> — performs all queue and delegate operations on serial background queues 
+- <a href="Flavors/ILSynchedSoup.h">ILSynchedSoup</a> — synchronized access to a soup, so that it can safely be mutated across multiple threads
+- <a href="Flavors/ILUnionSoup.h">ILUnionSoup</a> — Combines several soups into a single virutal store
     - ILUnionSoupDelegate — Delegate messages relating to the soup
 
 ## Example: Address Book
+
+<a href="Examples/addresses/main.m">Example Code</a>
 
     // define some keys for our address book
     static NSString* const ILName = @"name";
