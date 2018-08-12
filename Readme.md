@@ -1,7 +1,9 @@
 
 # Soup
 
-A persistance framework modeled on the Apple Newton API.
+<img src="Artwork/Soup-Logo.png" width="128" height="128">
+
+An object oriented persistance framework modeled on the Apple Newton API.
 
 
 ## Newton Soup History
