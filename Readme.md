@@ -1,11 +1,22 @@
-
+<a id="soup"></a>
 # Soup
 
 <img src="Artwork/Soup-Logo.png" width="256" height="256">
 
 An object oriented persistance framework modeled on the Apple Newton API.
 
+<a id="contents"></a>
+## Contents
 
+- <a href="#history">Goals</a>
+- <a href="#whyyyy">Classes</a>
+- <a href="#protocols">Protocols</a>
+- <a href="#stock">Stock</a>
+- <a href="#flavors">Flavors</a>
+- <a href="#examples">Examples</a>
+- <a href="#license">MIT License</a>
+
+<a id="history"></a>
 ## Newton Soup History
 
     http://en.m.wikipedia.org/wiki/Soup_(Apple_Newton)
@@ -44,6 +55,7 @@ An object oriented persistance framework modeled on the Apple Newton API.
     a union soup in the member soup which resides on your default store.
 
 
+<a id="whyyyy"></a>
 ## Why Soup Now?
 
 Soup was designed for dealing with storage on a mobile device where storage is transient.  This model is useful
@@ -54,16 +66,13 @@ networking into account.
 
 Soup brings back the simplicity and clarity of the Newton Soup API, adds modern conveniances  
 
-
 ### Simplicity of Design
 
 Soups clear, simple design makes it easy to understand and to quickly intergrate int apps.
 
-
 ### Optimized for Presentaion
 
 Soup has features which make it a pleasure to work with when building User interfaces
-
 
 ### Connected and Disconnected
 
@@ -71,6 +80,7 @@ The ability to build union soups and for entreis to be adoped from one soup to a
 have local, online, and peer soups which are merged into a single data source for an applicaiton to present to the user.
 
 
+<a id="protocols"></a>
 ## Soup Protocols
 
 The Soup framework consists of the following protocols:
@@ -87,6 +97,7 @@ The Soup framework consists of the following protocols:
 - <a href="Protocols/ILSoup.h">ILSoupSequence</a> — fast access to time sequence datat for numeric properties of entries
     - ILSoupSequceSource — Impedence match with SparkKit
 
+<a id="stock"></a>
 ## Soup Stock
 
 Stock in-memory implemenatilns of the Soup Protocols
@@ -102,6 +113,7 @@ Stock in-memory implemenatilns of the Soup Protocols
 - <a href="Stock/ILStockSequence.h">ILStockSequence </a> <a href="Stock/ILStockSequence.m">[.m]</a>
     - ILStockSequenceSource 
 
+<a id="flavors"></a>
 ## Soup Flavors
 
 The Soup framework includes a few pre-made flavors which you may find useful in your applications
@@ -113,6 +125,7 @@ The Soup framework includes a few pre-made flavors which you may find useful in 
 - <a href="Flavors/ILUnionSoup.h">ILUnionSoup</a> — Combines several soups into a single virutal store
     - ILUnionSoupDelegate — Delegate messages relating to the soup
 
+<a id="example"></a>
 ## Example: Address Book
 
 
@@ -160,6 +173,7 @@ The Soup framework includes a few pre-made flavors which you may find useful in 
 
 <a href="Examples/addresses/main.m">Example Code</a>
 
+<a id="license"></a>
 ## License
 
     The MIT License (MIT)
