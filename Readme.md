@@ -58,7 +58,7 @@ a union soup in the member soup which resides on your default store.
 
 
 <a id="whyyyy"></a>
-## Why Soup Now?
+## Why Soup?
 
 Soup was designed for dealing with storage on a mobile device where storage is transient.  This model is useful
 for modern mobile devcies, particlary when they move between offline and connected states due to network 
@@ -78,7 +78,7 @@ Soup has features which make it a pleasure to work with when building User inter
 
 ### Connected and Disconnected
 
-The ability to build union soups and for entreis to be adoped from one soup to another allows for the flexability to
+The ability to build union soups and for entries to be adoped from one soup to another allows for the flexability to
 have local, online, and peer soups which are merged into a single data source for an applicaiton to present to the user.
 
 
