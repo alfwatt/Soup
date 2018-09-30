@@ -7,14 +7,14 @@
 		<key>Soup.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 			<key>orderHint</key>
 			<integer>12</integer>
 		</dict>
 		<key>addresses.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 			<key>orderHint</key>
 			<integer>15</integer>
 		</dict>
