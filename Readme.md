@@ -115,7 +115,7 @@ The Soup framework consists of the following protocols:
 <a id="stock"></a>
 ## Soup Stock
 
-Stock in-memory implemenatilns of the Soup Protocols
+Stock in-memory implementations of the Soup Protocols
 
 - <a href="Stock/ILSoupStock.h">ILSoupStock</a> <a href="Stock/ILSoupStock.m">[.m]</a>
 - <a href="Stock/ILStockEntry.h">ILStockEntry</a> <a href="Stock/ILStockEntry.m">[.m]</a>
