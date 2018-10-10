@@ -131,7 +131,8 @@
 
 #pragma mark -
 
-/*  @brief delegate protocol for <ILSoup>  */
+/*  @brief delegate protocol for <ILSoup>
+    <a id="ILSoupDelegate"></a> */
 @protocol ILSoupDelegate
 @optional
 

@@ -9,7 +9,7 @@ static NSString* const ILNotes = @"notes";
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         // create a file/memory union soup
-        ILUnionSoup* soup = [ILUnionSoup new];
+        ILUnionSoup* soup = ILUnionSoup.new;
         ILMemorySoup* memory = [ILMemorySoup makeSoup:@"Address Book"];
         ILFileSoup* files = [ILFileSoup fileSoupAtPath:@"~/Desktop/AddressBook.soup"];
         [soup addSoup:files];
@@ -18,6 +18,7 @@ int main(int argc, const char * argv[]) {
         // setup memory soup
         memory.soupDescription = @"Address Book Example Soup";
         [memory createIndex:ILSoupEntryAncestorKey];
+        [memory createIndex:ILSoupEntryDataHash];
         [memory createDateIndex:ILSoupEntryCreationDate];
         [memory createDateIndex:ILSoupEntryMutationDate];
         [memory createTextIndex:ILName];
@@ -25,19 +26,19 @@ int main(int argc, const char * argv[]) {
         [memory createTextIndex:ILNotes];
         
         // add some entries to the union
-        [soup addEntry:[[memory createBlankEntry] mutatedEntry:@{
+        [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
             ILName:  @"iStumbler Labs",
             ILEmail: @"support@istumbler.net",
             ILURL:   [NSURL URLWithString:@"https://istumbler.net/labs"],
             ILPhone: @"415-449-0905"
         }]];
 
-        [soup addEntry:[[memory createBlankEntry] mutatedEntry:@{
+        [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
             ILName:  @"John Doe",
             ILEmail: @"j.doe@example.com"
         }]];
 
-        [soup addEntry:[[memory createBlankEntry] mutatedEntry:@{
+        [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
             ILName:  @"Jane Doe",
             ILEmail: @"jane.d@example.com"
         }]];
@@ -45,18 +46,18 @@ int main(int argc, const char * argv[]) {
         NSLog(@"%@", memory);
         [memory setupCursor];
         id<ILSoupEntry> entry = nil;
-        while ((entry = [[memory getCursor] nextEntry])) {
+        while ((entry = [memory.getCursor nextEntry])) {
             NSLog(@"entry: %@", entry);
         }
-        NSLog(@"memory cursor: %@", [memory getCursor]);
+        NSLog(@"memory cursor: %@", memory.getCursor);
         
         id<ILSoupCursor> does = [[memory queryTextIndex:ILName] entriesWithStringValueMatching:@".* Doe"];
-        while ((entry = [does nextEntry])) {
+        while ((entry = does.nextEntry)) {
             NSLog(@"doe %lu: %@", does.index, entry);
         }
         
         [files setupCursor];
-        id<ILSoupCursor> fileItems = [files getCursor];
+        id<ILSoupCursor> fileItems = files.getCursor;
         NSLog(@"file items: %@", fileItems);
         while ((entry = [fileItems nextEntry])) {
             NSLog(@"file %lu: %@", fileItems.index, entry);

@@ -17,12 +17,12 @@
 
 + (instancetype) queuedSoup:(id<ILSoup>) queuedSoup soupQueue:(NSOperationQueue*) soupOps
 {
-    ILQueuedSoup* soup = [ILQueuedSoup new];
+    ILQueuedSoup* soup = ILQueuedSoup.new;
     soup.queued = queuedSoup;
     soup.soupOperations = soupOps;
 
     if (soup.soupOperations) {
-        soup.soupOperations = [NSOperationQueue new];
+        soup.soupOperations = NSOperationQueue.new;
         soup.soupOperations.maxConcurrentOperationCount = 1;
     }
         

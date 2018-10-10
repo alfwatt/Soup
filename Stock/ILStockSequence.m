@@ -27,9 +27,9 @@
 
 + (instancetype) sequenceWithPath:(NSString*) sequencePath
 {
-    ILStockSequence* stockSequence = [ILStockSequence new];
+    ILStockSequence* stockSequence = ILStockSequence.new;
     stockSequence.sequencePathStorage = sequencePath;
-    stockSequence.sequenceStorage = [NSMutableDictionary new];
+    stockSequence.sequenceStorage = NSMutableDictionary.new;
 
     return stockSequence;
 }
@@ -45,7 +45,7 @@
 {
     id value = [entry.entryKeys valueForKeyPath:self.sequencePath];
     NSNumber* numberValue = nil;
-    if ([value isKindOfClass:[NSNumber class]]) {
+    if ([value isKindOfClass:NSNumber.class]) {
         numberValue = (NSNumber*) value;
     }
     else if ([value respondsToSelector:@selector(doubleValue)]) {
@@ -60,7 +60,7 @@
         
         NSMutableArray* sequence = self.sequenceStorage[entry.entryKeys[ILSoupEntryUUID]];
         if (!sequence) {
-            sequence = [NSMutableArray new];
+            sequence = NSMutableArray.new;
             self.sequenceStorage[entry.entryKeys[ILSoupEntryUUID]] = sequence;
         }
         
@@ -116,8 +116,7 @@
 
 - (NSString*) description
 {
-    return [NSString stringWithFormat:@"%@ %@ %lu entries",
-        self.className, self.sequencePath, self.sequenceStorage.allKeys.count];
+    return [NSString stringWithFormat:@"%@ %@ %lu entries", self.className, self.sequencePath, self.sequenceStorage.allKeys.count];
 }
 
 @end
@@ -136,7 +135,7 @@
 
 + (instancetype) sequencSourceWithTimes:(NSArray<NSDate*>*) seqenceTimes andValues:(NSArray<NSNumber*>*) sequenceValues;
 {
-    ILStockSequenceSource* stockSource = [ILStockSequenceSource new];
+    ILStockSequenceSource* stockSource = ILStockSequenceSource.new;
     stockSource.sequenceDates = seqenceTimes;
     stockSource.sequenceValues = sequenceValues;
     return stockSource;

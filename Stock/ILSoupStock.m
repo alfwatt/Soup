@@ -27,18 +27,18 @@
 
 + (id<ILSoup>)makeSoup:(NSString*)soupName
 {
-    return [[self alloc] initWithSoupName:soupName];
+    return [self.alloc initWithSoupName:soupName];
 }
 
 #pragma mark -
 
 - (instancetype) init
 {
-    if (self = [super init]) {
-        self.soupUUIDStorage = [[NSUUID UUID] UUIDString];
-        self.soupEntryStorage = [NSMutableDictionary new];
-        self.soupIndiciesStorage = [NSMutableDictionary new];
-        self.soupSequencesStorage = [NSMutableDictionary new];
+    if ((self = super.init)) {
+        self.soupUUIDStorage = NSUUID.UUID.UUIDString;
+        self.soupEntryStorage = NSMutableDictionary.new;
+        self.soupIndiciesStorage = NSMutableDictionary.new;
+        self.soupSequencesStorage = NSMutableDictionary.new;
     }
     
     return self;
@@ -46,7 +46,7 @@
 
 - (instancetype) initWithSoupName:(NSString*) soupName
 {
-    if (self = [self init]) {
+    if ((self = self.init)) {
         self.soupName = soupName;
     }
     
@@ -244,7 +244,7 @@
         self.soupCursor = [self querySoup:self.soupQuery];
     }
     else { // create a cursor with all the items
-        self.soupCursor = [[ILStockCursor alloc] initWithEntries:self.soupEntryStorage.allValues];
+        self.soupCursor = [ILStockCursor.alloc initWithEntries:self.soupEntryStorage.allValues];
     }
     
     return self.soupCursor;

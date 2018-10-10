@@ -99,7 +99,6 @@
 		754324B720AE39FF006EE620 /* ILQueuedSoup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILQueuedSoup.h; sourceTree = "<group>"; };
 		754324B820AE39FF006EE620 /* ILQueuedSoup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILQueuedSoup.m; sourceTree = "<group>"; };
 		7552D95321619968004FF8C8 /* config.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = config.yml; path = .circleci/config.yml; sourceTree = "<group>"; };
-		758A1A7E20886B6300122965 /* Reference */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Reference; sourceTree = "<group>"; };
 		75EA39BC1B20D6340058E49D /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -239,7 +238,6 @@
 				754323E720A2BF27006EE620 /* Flavors */,
 				754323E020A2BE49006EE620 /* Categories */,
 				7543242520A39B2A006EE620 /* Examples */,
-				758A1A7E20886B6300122965 /* Reference */,
 				7543240820A37902006EE620 /* Frameworks */,
 				7543240020A3786F006EE620 /* Products */,
 				7552D95221619949004FF8C8 /* Packaging */,

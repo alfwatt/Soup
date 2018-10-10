@@ -12,7 +12,8 @@
 
 #pragma mark -
 
-/* @brief delegate calbacks for deferred operations */
+/*  @brief delegate calbacks for deferred operations
+    <a id="ILSoupDelegate"></a> */
 @protocol ILQueuedSoupDelegate <ILSoupDelegate>
 
 @end

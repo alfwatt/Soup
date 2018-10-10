@@ -74,12 +74,24 @@ Soups clear, simple design makes it easy to understand and to quickly intergrate
 
 ### Optimized for Presentaion
 
-Soup has features which make it a pleasure to work with when building User interfaces
+Soup has features which make it a pleasure to work with when building User interfaces.
+
+Soup entires are immutable, but you can easily create copies with mutations and automaticallly
+maintain a hitory of edits, making undo operations easy to implement and preventing errors resulting
+from mutating objects as they are displayed.  
 
 ### Connected and Disconnected
 
 The ability to build union soups and for entries to be adoped from one soup to another allows for the flexability to
 have local, online, and peer soups which are merged into a single data source for an applicaiton to present to the user.
+
+
+<a id="support"></a>
+## Support Soup.framework!
+
+Are you using Soup.framework in your apps? Would you like to help support the project and get a sponsor credit?
+
+Visit the [iStumbler Labs Patreon Page](https://www.patreon.com/istumblerlabs) and patronize us in exchange for great rewards!
 
 
 <a id="protocols"></a>
@@ -88,16 +100,17 @@ have local, online, and peer soups which are merged into a single data source fo
 The Soup framework consists of the following protocols:
 
 - <a href="Protocols/ILSoup.h">ILSoup</a> — ILSoup is the peer of the newtSoup proto
-    - ILSoupDelegate — recieves messages when the soup performs operations or encouters errors
+    - <a href="Protocols/ILSoup.h#ILSoupDelegate">ILSoupDelegate</a> — recieves messages when the soup performs operations or encouters errors
 - <a href="Protocols/ILSoup.h">ILSoupEntry</a> — basic data storage unit in a soup
-    - ILMutableSoupEntry — allows for mutation of elements
+    - <a href="Protocols/ILSoup.h#ILMutableSoupEntry">ILMutableSoupEntry</a> — allows for mutation of elements
 - <a href="Protocols/ILSoup.h">ILSoupIndex</a> — fast access to soup entries by property index
-    - ILSoupCursor — index operations return cursors, which contain a list of entries
-    - ILSoupTextIndex — index which can be queried for text
-    - ILSoupDateIndex — index which can be queried for dates and ranges
-    - ILSoupNumberIndex — index which can be queried for numbers and ranges
-- <a href="Protocols/ILSoup.h">ILSoupSequence</a> — fast access to time sequence datat for numeric properties of entries
-    - ILSoupSequceSource — Impedence match with SparkKit
+    - <a href="Protocols/ILSoup.h#ILSoupCursor">ILSoupCursor</a> — index operations return cursors, which contain a list of entries
+    - <a href="Protocols/ILSoup.h#ILSoupTextIndex">ILSoupTextIndex</a> — index which can be queried for text
+    - <a href="Protocols/ILSoup.h#ILSoupDateIndex">ILSoupDateIndex</a> — index which can be queried for dates and ranges
+    - <a href="Protocols/ILSoup.h#ILSoupNumberIndex">ILSoupNumberIndex</a> — index which can be queried for numbers and ranges
+- <a href="Protocols/ILSoupSequence.h">ILSoupSequence</a> — fast access to time sequence datat for numeric properties of entries
+    - <a href="Protocols/ILSoupSequence.h#ILSoupSequceSource">ILSoupSequceSource</a> — Impedence match with SparkKit
+
 
 <a id="stock"></a>
 ## Soup Stock

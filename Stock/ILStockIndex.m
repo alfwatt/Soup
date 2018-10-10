@@ -15,9 +15,9 @@
 
 + (instancetype) indexWithPath:(NSString *)indexPath
 {
-    ILStockIndex* stockIndex = [self new];
+    ILStockIndex* stockIndex = self.new;
     stockIndex.indexPathStorage = indexPath;
-    stockIndex.indexStorage = [NSMutableDictionary new];
+    stockIndex.indexStorage = NSMutableDictionary.new;
 
     return stockIndex;
 }
@@ -37,7 +37,7 @@
     if (value) {
         NSMutableSet<id<ILSoupEntry>>* entrySet = self.indexStorage[value];
         if (!entrySet) {
-            entrySet = [NSMutableSet new];
+            entrySet = NSMutableSet.new;
             self.indexStorage[value] = entrySet;
         }
         
@@ -78,11 +78,11 @@
 
     if (value) {
         NSMutableSet<id<ILSoupEntry>>* entrySet = self.indexStorage[value];
-        cursor = [[ILStockCursor alloc] initWithEntries:entrySet.allObjects];
+        cursor = [ILStockCursor.alloc initWithEntries:entrySet.allObjects];
     }
     else {
         NSArray<id<ILSoupEntry>>* entryList = self.indexStorage.allValues;
-        cursor = [[ILStockCursor alloc] initWithEntries:entryList];
+        cursor = [ILStockCursor.alloc initWithEntries:entryList];
     }
     
     return cursor;
@@ -119,7 +119,7 @@
         }
     }
     
-    return [[ILStockCursor alloc] initWithEntries:matching.allObjects];
+    return [ILStockCursor.alloc initWithEntries:matching.allObjects];
 }
 
 @end
@@ -130,7 +130,7 @@
 
 - (id<ILSoupCursor>) entriesWithValuesBetween:(NSNumber*) min and:(NSNumber*) max
 {
-    NSMutableSet* matching = [NSMutableSet new];
+    NSMutableSet* matching = NSMutableSet.new;
 
     for (NSNumber* keyNumber in self.indexStorage.allKeys) {
         if ([keyNumber isGreaterThanOrEqualTo:min] && [keyNumber isLessThanOrEqualTo:max]) {
@@ -138,7 +138,7 @@
         }
     }
 
-    return [[ILStockCursor alloc] initWithEntries:matching.allObjects];
+    return [ILStockCursor.alloc initWithEntries:matching.allObjects];
 }
 
 @end
@@ -149,7 +149,7 @@
 
 - (id<ILSoupCursor>) entriesWithDatesBetween:(NSDate*) earliest and:(NSDate*) latest
 {
-    NSMutableSet* matching = [NSMutableSet new];
+    NSMutableSet* matching = NSMutableSet.new;
 
     for (NSDate* keyDate in self.indexStorage.allKeys) {
         if ([keyDate isGreaterThanOrEqualTo:earliest] && [keyDate isLessThanOrEqualTo:latest]) {
@@ -157,7 +157,7 @@
         }
     }
 
-    return [[ILStockCursor alloc] initWithEntries:matching.allObjects];
+    return [ILStockCursor.alloc initWithEntries:matching.allObjects];
 }
 
 @end
@@ -176,7 +176,7 @@
 
 - (instancetype) initWithEntries:(NSArray<id<ILSoupEntry>>*) entries
 {
-    if (self = [super init]) {
+    if ((self = super.init)) {
         self.entriesStorage = [NSArray arrayWithArray:entries]; // don't want someone sneaking in a mutable array here
         self.indexStorage = 0;
     }
@@ -237,7 +237,7 @@
 
 - (instancetype) initWithAliases:(NSArray<NSString*>*) aliases inSoup:(id<ILSoup>) sourceSoup
 {
-    if (self = [super init]) {
+    if ((self = super.init)) {
         self.aliasStorage = [NSArray arrayWithArray:aliases]; // no mutants
         self.indexStorage = 0;
         self.soupStorage = sourceSoup;

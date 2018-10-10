@@ -31,7 +31,8 @@
 
 #pragma mark -
 
-/* @biref manintain an index of items by an indexPath provided */
+/*  @brief manintain an index of items by an indexPath provided
+    <a id="ILSoupIndex"></a> */
 @protocol ILSoupIndex
 
 /* @biref this path used to fetch indexed properties from the items to build the index */
@@ -62,7 +63,8 @@
 
 #pragma mark -
 
-/* @brief only indexes values which are strings, can be searched with a regex  */
+/* @brief only indexes values which are strings, can be searched with a regex
+   <a id="ILSoupTextIndex"></a> */
 @protocol ILSoupTextIndex <ILSoupIndex>
 
 /* @brief a cursor with all items matching the regular expression pattern provided */
@@ -72,7 +74,8 @@
 
 #pragma mark -
 
-/* @brief only indexes values wich are numbers */
+/* @brief only indexes values wich are numbers
+   <a id="ILSoupNumberIndex"></a> */
 @protocol ILSoupNumberIndex <ILSoupIndex>
 
 /* @brief a cursor of items with values between the numbers provided */
@@ -82,7 +85,8 @@
 
 #pragma mark -
 
-/* @brief only indexes values which are dates */
+/* @brief only indexes values which are dates
+   <a id="ILSoupDateIndex"></a> */
 @protocol ILSoupDateIndex <ILSoupIndex>
 
 /* @brief a cursor of items with values between the dates provided */

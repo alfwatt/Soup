@@ -37,14 +37,14 @@
 
 + (ILFileSoup*) fileSoupAtPath:(NSString*) filePath
 {
-    return [[ILFileSoup alloc] initWithFilePath:filePath];
+    return [ILFileSoup.alloc initWithFilePath:filePath];
 }
 
 #pragma mark -
 
 - (instancetype) initWithFilePath:(NSString*) filePath;
 {
-    if (self = [super init]) {
+    if ((self = super.init)) {
         self.filePathStorage = filePath;
         self.soupName = filePath.lastPathComponent;
     }
@@ -80,7 +80,7 @@
 
 - (NSString*)addEntry:(id<ILSoupEntry>)entry
 {
-    NSMutableDictionary* jsonKeys = [NSMutableDictionary new];
+    NSMutableDictionary* jsonKeys = NSMutableDictionary.new;
     
     for (NSString* key in entry.entryKeys.allKeys) {
         id value = entry.entryKeys[key];
@@ -102,7 +102,7 @@
         }
 */
 #elif TARGET_OS_IPHONE || TARGET_OS_TV
-        else if ([value isKindOfClass:[UIImage class]]) { // write into a file in the container
+        else if ([value isKindOfClass:UIImage.class]) { // write into a file in the container
             
         }
 #endif
@@ -113,7 +113,7 @@
 
     NSString* entryPath = [[self pathForEntryHash:entry.entryHash] stringByAppendingPathComponent:@"entry.json"];
     NSString* entriesDir = [entryPath stringByDeletingLastPathComponent];
-    [[NSFileManager defaultManager] createDirectoryAtPath:entriesDir withIntermediateDirectories:YES attributes:nil error:nil];
+    [NSFileManager.defaultManager createDirectoryAtPath:entriesDir withIntermediateDirectories:YES attributes:nil error:nil];
     NSOutputStream* fileStream = [NSOutputStream outputStreamToFileAtPath:entryPath append:NO];
     [fileStream open];
     [NSJSONSerialization writeJSONObject:jsonKeys toStream:fileStream options:(NSJSONWritingPrettyPrinted) error:nil];
