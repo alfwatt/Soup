@@ -3,15 +3,15 @@
 
 #pragma mark -
 
-@protocol ILSoupEntry;
+@protocol ILSoupEntry;          /* ILSoupEntry.h */
 @protocol ILMutableSoupEntry;
-@protocol ILSoupIndex;
+@protocol ILSoupIndex;          /* ILSoupIndex.h */
 @protocol ILSoupTextIndex;
 @protocol ILSoupNumberIndex;
 @protocol ILSoupDateIndex;
 @protocol ILSoupCursor;
-@protocol ILSoupDelegate;
-@protocol ILSoupSequence;
+@protocol ILSoupSequence;       /* ILSoupSequence.h */
+@protocol ILSoupDelegate;       /* ILSoup.h */
 
 #pragma mark -
 

@@ -26,7 +26,7 @@ NSString* ILSoupEntryDataHash = @"dataHash";
 - (instancetype) initWithKeys:(NSDictionary*) entryKeys
 {
     if ((self = super.init)) {
-        NSMutableDictionary* newEntryKeys = [NSMutableDictionary dictionaryWithDictionary:entryKeys];
+        NSMutableDictionary* newEntryKeys = (entryKeys ? entryKeys.mutableCopy : NSMutableDictionary.new);
         if (![newEntryKeys.allKeys containsObject:ILSoupEntryUUID]) { // create a new UUID for the entry
             newEntryKeys[ILSoupEntryUUID] = NSUUID.UUID.UUIDString;
         }
@@ -35,7 +35,7 @@ NSString* ILSoupEntryDataHash = @"dataHash";
             newEntryKeys[ILSoupEntryCreationDate] = NSDate.date;
         }
         
-        NSMutableDictionary* entryDataKeys = newEntryKeys.copy;
+        NSMutableDictionary* entryDataKeys = newEntryKeys.mutableCopy;
         for (NSString* soupKey in @[ILSoupEntryUUID, ILSoupEntryCreationDate,
             ILSoupEntryDataHash, ILSoupEntryAncestorKey, ILSoupEntryMutationDate]) {
             [entryDataKeys removeObjectForKey:soupKey];
@@ -48,6 +48,10 @@ NSString* ILSoupEntryDataHash = @"dataHash";
     return self;
 }
 
+- (instancetype) init
+{
+    return [self initWithKeys:@{}];
+}
 
 #pragma mark - ILSoupEntry
 
@@ -74,14 +78,14 @@ NSString* ILSoupEntryMutationDate = @"mutated";
 
 - (id<ILSoupEntry>) mutatedEntry:(NSString*) mutatedKey newValue:(id) value
 {
-    NSMutableDictionary* mutatedKeys = [self.entryKeysStorage mutableCopy];
+    NSMutableDictionary* mutatedKeys = self.entryKeysStorage.mutableCopy;
     mutatedKeys[mutatedKey] = value;
     return [ILStockEntry soupEntryFromKeys:mutatedKeys];
 }
 
 - (id<ILSoupEntry>) mutatedEntry:(NSDictionary*) mutatedValues
 {
-    NSMutableDictionary* mutatedKeys = [self.entryKeysStorage mutableCopy];
+    NSMutableDictionary* mutatedKeys = (self.entryKeysStorage ? self.entryKeysStorage.mutableCopy : NSMutableDictionary.new);
     for (id key in mutatedValues.allKeys) {
         mutatedKeys[key] = mutatedValues[key];
     }
@@ -101,7 +105,7 @@ NSString* ILSoupEntryMutationDate = @"mutated";
 
 - (NSString*) description
 {
-    return [NSString stringWithFormat:@"%@ %@ %@", self.className, self.entryHash, self.entryKeys];
+    return [NSString stringWithFormat:@"%@ %@ %@", self.class, self.entryHash, self.entryKeys];
 }
 
 @end

@@ -39,6 +39,66 @@
 		7543244520A8B289006EE620 /* ILSynchedSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543244320A8B289006EE620 /* ILSynchedSoup.m */; };
 		754324B920AE39FF006EE620 /* ILQueuedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754324B720AE39FF006EE620 /* ILQueuedSoup.h */; };
 		754324BA20AE39FF006EE620 /* ILQueuedSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754324B820AE39FF006EE620 /* ILQueuedSoup.m */; };
+		7580B785218188FE00D1E62F /* ILMemorySoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323EC20A2C055006EE620 /* ILMemorySoup.m */; };
+		7580B786218188FE00D1E62F /* ILFileSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323EE20A2C0B7006EE620 /* ILFileSoup.m */; };
+		7580B787218188FE00D1E62F /* ILSoupStock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543242220A384C9006EE620 /* ILSoupStock.m */; };
+		7580B788218188FE00D1E62F /* ILStockIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243B20A3A2E4006EE620 /* ILStockIndex.m */; };
+		7580B789218188FE00D1E62F /* ILUnionSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323F720A373F3006EE620 /* ILUnionSoup.m */; };
+		7580B78A218188FE00D1E62F /* NSData+Hashcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323E220A2BEBB006EE620 /* NSData+Hashcodes.m */; };
+		7580B78B218188FE00D1E62F /* ILStockEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243620A3A153006EE620 /* ILStockEntry.m */; };
+		7580B78C218188FE00D1E62F /* ILStockSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243F20A3A312006EE620 /* ILStockSequence.m */; };
+		7580B78D218188FE00D1E62F /* ILSynchedSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543244320A8B289006EE620 /* ILSynchedSoup.m */; };
+		7580B78E218188FE00D1E62F /* NSString+Hashcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323E420A2BEBB006EE620 /* NSString+Hashcodes.m */; };
+		7580B78F218188FE00D1E62F /* ILQueuedSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754324B820AE39FF006EE620 /* ILQueuedSoup.m */; };
+		7580B790218188FE00D1E62F /* NSDictionary+Hashcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323F920A3749D006EE620 /* NSDictionary+Hashcodes.m */; };
+		7580B792218188FE00D1E62F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7543240920A37902006EE620 /* Foundation.framework */; };
+		7580B794218188FE00D1E62F /* Soup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543240220A37870006EE620 /* Soup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B795218188FE00D1E62F /* ILSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E820A2BF56006EE620 /* ILSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B796218188FE00D1E62F /* ILSoupEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F320A2C3D0006EE620 /* ILSoupEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B797218188FE00D1E62F /* ILSoupIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F420A2C77B006EE620 /* ILSoupIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B798218188FE00D1E62F /* ILSynchedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543244220A8B289006EE620 /* ILSynchedSoup.h */; };
+		7580B799218188FE00D1E62F /* ILSoupSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F520A2C7E5006EE620 /* ILSoupSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B79A218188FE00D1E62F /* ILSoupStock.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543242120A384C9006EE620 /* ILSoupStock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B79B218188FE00D1E62F /* ILStockEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243520A3A153006EE620 /* ILStockEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B79C218188FE00D1E62F /* ILStockIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243A20A3A2E4006EE620 /* ILStockIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B79D218188FE00D1E62F /* ILStockSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243E20A3A312006EE620 /* ILStockSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B79E218188FE00D1E62F /* ILMemorySoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323EB20A2C055006EE620 /* ILMemorySoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B79F218188FE00D1E62F /* ILFileSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323ED20A2C0B7006EE620 /* ILFileSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B7A0218188FE00D1E62F /* ILUnionSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F620A373F3006EE620 /* ILUnionSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B7A1218188FE00D1E62F /* NSData+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E120A2BEBB006EE620 /* NSData+Hashcodes.h */; };
+		7580B7A2218188FE00D1E62F /* NSString+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E320A2BEBB006EE620 /* NSString+Hashcodes.h */; };
+		7580B7A3218188FE00D1E62F /* NSDictionary+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F820A3749D006EE620 /* NSDictionary+Hashcodes.h */; };
+		7580B7A4218188FE00D1E62F /* ILQueuedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754324B720AE39FF006EE620 /* ILQueuedSoup.h */; };
+		758880D121862FCA00488CE1 /* ILMemorySoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323EC20A2C055006EE620 /* ILMemorySoup.m */; };
+		758880D221862FCA00488CE1 /* ILFileSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323EE20A2C0B7006EE620 /* ILFileSoup.m */; };
+		758880D321862FCA00488CE1 /* ILSoupStock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543242220A384C9006EE620 /* ILSoupStock.m */; };
+		758880D421862FCA00488CE1 /* ILStockIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243B20A3A2E4006EE620 /* ILStockIndex.m */; };
+		758880D521862FCA00488CE1 /* ILUnionSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323F720A373F3006EE620 /* ILUnionSoup.m */; };
+		758880D621862FCA00488CE1 /* NSData+Hashcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323E220A2BEBB006EE620 /* NSData+Hashcodes.m */; };
+		758880D721862FCA00488CE1 /* ILStockEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243620A3A153006EE620 /* ILStockEntry.m */; };
+		758880D821862FCA00488CE1 /* ILStockSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243F20A3A312006EE620 /* ILStockSequence.m */; };
+		758880D921862FCA00488CE1 /* ILSynchedSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543244320A8B289006EE620 /* ILSynchedSoup.m */; };
+		758880DA21862FCA00488CE1 /* NSString+Hashcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323E420A2BEBB006EE620 /* NSString+Hashcodes.m */; };
+		758880DB21862FCA00488CE1 /* ILQueuedSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754324B820AE39FF006EE620 /* ILQueuedSoup.m */; };
+		758880DC21862FCA00488CE1 /* NSDictionary+Hashcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323F920A3749D006EE620 /* NSDictionary+Hashcodes.m */; };
+		758880DE21862FCA00488CE1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7543240920A37902006EE620 /* Foundation.framework */; };
+		758880E021862FCA00488CE1 /* Soup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543240220A37870006EE620 /* Soup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880E121862FCA00488CE1 /* ILSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E820A2BF56006EE620 /* ILSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880E221862FCA00488CE1 /* ILSoupEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F320A2C3D0006EE620 /* ILSoupEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880E321862FCA00488CE1 /* ILSoupIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F420A2C77B006EE620 /* ILSoupIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880E421862FCA00488CE1 /* ILSynchedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543244220A8B289006EE620 /* ILSynchedSoup.h */; };
+		758880E521862FCA00488CE1 /* ILSoupSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F520A2C7E5006EE620 /* ILSoupSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880E621862FCA00488CE1 /* ILSoupStock.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543242120A384C9006EE620 /* ILSoupStock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880E721862FCA00488CE1 /* ILStockEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243520A3A153006EE620 /* ILStockEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880E821862FCA00488CE1 /* ILStockIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243A20A3A2E4006EE620 /* ILStockIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880E921862FCA00488CE1 /* ILStockSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243E20A3A312006EE620 /* ILStockSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880EA21862FCA00488CE1 /* ILMemorySoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323EB20A2C055006EE620 /* ILMemorySoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880EB21862FCA00488CE1 /* ILFileSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323ED20A2C0B7006EE620 /* ILFileSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880EC21862FCA00488CE1 /* ILUnionSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F620A373F3006EE620 /* ILUnionSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880ED21862FCA00488CE1 /* NSData+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E120A2BEBB006EE620 /* NSData+Hashcodes.h */; };
+		758880EE21862FCA00488CE1 /* NSString+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E320A2BEBB006EE620 /* NSString+Hashcodes.h */; };
+		758880EF21862FCA00488CE1 /* NSDictionary+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F820A3749D006EE620 /* NSDictionary+Hashcodes.h */; };
+		758880F021862FCA00488CE1 /* ILQueuedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754324B720AE39FF006EE620 /* ILQueuedSoup.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +159,8 @@
 		754324B720AE39FF006EE620 /* ILQueuedSoup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILQueuedSoup.h; sourceTree = "<group>"; };
 		754324B820AE39FF006EE620 /* ILQueuedSoup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILQueuedSoup.m; sourceTree = "<group>"; };
 		7552D95321619968004FF8C8 /* config.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = config.yml; path = .circleci/config.yml; sourceTree = "<group>"; };
+		7580B7A9218188FE00D1E62F /* Soup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Soup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		758880F521862FCA00488CE1 /* Soup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Soup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75EA39BC1B20D6340058E49D /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -116,6 +178,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				7543243320A39B8B006EE620 /* Soup.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7580B791218188FE00D1E62F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7580B792218188FE00D1E62F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		758880DD21862FCA00488CE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				758880DE21862FCA00488CE1 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,6 +246,8 @@
 			children = (
 				754323FF20A3786F006EE620 /* Soup.framework */,
 				7543242A20A39B5B006EE620 /* addresses */,
+				7580B7A9218188FE00D1E62F /* Soup.framework */,
+				758880F521862FCA00488CE1 /* Soup.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -271,12 +351,60 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7580B793218188FE00D1E62F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7580B794218188FE00D1E62F /* Soup.h in Headers */,
+				7580B795218188FE00D1E62F /* ILSoup.h in Headers */,
+				7580B796218188FE00D1E62F /* ILSoupEntry.h in Headers */,
+				7580B797218188FE00D1E62F /* ILSoupIndex.h in Headers */,
+				7580B798218188FE00D1E62F /* ILSynchedSoup.h in Headers */,
+				7580B799218188FE00D1E62F /* ILSoupSequence.h in Headers */,
+				7580B79A218188FE00D1E62F /* ILSoupStock.h in Headers */,
+				7580B79B218188FE00D1E62F /* ILStockEntry.h in Headers */,
+				7580B79C218188FE00D1E62F /* ILStockIndex.h in Headers */,
+				7580B79D218188FE00D1E62F /* ILStockSequence.h in Headers */,
+				7580B79E218188FE00D1E62F /* ILMemorySoup.h in Headers */,
+				7580B79F218188FE00D1E62F /* ILFileSoup.h in Headers */,
+				7580B7A0218188FE00D1E62F /* ILUnionSoup.h in Headers */,
+				7580B7A1218188FE00D1E62F /* NSData+Hashcodes.h in Headers */,
+				7580B7A2218188FE00D1E62F /* NSString+Hashcodes.h in Headers */,
+				7580B7A3218188FE00D1E62F /* NSDictionary+Hashcodes.h in Headers */,
+				7580B7A4218188FE00D1E62F /* ILQueuedSoup.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		758880DF21862FCA00488CE1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				758880E021862FCA00488CE1 /* Soup.h in Headers */,
+				758880E121862FCA00488CE1 /* ILSoup.h in Headers */,
+				758880E221862FCA00488CE1 /* ILSoupEntry.h in Headers */,
+				758880E321862FCA00488CE1 /* ILSoupIndex.h in Headers */,
+				758880E421862FCA00488CE1 /* ILSynchedSoup.h in Headers */,
+				758880E521862FCA00488CE1 /* ILSoupSequence.h in Headers */,
+				758880E621862FCA00488CE1 /* ILSoupStock.h in Headers */,
+				758880E721862FCA00488CE1 /* ILStockEntry.h in Headers */,
+				758880E821862FCA00488CE1 /* ILStockIndex.h in Headers */,
+				758880E921862FCA00488CE1 /* ILStockSequence.h in Headers */,
+				758880EA21862FCA00488CE1 /* ILMemorySoup.h in Headers */,
+				758880EB21862FCA00488CE1 /* ILFileSoup.h in Headers */,
+				758880EC21862FCA00488CE1 /* ILUnionSoup.h in Headers */,
+				758880ED21862FCA00488CE1 /* NSData+Hashcodes.h in Headers */,
+				758880EE21862FCA00488CE1 /* NSString+Hashcodes.h in Headers */,
+				758880EF21862FCA00488CE1 /* NSDictionary+Hashcodes.h in Headers */,
+				758880F021862FCA00488CE1 /* ILQueuedSoup.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		754323FE20A3786F006EE620 /* Soup */ = {
+		754323FE20A3786F006EE620 /* Soup (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7543240520A37870006EE620 /* Build configuration list for PBXNativeTarget "Soup" */;
+			buildConfigurationList = 7543240520A37870006EE620 /* Build configuration list for PBXNativeTarget "Soup (macOS)" */;
 			buildPhases = (
 				754323FA20A3786F006EE620 /* Sources */,
 				754323FB20A3786F006EE620 /* Frameworks */,
@@ -287,7 +415,7 @@
 			);
 			dependencies = (
 			);
-			name = Soup;
+			name = "Soup (macOS)";
 			productName = Soup;
 			productReference = 754323FF20A3786F006EE620 /* Soup.framework */;
 			productType = "com.apple.product-type.framework";
@@ -310,6 +438,42 @@
 			productReference = 7543242A20A39B5B006EE620 /* addresses */;
 			productType = "com.apple.product-type.tool";
 		};
+		7580B783218188FE00D1E62F /* Soup (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7580B7A6218188FE00D1E62F /* Build configuration list for PBXNativeTarget "Soup (iOS)" */;
+			buildPhases = (
+				7580B784218188FE00D1E62F /* Sources */,
+				7580B791218188FE00D1E62F /* Frameworks */,
+				7580B793218188FE00D1E62F /* Headers */,
+				7580B7A5218188FE00D1E62F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Soup (iOS)";
+			productName = Soup;
+			productReference = 7580B7A9218188FE00D1E62F /* Soup.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		758880CF21862FCA00488CE1 /* Soup (tvOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 758880F221862FCA00488CE1 /* Build configuration list for PBXNativeTarget "Soup (tvOS)" */;
+			buildPhases = (
+				758880D021862FCA00488CE1 /* Sources */,
+				758880DD21862FCA00488CE1 /* Frameworks */,
+				758880DF21862FCA00488CE1 /* Headers */,
+				758880F121862FCA00488CE1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Soup (tvOS)";
+			productName = Soup;
+			productReference = 758880F521862FCA00488CE1 /* Soup.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -327,6 +491,12 @@
 						DevelopmentTeam = E8G8ARB44Z;
 						ProvisioningStyle = Automatic;
 					};
+					7580B783218188FE00D1E62F = {
+						ProvisioningStyle = Manual;
+					};
+					758880CF21862FCA00488CE1 = {
+						ProvisioningStyle = Manual;
+					};
 				};
 			};
 			buildConfigurationList = 75EA39B91B20D5A00058E49D /* Build configuration list for PBXProject "Soup" */;
@@ -341,7 +511,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				754323FE20A3786F006EE620 /* Soup */,
+				7580B783218188FE00D1E62F /* Soup (iOS) */,
+				758880CF21862FCA00488CE1 /* Soup (tvOS) */,
+				754323FE20A3786F006EE620 /* Soup (macOS) */,
 				7543242920A39B5B006EE620 /* addresses */,
 			);
 		};
@@ -349,6 +521,20 @@
 
 /* Begin PBXResourcesBuildPhase section */
 		754323FD20A3786F006EE620 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7580B7A5218188FE00D1E62F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		758880F121862FCA00488CE1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -385,12 +571,50 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7580B784218188FE00D1E62F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7580B785218188FE00D1E62F /* ILMemorySoup.m in Sources */,
+				7580B786218188FE00D1E62F /* ILFileSoup.m in Sources */,
+				7580B787218188FE00D1E62F /* ILSoupStock.m in Sources */,
+				7580B788218188FE00D1E62F /* ILStockIndex.m in Sources */,
+				7580B789218188FE00D1E62F /* ILUnionSoup.m in Sources */,
+				7580B78A218188FE00D1E62F /* NSData+Hashcodes.m in Sources */,
+				7580B78B218188FE00D1E62F /* ILStockEntry.m in Sources */,
+				7580B78C218188FE00D1E62F /* ILStockSequence.m in Sources */,
+				7580B78D218188FE00D1E62F /* ILSynchedSoup.m in Sources */,
+				7580B78E218188FE00D1E62F /* NSString+Hashcodes.m in Sources */,
+				7580B78F218188FE00D1E62F /* ILQueuedSoup.m in Sources */,
+				7580B790218188FE00D1E62F /* NSDictionary+Hashcodes.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		758880D021862FCA00488CE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				758880D121862FCA00488CE1 /* ILMemorySoup.m in Sources */,
+				758880D221862FCA00488CE1 /* ILFileSoup.m in Sources */,
+				758880D321862FCA00488CE1 /* ILSoupStock.m in Sources */,
+				758880D421862FCA00488CE1 /* ILStockIndex.m in Sources */,
+				758880D521862FCA00488CE1 /* ILUnionSoup.m in Sources */,
+				758880D621862FCA00488CE1 /* NSData+Hashcodes.m in Sources */,
+				758880D721862FCA00488CE1 /* ILStockEntry.m in Sources */,
+				758880D821862FCA00488CE1 /* ILStockSequence.m in Sources */,
+				758880D921862FCA00488CE1 /* ILSynchedSoup.m in Sources */,
+				758880DA21862FCA00488CE1 /* NSString+Hashcodes.m in Sources */,
+				758880DB21862FCA00488CE1 /* ILQueuedSoup.m in Sources */,
+				758880DC21862FCA00488CE1 /* NSDictionary+Hashcodes.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		7543243220A39B85006EE620 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 754323FE20A3786F006EE620 /* Soup */;
+			target = 754323FE20A3786F006EE620 /* Soup (macOS) */;
 			targetProxy = 7543243120A39B85006EE620 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -459,11 +683,10 @@
 				INFOPLIST_FILE = Soup/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = net.istumbler.labs.Soup;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = net.istumbler.labs.soup;
+				PRODUCT_NAME = Soup;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -529,10 +752,9 @@
 				INFOPLIST_FILE = Soup/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = net.istumbler.labs.Soup;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = net.istumbler.labs.soup;
+				PRODUCT_NAME = Soup;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -656,22 +878,316 @@
 			};
 			name = Release;
 		};
+		7580B7A7218188FE00D1E62F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Soup/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = net.istumbler.labs.soup;
+				PRODUCT_NAME = Soup;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		7580B7A8218188FE00D1E62F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Soup/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = net.istumbler.labs.soup;
+				PRODUCT_NAME = Soup;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		758880F321862FCA00488CE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Soup/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = net.istumbler.labs.soup;
+				PRODUCT_NAME = Soup;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		758880F421862FCA00488CE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Soup/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = net.istumbler.labs.soup;
+				PRODUCT_NAME = Soup;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		75EA39BA1B20D5A00058E49D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Debug;
 		};
 		75EA39BB1B20D5A00058E49D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7543240520A37870006EE620 /* Build configuration list for PBXNativeTarget "Soup" */ = {
+		7543240520A37870006EE620 /* Build configuration list for PBXNativeTarget "Soup (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7543240620A37870006EE620 /* Debug */,
@@ -685,6 +1201,24 @@
 			buildConfigurations = (
 				7543242F20A39B5C006EE620 /* Debug */,
 				7543243020A39B5C006EE620 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7580B7A6218188FE00D1E62F /* Build configuration list for PBXNativeTarget "Soup (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7580B7A7218188FE00D1E62F /* Debug */,
+				7580B7A8218188FE00D1E62F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		758880F221862FCA00488CE1 /* Build configuration list for PBXNativeTarget "Soup (tvOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				758880F321862FCA00488CE1 /* Debug */,
+				758880F421862FCA00488CE1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

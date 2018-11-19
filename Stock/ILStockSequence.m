@@ -116,7 +116,7 @@
 
 - (NSString*) description
 {
-    return [NSString stringWithFormat:@"%@ %@ %lu entries", self.className, self.sequencePath, self.sequenceStorage.allKeys.count];
+    return [NSString stringWithFormat:@"%@ %@ %lu entries", self.class, self.sequencePath, self.sequenceStorage.allKeys.count];
 }
 
 @end

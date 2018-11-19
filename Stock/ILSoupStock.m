@@ -74,7 +74,7 @@
 
 - (NSString*)addEntry:(id<ILSoupEntry>)entry
 {
-    self.soupEntryStorage[entry.entryHash] = entry;
+    [self.soupEntryStorage setObject:entry forKey:entry.entryHash]; // [entry.entryHash] = entry;
 
     [self indexEntry:entry];
     [self sequenceEntry:entry];
@@ -88,7 +88,7 @@
 
 - (id<ILSoupEntry>)duplicateEntry:(id<ILSoupEntry>)entry
 {
-    NSMutableDictionary* duplicateKeys = [entry.entryKeys mutableCopy];
+    NSMutableDictionary* duplicateKeys = entry.entryKeys.mutableCopy;
     [duplicateKeys removeObjectForKey:ILSoupEntryUUID];
     id<ILSoupEntry> duplicate = [ILStockEntry soupEntryFromKeys:duplicateKeys];
 
@@ -198,7 +198,8 @@
     return self.soupIndiciesStorage[indexPath];
 }
 
-- (id<ILSoupTextIndex>)createTextIndex:(NSString *)indexPath {
+- (id<ILSoupTextIndex>)createTextIndex:(NSString *)indexPath
+{
     ILStockTextIndex* stockIndex = [ILStockTextIndex indexWithPath:indexPath];
     [self loadIndex:indexPath index:stockIndex];
     return stockIndex;
@@ -220,7 +221,8 @@
     return (id<ILSoupTextIndex>)self.soupIndiciesStorage[indexPath];
 }
 
-- (id<ILSoupNumberIndex>)createNumberIndex:(NSString *)indexPath {
+- (id<ILSoupNumberIndex>)createNumberIndex:(NSString *)indexPath
+{
     ILStockNumberIndex* stockIndex = [ILStockNumberIndex indexWithPath:indexPath];
     [self loadIndex:indexPath index:stockIndex];
     return stockIndex;
@@ -290,7 +292,7 @@
 - (NSString*) description
 {
     return [NSString stringWithFormat:@"%@: \"%@\" %@ %@ %lu entries\nindicies:\n%@\nsequences:\n%@",
-            self.className, self.soupName, self.soupDescription, self.soupUUID, self.soupEntryStorage.allKeys.count,
+            self.class, self.soupName, self.soupDescription, self.soupUUID, self.soupEntryStorage.allKeys.count,
             self.soupIndicies, self.soupSequences];
 }
 

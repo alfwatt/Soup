@@ -198,7 +198,7 @@
 - (NSString*) description
 {
     return [NSString stringWithFormat:@"%@: \"%@\" %@ %@ %@\nindicies:\n%@\nsequences:\n%@",
-            self.className, self.soupName, self.soupDescription, self.soupUUID, self.filePath,
+            self.class, self.soupName, self.soupDescription, self.soupUUID, self.filePath,
             self.soupIndicies, self.soupSequences];
 }
 

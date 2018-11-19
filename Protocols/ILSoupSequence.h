@@ -1,6 +1,8 @@
 #ifndef ILSoupSequence_h
 #define ILSoupSequence_h
 
+@import CoreGraphics;
+
 #pragma mark -
 
 @protocol ILSoupEntry;

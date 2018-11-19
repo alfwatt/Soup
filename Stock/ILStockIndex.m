@@ -72,6 +72,11 @@
     return included;
 }
 
+- (id<ILSoupCursor>) allEntries
+{
+    return [self entriesWithValue:nil];
+}
+
 - (id<ILSoupCursor>) entriesWithValue:(id) value
 {
     ILStockCursor* cursor = nil;
@@ -92,7 +97,7 @@
 
 - (NSString*) description
 {
-    return [NSString stringWithFormat:@"%@ %@ %lu entries", self.className, self.indexPath, self.indexStorage.allKeys.count];
+    return [NSString stringWithFormat:@"%@ %@ %lu entries", self.class, self.indexPath, self.indexStorage.allKeys.count];
 }
 
 @end
@@ -133,7 +138,7 @@
     NSMutableSet* matching = NSMutableSet.new;
 
     for (NSNumber* keyNumber in self.indexStorage.allKeys) {
-        if ([keyNumber isGreaterThanOrEqualTo:min] && [keyNumber isLessThanOrEqualTo:max]) {
+        if ((keyNumber.doubleValue >= min.doubleValue) && (keyNumber.doubleValue <= max.doubleValue)) {
             [matching addObjectsFromArray:self.indexStorage[keyNumber]];
         }
     }
@@ -152,7 +157,7 @@
     NSMutableSet* matching = NSMutableSet.new;
 
     for (NSDate* keyDate in self.indexStorage.allKeys) {
-        if ([keyDate isGreaterThanOrEqualTo:earliest] && [keyDate isLessThanOrEqualTo:latest]) {
+        if ((keyDate.timeIntervalSince1970 >= earliest.timeIntervalSince1970) && (keyDate.timeIntervalSince1970 <= latest.timeIntervalSince1970)) {
             [matching addObjectsFromArray:self.indexStorage[keyDate]];
         }
     }
@@ -218,7 +223,7 @@
 
 - (NSString*) description
 {
-    return [NSString stringWithFormat:@"%@ %lu items, index %lu", self.className, self.entries.count, self.index];
+    return [NSString stringWithFormat:@"%@ %lu items, index %lu", self.class, self.entries.count, self.index];
 }
 
 @end
@@ -244,6 +249,11 @@
     }
     
     return self;
+}
+
+- (instancetype)initWithEntries:(NSArray<id<ILSoupEntry>> *)entries
+{
+    return nil;
 }
 
 #pragma mark - Properties
@@ -276,16 +286,11 @@
 - (id<ILSoupEntry>) nextEntry
 {
     id<ILSoupEntry> nextEntry = nil;
-    NSString* nextAlias = [self nextAlias];
+    NSString* nextAlias = self.nextAlias;
     if (nextAlias) {
         nextEntry = [self.soupStorage gotoAlias:nextAlias];
     }
     return nextEntry;
-}
-
-- (instancetype)initWithEntries:(NSArray<id<ILSoupEntry>> *)entries
-{
-    return nil;
 }
 
 - (void) resetCursor

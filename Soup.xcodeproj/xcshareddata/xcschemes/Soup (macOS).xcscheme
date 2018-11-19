@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "754323FE20A3786F006EE620"
                BuildableName = "Soup.framework"
-               BlueprintName = "Soup"
+               BlueprintName = "Soup (macOS)"
                ReferencedContainer = "container:Soup.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,7 +47,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "754323FE20A3786F006EE620"
             BuildableName = "Soup.framework"
-            BlueprintName = "Soup"
+            BlueprintName = "Soup (macOS)"
             ReferencedContainer = "container:Soup.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -65,7 +65,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "754323FE20A3786F006EE620"
             BuildableName = "Soup.framework"
-            BlueprintName = "Soup"
+            BlueprintName = "Soup (macOS)"
             ReferencedContainer = "container:Soup.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

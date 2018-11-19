@@ -7,24 +7,24 @@
 
 #pragma mark -
 
-/* @biref result set for a particular query executed against the  */
+/* @brief result set for a particular query executed against the index */
 @protocol ILSoupCursor
 
 /* @brief the array of entries in this cursor */
 @property(readonly) NSArray<id<ILSoupEntry>>* entries;
 
-/* @biref the current index of the cursor */
+/* @brief the current index of the cursor */
 @property(readonly) NSUInteger index;
 
 #pragma mark -
 
-/* @biref create a cursor with the entries provided */
+/* @brief create a cursor with the entries provided */
 - (instancetype) initWithEntries:(NSArray<id<ILSoupEntry>>*) entries;
 
 /* @brief get the next entry in the cursor, and advance the index */
 - (id<ILSoupEntry>) nextEntry;
 
-/* @biref reset the cursor index to 0 */
+/* @brief reset the cursor index to 0 */
 - (void) resetCursor;
 
 @end
@@ -35,7 +35,7 @@
     <a id="ILSoupIndex"></a> */
 @protocol ILSoupIndex
 
-/* @biref this path used to fetch indexed properties from the items to build the index */
+/* @brief this path used to fetch indexed properties from the items to build the index */
 @property(readonly) NSString* indexPath;
 
 #pragma mark -
@@ -55,6 +55,9 @@
 - (BOOL) includesEntry:(id<ILSoupEntry>) entry;
 
 #pragma mark - Cursors
+
+/* @brief a cursor with all the entries currently in the index */
+- (id<ILSoupCursor>) allEntries;
 
 /* @brief a cursor with all items having the provided value in the index */
 - (id<ILSoupCursor>) entriesWithValue:(id) value;
