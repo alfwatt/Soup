@@ -6,6 +6,22 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		7507526F21A9F2AF00DA776A /* All Variants */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 7507527221A9F2AF00DA776A /* Build configuration list for PBXAggregateTarget "All Variants" */;
+			buildPhases = (
+			);
+			dependencies = (
+				7507527421A9F2BA00DA776A /* PBXTargetDependency */,
+				7507527621A9F2BA00DA776A /* PBXTargetDependency */,
+				7507527821A9F2BA00DA776A /* PBXTargetDependency */,
+			);
+			name = "All Variants";
+			productName = "All Variants";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		7543240420A37870006EE620 /* Soup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543240220A37870006EE620 /* Soup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7543240A20A37902006EE620 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7543240920A37902006EE620 /* Foundation.framework */; };
@@ -16,9 +32,9 @@
 		7543240F20A3792B006EE620 /* ILMemorySoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323EB20A2C055006EE620 /* ILMemorySoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7543241020A3792B006EE620 /* ILFileSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323ED20A2C0B7006EE620 /* ILFileSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7543241320A3792B006EE620 /* ILUnionSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F620A373F3006EE620 /* ILUnionSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7543241420A37938006EE620 /* NSData+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E120A2BEBB006EE620 /* NSData+Hashcodes.h */; };
-		7543241520A37938006EE620 /* NSString+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E320A2BEBB006EE620 /* NSString+Hashcodes.h */; };
-		7543241620A37938006EE620 /* NSDictionary+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F820A3749D006EE620 /* NSDictionary+Hashcodes.h */; };
+		7543241420A37938006EE620 /* NSData+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E120A2BEBB006EE620 /* NSData+Hashcodes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7543241520A37938006EE620 /* NSString+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E320A2BEBB006EE620 /* NSString+Hashcodes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7543241620A37938006EE620 /* NSDictionary+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F820A3749D006EE620 /* NSDictionary+Hashcodes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7543241720A37958006EE620 /* ILMemorySoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323EC20A2C055006EE620 /* ILMemorySoup.m */; };
 		7543241820A37958006EE620 /* ILFileSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323EE20A2C0B7006EE620 /* ILFileSoup.m */; };
 		7543241B20A37959006EE620 /* ILUnionSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323F720A373F3006EE620 /* ILUnionSoup.m */; };
@@ -27,7 +43,7 @@
 		7543241E20A37959006EE620 /* NSDictionary+Hashcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323F920A3749D006EE620 /* NSDictionary+Hashcodes.m */; };
 		7543242320A384C9006EE620 /* ILSoupStock.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543242120A384C9006EE620 /* ILSoupStock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7543242420A384C9006EE620 /* ILSoupStock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543242220A384C9006EE620 /* ILSoupStock.m */; };
-		7543242D20A39B5C006EE620 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543242C20A39B5C006EE620 /* main.m */; };
+		7543242D20A39B5C006EE620 /* addresses.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543242C20A39B5C006EE620 /* addresses.m */; };
 		7543243320A39B8B006EE620 /* Soup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 754323FF20A3786F006EE620 /* Soup.framework */; };
 		7543243720A3A153006EE620 /* ILStockEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243520A3A153006EE620 /* ILStockEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7543243820A3A153006EE620 /* ILStockEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243620A3A153006EE620 /* ILStockEntry.m */; };
@@ -35,9 +51,9 @@
 		7543243D20A3A2E4006EE620 /* ILStockIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243B20A3A2E4006EE620 /* ILStockIndex.m */; };
 		7543244020A3A312006EE620 /* ILStockSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243E20A3A312006EE620 /* ILStockSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7543244120A3A312006EE620 /* ILStockSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243F20A3A312006EE620 /* ILStockSequence.m */; };
-		7543244420A8B289006EE620 /* ILSynchedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543244220A8B289006EE620 /* ILSynchedSoup.h */; };
+		7543244420A8B289006EE620 /* ILSynchedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543244220A8B289006EE620 /* ILSynchedSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7543244520A8B289006EE620 /* ILSynchedSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543244320A8B289006EE620 /* ILSynchedSoup.m */; };
-		754324B920AE39FF006EE620 /* ILQueuedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754324B720AE39FF006EE620 /* ILQueuedSoup.h */; };
+		754324B920AE39FF006EE620 /* ILQueuedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754324B720AE39FF006EE620 /* ILQueuedSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		754324BA20AE39FF006EE620 /* ILQueuedSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754324B820AE39FF006EE620 /* ILQueuedSoup.m */; };
 		7580B785218188FE00D1E62F /* ILMemorySoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323EC20A2C055006EE620 /* ILMemorySoup.m */; };
 		7580B786218188FE00D1E62F /* ILFileSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323EE20A2C0B7006EE620 /* ILFileSoup.m */; };
@@ -56,7 +72,7 @@
 		7580B795218188FE00D1E62F /* ILSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E820A2BF56006EE620 /* ILSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7580B796218188FE00D1E62F /* ILSoupEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F320A2C3D0006EE620 /* ILSoupEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7580B797218188FE00D1E62F /* ILSoupIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F420A2C77B006EE620 /* ILSoupIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B798218188FE00D1E62F /* ILSynchedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543244220A8B289006EE620 /* ILSynchedSoup.h */; };
+		7580B798218188FE00D1E62F /* ILSynchedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543244220A8B289006EE620 /* ILSynchedSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7580B799218188FE00D1E62F /* ILSoupSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F520A2C7E5006EE620 /* ILSoupSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7580B79A218188FE00D1E62F /* ILSoupStock.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543242120A384C9006EE620 /* ILSoupStock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7580B79B218188FE00D1E62F /* ILStockEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243520A3A153006EE620 /* ILStockEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -65,10 +81,10 @@
 		7580B79E218188FE00D1E62F /* ILMemorySoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323EB20A2C055006EE620 /* ILMemorySoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7580B79F218188FE00D1E62F /* ILFileSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323ED20A2C0B7006EE620 /* ILFileSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7580B7A0218188FE00D1E62F /* ILUnionSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F620A373F3006EE620 /* ILUnionSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B7A1218188FE00D1E62F /* NSData+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E120A2BEBB006EE620 /* NSData+Hashcodes.h */; };
-		7580B7A2218188FE00D1E62F /* NSString+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E320A2BEBB006EE620 /* NSString+Hashcodes.h */; };
-		7580B7A3218188FE00D1E62F /* NSDictionary+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F820A3749D006EE620 /* NSDictionary+Hashcodes.h */; };
-		7580B7A4218188FE00D1E62F /* ILQueuedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754324B720AE39FF006EE620 /* ILQueuedSoup.h */; };
+		7580B7A1218188FE00D1E62F /* NSData+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E120A2BEBB006EE620 /* NSData+Hashcodes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B7A2218188FE00D1E62F /* NSString+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E320A2BEBB006EE620 /* NSString+Hashcodes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B7A3218188FE00D1E62F /* NSDictionary+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F820A3749D006EE620 /* NSDictionary+Hashcodes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7580B7A4218188FE00D1E62F /* ILQueuedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754324B720AE39FF006EE620 /* ILQueuedSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		758880D121862FCA00488CE1 /* ILMemorySoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323EC20A2C055006EE620 /* ILMemorySoup.m */; };
 		758880D221862FCA00488CE1 /* ILFileSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323EE20A2C0B7006EE620 /* ILFileSoup.m */; };
 		758880D321862FCA00488CE1 /* ILSoupStock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543242220A384C9006EE620 /* ILSoupStock.m */; };
@@ -86,7 +102,7 @@
 		758880E121862FCA00488CE1 /* ILSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E820A2BF56006EE620 /* ILSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		758880E221862FCA00488CE1 /* ILSoupEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F320A2C3D0006EE620 /* ILSoupEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		758880E321862FCA00488CE1 /* ILSoupIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F420A2C77B006EE620 /* ILSoupIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		758880E421862FCA00488CE1 /* ILSynchedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543244220A8B289006EE620 /* ILSynchedSoup.h */; };
+		758880E421862FCA00488CE1 /* ILSynchedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543244220A8B289006EE620 /* ILSynchedSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		758880E521862FCA00488CE1 /* ILSoupSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F520A2C7E5006EE620 /* ILSoupSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		758880E621862FCA00488CE1 /* ILSoupStock.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543242120A384C9006EE620 /* ILSoupStock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		758880E721862FCA00488CE1 /* ILStockEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243520A3A153006EE620 /* ILStockEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -95,13 +111,34 @@
 		758880EA21862FCA00488CE1 /* ILMemorySoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323EB20A2C055006EE620 /* ILMemorySoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		758880EB21862FCA00488CE1 /* ILFileSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323ED20A2C0B7006EE620 /* ILFileSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		758880EC21862FCA00488CE1 /* ILUnionSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F620A373F3006EE620 /* ILUnionSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		758880ED21862FCA00488CE1 /* NSData+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E120A2BEBB006EE620 /* NSData+Hashcodes.h */; };
-		758880EE21862FCA00488CE1 /* NSString+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E320A2BEBB006EE620 /* NSString+Hashcodes.h */; };
-		758880EF21862FCA00488CE1 /* NSDictionary+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F820A3749D006EE620 /* NSDictionary+Hashcodes.h */; };
-		758880F021862FCA00488CE1 /* ILQueuedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754324B720AE39FF006EE620 /* ILQueuedSoup.h */; };
+		758880ED21862FCA00488CE1 /* NSData+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E120A2BEBB006EE620 /* NSData+Hashcodes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880EE21862FCA00488CE1 /* NSString+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E320A2BEBB006EE620 /* NSString+Hashcodes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880EF21862FCA00488CE1 /* NSDictionary+Hashcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F820A3749D006EE620 /* NSDictionary+Hashcodes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		758880F021862FCA00488CE1 /* ILQueuedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754324B720AE39FF006EE620 /* ILQueuedSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		7507527321A9F2BA00DA776A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75EA39B61B20D5A00058E49D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7580B783218188FE00D1E62F;
+			remoteInfo = "Soup (iOS)";
+		};
+		7507527521A9F2BA00DA776A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75EA39B61B20D5A00058E49D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 758880CF21862FCA00488CE1;
+			remoteInfo = "Soup (tvOS)";
+		};
+		7507527721A9F2BA00DA776A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75EA39B61B20D5A00058E49D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 754323FE20A3786F006EE620;
+			remoteInfo = "Soup (macOS)";
+		};
 		7543243120A39B85006EE620 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 75EA39B61B20D5A00058E49D /* Project object */;
@@ -147,7 +184,7 @@
 		7543242120A384C9006EE620 /* ILSoupStock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupStock.h; sourceTree = "<group>"; };
 		7543242220A384C9006EE620 /* ILSoupStock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSoupStock.m; sourceTree = "<group>"; };
 		7543242A20A39B5B006EE620 /* addresses */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = addresses; sourceTree = BUILT_PRODUCTS_DIR; };
-		7543242C20A39B5C006EE620 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7543242C20A39B5C006EE620 /* addresses.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = addresses.m; sourceTree = "<group>"; };
 		7543243520A3A153006EE620 /* ILStockEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILStockEntry.h; sourceTree = "<group>"; };
 		7543243620A3A153006EE620 /* ILStockEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILStockEntry.m; sourceTree = "<group>"; };
 		7543243A20A3A2E4006EE620 /* ILStockIndex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILStockIndex.h; sourceTree = "<group>"; };
@@ -280,7 +317,7 @@
 		7543242B20A39B5C006EE620 /* addresses */ = {
 			isa = PBXGroup;
 			children = (
-				7543242C20A39B5C006EE620 /* main.m */,
+				7543242C20A39B5C006EE620 /* addresses.m */,
 			);
 			path = addresses;
 			sourceTree = "<group>";
@@ -335,19 +372,19 @@
 				7543240B20A3792B006EE620 /* ILSoup.h in Headers */,
 				7543240C20A3792B006EE620 /* ILSoupEntry.h in Headers */,
 				7543240D20A3792B006EE620 /* ILSoupIndex.h in Headers */,
-				7543244420A8B289006EE620 /* ILSynchedSoup.h in Headers */,
 				7543240E20A3792B006EE620 /* ILSoupSequence.h in Headers */,
 				7543242320A384C9006EE620 /* ILSoupStock.h in Headers */,
 				7543243720A3A153006EE620 /* ILStockEntry.h in Headers */,
 				7543243C20A3A2E4006EE620 /* ILStockIndex.h in Headers */,
 				7543244020A3A312006EE620 /* ILStockSequence.h in Headers */,
-				7543240F20A3792B006EE620 /* ILMemorySoup.h in Headers */,
 				7543241020A3792B006EE620 /* ILFileSoup.h in Headers */,
+				7543240F20A3792B006EE620 /* ILMemorySoup.h in Headers */,
+				754324B920AE39FF006EE620 /* ILQueuedSoup.h in Headers */,
+				7543244420A8B289006EE620 /* ILSynchedSoup.h in Headers */,
 				7543241320A3792B006EE620 /* ILUnionSoup.h in Headers */,
 				7543241420A37938006EE620 /* NSData+Hashcodes.h in Headers */,
-				7543241520A37938006EE620 /* NSString+Hashcodes.h in Headers */,
 				7543241620A37938006EE620 /* NSDictionary+Hashcodes.h in Headers */,
-				754324B920AE39FF006EE620 /* ILQueuedSoup.h in Headers */,
+				7543241520A37938006EE620 /* NSString+Hashcodes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,19 +396,19 @@
 				7580B795218188FE00D1E62F /* ILSoup.h in Headers */,
 				7580B796218188FE00D1E62F /* ILSoupEntry.h in Headers */,
 				7580B797218188FE00D1E62F /* ILSoupIndex.h in Headers */,
-				7580B798218188FE00D1E62F /* ILSynchedSoup.h in Headers */,
 				7580B799218188FE00D1E62F /* ILSoupSequence.h in Headers */,
-				7580B79A218188FE00D1E62F /* ILSoupStock.h in Headers */,
 				7580B79B218188FE00D1E62F /* ILStockEntry.h in Headers */,
 				7580B79C218188FE00D1E62F /* ILStockIndex.h in Headers */,
+				7580B79A218188FE00D1E62F /* ILSoupStock.h in Headers */,
 				7580B79D218188FE00D1E62F /* ILStockSequence.h in Headers */,
-				7580B79E218188FE00D1E62F /* ILMemorySoup.h in Headers */,
 				7580B79F218188FE00D1E62F /* ILFileSoup.h in Headers */,
+				7580B79E218188FE00D1E62F /* ILMemorySoup.h in Headers */,
+				7580B7A4218188FE00D1E62F /* ILQueuedSoup.h in Headers */,
+				7580B798218188FE00D1E62F /* ILSynchedSoup.h in Headers */,
 				7580B7A0218188FE00D1E62F /* ILUnionSoup.h in Headers */,
 				7580B7A1218188FE00D1E62F /* NSData+Hashcodes.h in Headers */,
-				7580B7A2218188FE00D1E62F /* NSString+Hashcodes.h in Headers */,
 				7580B7A3218188FE00D1E62F /* NSDictionary+Hashcodes.h in Headers */,
-				7580B7A4218188FE00D1E62F /* ILQueuedSoup.h in Headers */,
+				7580B7A2218188FE00D1E62F /* NSString+Hashcodes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,19 +420,19 @@
 				758880E121862FCA00488CE1 /* ILSoup.h in Headers */,
 				758880E221862FCA00488CE1 /* ILSoupEntry.h in Headers */,
 				758880E321862FCA00488CE1 /* ILSoupIndex.h in Headers */,
-				758880E421862FCA00488CE1 /* ILSynchedSoup.h in Headers */,
 				758880E521862FCA00488CE1 /* ILSoupSequence.h in Headers */,
-				758880E621862FCA00488CE1 /* ILSoupStock.h in Headers */,
 				758880E721862FCA00488CE1 /* ILStockEntry.h in Headers */,
+				758880E621862FCA00488CE1 /* ILSoupStock.h in Headers */,
 				758880E821862FCA00488CE1 /* ILStockIndex.h in Headers */,
 				758880E921862FCA00488CE1 /* ILStockSequence.h in Headers */,
-				758880EA21862FCA00488CE1 /* ILMemorySoup.h in Headers */,
 				758880EB21862FCA00488CE1 /* ILFileSoup.h in Headers */,
+				758880EA21862FCA00488CE1 /* ILMemorySoup.h in Headers */,
+				758880E421862FCA00488CE1 /* ILSynchedSoup.h in Headers */,
+				758880F021862FCA00488CE1 /* ILQueuedSoup.h in Headers */,
 				758880EC21862FCA00488CE1 /* ILUnionSoup.h in Headers */,
 				758880ED21862FCA00488CE1 /* NSData+Hashcodes.h in Headers */,
 				758880EE21862FCA00488CE1 /* NSString+Hashcodes.h in Headers */,
 				758880EF21862FCA00488CE1 /* NSDictionary+Hashcodes.h in Headers */,
-				758880F021862FCA00488CE1 /* ILQueuedSoup.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,6 +519,11 @@
 			attributes = {
 				LastUpgradeCheck = 0630;
 				TargetAttributes = {
+					7507526F21A9F2AF00DA776A = {
+						CreatedOnToolsVersion = 10.1;
+						DevelopmentTeam = E8G8ARB44Z;
+						ProvisioningStyle = Automatic;
+					};
 					754323FE20A3786F006EE620 = {
 						CreatedOnToolsVersion = 9.3;
 						ProvisioningStyle = Manual;
@@ -515,6 +557,7 @@
 				758880CF21862FCA00488CE1 /* Soup (tvOS) */,
 				754323FE20A3786F006EE620 /* Soup (macOS) */,
 				7543242920A39B5B006EE620 /* addresses */,
+				7507526F21A9F2AF00DA776A /* All Variants */,
 			);
 		};
 /* End PBXProject section */
@@ -567,7 +610,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7543242D20A39B5C006EE620 /* main.m in Sources */,
+				7543242D20A39B5C006EE620 /* addresses.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +655,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7507527421A9F2BA00DA776A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7580B783218188FE00D1E62F /* Soup (iOS) */;
+			targetProxy = 7507527321A9F2BA00DA776A /* PBXContainerItemProxy */;
+		};
+		7507527621A9F2BA00DA776A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 758880CF21862FCA00488CE1 /* Soup (tvOS) */;
+			targetProxy = 7507527521A9F2BA00DA776A /* PBXContainerItemProxy */;
+		};
+		7507527821A9F2BA00DA776A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 754323FE20A3786F006EE620 /* Soup (macOS) */;
+			targetProxy = 7507527721A9F2BA00DA776A /* PBXContainerItemProxy */;
+		};
 		7543243220A39B85006EE620 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 754323FE20A3786F006EE620 /* Soup (macOS) */;
@@ -620,6 +678,24 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		7507527021A9F2AF00DA776A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = E8G8ARB44Z;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7507527121A9F2AF00DA776A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = E8G8ARB44Z;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7543240620A37870006EE620 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -652,8 +728,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -727,8 +801,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -910,8 +982,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -985,8 +1055,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1053,8 +1121,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1128,8 +1194,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1187,6 +1251,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7507527221A9F2AF00DA776A /* Build configuration list for PBXAggregateTarget "All Variants" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7507527021A9F2AF00DA776A /* Debug */,
+				7507527121A9F2AF00DA776A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7543240520A37870006EE620 /* Build configuration list for PBXNativeTarget "Soup (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

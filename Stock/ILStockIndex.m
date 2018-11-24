@@ -2,7 +2,6 @@
 #import "ILSoup.h"
 #import "ILSoupEntry.h"
 
-
 @interface ILStockIndex ()
 @property(nonatomic, retain) NSString* indexPathStorage;
 @property(nonatomic, retain) NSMutableDictionary* indexStorage;
@@ -86,8 +85,11 @@
         cursor = [ILStockCursor.alloc initWithEntries:entrySet.allObjects];
     }
     else {
-        NSArray<id<ILSoupEntry>>* entryList = self.indexStorage.allValues;
-        cursor = [ILStockCursor.alloc initWithEntries:entryList];
+        NSMutableSet<id<ILSoupEntry>>* entrySet = NSMutableSet.set;
+        for (NSMutableSet<id<ILSoupEntry>>* entrySubset in self.indexStorage.allValues) {
+            [entrySet addObjectsFromArray:entrySubset.allObjects];
+        }
+        cursor = [ILStockCursor.alloc initWithEntries:entrySet.allObjects];
     }
     
     return cursor;
@@ -98,6 +100,74 @@
 - (NSString*) description
 {
     return [NSString stringWithFormat:@"%@ %@ %lu entries", self.class, self.indexPath, self.indexStorage.allKeys.count];
+}
+
+@end
+
+#pragma mark -
+
+@implementation ILStockIdentityIndex
+
+#pragma mark - ILSoupIndex
+
+- (void) indexEntry:(id<ILSoupEntry>) entry
+{
+    id value = [entry.entryKeys valueForKeyPath:self.indexPath];
+    if (value) {
+        self.indexStorage[value] = entry;
+    }
+}
+
+- (void) removeEntry:(id<ILSoupEntry>) entry
+{
+    id value = [entry.entryKeys valueForKeyPath:self.indexPath];
+    if (value) {
+        [self.indexStorage removeObjectForKey:value];
+    }
+}
+
+- (BOOL) includesEntry:(id<ILSoupEntry>) entry
+{
+    BOOL includesEntry = NO;
+    id value = [entry.entryKeys valueForKeyPath:self.indexPath];
+    
+    if (value) {
+        if (self.indexStorage[value] != nil) {
+            includesEntry = YES;
+        }
+    }
+    
+    return includesEntry;
+}
+
+- (id<ILSoupCursor>) allEntries
+{
+    return [ILStockCursor.alloc initWithEntries:self.indexStorage.allValues];
+}
+
+- (id<ILSoupCursor>) entriesWithValue:(id) value
+{
+    ILStockCursor* valueCursor = nil;
+    id<ILSoupEntry> entry = [self entryWithValue:value];
+    if (entry) {
+        valueCursor = [ILStockCursor.alloc initWithEntries:@[entry]];
+    }
+    
+    return valueCursor;
+}
+
+#pragma mark - ILSoupIdentityIndex
+
+- (id<ILSoupEntry>) entryWithValue:(id) value
+{
+    id<ILSoupEntry> entry = nil;
+    id entryValue = [entry.entryKeys valueForKeyPath:self.indexPath];
+    
+    if (entryValue) {
+        entry = self.indexStorage[entryValue];
+    }
+    
+    return entry;
 }
 
 @end

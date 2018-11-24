@@ -1,4 +1,5 @@
-#import <Foundation/Foundation.h>
+@import Foundation;
+
 #import <Soup/ILSoupStock.h>
 
 /* @brief in memory soup, made with stock ingredents */

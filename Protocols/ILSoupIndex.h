@@ -66,6 +66,17 @@
 
 #pragma mark -
 
+/*  @brief an identity index maintains a mapping of values to single Soup Entries,
+    if an entry is added to the index twice the first entry is replaced by the later
+    <a id="ILSoupIdentityIndex"></a>  */
+@protocol ILSoupIdentityIndex <ILSoupIndex>
+
+- (id<ILSoupEntry>) entryWithValue:(id) value;
+
+@end
+
+#pragma mark -
+
 /* @brief only indexes values which are strings, can be searched with a regex
    <a id="ILSoupTextIndex"></a> */
 @protocol ILSoupTextIndex <ILSoupIndex>

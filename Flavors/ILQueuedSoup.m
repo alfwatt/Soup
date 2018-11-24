@@ -25,7 +25,7 @@
         soup.soupOperations = NSOperationQueue.new;
         soup.soupOperations.maxConcurrentOperationCount = 1;
     }
-        
+
     return soup;
 }
 
@@ -131,36 +131,44 @@
     return self.queued.soupIndicies;
 }
 
-- (id<ILSoupIndex>) createIndex:(NSString*)indexPath;
+- (id<ILSoupIndex>) createIndex:(NSString*) indexPath;
 {
     return [self.queued createIndex:indexPath];
 }
 
-- (id<ILSoupIndex>)queryIndex:(NSString *)indexPath {
+- (id<ILSoupIndex>) queryIndex:(NSString*) indexPath {
     return [self.queued queryIndex:indexPath];
 }
 
-- (id<ILSoupTextIndex>)createTextIndex:(NSString *)indexPath {
+- (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString*) indexPath {
+    return [self.queued createIdentityIndex:indexPath];
+}
+
+- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString*) indexPath {
+    return [self.queued queryIdentityIndex:indexPath];
+}
+
+- (id<ILSoupTextIndex>) createTextIndex:(NSString*) indexPath {
     return [self.queued createTextIndex:indexPath];
 }
 
-- (id<ILSoupTextIndex>)queryTextIndex:(NSString *)indexPath {
+- (id<ILSoupTextIndex>) queryTextIndex:(NSString*) indexPath {
     return [self.queued queryTextIndex:indexPath];
 }
 
-- (id<ILSoupDateIndex>)createDateIndex:(NSString *)indexPath {
+- (id<ILSoupDateIndex>) createDateIndex:(NSString*) indexPath {
     return [self.queued createDateIndex:indexPath];
 }
 
-- (id<ILSoupDateIndex>)queryDateIndex:(NSString *)indexPath {
+- (id<ILSoupDateIndex>) queryDateIndex:(NSString*) indexPath {
     return [self.queued queryDateIndex:indexPath];
 }
 
-- (id<ILSoupNumberIndex>)createNumberIndex:(NSString *)indexPath {
+- (id<ILSoupNumberIndex>) createNumberIndex:(NSString*) indexPath {
     return [self.queued createNumberIndex:indexPath];
 }
 
-- (id<ILSoupNumberIndex>)queryNumberIndex:(NSString *)indexPath {
+- (id<ILSoupNumberIndex>) queryNumberIndex:(NSString*) indexPath {
     return [self.queued queryNumberIndex:indexPath];
 }
 
@@ -193,7 +201,7 @@
     return [self.queued createSequence:sequencePath];
 }
 
-- (id<ILSoupSequence>)querySequence:(NSString *)sequencePath {
+- (id<ILSoupSequence>) querySequence:(NSString*) sequencePath {
     return [self.queued querySequence:sequencePath];
 }
 

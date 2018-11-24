@@ -1,4 +1,5 @@
-#import <Foundation/Foundation.h>
+@import Foundation;
+
 #import <Soup/ILSoupIndex.h>
 
 @protocol ILSoup;
@@ -6,6 +7,12 @@
 #pragma mark -
 
 @interface ILStockIndex : NSObject <ILSoupIndex>
+
+@end
+
+#pragma mark -
+
+@interface ILStockIdentityIndex : ILStockIndex <ILSoupIdentityIndex>
 
 @end
 
@@ -29,9 +36,7 @@
 
 #pragma mark -
 
-/*
-@brief a stock cursor, which contains the entries provided
-*/
+/*  @brief a stock cursor, which contains the entries provided */
 @interface ILStockCursor : NSObject <ILSoupCursor>
 
 - (instancetype) initWithEntries:(NSArray<id<ILSoupEntry>>*) entries;
@@ -40,18 +45,14 @@
 
 #pragma mark -
 
-/*
-@brief a cursor of Aliases, and the soup from which they can be fetched
-*/
+/*  @brief a cursor of Aliases, and the soup from which they can be fetched */
 @interface ILStockAliasCursor : NSObject <ILSoupCursor>
 
 - (instancetype) initWithAliases:(NSArray<NSString*>*) aliases inSoup:(id<ILSoup>) sourceSoup;
 
 #pragma mark -
 
-/*
-@brief get the next alias in the cursor
-*/
+/*  @brief get the next alias in the cursor */
 - (NSString*) nextAlias;
 
 @end

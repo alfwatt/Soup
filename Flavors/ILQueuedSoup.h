@@ -1,4 +1,5 @@
-#import <Foundation/Foundation.h>
+@import Foundation;
+
 #import <Soup/ILSoup.h>
 
 /* @brief Performs all soup operations and delegate callbacks on particular queues with delegate callbacks made on */

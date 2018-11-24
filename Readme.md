@@ -103,11 +103,12 @@ The Soup framework consists of the following protocols:
     - <a href="Protocols/ILSoup.h#ILSoupDelegate">ILSoupDelegate</a> — recieves messages when the soup performs operations or encouters errors
 - <a href="Protocols/ILSoup.h">ILSoupEntry</a> — basic data storage unit in a soup
     - <a href="Protocols/ILSoup.h#ILMutableSoupEntry">ILMutableSoupEntry</a> — allows for mutation of elements
-- <a href="Protocols/ILSoup.h">ILSoupIndex</a> — fast access to soup entries by property index
-    - <a href="Protocols/ILSoup.h#ILSoupCursor">ILSoupCursor</a> — index operations return cursors, which contain a list of entries
-    - <a href="Protocols/ILSoup.h#ILSoupTextIndex">ILSoupTextIndex</a> — index which can be queried for text
-    - <a href="Protocols/ILSoup.h#ILSoupDateIndex">ILSoupDateIndex</a> — index which can be queried for dates and ranges
-    - <a href="Protocols/ILSoup.h#ILSoupNumberIndex">ILSoupNumberIndex</a> — index which can be queried for numbers and ranges
+- <a href="Protocols/ILSoupIndex.h">ILSoupIndex</a> — fast access to soup entries by property index
+    - <a href="Protocols/ILSoupIndex.h#ILSoupCursor">ILSoupCursor</a> — index operations return cursors, which contain a list of entries
+    - <a href="Protocols/ILSoupIndex.h#ILSoupIdentityIndex">ILSoupIdentityIndex</a> 
+    - <a href="Protocols/ILSoupIndex.h#ILSoupTextIndex">ILSoupTextIndex</a> — index which can be queried for text
+    - <a href="Protocols/ILSoupIndex.h#ILSoupDateIndex">ILSoupDateIndex</a> — index which can be queried for dates and ranges
+    - <a href="Protocols/ILSoupIndex.h#ILSoupNumberIndex">ILSoupNumberIndex</a> — index which can be queried for numbers and ranges
 - <a href="Protocols/ILSoupSequence.h">ILSoupSequence</a> — fast access to time sequence datat for numeric properties of entries
     - <a href="Protocols/ILSoupSequence.h#ILSoupSequceSource">ILSoupSequceSource</a> — Impedence match with SparkKit
 
@@ -168,8 +169,8 @@ The Soup framework includes a few pre-made flavors which you may find useful in 
     }]];
 
     [memory addEntry:[[memory createBlankEntry] mutatedEntry:@{
-        ILName:  @"Jane Doe",
-        ILEmail: @"jane.d@example.com"
+        ILName:  @"Jane Gru",
+        ILEmail: @"jane.g@example.com"
     }]];
 
     // print out all entries

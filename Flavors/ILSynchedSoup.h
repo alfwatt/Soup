@@ -1,4 +1,5 @@
-#import <Foundation/Foundation.h>
+@import Foundation;
+
 #import <Soup/ILSoup.h>
 
 /* Synchronizes all soup operations so you can easily access a soup from multiple threads or queues */

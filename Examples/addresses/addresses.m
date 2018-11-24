@@ -1,10 +1,13 @@
-#import <Soup/Soup.h>
+@import Soup;
 
 static NSString* const ILName = @"name";
 static NSString* const ILEmail = @"email";
 static NSString* const ILPhone = @"phone";
 static NSString* const ILURL = @"url";
 static NSString* const ILNotes = @"notes";
+static NSString* const ILBirthday = @"birthday";
+static NSString* const ILHeight = @"height";
+static NSString* const ILParents = @"parents";
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
@@ -17,6 +20,7 @@ int main(int argc, const char * argv[]) {
 
         // setup memory soup
         memory.soupDescription = @"Address Book Example Soup";
+        [memory createIdentityIndex:ILSoupEntryUUID];
         [memory createIndex:ILSoupEntryAncestorKey];
         [memory createIndex:ILSoupEntryDataHash];
         [memory createDateIndex:ILSoupEntryCreationDate];
@@ -24,6 +28,7 @@ int main(int argc, const char * argv[]) {
         [memory createTextIndex:ILName];
         [memory createTextIndex:ILEmail];
         [memory createTextIndex:ILNotes];
+        [memory createSequence:ILHeight];
         
         // add some entries to the union
         [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
@@ -41,6 +46,25 @@ int main(int argc, const char * argv[]) {
         [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
             ILName:  @"Jane Doe",
             ILEmail: @"jane.d@example.com"
+        }]];
+
+        NSString* kimAlias = [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
+            ILName:  @"Kim Gru",
+            ILEmail: @"kim.g@example.com"
+        }]];
+        NSUUID* kimUUID = [soup gotoAlias:kimAlias].entryKeys[ILSoupEntryUUID];
+        
+        NSString* samAlias = [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
+            ILName:  @"Sam Liu",
+            ILEmail: @"sam.l@example.com"
+        }]];
+        NSUUID* samUUID = [soup gotoAlias:samAlias].entryKeys[ILSoupEntryUUID];
+
+        [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
+            ILName: @"Fin Gru-Liu",
+            ILEmail: @"fin.gl@example.com",
+            ILBirthday: NSDate.date,
+            ILParents: @[kimUUID, samUUID]
         }]];
 
         NSLog(@"%@", memory);

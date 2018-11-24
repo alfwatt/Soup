@@ -75,7 +75,6 @@ NSString* ILSoupEntryDataHash = @"dataHash";
 NSString* ILSoupEntryAncestorKey = @"ancestor";
 NSString* ILSoupEntryMutationDate = @"mutated";
 
-
 - (id<ILSoupEntry>) mutatedEntry:(NSString*) mutatedKey newValue:(id) value
 {
     NSMutableDictionary* mutatedKeys = self.entryKeysStorage.mutableCopy;

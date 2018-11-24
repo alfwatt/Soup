@@ -1,5 +1,4 @@
 #import <CommonCrypto/CommonDigest.h>
-
 #import "NSData+Hashcodes.h"
 
 @implementation NSData (Hashcodes)

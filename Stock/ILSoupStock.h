@@ -1,7 +1,8 @@
-#import <Foundation/Foundation.h>
+@import Foundation;
+
 #import <Soup/ILSoup.h>
 
-/* @brief Stock in-memory implementation of the ILSoup protocol  */
+/*  @brief Stock in-memory implementation of the ILSoup protocol  */
 @interface ILSoupStock : NSObject <ILSoup>
 
 - (void) indexEntry:(id<ILSoupEntry>) entry;

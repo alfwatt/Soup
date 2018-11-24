@@ -155,43 +155,56 @@
     }
 }
 
-- (id<ILSoupIndex>)queryIndex:(NSString *)indexPath {
+- (id<ILSoupIndex>) queryIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized queryIndex:indexPath];
     }
 }
 
-- (id<ILSoupTextIndex>)createTextIndex:(NSString *)indexPath {
+- (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString*)indexPath;
+{
+    @synchronized(self.synchronized) {
+        return [self.synchronized createIdentityIndex:indexPath];
+    }
+}
+
+- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString *)indexPath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized queryIdentityIndex:indexPath];
+    }
+}
+
+- (id<ILSoupTextIndex>) createTextIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized createTextIndex:indexPath];
     }
 }
 
-- (id<ILSoupTextIndex>)queryTextIndex:(NSString *)indexPath {
+- (id<ILSoupTextIndex>) queryTextIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized queryTextIndex:indexPath];
     }
 }
 
-- (id<ILSoupDateIndex>)createDateIndex:(NSString *)indexPath {
+- (id<ILSoupDateIndex>) createDateIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized createDateIndex:indexPath];
     }
 }
 
-- (id<ILSoupDateIndex>)queryDateIndex:(NSString *)indexPath {
+- (id<ILSoupDateIndex>) queryDateIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized queryDateIndex:indexPath];
     }
 }
 
-- (id<ILSoupNumberIndex>)createNumberIndex:(NSString *)indexPath {
+- (id<ILSoupNumberIndex>) createNumberIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized createNumberIndex:indexPath];
     }
 }
 
-- (id<ILSoupNumberIndex>)queryNumberIndex:(NSString *)indexPath {
+- (id<ILSoupNumberIndex>) queryNumberIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized queryNumberIndex:indexPath];
     }
@@ -236,7 +249,7 @@
     }
 }
 
-- (id<ILSoupSequence>)querySequence:(NSString *)sequencePath {
+- (id<ILSoupSequence>) querySequence:(NSString *)sequencePath {
     @synchronized(self.synchronized) {
         return [self.synchronized querySequence:sequencePath];
     }
