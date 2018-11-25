@@ -10,8 +10,9 @@ modeled  on  the [Apple Newton](https://en.wikipedia.org/wiki/Apple_Newton) API.
 ## Getting Soup
 
 Soup on [GitHub](https://github.com/alfwatt/Soup), 
-[GitLab](https://gitlab.com/alfwatt/Soup), 
-[![CircleCI](https://circleci.com/gh/alfwatt/Soup.svg?style=svg)](https://circleci.com/gh/alfwatt/Soup)
+[GitLab](https://gitlab.com/alfwatt/Soup)
+
+Circle CI Build:  [![CircleCI](https://circleci.com/gh/alfwatt/Soup.svg?style=svg)](https://circleci.com/gh/alfwatt/Soup)
 
 <a id="support"></a>
 ## Support Soup!
