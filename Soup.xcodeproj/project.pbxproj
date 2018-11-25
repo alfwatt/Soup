@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		7507526F21A9F2AF00DA776A /* All Variants */ = {
+		7507526F21A9F2AF00DA776A /* Soup */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 7507527221A9F2AF00DA776A /* Build configuration list for PBXAggregateTarget "All Variants" */;
+			buildConfigurationList = 7507527221A9F2AF00DA776A /* Build configuration list for PBXAggregateTarget "Soup" */;
 			buildPhases = (
 			);
 			dependencies = (
@@ -17,7 +17,7 @@
 				7507527621A9F2BA00DA776A /* PBXTargetDependency */,
 				7507527821A9F2BA00DA776A /* PBXTargetDependency */,
 			);
-			name = "All Variants";
+			name = Soup;
 			productName = "All Variants";
 		};
 /* End PBXAggregateTarget section */
@@ -557,7 +557,7 @@
 				758880CF21862FCA00488CE1 /* Soup (tvOS) */,
 				754323FE20A3786F006EE620 /* Soup (macOS) */,
 				7543242920A39B5B006EE620 /* addresses */,
-				7507526F21A9F2AF00DA776A /* All Variants */,
+				7507526F21A9F2AF00DA776A /* Soup */,
 			);
 		};
 /* End PBXProject section */
@@ -1251,7 +1251,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7507527221A9F2AF00DA776A /* Build configuration list for PBXAggregateTarget "All Variants" */ = {
+		7507527221A9F2AF00DA776A /* Build configuration list for PBXAggregateTarget "Soup" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7507527021A9F2AF00DA776A /* Debug */,

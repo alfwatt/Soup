@@ -68,11 +68,13 @@ int main(int argc, const char * argv[]) {
         }]];
 
         NSLog(@"%@", memory);
+        
         [memory setupCursor];
         id<ILSoupEntry> entry = nil;
         while ((entry = [memory.getCursor nextEntry])) {
             NSLog(@"entry: %@", entry);
         }
+        
         NSLog(@"memory cursor: %@", memory.getCursor);
         
         id<ILSoupCursor> does = [[memory queryTextIndex:ILName] entriesWithStringValueMatching:@".* Doe"];
@@ -82,7 +84,9 @@ int main(int argc, const char * argv[]) {
         
         [files setupCursor];
         id<ILSoupCursor> fileItems = files.getCursor;
+        
         NSLog(@"file items: %@", fileItems);
+        
         while ((entry = [fileItems nextEntry])) {
             NSLog(@"file %lu: %@", fileItems.index, entry);
         }
