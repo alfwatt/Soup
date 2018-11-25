@@ -3,7 +3,22 @@
 
 <img src="Artwork/Soup-Logo.png" width="256" height="256">
 
-An object oriented persistance framework modeled on the Apple Newton API.
+An object oriented persistance framework from [iStumbler Labs](https://istumbler.net/labs) 
+modeled  on  the [Apple Newton](https://en.wikipedia.org/wiki/Apple_Newton) API.
+
+<a id="links"></a>
+## Getting Soup
+
+Soup on [GitHub](https://github.com/alfwatt/Soup), 
+[GitLab](https://gitlab.com/alfwatt/Soup), 
+[![CircleCI](https://circleci.com/gh/alfwatt/Soup.svg?style=svg)](https://circleci.com/gh/alfwatt/Soup)
+
+<a id="support"></a>
+## Support Soup!
+
+Are you using Soup.framework in your apps? Would you like to help support the project and get a sponsor credit?
+
+Visit the [iStumbler Labs Patreon Page](https://www.patreon.com/istumblerlabs) and patronize us in exchange for great rewards!
 
 <a id="contents"></a>
 ## Contents
@@ -68,15 +83,16 @@ networking into account.
 
 Soup brings back the simplicity and clarity of the Newton Soup API, adds modern conveniances  
 
-### Simplicity of Design
+### Simple Design, Small Footprint
 
-Soups clear, simple design makes it easy to understand and to quickly intergrate int apps.
+Soups clear, simple design makes it easy to understand and to quickly intergrate into apps. 
+The whole framework is less than 1MB!
 
 ### Optimized for Presentaion
 
 Soup has features which make it a pleasure to work with when building User interfaces.
 
-Soup entires are immutable, but you can easily create copies with mutations and automaticallly
+Soup entires and cursors are immutable, but you can easily create copies with mutations and automaticallly
 maintain a hitory of edits, making undo operations easy to implement and preventing errors resulting
 from mutating objects as they are displayed.  
 
@@ -84,15 +100,6 @@ from mutating objects as they are displayed.
 
 The ability to build union soups and for entries to be adoped from one soup to another allows for the flexability to
 have local, online, and peer soups which are merged into a single data source for an applicaiton to present to the user.
-
-
-<a id="support"></a>
-## Support Soup.framework!
-
-Are you using Soup.framework in your apps? Would you like to help support the project and get a sponsor credit?
-
-Visit the [iStumbler Labs Patreon Page](https://www.patreon.com/istumblerlabs) and patronize us in exchange for great rewards!
-
 
 <a id="protocols"></a>
 ## Soup Protocols
@@ -112,7 +119,6 @@ The Soup framework consists of the following protocols:
 - <a href="Protocols/ILSoupSequence.h">ILSoupSequence</a> — fast access to time sequence datat for numeric properties of entries
     - <a href="Protocols/ILSoupSequence.h#ILSoupSequceSource">ILSoupSequceSource</a> — Impedence match with SparkKit
 
-
 <a id="stock"></a>
 ## Soup Stock
 
@@ -123,6 +129,7 @@ Stock in-memory implementations of the Soup Protocols
     - ILMutableStockEntry
 - <a href="Stock/ILStockIndex.h">ILStockIndex </a> <a href="Stock/ILStockIndex.m">[.m]</a>
     - ILStockCursor
+    - ILStockIdentityIndex
     - ILStockTextIndex
     - ILStockDateIndex
     - ILStockNumberIndex
