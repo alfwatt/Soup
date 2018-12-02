@@ -5,13 +5,15 @@
 
 - (NSData*) allKeysData
 {
-    return [[self.allKeys componentsJoinedByString:@"+"] dataUsingEncoding:NSUTF8StringEncoding];
+    NSString* keysDigest = [self.allKeys componentsJoinedByString:@"+"];
+    return [keysDigest dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (NSData*) allKeysAndValuesData
 {
     NSMutableData* keysAndValuesData = self.allKeysData.mutableCopy;
-    NSData* valuesData = [[self.allValues componentsJoinedByString:@"-"] dataUsingEncoding:NSUTF8StringEncoding];
+    NSString* valuesDigest = [self.allValues componentsJoinedByString:@"-"];
+    NSData* valuesData = [valuesDigest dataUsingEncoding:NSUTF8StringEncoding];
     [keysAndValuesData appendData:valuesData];
     return keysAndValuesData;
 }

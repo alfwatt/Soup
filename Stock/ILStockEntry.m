@@ -13,6 +13,7 @@
 NSString* ILSoupEntryUUID = @"uuid";
 NSString* ILSoupEntryCreationDate = @"created";
 NSString* ILSoupEntryDataHash = @"dataHash";
+NSString* ILSoupEntryKeysHash = @"keysHash";
 
 @implementation ILStockEntry
 
@@ -36,12 +37,13 @@ NSString* ILSoupEntryDataHash = @"dataHash";
         }
         
         NSMutableDictionary* entryDataKeys = newEntryKeys.mutableCopy;
-        for (NSString* soupKey in @[ILSoupEntryUUID, ILSoupEntryCreationDate,
-            ILSoupEntryDataHash, ILSoupEntryAncestorKey, ILSoupEntryMutationDate]) {
+        for (NSString* soupKey in @[ILSoupEntryUUID, ILSoupEntryCreationDate, ILSoupEntryDataHash,
+            ILSoupEntryKeysHash, ILSoupEntryAncestorKey, ILSoupEntryMutationDate]) {
             [entryDataKeys removeObjectForKey:soupKey];
         }
         
         newEntryKeys[ILSoupEntryDataHash] = [entryDataKeys sha224AllKeysAndValues];
+        newEntryKeys[ILSoupEntryKeysHash] = [entryDataKeys sha224AllKeys];
         
         self.entryKeysStorage = newEntryKeys;
     }
@@ -63,6 +65,11 @@ NSString* ILSoupEntryDataHash = @"dataHash";
 - (NSString*) dataHash
 {
     return self.entryKeys[ILSoupEntryDataHash];
+}
+
+- (NSString*) keysHash
+{
+    return self.entryKeys[ILSoupEntryKeysHash];
 }
 
 - (NSDictionary*) entryKeys

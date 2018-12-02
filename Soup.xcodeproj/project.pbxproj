@@ -161,6 +161,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7542328121AD1E7B008004E0 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		754323E120A2BEBB006EE620 /* NSData+Hashcodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Hashcodes.h"; sourceTree = "<group>"; };
 		754323E220A2BEBB006EE620 /* NSData+Hashcodes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Hashcodes.m"; sourceTree = "<group>"; };
 		754323E320A2BEBB006EE620 /* NSString+Hashcodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Hashcodes.h"; sourceTree = "<group>"; };
@@ -348,6 +349,7 @@
 		75EA39B51B20D5A00058E49D = {
 			isa = PBXGroup;
 			children = (
+				7542328121AD1E7B008004E0 /* Makefile */,
 				75EA39BC1B20D6340058E49D /* Readme.md */,
 				7543240120A37870006EE620 /* Soup */,
 				754323E620A2BF20006EE620 /* Protocols */,

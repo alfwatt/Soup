@@ -35,7 +35,6 @@ Visit the [iStumbler Labs Patreon Page](https://www.patreon.com/istumblerlabs) a
 <a id="history"></a>
 ## Newton Soup History
 
-<blockquote>
 Unlike traditional operating systems such as the MacOS and Windows NT there is
 no file system and therefore no files in the Newton Operating Sytystem. Data is
 instead stored in opaque collections like a database in entities known as soups.
@@ -67,10 +66,9 @@ as one big soup containing all the entries by using a union soup. Union soups ta
 into account any choices you make for default storage location and add new entries to 
 a union soup in the member soup which resides on your default store.
 
-- <a href="https://web.archive.org/web/20060210184323/http://www.canicula.com/newton/prog/soups.htm">Ian Robinson</a>
-</blockquote>
+- [Ian Robinson](https://web.archive.org/web/20060210184323/http://www.canicula.com/newton/prog/soups.htm)
 
-<a href="http://en.m.wikipedia.org/wiki/Soup_(Apple_Newton)">Soup (Wikipedia)</a>
+[Newton Soup (Wikipedia)](http://en.m.wikipedia.org/wiki/Soup_(Apple_Newton))
 
 
 <a id="whyyyy"></a>
@@ -107,7 +105,7 @@ have local, online, and peer soups which are merged into a single data source fo
 
 The Soup framework consists of the following protocols:
 
-- <a href="Protocols/ILSoup.h">ILSoup</a> — ILSoup is the peer of the newtSoup proto
+- [ILSoup](Protocols/ILSoup.h)  — ILSoup is the peer of the newtSoup proto
     - <a href="Protocols/ILSoup.h#ILSoupDelegate">ILSoupDelegate</a> — recieves messages when the soup performs operations or encouters errors
 - <a href="Protocols/ILSoup.h">ILSoupEntry</a> — basic data storage unit in a soup
     - <a href="Protocols/ILSoup.h#ILMutableSoupEntry">ILMutableSoupEntry</a> — allows for mutation of elements
