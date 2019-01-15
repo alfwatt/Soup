@@ -3,29 +3,31 @@
 
 @implementation NSDictionary (Hashcodes)
 
-- (NSData*) allKeysData
+- (NSData*) allKeysDigest
 {
     NSString* keysDigest = [self.allKeys componentsJoinedByString:@"+"];
     return [keysDigest dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (NSData*) allKeysAndValuesData
+- (NSData*) allKeysAndValuesDigest
 {
-    NSMutableData* keysAndValuesData = self.allKeysData.mutableCopy;
+    NSString* keysDigest = [self.allKeys componentsJoinedByString:@"+"];
     NSString* valuesDigest = [self.allValues componentsJoinedByString:@"-"];
-    NSData* valuesData = [valuesDigest dataUsingEncoding:NSUTF8StringEncoding];
-    [keysAndValuesData appendData:valuesData];
-    return keysAndValuesData;
+    NSString* dictionaryDigest = nil;
+    if (keysDigest && valuesDigest) {
+        dictionaryDigest = [@[keysDigest, valuesDigest] componentsJoinedByString:@":"];
+    }
+    return [dictionaryDigest dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (NSString*) sha224AllKeys
 {
-    return self.allKeysData.sha224;
+    return self.allKeysDigest.sha224;
 }
 
 - (NSString*) sha224AllKeysAndValues
 {
-    return self.allKeysAndValuesData.sha224;
+    return self.allKeysAndValuesDigest.sha224;
 }
 
 @end

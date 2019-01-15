@@ -18,8 +18,10 @@
 
 #pragma mark - Soup Flavors
 
-#import <Soup/ILMemorySoup.h>
 #import <Soup/ILFileSoup.h>
+#import <Soup/ILMemorySoup.h>
+#import <Soup/ILQueuedSoup.h>
+#import <Soup/ILSynchedSoup.h>
 #import <Soup/ILUnionSoup.h>
 
 #pragma mark - Soup Salt

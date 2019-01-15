@@ -156,8 +156,14 @@
 /*! @brief index was added to the soup */
 - (void) soup:(id<ILSoup>) deJour createdIndex:(id<ILSoupIndex>) index;
 
+/*! @brief index was updated */
+- (void) soup:(id<ILSoup>) deJour updatedIndex:(id<ILSoupIndex>) index;
+
 /*! @brief sequence was added to the soup */
 - (void) soup:(id<ILSoup>) deJour createdSequence:(id<ILSoupSequence>) sequence;
+
+/*! @brief sequence was updated */
+- (void) soup:(id<ILSoup>) deJour updatedSequence:(id<ILSoupSequence>) sequence;
 
 #pragma mark - Lifecycle
 

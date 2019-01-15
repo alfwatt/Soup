@@ -2,8 +2,8 @@
 
 @interface NSDictionary (Hashcodes)
 
-- (NSData*) allKeysData;
-- (NSData*) allKeysAndValuesData;
+- (NSData*) allKeysDigest;
+- (NSData*) allKeysAndValuesDigest;
 
 - (NSString*) sha224AllKeys;
 - (NSString*) sha224AllKeysAndValues;

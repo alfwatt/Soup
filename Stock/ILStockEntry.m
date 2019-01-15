@@ -10,10 +10,10 @@
 
 #pragma mark -
 
-NSString* ILSoupEntryUUID = @"uuid";
-NSString* ILSoupEntryCreationDate = @"created";
-NSString* ILSoupEntryDataHash = @"dataHash";
-NSString* ILSoupEntryKeysHash = @"keysHash";
+NSString* ILSoupEntryUUID           = @"soup.entry.uuid";
+NSString* ILSoupEntryCreationDate   = @"soup.entry.created";
+NSString* ILSoupEntryDataHash       = @"soup.entry.dataHash";
+NSString* ILSoupEntryKeysHash       = @"soup.entry.keysHash";
 
 @implementation ILStockEntry
 
@@ -79,8 +79,8 @@ NSString* ILSoupEntryKeysHash = @"keysHash";
 
 #pragma mark - ILMutableSoupEntry
 
-NSString* ILSoupEntryAncestorKey = @"ancestor";
-NSString* ILSoupEntryMutationDate = @"mutated";
+NSString* ILSoupEntryAncestorKey    = @"soup.entry.ancestor";
+NSString* ILSoupEntryMutationDate   = @"soup.entry.mutated";
 
 - (id<ILSoupEntry>) mutatedEntry:(NSString*) mutatedKey newValue:(id) value
 {

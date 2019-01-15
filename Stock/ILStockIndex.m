@@ -161,10 +161,9 @@
 - (id<ILSoupEntry>) entryWithValue:(id) value
 {
     id<ILSoupEntry> entry = nil;
-    id entryValue = [entry.entryKeys valueForKeyPath:self.indexPath];
     
-    if (entryValue) {
-        entry = self.indexStorage[entryValue];
+    if (value) {
+        entry = self.indexStorage[value];
     }
     
     return entry;

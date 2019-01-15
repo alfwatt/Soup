@@ -112,6 +112,10 @@
 {
     for (id<ILSoupIndex> index in self.soupIndicies) { // add item to the indexes
         [index indexEntry:entry];
+        
+        if ([self.delegate respondsToSelector:@selector(soup:updatedIndex:)]) {
+            [self.delegate soup:self updatedIndex:index];
+        }
     }
 }
 
@@ -119,6 +123,10 @@
 {
     for (id<ILSoupIndex> index in self.soupIndicies) {
         [index removeEntry:entry];
+
+        if ([self.delegate respondsToSelector:@selector(soup:updatedIndex:)]) {
+            [self.delegate soup:self updatedIndex:index];
+        }
     }
 }
 
@@ -136,6 +144,10 @@
     
     for (id<ILSoupSequence> sequence in self.soupSequences) { // add item to the sequences
         [sequence sequenceEntry:entry atTime:date];
+
+        if ([self.delegate respondsToSelector:@selector(soup:updatedSequence:)]) {
+            [self.delegate soup:self updatedSequence:sequence];
+        }
     }
 }
 
@@ -143,6 +155,10 @@
 {
     for (id<ILSoupSequence> sequence in self.soupSequences) { // add item to the sequences
         [sequence removeEntry:entry];
+
+        if ([self.delegate respondsToSelector:@selector(soup:updatedSequence:)]) {
+            [self.delegate soup:self updatedSequence:sequence];
+        }
     }
 }
 
