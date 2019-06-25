@@ -86,7 +86,7 @@ NSString* ILSoupEntryMutationDate   = @"soup.entry.mutated";
 {
     NSMutableDictionary* mutatedKeys = self.entryKeysStorage.mutableCopy;
     mutatedKeys[mutatedKey] = value;
-    return [ILStockEntry soupEntryFromKeys:mutatedKeys];
+    return [self.class soupEntryFromKeys:mutatedKeys];
 }
 
 - (id<ILSoupEntry>) mutatedEntry:(NSDictionary*) mutatedValues
@@ -97,7 +97,7 @@ NSString* ILSoupEntryMutationDate   = @"soup.entry.mutated";
     }
     mutatedKeys[ILSoupEntryAncestorKey] = self.entryHash;
     mutatedKeys[ILSoupEntryMutationDate] = NSDate.date;
-    return [ILStockEntry soupEntryFromKeys:mutatedKeys];
+    return [self.class soupEntryFromKeys:mutatedKeys];
 }
 
 #pragma mark - Ancestry

@@ -48,6 +48,11 @@
     NB that the new entry is not yet stored in the soup */
 - (id<ILMutableSoupEntry>) createBlankEntry;
 
+/*! @brief create a new blank entry, with the defaults for this soup and a new UUID,
+    NB that the new entry is not yet stored in the soup
+    @param comformsToMutableSoupEntry must conform to the ILMutableSoupEntry */
+- (id<ILMutableSoupEntry>) createBlankEntryOfClass:(Class)comformsToMutableSoupEntry;
+
 /*! @brief store an entry to this soup
     @returns the alias used to store the entry */
 - (NSString*) addEntry:(id<ILSoupEntry>) entry;

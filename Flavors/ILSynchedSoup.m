@@ -111,6 +111,12 @@
     }
 }
 
+- (id<ILMutableSoupEntry>)createBlankEntryOfClass:(Class)comformsToMutableSoupEntry {
+    @synchronized(self.synchronized) {
+        return [self.synchronized createBlankEntryOfClass:comformsToMutableSoupEntry];
+    }
+}
+
 - (void) deleteEntry:(id<ILSoupEntry>) entry;
 {
     @synchronized(self.synchronized) {

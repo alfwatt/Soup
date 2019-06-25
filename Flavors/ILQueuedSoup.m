@@ -99,7 +99,11 @@
 
 - (id<ILMutableSoupEntry>) createBlankEntry;
 {
-    return self.queued.createBlankEntry;
+    return [self.queued createBlankEntry];
+}
+
+- (id<ILMutableSoupEntry>)createBlankEntryOfClass:(Class)comformsToMutableSoupEntry {
+    return [self.queued createBlankEntryOfClass:comformsToMutableSoupEntry];
 }
 
 - (void) deleteEntry:(id<ILSoupEntry>) entry;

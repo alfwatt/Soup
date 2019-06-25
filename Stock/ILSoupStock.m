@@ -62,13 +62,23 @@
 
 #pragma mark - Entries
 
-- (id<ILSoupEntry>) createBlankEntry
+- (id<ILMutableSoupEntry>) createBlankEntry
 {
-    id<ILSoupEntry> entry = [ILStockEntry soupEntryFromKeys:self.defaultEntry];
+    return [self createBlankEntryOfClass:ILStockEntry.class];
+}
+
+- (id<ILMutableSoupEntry>) createBlankEntryOfClass:(Class)comformsToMutableSoupEntry
+{
+    id<ILMutableSoupEntry> entry = nil;
+    
+    if ([comformsToMutableSoupEntry conformsToProtocol:@protocol(ILMutableSoupEntry)]) {
+        [(id<ILMutableSoupEntry>)comformsToMutableSoupEntry soupEntryFromKeys:self.defaultEntry];
+    }
 
     if ([self.delegate respondsToSelector:@selector(soup:createdEntry:)]) { // notify
         [self.delegate soup:self createdEntry:entry];
     }
+
     return entry;
 }
 
