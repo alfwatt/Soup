@@ -9,7 +9,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @implementation ILStockIndex
 
@@ -22,14 +22,14 @@
     return stockIndex;
 }
 
-#pragma mark - Properties
+// MARK: - Properties
 
 - (NSString*) indexPath
 {
     return self.indexPathStorage;
 }
 
-#pragma mark - Indexing
+// MARK: - Indexing
 
 - (void) indexEntry:(id<ILSoupEntry>) entry
 {
@@ -96,7 +96,7 @@
     return cursor;
 }
 
-#pragma mark - NSObject
+// MARK: - NSObject
 
 - (NSString*) description
 {
@@ -105,11 +105,11 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @implementation ILStockIdentityIndex
 
-#pragma mark - ILSoupIndex
+// MARK: - ILSoupIndex
 
 - (void) indexEntry:(id<ILSoupEntry>) entry
 {
@@ -157,7 +157,7 @@
     return valueCursor;
 }
 
-#pragma mark - ILSoupIdentityIndex
+// MARK: - ILSoupIdentityIndex
 
 - (id<ILSoupEntry>) entryWithValue:(id) value
 {
@@ -172,7 +172,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @implementation ILStockTextIndex
 
@@ -199,7 +199,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @implementation ILStockNumberIndex
 
@@ -218,7 +218,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @implementation ILStockDateIndex
 
@@ -241,7 +241,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @interface ILStockCursor ()
 @property(nonatomic, retain) NSArray<id<ILSoupEntry>>* entriesStorage;
@@ -249,7 +249,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @implementation ILStockCursor
 
@@ -263,7 +263,7 @@
     return self;
 }
 
-#pragma mark - Properties
+// MARK: - Properties
 
 - (NSArray<id<ILSoupEntry>>*) entries
 {
@@ -275,7 +275,7 @@
     return self.indexStorage;
 }
 
-#pragma mark -
+// MARK: -
 
 - (id<ILSoupEntry>) nextEntry
 {
@@ -293,7 +293,7 @@
     self.indexStorage = 0;
 }
 
-#pragma mark - NSObject
+// MARK: - NSObject
 
 - (NSString*) description
 {
@@ -302,7 +302,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @interface ILStockAliasCursor()
 @property(nonatomic, retain) NSArray<NSString*>* aliasStorage;
@@ -310,7 +310,7 @@
 @property(nonatomic, assign) id<ILSoup> soupStorage;
 @end
 
-#pragma mark -
+// MARK: -
 
 @implementation ILStockAliasCursor
 
@@ -330,7 +330,7 @@
     return nil;
 }
 
-#pragma mark - Properties
+// MARK: - Properties
 
 - (NSArray<id<ILSoupEntry>>*) entries
 {
@@ -342,7 +342,7 @@
     return self.indexStorage;
 }
 
-#pragma mark -
+// MARK: -
 
 - (NSString*) nextAlias
 {
@@ -355,7 +355,7 @@
     return next;
 }
 
-#pragma mark -
+// MARK: -
 
 - (id<ILSoupEntry>) nextEntry
 {

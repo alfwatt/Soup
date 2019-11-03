@@ -33,7 +33,7 @@
 /*! @brief from midnight today to 23:59:59 */
 + (id<ILSoupTime>) today;
 
-#pragma mark - this era
+// MARK: - this era
 
 /*! @brief from midnight jan 1 this year to 23:59:59 on dec 31 */
 + (id<ILSoupTime>) thisYear;
@@ -47,7 +47,7 @@
 /*! @brief from midnight jan 1 the first year of this millenium to 23:59:59 on dec 31 of the last yaer of the millenium */
 + (id<ILSoupTime>) thisMillenium;
 
-#pragma mark - last era
+// MARK: - last era
 
 /*! @brief from midnight jan 1 last year to 23:59:59 on dec 31 */
 + (id<ILSoupTime>) lastYear;
@@ -61,7 +61,7 @@
 /*! @brief from midnight jan 1 the first year of the last millenium to 23:59:59 on dec 31 of the last year of the millenium */
 + (id<ILSoupTime>) lastMillenium;
 
-#pragma mark - next era
+// MARK: - next era
 
 /*! @brief from midnight jan 1 next year to 23:59:59 on dec 31 */
 + (id<ILSoupTime>) nextYear;
@@ -75,7 +75,7 @@
 /*! @brief from midnight jan 1 the first year of the next millenium to 23:59:59 on dec 31 of the last year of the millenium */
 + (id<ILSoupTime>) nextMillenium;
 
-#pragma mark -
+// MARK: -
 
 /*! @brief init an ILSoupTime instance with earliest and latest dates */
 + (id<ILSoupTime>) timeSpanWithEarliest:(NSDate*)earliest andLatest:(NSDate*)latest;
@@ -83,7 +83,7 @@
 /*! @brief init an ILSoupTime with earliest date and a time interval to the latest */
 + (id<ILSoupTime>) timeSpanWithEarliest:(NSDate*)earliest andInterval:(NSTimeInterval)interval;
 
-#pragma mark -
+// MARK: -
 
 /*! @brief earliest moment of this ILSoupTime */
 @property(nonatomic,readonly) NSDate* earliest;

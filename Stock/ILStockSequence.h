@@ -6,7 +6,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @interface ILStockSequenceSource : NSObject <ILSoupSequenceSource>
 

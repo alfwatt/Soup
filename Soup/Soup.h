@@ -2,21 +2,21 @@
 
 /* @brief Soup Framework Umbrella Header */
 
-#pragma mark Protocols
+// MARK: Protocols
 
 #import <Soup/ILSoup.h>
 #import <Soup/ILSoupEntry.h>
 #import <Soup/ILSoupIndex.h>
 #import <Soup/ILSoupSequence.h>
 
-#pragma mark - Soup Stock
+// MARK: - Soup Stock
 
 #import <Soup/ILSoupStock.h>
 #import <Soup/ILStockEntry.h>
 #import <Soup/ILStockIndex.h>
 #import <Soup/ILStockSequence.h>
 
-#pragma mark - Soup Flavors
+// MARK: - Soup Flavors
 
 #import <Soup/ILFileSoup.h>
 #import <Soup/ILMemorySoup.h>
@@ -24,7 +24,7 @@
 #import <Soup/ILSynchedSoup.h>
 #import <Soup/ILUnionSoup.h>
 
-#pragma mark - Soup Salt
+// MARK: - Soup Salt
 
 #import <Soup/NSData+Hashcodes.h>
 #import <Soup/NSString+Hashcodes.h>

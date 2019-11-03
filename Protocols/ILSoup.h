@@ -1,7 +1,7 @@
 #ifndef ILSoup_h
 #define ILSoup_h
 
-#pragma mark -
+// MARK: -
 
 @protocol ILSoupEntry;          /* ILSoupEntry.h */
 @protocol ILMutableSoupEntry;
@@ -14,7 +14,7 @@
 @protocol ILSoupSequence;       /* ILSoupSequence.h */
 @protocol ILSoupDelegate;       /* ILSoup.h */
 
-#pragma mark -
+// MARK: -
 
 /*! @brief defines the requried methods for a soup */
 @protocol ILSoup
@@ -37,12 +37,12 @@
 /*! @brief the <ILSoupDelegate> whis is notified when changes are made */
 @property(nonatomic, assign) NSObject<ILSoupDelegate>* delegate;
 
-#pragma mark -
+// MARK: -
 
 /*! @brief create a new soup with the provided name */
 + (instancetype) makeSoup:(NSString*) soupName;
 
-#pragma mark - Entries
+// MARK: - Entries
 
 /*! @brief create a new blank entry, with the defaults for this soup and a new UUID,
     NB that the new entry is not yet stored in the soup */
@@ -64,7 +64,7 @@
 /*! @brief delete an entry from this soup */
 - (void) deleteEntry:(id<ILSoupEntry>) entry;
 
-#pragma mark - Aliases
+// MARK: - Aliases
 
 /*! @brief get the soups alias the entry (may be the hash, UUID or other string) */
 - (NSString*) entryAlias:(id<ILSoupEntry>) entry;
@@ -72,12 +72,12 @@
 /*! @brief the the item from the soup, based on the alias provided */
 - (id<ILSoupEntry>) gotoAlias:(NSString*) alias;
 
-#pragma mark - Queries
+// MARK: - Queries
 
 /*! @brief a cursor with items specified by the predicate, O(N) time */
 - (id<ILSoupCursor>) querySoup:(NSPredicate*) query;
 
-#pragma mark - Indicies
+// MARK: - Indicies
 
 /*! @brief the indexes currently maintained for this soup */
 @property(nonatomic, readonly) NSArray<id<ILSoupIndex>>* soupIndicies;
@@ -112,7 +112,7 @@
 /*! @brief returns the index for the path provided */
 - (id<ILSoupDateIndex>) queryDateIndex:(NSString*)indexPath;
 
-#pragma mark - Default Cursor
+// MARK: - Default Cursor
 
 /*! @brief reset cursor to the zero index, automatically called in when setitng property `soupQuery` */
 - (id<ILSoupCursor>) resetCursor;
@@ -120,7 +120,7 @@
 /*! @brief the default cursor for this soup */
 @property(nonatomic, readonly) id<ILSoupCursor> cursor;
 
-#pragma mark - Sequences
+// MARK: - Sequences
 
 /*! @brief the sequences currently maintained for this soup */
 @property(nonatomic, readonly) NSArray<id<ILSoupSequence>>* soupSequences;
@@ -131,7 +131,7 @@
 /*! @brief returns the sequence for the path provided */
 - (id<ILSoupSequence>) querySequence:(NSString*) sequencePath;
 
-#pragma mark - Soup Managment
+// MARK: - Soup Managment
 
 /*! @brief if you need to do setup, now is the time */
 - (void) fillNewSoup;
@@ -141,7 +141,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 /*! @brief delegate protocol for <ILSoup> <a id="ILSoupDelegate"></a> */
 @protocol ILSoupDelegate
@@ -156,7 +156,7 @@
 /*! @brief entry was deleted from the soup */
 - (void) soup:(id<ILSoup>) deJour deletedEntry:(id<ILSoupEntry>) entry;
 
-#pragma mark - Indicies & Sequences
+// MARK: - Indicies & Sequences
 
 /*! @brief index was added to the soup */
 - (void) soup:(id<ILSoup>) deJour createdIndex:(id<ILSoupIndex>) index;
@@ -170,7 +170,7 @@
 /*! @brief sequence was updated */
 - (void) soup:(id<ILSoup>) deJour updatedSequence:(id<ILSoupSequence>) sequence;
 
-#pragma mark - Lifecycle
+// MARK: - Lifecycle
 
 /*! @brief soup was initially filled */
 - (void) soupFilled:(id<ILSoup>) deJour;

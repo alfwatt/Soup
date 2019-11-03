@@ -1,7 +1,7 @@
 #ifndef ILSoupEntry_h
 #define ILSoupEntry_h
 
-#pragma mark -
+// MARK: -
 
 /*! @brief NSString* UUID */
 extern NSString* ILSoupEntryUUID;
@@ -27,14 +27,14 @@ extern NSString* ILSoupEntryDataHash; // NSString*
 /*! @brief keys and values for the entry */
 @property(nonatomic, readonly) NSDictionary* entryKeys;
 
-#pragma mark -
+// MARK: -
 
 /*! @brief create entry with keys provided */
 + (instancetype) soupEntryFromKeys:(NSDictionary*) entryKeys;
 
 @end
 
-#pragma mark -
+// MARK: -
 
 /*! @brief NSString* hash of the ancestor for a mutated entry */
 extern NSString* ILSoupEntryAncestorKey;

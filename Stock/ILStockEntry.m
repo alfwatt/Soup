@@ -8,7 +8,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 NSString* ILSoupEntryUUID           = @"soup.entry.uuid";
 NSString* ILSoupEntryCreationDate   = @"soup.entry.created";
@@ -22,7 +22,7 @@ NSString* ILSoupEntryKeysHash       = @"soup.entry.keysHash";
     return [ILStockEntry.alloc initWithKeys:entryKeys];
 }
 
-#pragma mark - ILSoupStockEntry
+// MARK: - ILSoupStockEntry
 
 - (instancetype) initWithKeys:(NSDictionary*) entryKeys
 {
@@ -55,7 +55,7 @@ NSString* ILSoupEntryKeysHash       = @"soup.entry.keysHash";
     return [self initWithKeys:@{}];
 }
 
-#pragma mark - ILSoupEntry
+// MARK: - ILSoupEntry
 
 - (NSString*) entryHash
 {
@@ -77,7 +77,7 @@ NSString* ILSoupEntryKeysHash       = @"soup.entry.keysHash";
     return self.entryKeysStorage;
 }
 
-#pragma mark - ILMutableSoupEntry
+// MARK: - ILMutableSoupEntry
 
 NSString* ILSoupEntryAncestorKey    = @"soup.entry.ancestor";
 NSString* ILSoupEntryMutationDate   = @"soup.entry.mutated";
@@ -100,14 +100,14 @@ NSString* ILSoupEntryMutationDate   = @"soup.entry.mutated";
     return [self.class soupEntryFromKeys:mutatedKeys];
 }
 
-#pragma mark - Ancestry
+// MARK: - Ancestry
 
 - (NSString*) ancestorEntryHash
 {
     return self.entryKeys[ILSoupEntryAncestorKey];
 }
 
-#pragma mark -
+// MARK: -
 
 - (NSString*) description
 {

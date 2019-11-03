@@ -8,20 +8,20 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @implementation ILStockSequenceEntry
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @interface ILStockSequence ()
 @property(retain) NSString* sequencePathStorage;
 @property(retain) NSMutableDictionary<NSString*,id>* sequenceStorage;
 @end
 
-#pragma mark -
+// MARK: -
 
 @implementation ILStockSequence
 
@@ -34,7 +34,7 @@
     return stockSequence;
 }
 
-#pragma mark - Properties
+// MARK: - Properties
 
 - (NSString*) sequencePath
 {
@@ -79,7 +79,7 @@
     return [self.sequenceStorage.allKeys containsObject:entry.entryKeys[ILSoupEntryUUID]];
 }
 
-#pragma mark - fetching sequence data
+// MARK: - fetching sequence data
 
 - (BOOL) fetchSequenceFor:(id<ILSoupEntry>) entry times:(NSArray<NSDate*>**) timeArray values:(NSArray<NSNumber*>**) valueArray
 {
@@ -112,7 +112,7 @@
     return source;
 }
 
-#pragma mark - NSObject
+// MARK: - NSObject
 
 - (NSString*) description
 {
@@ -121,7 +121,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @interface ILStockSequenceSource ()
 @property(nonatomic, retain) NSArray<NSDate*>* sequenceDates;
@@ -129,7 +129,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @implementation ILStockSequenceSource
 
@@ -141,7 +141,7 @@
     return stockSource;
 }
 
-#pragma mark -
+// MARK: -
 
 - (NSArray<NSDate*>*) sampleDates
 {

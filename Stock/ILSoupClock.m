@@ -121,7 +121,7 @@
     return nil;
 }
 
-#pragma mark -
+// MARK: -
 
 - (instancetype) initWithEarliest:(NSDate*)earliest andLatest:(NSDate*)latest {
     if ((self = super.init)) {
@@ -131,7 +131,7 @@
     return self;
 }
 
-#pragma mark -
+// MARK: -
 
 /*! @brief earliest moment of this ILSoupTime */
 - (NSDate*) earliest {

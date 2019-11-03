@@ -1,12 +1,12 @@
 #ifndef ILSoupIndex_h
 #define ILSoupIndex_h
 
-#pragma mark -
+// MARK: -
 
 @protocol ILSoupEntry;
 @protocol ILSoupTime;
 
-#pragma mark -
+// MARK: -
 
 /*! @brief result set for a particular query executed against the index */
 @protocol ILSoupCursor
@@ -17,7 +17,7 @@
 /*! @brief the current index of the cursor */
 @property(readonly) NSUInteger index;
 
-#pragma mark -
+// MARK: -
 
 /*! @brief create a cursor with the entries provided */
 - (instancetype) initWithEntries:(NSArray<id<ILSoupEntry>>*) entries;
@@ -30,7 +30,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 /*! @brief manintain an index of items by an indexPath provided
     <a id="ILSoupIndex"></a> */
@@ -39,12 +39,12 @@
 /*! @brief this path used to fetch indexed properties from the items to build the index */
 @property(readonly) NSString* indexPath;
 
-#pragma mark -
+// MARK: -
 
 /*! @brief create an index with the path provided */
 + (instancetype) indexWithPath:(NSString*) indexPath;
 
-#pragma mark - Entries
+// MARK: - Entries
 
 /*! @brief add the entry to the index */
 - (void) indexEntry:(id<ILSoupEntry>) entry;
@@ -55,7 +55,7 @@
 /*! @brief is the entry in the index */
 - (BOOL) includesEntry:(id<ILSoupEntry>) entry;
 
-#pragma mark - Cursors
+// MARK: - Cursors
 
 /*! @brief a cursor with all the entries currently in the index */
 - (id<ILSoupCursor>) allEntries;
@@ -65,7 +65,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 /*! @brief an identity index maintains a mapping of values to single Soup Entries,
     if an entry is added to the index twice the first entry is replaced by the later
@@ -76,7 +76,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 /*! @brief only indexes values which are strings, can be searched with a regex
     <a id="ILSoupTextIndex"></a> */
@@ -87,7 +87,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 /*! @brief only indexes values wich are numbers
    <a id="ILSoupNumberIndex"></a> */
@@ -98,7 +98,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 /*! @brief only indexes values which are dates
    <a id="ILSoupDateIndex"></a> */

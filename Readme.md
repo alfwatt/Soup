@@ -42,8 +42,8 @@ no file system and therefore no files in the Newton Operating Sytystem. Data is
 instead stored in opaque collections like a database in entities known as soups.
 
 Each entry in a soup can be likened to a record in a database and each data member
-in an entry (known as a slot) can be likened to a field in a database. Unlike 
-database records entries in a soup do not all have to have the same slots. 
+in an entry (known as a slot) can be likened to a field in a database. Unlike database
+records entries in a soup do not all have to have the same slots. 
 
 To retrieve data entries from the soups you don't access them directly but rather
 send queries to the soups which return cursor objects. You then use the cursor 
@@ -79,10 +79,11 @@ a union soup in the member soup which resides on your default store.
 Soup was designed for dealing with storage on a mobile device where storage is transient.  This model is useful
 for modern mobile devcies, particlary when they move between offline and connected states due to network 
 availability. While most database focus on large data set performance or suitabiilty for high demand online 
-production loads, few are optimized for the mobile use case, and fewer take the realaties of modern 
-networking into account.
+production loads, few are optimized for the mobile use case, and fewer take the realaties of mobile networking
+into account.
 
-Soup brings back the simplicity and clarity of the Newton Soup API, adds modern conveniances  
+Soup brings back the simplicity and clarity of the Newton Soup API, adds modern conveniances and provides
+an interface tuned for developing user-facing data sets with flexable indexing and storage. 
 
 ### Simple Design, Small Footprint
 

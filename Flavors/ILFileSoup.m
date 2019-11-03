@@ -8,7 +8,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @interface ILFileCursor : ILStockCursor
 
@@ -16,7 +16,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @interface ILFileSequence : ILStockSequence
 
@@ -31,7 +31,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @implementation ILFileSoup
 
@@ -40,7 +40,7 @@
     return [ILFileSoup.alloc initWithFilePath:filePath];
 }
 
-#pragma mark -
+// MARK: -
 
 - (instancetype) initWithFilePath:(NSString*) filePath;
 {
@@ -52,7 +52,7 @@
     return self;
 }
 
-#pragma mark -
+// MARK: -
 
 - (NSString*) pathForEntryHash:(NSString*) entryHash
 {
@@ -69,14 +69,14 @@
     return [[self.filePath stringByAppendingPathComponent:@"sequences"] stringByAppendingPathComponent:sequencePath];
 }
 
-#pragma mark -
+// MARK: -
 
 - (NSString*) filePath
 {
     return [self.filePathStorage stringByExpandingTildeInPath];
 }
 
-#pragma mark -
+// MARK: -
 
 - (NSString*)addEntry:(id<ILSoupEntry>)entry
 {
@@ -136,7 +136,7 @@
     [self setupCursor]; // we changed the entry set
 }
 
-#pragma mark - Aliases
+// MARK: - Aliases
 
 - (id<ILSoupEntry>)gotoAlias:(NSString*)alias
 {
@@ -151,20 +151,20 @@
     return stockEntry;
 }
 
-#pragma mark - Queries
+// MARK: - Queries
 
 - (id<ILSoupCursor>)querySoup:(NSPredicate *)query
 {
     return nil;
 }
 
-#pragma mark - Indicies
+// MARK: - Indicies
 
 - (void) loadIndex:(NSString*) indexPath index:(id<ILSoupIndex>) stockIndex
 {
 }
 
-#pragma mark - Cursor
+// MARK: - Cursor
 
 - (id<ILSoupCursor>)getCursor
 {
@@ -186,14 +186,14 @@
     return self.fileSoupCursor;
 }
 
-#pragma mark - Sequences
+// MARK: - Sequences
 
 - (id<ILSoupSequence>)createSequence:(NSString*)sequencePath
 {
     return nil;
 }
 
-#pragma mark - NSObject
+// MARK: - NSObject
 
 - (NSString*) description
 {

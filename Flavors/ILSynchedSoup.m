@@ -2,7 +2,7 @@
 
 @implementation ILSynchedSoup
 
-#pragma mark -
+// MARK: -
 
 + (instancetype) makeSoup:(NSString*) soupName
 {
@@ -16,7 +16,7 @@
     return soup;
 }
 
-#pragma mark -
+// MARK: -
 
 - (NSUUID*) soupUUID
 {
@@ -95,7 +95,7 @@
     }
 }
 
-#pragma mark - Entries
+// MARK: - Entries
 
 - (NSString*) addEntry:(id<ILSoupEntry>) entry;
 {
@@ -145,7 +145,7 @@
     }
 }
 
-#pragma mark - Indicies
+// MARK: - Indicies
 
 - (NSArray<id<ILSoupIndex>>*) soupIndicies
 {
@@ -216,7 +216,7 @@
     }
 }
 
-#pragma mark - Default Cursor
+// MARK: - Default Cursor
 
 - (id<ILSoupCursor>) resetCursor
 {
@@ -239,7 +239,7 @@
     }
 }
 
-#pragma mark - Sequences
+// MARK: - Sequences
 
 - (NSArray<id<ILSoupSequence>>*) soupSequences
 {
@@ -261,7 +261,7 @@
     }
 }
 
-#pragma mark - Soup Managment
+// MARK: - Soup Managment
 
 - (void) doneWithSoup:(NSString*) appIdentifier
 {

@@ -3,12 +3,12 @@
 
 @import CoreGraphics;
 
-#pragma mark -
+// MARK: -
 
 @protocol ILSoupEntry;
 @protocol ILSoupSequenceSource;
 
-#pragma mark -
+// MARK: -
 
 /*! @brief store a sequence for a numeric value */
 @protocol ILSoupSequence
@@ -16,12 +16,12 @@
 /*! @prief the path for the sequence value */
 @property(readonly) NSString* sequencePath;
 
-#pragma mark -
+// MARK: -
 
 /*! @brief create a sequence with the path provided */
 + (instancetype) sequenceWithPath:(NSString*) sequencePath;
 
-#pragma mark -
+// MARK: -
 
 /*! @brief sequence the entry provided, at the time index */
 - (void) sequenceEntry:(id<ILSoupEntry>) entry atTime:(NSDate*) timeIndex;
@@ -32,7 +32,7 @@
 /*! @brief YES if there is a sequence for this entry */
 - (BOOL) includesEntry:(id<ILSoupEntry>) entry;
 
-#pragma mark - fetching sequence data
+// MARK: - fetching sequence data
 
 /*! @brief get all sequence dates and values for a given entry */
 - (BOOL) fetchSequenceFor:(id<ILSoupEntry>) entry times:(NSArray<NSDate*>**) timeArray values:(NSArray<NSNumber*>**) valueArray;
@@ -42,7 +42,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 /*! @brief ILSparkLineDataSource Impedence Match */
 @protocol ILSoupSequenceSource

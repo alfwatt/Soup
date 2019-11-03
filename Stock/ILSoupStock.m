@@ -15,7 +15,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @implementation ILSoupStock
 @synthesize soupName;
@@ -23,14 +23,14 @@
 @synthesize defaultEntry;
 @synthesize delegate;
 
-#pragma mark -
+// MARK: -
 
 + (id<ILSoup>)makeSoup:(NSString*)soupName
 {
     return [self.alloc initWithSoupName:soupName];
 }
 
-#pragma mark -
+// MARK: -
 
 - (instancetype) init
 {
@@ -53,7 +53,7 @@
     return self;
 }
 
-#pragma mark - Properties
+// MARK: - Properties
 
 - (NSString*) soupUUID
 {
@@ -71,7 +71,7 @@
     [self resetCursor];
 }
 
-#pragma mark - Entries
+// MARK: - Entries
 
 - (id<ILMutableSoupEntry>) createBlankEntry
 {
@@ -183,7 +183,7 @@
     }
 }
 
-#pragma mark - Aliases
+// MARK: - Aliases
 
 - (NSString*) entryAlias:(id<ILSoupEntry>)entry
 {
@@ -195,7 +195,7 @@
     return self.soupEntryStorage[alias];
 }
 
-#pragma mark - Queries
+// MARK: - Queries
 
 - (id<ILSoupCursor>) querySoup:(NSPredicate *)query
 {
@@ -203,7 +203,7 @@
     return [ILStockCursor.alloc initWithEntries:[allEntries filteredArrayUsingPredicate:query]];
 }
 
-#pragma mark - Indicies
+// MARK: - Indicies
 
 - (void) loadIndex:(NSString*) indexPath index:(id<ILSoupIndex>) stockIndex
 {
@@ -282,7 +282,7 @@
     return (id<ILSoupNumberIndex>)self.soupIndiciesStorage[indexPath];
 }
 
-#pragma mark - Cursor
+// MARK: - Cursor
 
 - (id<ILSoupCursor>) resetCursor
 {
@@ -305,7 +305,7 @@
     return self.soupCursorStorage;
 }
 
-#pragma mark - Sequences
+// MARK: - Sequences
 
 - (NSArray<id<ILSoupSequence>>*) soupSequences
 {
@@ -329,7 +329,7 @@
     return self.soupSequencesStorage[sequencePath];
 }
 
-#pragma mark - Soup Managment
+// MARK: - Soup Managment
 
 - (void) fillNewSoup
 {
@@ -341,7 +341,7 @@
     // ??? delete all the indexes?
 }
 
-#pragma mark - NSObject
+// MARK: - NSObject
 
 - (NSString*) description
 {

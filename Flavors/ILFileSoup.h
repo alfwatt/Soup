@@ -5,7 +5,7 @@
 @interface ILFileSoup : ILSoupStock
 @property(nonatomic, readonly) NSString* filePath;
 
-#pragma mark -
+// MARK: -
 
 + (ILFileSoup*) fileSoupAtPath:(NSString*) filePath;
 

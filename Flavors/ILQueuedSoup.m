@@ -3,7 +3,7 @@
 
 @implementation ILQueuedSoup
 
-#pragma mark -
+// MARK: -
 
 + (instancetype) makeSoup:(NSString*) soupName
 {
@@ -29,7 +29,7 @@
     return soup;
 }
 
-#pragma mark -
+// MARK: -
 
 - (NSUUID*) soupUUID
 {
@@ -86,7 +86,7 @@
     self.queued.delegate = delegate;
 }
 
-#pragma mark - Entries
+// MARK: - Entries
 
 - (NSString*) addEntry:(id<ILSoupEntry>) entry;
 {
@@ -128,7 +128,7 @@
     return [self.queued gotoAlias:alias];
 }
 
-#pragma mark - Indicies
+// MARK: - Indicies
 
 - (NSArray<id<ILSoupIndex>>*) soupIndicies
 {
@@ -176,7 +176,7 @@
     return [self.queued queryNumberIndex:indexPath];
 }
 
-#pragma mark - Default Cursor
+// MARK: - Default Cursor
 
 - (id<ILSoupCursor>) resetCursor
 {
@@ -193,7 +193,7 @@
     return [self.queued querySoup:query];
 }
 
-#pragma mark - Sequences
+// MARK: - Sequences
 
 - (NSArray<id<ILSoupSequence>>*) soupSequences
 {
@@ -209,7 +209,7 @@
     return [self.queued querySequence:sequencePath];
 }
 
-#pragma mark - Soup Managment
+// MARK: - Soup Managment
 
 - (void) doneWithSoup:(NSString*) appIdentifier
 {

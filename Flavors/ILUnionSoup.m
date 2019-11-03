@@ -6,7 +6,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @implementation ILUnionSoup
 @synthesize delegate;
@@ -20,14 +20,14 @@
     return self;
 }
 
-#pragma mark - Properties
+// MARK: - Properties
 
 - (NSArray<id<ILSoup>>*) loadedSoups
 {
     return [self.loadedSoupsStorage copy];
 }
 
-#pragma mark - Managing Soups
+// MARK: - Managing Soups
 
 
 - (void) addSoup:(id<ILSoup>) soup
@@ -51,7 +51,7 @@
     [self.loadedSoupsStorage removeObject:soup];
 }
 
-#pragma mark - Managing Entries
+// MARK: - Managing Entries
 
 - (void) copyEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup
 {
@@ -109,7 +109,7 @@
     // TODO call delegate with error
 }
 
-#pragma mark - ILSoupStock Overrides
+// MARK: - ILSoupStock Overrides
 
 - (NSString*)addEntry:(id<ILSoupEntry>)entry
 {

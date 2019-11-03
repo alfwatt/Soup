@@ -4,37 +4,37 @@
 
 @protocol ILSoup;
 
-#pragma mark -
+// MARK: -
 
 @interface ILStockIndex : NSObject <ILSoupIndex>
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @interface ILStockIdentityIndex : ILStockIndex <ILSoupIdentityIndex>
 
 @end
 
-#pragma mark-
+// MARK:-
 
 @interface ILStockTextIndex : ILStockIndex <ILSoupTextIndex>
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @interface ILStockNumberIndex : ILStockIndex <ILSoupNumberIndex>
 
 @end
 
-#pragma mark -
+// MARK: -
 
 @interface ILStockDateIndex : ILStockIndex <ILSoupDateIndex>
 
 @end
 
-#pragma mark -
+// MARK: -
 
 /*! @brief a stock cursor, which contains the entries provided */
 @interface ILStockCursor : NSObject <ILSoupCursor>
@@ -43,14 +43,14 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 /*! @brief a cursor of Aliases, and the soup from which they can be fetched */
 @interface ILStockAliasCursor : NSObject <ILSoupCursor>
 
 - (instancetype) initWithAliases:(NSArray<NSString*>*) aliases inSoup:(id<ILSoup>) sourceSoup;
 
-#pragma mark -
+// MARK: -
 
 /*! @brief get the next alias in the cursor */
 - (NSString*) nextAlias;

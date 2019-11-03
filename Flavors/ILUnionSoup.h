@@ -13,7 +13,7 @@
 /*! @brief the delegate of the union */
 @property(assign) id<ILUnionSoupDelegate> delegate;
 
-#pragma mark - Managing Soups
+// MARK: - Managing Soups
 
 /*! @brief adds a soup to the union */
 - (void) addSoup:(id<ILSoup>) soup;
@@ -24,7 +24,7 @@
 /*! @brief removes a soup from the union */
 - (void) removeSoup:(id<ILSoup>) soup;
 
-#pragma mark - Managing Entries
+// MARK: - Managing Entries
 
 /*! @brief copy an entry from one soup to another */
 - (void) copyEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup;
@@ -40,7 +40,7 @@
 
 @end
 
-#pragma mark -
+// MARK: -
 
 /*! @brief union multiple soups behind a single query interface */
 @protocol ILUnionSoupDelegate <ILSoupDelegate>
@@ -51,7 +51,7 @@
 /*! @brief removed a soup from the union */
 - (void) unionSoup:(ILUnionSoup*) unionSoup removedSoup:(id<ILSoup>) soup;
 
-#pragma mark - 
+// MARK: - 
 
 /*! @brief union copied entry from one soup to another */
 - (void) unionSoup:(ILUnionSoup*) unionSoup copiedEntry:(id<ILSoupEntry>) entry fromSoup:(id<ILSoupEntry>) fromSoup toSoup:(id<ILSoupEntry>) toSoup;
