@@ -1,8 +1,6 @@
 #ifndef ILSoupIndex_h
 #define ILSoupIndex_h
 
-// MARK: -
-
 @protocol ILSoupEntry;
 @protocol ILSoupTime;
 

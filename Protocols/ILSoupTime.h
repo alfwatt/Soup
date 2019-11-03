@@ -1,7 +1,9 @@
-@import Foundation;
-
 #ifndef ILSoupTime_h
 #define ILSoupTime_h
+
+@import Foundation;
+
+// MARK: -
 
 /*! @brief ILSoupTime supports relative time ranges for querying an ILSoupDateIndex */
 @protocol ILSoupTime <NSObject>

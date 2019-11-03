@@ -6,6 +6,8 @@
 @interface ILSynchedSoup : NSObject <ILSoup>
 @property(retain) id<ILSoup> synchronized;
 
+// MARK: -
+
 + (instancetype) synchronizedSoup:(id<ILSoup>) synched;
 
 @end

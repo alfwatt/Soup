@@ -2,8 +2,6 @@
 
 @implementation ILSynchedSoup
 
-// MARK: -
-
 + (instancetype) makeSoup:(NSString*) soupName
 {
     return nil;

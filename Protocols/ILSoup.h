@@ -14,8 +14,6 @@
 @protocol ILSoupSequence;       /* ILSoupSequence.h */
 @protocol ILSoupDelegate;       /* ILSoup.h */
 
-// MARK: -
-
 /*! @brief defines the requried methods for a soup */
 @protocol ILSoup
 
