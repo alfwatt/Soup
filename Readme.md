@@ -181,9 +181,8 @@ The Soup framework includes a few pre-made flavors which you may find useful in 
 
     // print out all entries
     NSLog(@"%@", memory);
-    [memory setupCursor];
     id<ILSoupEntry> entry = nil;
-    while ((entry = [[memory getCursor] nextEntry])) {
+    while ((entry = [memory.cursor nextEntry])) {
         NSLog(@"entry: %@", entry);
     }
     
@@ -200,7 +199,7 @@ The Soup framework includes a few pre-made flavors which you may find useful in 
 
     The MIT License (MIT)
 
-    Copyright © 2018 Alf Watt
+    Copyright © 2019 Alf Watt
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

@@ -218,17 +218,17 @@
 
 #pragma mark - Default Cursor
 
-- (id<ILSoupCursor>) setupCursor
+- (id<ILSoupCursor>) resetCursor
 {
     @synchronized(self.synchronized) {
-        return [self.synchronized setupCursor];
+        return [self.synchronized resetCursor];
     }
 }
 
-- (id<ILSoupCursor>) getCursor
+- (id<ILSoupCursor>) cursor
 {
     @synchronized(self.synchronized) {
-        return [self.synchronized getCursor];
+        return [self.synchronized cursor];
     }
 }
 

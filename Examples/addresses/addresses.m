@@ -6,7 +6,6 @@ static NSString* const ILPhone = @"phone";
 static NSString* const ILURL = @"url";
 static NSString* const ILNotes = @"notes";
 static NSString* const ILBirthday = @"birthday";
-static NSString* const ILHeight = @"height";
 static NSString* const ILParents = @"parents";
 
 int main(int argc, const char * argv[]) {
@@ -28,7 +27,6 @@ int main(int argc, const char * argv[]) {
         [memory createTextIndex:ILName];
         [memory createTextIndex:ILEmail];
         [memory createTextIndex:ILNotes];
-        [memory createSequence:ILHeight];
         
         // add some entries to the union
         [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
@@ -69,21 +67,21 @@ int main(int argc, const char * argv[]) {
 
         NSLog(@"%@", memory);
         
-        [memory setupCursor];
+        [memory resetCursor];
         id<ILSoupEntry> entry = nil;
-        while ((entry = [memory.getCursor nextEntry])) {
+        while ((entry = [memory.cursor nextEntry])) {
             NSLog(@"entry: %@", entry);
         }
         
-        NSLog(@"memory cursor: %@", memory.getCursor);
+        NSLog(@"memory cursor: %@", memory.cursor);
         
         id<ILSoupCursor> does = [[memory queryTextIndex:ILName] entriesWithStringValueMatching:@".* Doe"];
         while ((entry = does.nextEntry)) {
             NSLog(@"doe %lu: %@", does.index, entry);
         }
         
-        [files setupCursor];
-        id<ILSoupCursor> fileItems = files.getCursor;
+        [files resetCursor];
+        id<ILSoupCursor> fileItems = files.cursor;
         
         NSLog(@"file items: %@", fileItems);
         

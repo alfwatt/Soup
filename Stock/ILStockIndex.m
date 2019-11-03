@@ -1,6 +1,7 @@
 #import "ILStockIndex.h"
 #import "ILSoup.h"
 #import "ILSoupEntry.h"
+#import "ILSoupTime.h"
 
 @interface ILStockIndex ()
 @property(nonatomic, retain) NSString* indexPathStorage;
@@ -232,6 +233,10 @@
     }
 
     return [ILStockCursor.alloc initWithEntries:matching.allObjects];
+}
+
+- (id<ILSoupCursor>) entriesWithTimeRange:(id<ILSoupTime>) timeRange {
+    return [self entriesWithDatesBetween:timeRange.earliest and:timeRange.latest];
 }
 
 @end

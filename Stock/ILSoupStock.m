@@ -8,7 +8,8 @@
 @property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILSoupEntry>>* soupEntryStorage;
 @property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILSoupIndex>>* soupIndiciesStorage;
 @property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILSoupSequence>>* soupSequencesStorage;
-@property(nonatomic, retain) id<ILSoupCursor> soupCursor;
+@property(nonatomic, retain) NSPredicate* soupQueryStorage;
+@property(nonatomic, retain) id<ILSoupCursor> soupCursorStorage;
 
 - (instancetype) initWithSoupName:(NSString*) soupName;
 
@@ -19,7 +20,6 @@
 @implementation ILSoupStock
 @synthesize soupName;
 @synthesize soupDescription;
-@synthesize soupQuery;
 @synthesize defaultEntry;
 @synthesize delegate;
 
@@ -58,6 +58,17 @@
 - (NSString*) soupUUID
 {
     return self.soupUUIDStorage;
+}
+
+- (NSPredicate*) soupQuery
+{
+    return self.soupQueryStorage;
+}
+
+- (void) setSoupQuery:(NSPredicate *)soupQuery
+{
+    self.soupQueryStorage = soupQuery;
+    [self resetCursor];
 }
 
 #pragma mark - Entries
@@ -273,21 +284,25 @@
 
 #pragma mark - Cursor
 
-- (id<ILSoupCursor>) getCursor
-{
-    return self.soupCursor;
-}
-
-- (id<ILSoupCursor>) setupCursor
+- (id<ILSoupCursor>) resetCursor
 {
     if (self.soupQuery) {
-        self.soupCursor = [self querySoup:self.soupQuery];
+        self.soupCursorStorage = [self querySoup:self.soupQuery];
     }
     else { // create a cursor with all the items
-        self.soupCursor = [ILStockCursor.alloc initWithEntries:self.soupEntryStorage.allValues];
+        self.soupCursorStorage = [ILStockCursor.alloc initWithEntries:self.soupEntryStorage.allValues];
     }
     
-    return self.soupCursor;
+    return self.soupCursorStorage;
+}
+
+- (id<ILSoupCursor>) cursor
+{
+    if (!self.soupCursorStorage) {
+        [self resetCursor];
+    }
+    
+    return self.soupCursorStorage;
 }
 
 #pragma mark - Sequences

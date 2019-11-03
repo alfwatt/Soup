@@ -4,6 +4,7 @@
 #pragma mark -
 
 @protocol ILSoupEntry;
+@protocol ILSoupTime;
 
 #pragma mark -
 
@@ -105,6 +106,10 @@
 
 /*! @brief a cursor of items with values between the dates provided */
 - (id<ILSoupCursor>) entriesWithDatesBetween:(NSDate*) earliest and:(NSDate*) latest;
+
+/*! @brief a cursor of items with values between the dates provided */
+- (id<ILSoupCursor>) entriesWithTimeRange:(id<ILSoupTime>) timeRange;
+
 
 @end
 

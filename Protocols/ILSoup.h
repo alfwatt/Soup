@@ -114,11 +114,11 @@
 
 #pragma mark - Default Cursor
 
-/*! @brief create or reset cursor after setting soupQuery */
-- (id<ILSoupCursor>) setupCursor;
+/*! @brief reset cursor to the zero index, automatically called in when setitng property `soupQuery` */
+- (id<ILSoupCursor>) resetCursor;
 
 /*! @brief the default cursor for this soup */
-- (id<ILSoupCursor>) getCursor;
+@property(nonatomic, readonly) id<ILSoupCursor> cursor;
 
 #pragma mark - Sequences
 

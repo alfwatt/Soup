@@ -1,6 +1,7 @@
 
-XCODE_PROJECT := IcedHTTP.xcodeproj
-XCODE_TARGET := IcedHTTP
+XCODE_PROJECT := Soup.xcodeproj
+XCODE_TARGET := Soup
+XCODE_TARGET_IOS := "$(XCODE_TARGET) (iOS)"
 
 DOCS_DIR := docs
 

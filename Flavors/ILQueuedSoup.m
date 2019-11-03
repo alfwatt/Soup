@@ -178,14 +178,14 @@
 
 #pragma mark - Default Cursor
 
-- (id<ILSoupCursor>) setupCursor
+- (id<ILSoupCursor>) resetCursor
 {
-    return [self.queued setupCursor];
+    return [self.queued resetCursor];
 }
 
-- (id<ILSoupCursor>) getCursor
+- (id<ILSoupCursor>) cursor
 {
-    return [self.queued getCursor];
+    return self.queued.cursor;
 }
 
 - (id<ILSoupCursor>) querySoup:(NSPredicate*) query
