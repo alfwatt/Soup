@@ -1,7 +1,7 @@
 <a id="soup"></a>
 # Soup
 
-<img src="Artwork/Soup-Logo.png" width="256" height="256">
+<img src="Artwork/Soup-Logo.png" width="256" height="256" style="margin:2em; float: right; >
 
 An object oriented persistance framework from [iStumbler Labs](https://istumbler.net/labs) 
 modeled  on  the [Apple Newton](https://en.wikipedia.org/wiki/Apple_Newton) API.
@@ -12,9 +12,7 @@ modeled  on  the [Apple Newton](https://en.wikipedia.org/wiki/Apple_Newton) API.
 Soup on [GitHub](https://github.com/alfwatt/Soup), 
 [GitLab](https://gitlab.com/alfwatt/Soup)
 
-<!-- circle is disabled
-Circle CI Build:  [![CircleCI](https://circleci.com/gh/alfwatt/Soup.svg?style=svg)](https://circleci.com/gh/alfwatt/Soup)
--->
+ <!-- Currently Disabled: Circle CI Build:  [![CircleCI](https://circleci.com/gh/alfwatt/Soup.svg?style=svg)](https://circleci.com/gh/alfwatt/Soup) -->
 
 <a id="support"></a>
 ## Support Soup!
