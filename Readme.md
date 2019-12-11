@@ -1,7 +1,7 @@
 <a id="soup"></a>
 # Soup
 
-<img src="Artwork/Soup-Logo.png" width="256" height="256" style="margin:2em; float: right; >
+<img src="Artwork/Soup-Logo.png" width="256" height="256" style="margin:2em; float: right;">
 
 An object oriented persistance framework from [iStumbler Labs](https://istumbler.net/labs) 
 modeled  on  the [Apple Newton](https://en.wikipedia.org/wiki/Apple_Newton) API.
