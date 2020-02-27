@@ -2,7 +2,7 @@
 
 #import <Soup/ILSoup.h>
 
-/*! @brief Performs all soup operations and delegate callbacks on particular queues with delegate callbacks made on */
+/// Performs all soup operations and delegate callbacks on particular queues with delegate callbacks made on the main queue
 @interface ILQueuedSoup : NSObject <ILSoup>
 @property(retain) id<ILSoup> queued;
 @property(retain) NSOperationQueue* soupOperations;
@@ -13,8 +13,8 @@
 
 // MARK: -
 
-/*! @brief delegate calbacks for deferred operations
-    <a id="ILSoupDelegate"></a> */
+/// delegate calbacks for deferred operations
+///    <a id="ILSoupDelegate"></a>
 @protocol ILQueuedSoupDelegate <ILSoupDelegate>
 
 @end

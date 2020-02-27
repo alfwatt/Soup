@@ -36,7 +36,7 @@
 
 // MARK: -
 
-/*! @brief a stock cursor, which contains the entries provided */
+/// a stock cursor, which contains the entries provided
 @interface ILStockCursor : NSObject <ILSoupCursor>
 
 - (instancetype) initWithEntries:(NSArray<id<ILSoupEntry>>*) entries;
@@ -45,14 +45,14 @@
 
 // MARK: -
 
-/*! @brief a cursor of Aliases, and the soup from which they can be fetched */
+/// a cursor of Aliases, and the soup from which they can be fetched
 @interface ILStockAliasCursor : NSObject <ILSoupCursor>
 
 - (instancetype) initWithAliases:(NSArray<NSString*>*) aliases inSoup:(id<ILSoup>) sourceSoup;
 
 // MARK: -
 
-/*! @brief get the next alias in the cursor */
+/// - Returns: the next alias in the cursor
 - (NSString*) nextAlias;
 
 @end

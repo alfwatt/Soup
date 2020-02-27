@@ -9,12 +9,10 @@
 
 @implementation ILSoupClock
 
-/*! @brief init an ILSoupTime instance with earliest and latest dates */
 + (id<ILSoupTime>) timeSpanWithEarliest:(NSDate*)earliest andLatest:(NSDate*)latest {
     return [self.alloc initWithEarliest:earliest andLatest:latest];
 }
 
-/*! @brief init an ILSoupTime with earliest date and a time interval to the latest */
 + (id<ILSoupTime>) timeSpanWithEarliest:(NSDate*)earliest andInterval:(NSTimeInterval)interval {
     return [self.alloc initWithEarliest:earliest andLatest:[earliest dateByAddingTimeInterval:interval]];
 }
@@ -135,17 +133,14 @@
 
 // MARK: -
 
-/*! @brief earliest moment of this ILSoupTime */
 - (NSDate*) earliest {
     return self.earliestStorage;
 }
 
-/*! @breif latest moment of this ILSoupTime */
 - (NSDate*) latest {
     return self.latestStorage;
 }
 
-/*! @brief iterval of this ILSoupTime */
 - (NSTimeInterval) interval {
     return [self.latest timeIntervalSinceDate:self.earliest];
 }

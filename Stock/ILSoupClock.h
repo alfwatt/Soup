@@ -2,7 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*! @brief Stock implementation of the ILSoupTime protocol */
+/// Stock implementation of the ILSoupTime protocol
 @interface ILSoupClock : NSObject <ILSoupTime>
 
 @end

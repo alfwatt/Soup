@@ -11,8 +11,6 @@
 @property(nonatomic, retain) NSPredicate* soupQueryStorage;
 @property(nonatomic, retain) id<ILSoupCursor> soupCursorStorage;
 
-- (instancetype) initWithSoupName:(NSString*) soupName;
-
 @end
 
 // MARK: -
@@ -27,7 +25,7 @@
 
 + (id<ILSoup>)makeSoup:(NSString*)soupName
 {
-    return [self.alloc initWithSoupName:soupName];
+    return [self.alloc initWithName:soupName];
 }
 
 // MARK: -
@@ -44,7 +42,7 @@
     return self;
 }
 
-- (instancetype) initWithSoupName:(NSString*) soupName
+- (instancetype) initWithName:(NSString*) soupName;
 {
     if ((self = self.init)) {
         self.soupName = soupName;

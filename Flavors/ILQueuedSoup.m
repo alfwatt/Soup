@@ -27,7 +27,13 @@
     return soup;
 }
 
-// MARK: -
+// MARK: - Initilizers
+
+- (instancetype)initWithName:(NSString *)soupName {
+    return nil;
+}
+
+// MARK: - Properties
 
 - (NSUUID*) soupUUID
 {

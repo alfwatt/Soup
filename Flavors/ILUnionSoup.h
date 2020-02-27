@@ -4,65 +4,65 @@
 
 @protocol ILUnionSoupDelegate;
 
-/*! @brief ILUnionSoup provides a single query interface to multiple soups */
+/// ILUnionSoup provides a single query interface to multiple soups
 @interface ILUnionSoup : ILSoupStock
 
-/*! @brief the soups in the union, in priority order */
+/// the soups in the union, in priority order
 @property(readonly) NSArray<id<ILSoup>>* loadedSoups;
 
-/*! @brief the delegate of the union */
+/// the delegate of the union
 @property(assign) id<ILUnionSoupDelegate> delegate;
 
 // MARK: - Managing Soups
 
-/*! @brief adds a soup to the union */
+/// adds a soup to the union
 - (void) addSoup:(id<ILSoup>) soup;
 
-/*! @brief insert at index in the stack */
+/// insert at index in the stack
 - (void) insertSoup:(id<ILSoup>) soup atIndex:(NSUInteger) index;
 
-/*! @brief removes a soup from the union */
+/// removes a soup from the union
 - (void) removeSoup:(id<ILSoup>) soup;
 
 // MARK: - Managing Entries
 
-/*! @brief copy an entry from one soup to another */
+/// copy an entry from one soup to another
 - (void) copyEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup;
 
-/*! @brief move an entry from on soup to another */
+/// move an entry from on soup to another
 - (void) moveEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup;
 
-/*! @brief search the stack from the top for the entry and move it down one soup */
+/// search the stack from the top for the entry and move it down one soup
 - (void) pushEntry:(NSString*) entryHash;
 
-/*! @brief search the stack from the bottom for the entry and move it up one soup */
+/// search the stack from the bottom for the entry and move it up one soup
 - (void) popEntry:(NSString*) entryHash;
 
 @end
 
 // MARK: -
 
-/*! @brief union multiple soups behind a single query interface */
+/// union multiple soups behind a single query interface
 @protocol ILUnionSoupDelegate <ILSoupDelegate>
 
-/*! @brief added a soup to the union */
+/// added a soup to the union
 - (void) unionSoup:(ILUnionSoup*) unionSoup addedSoup:(id<ILSoup>) soup;
 
-/*! @brief removed a soup from the union */
+/// removed a soup from the union
 - (void) unionSoup:(ILUnionSoup*) unionSoup removedSoup:(id<ILSoup>) soup;
 
 // MARK: - 
 
-/*! @brief union copied entry from one soup to another */
+/// union copied entry from one soup to another
 - (void) unionSoup:(ILUnionSoup*) unionSoup copiedEntry:(id<ILSoupEntry>) entry fromSoup:(id<ILSoupEntry>) fromSoup toSoup:(id<ILSoupEntry>) toSoup;
 
-/*! @brief union moved entry from one soup to another */
+/// union moved entry from one soup to another
 - (void) unionSoup:(ILUnionSoup*) unionSoup movedEntry:(id<ILSoupEntry>) entry fromSoup:(id<ILSoupEntry>) fromSoup toSoup:(id<ILSoupEntry>) toSoup;
 
-/*! @brief union pushed entry from one soup to another */
+/// union pushed entry from one soup to another
 - (void) unionSoup:(ILUnionSoup*) unionSoup pushedEntry:(id<ILSoupEntry>) entry fromSoup:(id<ILSoupEntry>) fromSoup toSoup:(id<ILSoupEntry>) toSoup;
 
-/*! @brief union poped entry from one soup to another */
+/// union poped entry from one soup to another
 - (void) unionSoup:(ILUnionSoup*) unionSoup popedEntry:(id<ILSoupEntry>) entry fromSoup:(id<ILSoupEntry>) fromSoup toSoup:(id<ILSoupEntry>) toSoup;
 
 @end
