@@ -1,10 +1,3 @@
-//
-//  CanneryTests.swift
-//  CanneryTests
-//
-//  Created by Alf on 11/10/19.
-//
-
 import XCTest
 @testable import Cannery
 
