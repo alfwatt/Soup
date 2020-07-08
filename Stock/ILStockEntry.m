@@ -3,6 +3,7 @@
 
 @interface ILStockEntry ()
 @property(nonatomic,retain) NSDictionary* entryKeysStorage;
+@property(nonatomic,retain) NSMutableDictionary* entryKeysMutations;
 
 - (instancetype) initWithKeys:(NSDictionary*) entryKeys;
 
@@ -46,6 +47,7 @@ NSString* ILSoupEntryKeysHash       = @"soup.entry.keysHash";
         newEntryKeys[ILSoupEntryKeysHash] = [entryDataKeys sha224AllKeys];
         
         self.entryKeysStorage = newEntryKeys;
+        self.entryKeysMutations = NSMutableDictionary.new;
     }
     return self;
 }
@@ -82,14 +84,14 @@ NSString* ILSoupEntryKeysHash       = @"soup.entry.keysHash";
 NSString* ILSoupEntryAncestorKey    = @"soup.entry.ancestor";
 NSString* ILSoupEntryMutationDate   = @"soup.entry.mutated";
 
-- (id<ILSoupEntry>) mutatedEntry:(NSString*) mutatedKey newValue:(id) value
+- (instancetype) mutatedEntry:(NSString*) mutatedKey newValue:(id) value
 {
-    NSMutableDictionary* mutatedKeys = self.entryKeysStorage.mutableCopy;
+    NSMutableDictionary* mutatedKeys = (self.entryKeysStorage ? self.entryKeysStorage.mutableCopy : NSMutableDictionary.new);
     mutatedKeys[mutatedKey] = value;
     return [self.class soupEntryFromKeys:mutatedKeys];
 }
 
-- (id<ILSoupEntry>) mutatedEntry:(NSDictionary*) mutatedValues
+- (instancetype) mutatedEntry:(NSDictionary*) mutatedValues
 {
     NSMutableDictionary* mutatedKeys = (self.entryKeysStorage ? self.entryKeysStorage.mutableCopy : NSMutableDictionary.new);
     for (id key in mutatedValues.allKeys) {
@@ -107,11 +109,68 @@ NSString* ILSoupEntryMutationDate   = @"soup.entry.mutated";
     return self.entryKeys[ILSoupEntryAncestorKey];
 }
 
-// MARK: -
+// MARK: - Dynamic Properties
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
+{
+    if ([self respondsToSelector:selector]) {
+        return [NSMethodSignature methodSignatureForSelector:selector];
+    }
+    else {
+        NSString *sel = NSStringFromSelector(selector);
+        if ([sel rangeOfString:@"set"].location == 0) {
+            return [NSMethodSignature signatureWithObjCTypes:"v@:@"];
+        } else {
+            return [NSMethodSignature signatureWithObjCTypes:"@@:"];
+        }
+    }
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation
+{
+    NSString *key = NSStringFromSelector([invocation selector]);
+    if ([key rangeOfString:@"set"].location == 0) {
+        key = [key substringWithRange:NSMakeRange(3, (key.length - 4))].lowercaseString;
+        if (key) {
+            NSString *obj;
+            [invocation getArgument:&obj atIndex:2];
+            if (obj) {
+                if ([obj conformsToProtocol:@protocol(NSCopying)]) {
+                    [self.entryKeysMutations setObject:obj.copy forKey:key];
+                }
+                else {
+                    [self.entryKeysMutations setObject:obj forKey:key];
+                }
+            }
+            else {
+                [self.entryKeysMutations removeObjectForKey:key];
+            }
+        }
+    } else {
+        NSString *obj = [self.entryKeysMutations objectForKey:key];
+        if (obj) {
+            [invocation setReturnValue:&obj];
+        }
+    }
+}
+
+// MARK: - Mutations
+
+- (NSDictionary*) propertyMutations
+{
+    return [NSDictionary dictionaryWithDictionary:self.entryKeysMutations];
+}
+
+- (instancetype) entryWithPropertyMutations
+{
+    return [self mutatedEntry:self.propertyMutations];
+}
+
+// MARK: - NSObject
 
 - (NSString*) description
 {
-    return [NSString stringWithFormat:@"%@ %@ %@", self.class, self.entryHash, self.entryKeys];
+    return [NSString stringWithFormat:@"%@ %@ %@ ~ %@", self.class, self.entryHash, self.entryKeys, self.entryKeysMutations];
 }
 
 @end

@@ -52,7 +52,7 @@
         numberValue = @([value doubleValue]);
     }
     
-    if (numberValue) {
+    if (numberValue != nil) {
         ILStockSequenceEntry* sequencyEntry = [ILStockSequenceEntry new];
         sequencyEntry.entryHash = entry.entryHash;
         sequencyEntry.entryDate = timeIndex;

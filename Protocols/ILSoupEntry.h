@@ -47,10 +47,10 @@ extern NSString* ILSoupEntryMutationDate;
 @protocol ILMutableSoupEntry <ILSoupEntry>
 
 /// mutate a single key and value in the entry, creating a new entry with the same UUID and a new hash
-- (id<ILMutableSoupEntry>) mutatedEntry:(NSString*) mutatedKey newValue:(id) value;
+- (instancetype) mutatedEntry:(NSString*) mutatedKey newValue:(id) value;
 
 /// mutate keys and values provided, creating a new entry with the same UUID and a new hash
-- (id<ILMutableSoupEntry>) mutatedEntry:(NSDictionary*) mutatedValues;
+- (instancetype) mutatedEntry:(NSDictionary*) mutatedValues;
 
 @end
 
