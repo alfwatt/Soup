@@ -163,7 +163,7 @@ NSString* ILSoupEntryMutationDate   = @"soup.entry.mutated";
 
 - (instancetype) entryWithPropertyMutations
 {
-    return [self mutatedEntry:self.propertyMutations];
+    return [self mutatedEntry:self.entryKeysMutations];
 }
 
 // MARK: - NSObject
