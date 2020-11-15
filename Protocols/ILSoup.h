@@ -35,7 +35,7 @@
 /// the <ILSoupDelegate> whis is notified when changes are made
 @property(nonatomic, assign) NSObject<ILSoupDelegate>* delegate;
 
-// MARK: -
+// MARK: - Kitchen
 
 /// create a new soup with the provided name
 + (instancetype) makeSoup:(NSString*) soupName;
