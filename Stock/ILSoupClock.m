@@ -18,11 +18,15 @@
 }
 
 + (id<ILSoupTime>)anytime {
-    return nil;
+    static id<ILSoupTime> anytime = nil;
+    if (!anytime) {
+        anytime = [self.alloc initWithEarliest:NSDate.distantPast andLatest:NSDate.distantFuture];
+    }
+    return anytime;
 }
 
 + (id<ILSoupTime>)earlier {
-    return nil;
+    return [self.alloc initWithEarliest:NSDate.distantPast andLatest:NSDate.date];
 }
 
 + (id<ILSoupTime>)lastCentury {
@@ -42,11 +46,15 @@
 }
 
 + (id<ILSoupTime>)later {
-    return nil;
+    return [self.alloc initWithEarliest:NSDate.date andLatest:NSDate.distantFuture];
 }
 
 + (id<ILSoupTime>)never {
-    return nil;
+    static id<ILSoupTime> never = nil;
+    if (!never) {
+        never =  [self.alloc initWithEarliest:NSDate.distantFuture andLatest:NSDate.distantPast];
+    }
+    return never;
 }
 
 + (id<ILSoupTime>)nextCentury {
