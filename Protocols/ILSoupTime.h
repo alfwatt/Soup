@@ -8,20 +8,22 @@
 /// ILSoupTime supports relative time ranges for querying an ILSoupDateIndex
 @protocol ILSoupTime <NSObject>
 
-/// any time before now
+/// match any time before now
 + (id<ILSoupTime>) earlier;
 
-/// and time after now
+/// match and time after now
 + (id<ILSoupTime>) later;
 
-/// any time between distantPast and distantFuture
+/// match any time between distantPast and distantFuture
 + (id<ILSoupTime>) anytime;
 
-/// any time or nil
+/// match any time or nil
 + (id<ILSoupTime>) whenever;
 
-/// not now, not ever
+/// nevver doesn't match any dates, not now, not ever
 + (id<ILSoupTime>) never;
+
+// MARK: - right about now
 
 /// the two minutes incluing the one before now and the one after
 + (id<ILSoupTime>) nowish;
@@ -79,22 +81,23 @@
 
 // MARK: -
 
-/// init an ILSoupTime instance with earliest and latest dates
-+ (id<ILSoupTime>) timeSpanWithEarliest:(NSDate*)earliest andLatest:(NSDate*)latest;
-
-/// init an ILSoupTime with earliest date and a time interval to the latest
-+ (id<ILSoupTime>) timeSpanWithEarliest:(NSDate*)earliest andInterval:(NSTimeInterval)interval;
-
-// MARK: -
-
 /// earliest moment of this ILSoupTime
 @property(nonatomic,readonly) NSDate* earliest;
 
 /// latest moment of this ILSoupTime
 @property(nonatomic,readonly) NSDate* latest;
 
+// MARK: - Initilizer
+
+/// init an ILSoupTime with earliest and latest dates
+- (instancetype) initWithEarliest:(NSDate*)earliest andLatest:(NSDate*)latest;
+
 /// iterval of this ILSoupTime
 - (NSTimeInterval) interval;
+
+// MARK: - Comprability
+
+- (NSComparisonResult) compare:(NSDate*)date;
 
 @end
 

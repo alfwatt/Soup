@@ -7,7 +7,7 @@
 		<key>Cannery.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 			<key>orderHint</key>
 			<integer>35</integer>
 		</dict>
@@ -26,8 +26,10 @@
 			<key>orderHint</key>
 			<integer>44</integer>
 		</dict>
-		<key>Soup.xcscheme_^#shared#^_</key>
+		<key>Soup.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>38</integer>
 		</dict>
