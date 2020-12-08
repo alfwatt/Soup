@@ -3,31 +3,47 @@
 @interface ILSoupClock ()
 @property(nonatomic,retain) NSDate* earliestStorage;
 @property(nonatomic,retain) NSDate* latestStorage;
+@property(nonatomic,assign) BOOL isWhenever;
 @end
 
 // MARK: -
 
 @implementation ILSoupClock
 
-+ (id<ILSoupTime>) timeSpanWithEarliest:(NSDate*)earliest andLatest:(NSDate*)latest {
-    return [self.alloc initWithEarliest:earliest andLatest:latest];
++ (id<ILSoupTime>)earlier {
+    return [self.alloc initWithEarliest:NSDate.distantPast andLatest:NSDate.date];
 }
 
-+ (id<ILSoupTime>) timeSpanWithEarliest:(NSDate*)earliest andInterval:(NSTimeInterval)interval {
-    return [self.alloc initWithEarliest:earliest andLatest:[earliest dateByAddingTimeInterval:interval]];
++ (id<ILSoupTime>)later {
+    return [self.alloc initWithEarliest:NSDate.date andLatest:NSDate.distantFuture];
 }
 
 + (id<ILSoupTime>)anytime {
-    static id<ILSoupTime> anytime = nil;
+    static ILSoupClock* anytime = nil;
     if (!anytime) {
         anytime = [self.alloc initWithEarliest:NSDate.distantPast andLatest:NSDate.distantFuture];
     }
     return anytime;
 }
 
-+ (id<ILSoupTime>)earlier {
-    return [self.alloc initWithEarliest:NSDate.distantPast andLatest:NSDate.date];
++ (id<ILSoupTime>)never {
+    static ILSoupClock* never = nil;
+    if (!never) {
+        never =  [self.alloc initWithEarliest:NSDate.distantFuture andLatest:NSDate.distantPast];
+    }
+    return never;
 }
+
++ (id<ILSoupTime>)whenever {
+    static ILSoupClock* whenever = nil;
+    if (!whenever) {
+        whenever =  [self.alloc initWithEarliest:NSDate.distantFuture andLatest:NSDate.distantPast];
+        whenever.isWhenever = true;
+    }
+    return whenever;
+}
+
+// MARK: -
 
 + (id<ILSoupTime>)lastCentury {
     return nil;
@@ -43,18 +59,6 @@
 
 + (id<ILSoupTime>)lastYear {
     return nil;
-}
-
-+ (id<ILSoupTime>)later {
-    return [self.alloc initWithEarliest:NSDate.date andLatest:NSDate.distantFuture];
-}
-
-+ (id<ILSoupTime>)never {
-    static id<ILSoupTime> never = nil;
-    if (!never) {
-        never =  [self.alloc initWithEarliest:NSDate.distantFuture andLatest:NSDate.distantPast];
-    }
-    return never;
 }
 
 + (id<ILSoupTime>)nextCentury {
@@ -105,10 +109,6 @@
     return nil;
 }
 
-+ (id<ILSoupTime>)whenever {
-    return nil;
-}
-
 // MARK: -
 
 - (instancetype) initWithEarliest:(NSDate*)earliest andLatest:(NSDate*)latest {
@@ -131,6 +131,26 @@
 
 - (NSTimeInterval) interval {
     return [self.latest timeIntervalSinceDate:self.earliest];
+}
+
+// MARK: - compare
+
+- (NSComparisonResult) compare:(id) other {
+    NSComparisonResult result = self.isWhenever ? NSOrderedSame : NSOrderedAscending; // whenever always matches
+    if (!self.isWhenever && [other isKindOfClass:NSDate.class]) {
+        NSDate* comprable = (NSDate*)other;
+        if ([comprable compare:self.earliestStorage] == NSOrderedDescending
+          && [comprable compare:self.latestStorage] == NSOrderedAscending) { // same
+            result = NSOrderedSame;
+        }
+        else if ([comprable compare:self.earliestStorage] == NSOrderedAscending) { // before
+            result = NSOrderedAscending;
+        }
+        else if ([comprable compare:self.latestStorage] == NSOrderedDescending) { // after
+            result = NSOrderedDescending;
+        }
+    }
+    return result;
 }
 
 @end

@@ -29,8 +29,12 @@ extern NSString* ILSoupEntryDataHash; // NSString*
 
 // MARK: -
 
-/// create entry with keys provided
-+ (instancetype) soupEntryFromKeys:(NSDictionary*) entryKeys;
++ (instancetype) soupEntryWithKeys:(NSDictionary*) entryKeys;
+
+// MARK: -
+
+- (instancetype) initWithKeys:(NSDictionary*) entryKeys;
+
 
 @end
 

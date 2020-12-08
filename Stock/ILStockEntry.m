@@ -18,15 +18,13 @@ NSString* ILSoupEntryKeysHash       = @"soup.entry.keysHash";
 
 @implementation ILStockEntry
 
-+ (instancetype) soupEntryFromKeys:(NSDictionary*) entryKeys
-{
++ (instancetype) soupEntryWithKeys:(NSDictionary*) entryKeys {
     return [ILStockEntry.alloc initWithKeys:entryKeys];
 }
 
 // MARK: - ILSoupStockEntry
 
-- (instancetype) initWithKeys:(NSDictionary*) entryKeys
-{
+- (instancetype) initWithKeys:(NSDictionary*) entryKeys {
     if ((self = super.init)) {
         NSMutableDictionary* newEntryKeys = (entryKeys ? entryKeys.mutableCopy : NSMutableDictionary.new);
         if (![newEntryKeys.allKeys containsObject:ILSoupEntryUUID]) { // create a new UUID for the entry
@@ -49,11 +47,11 @@ NSString* ILSoupEntryKeysHash       = @"soup.entry.keysHash";
         self.entryKeysStorage = newEntryKeys;
         self.entryKeysMutations = NSMutableDictionary.new;
     }
+    
     return self;
 }
 
-- (instancetype) init
-{
+- (instancetype) init {
     return [self initWithKeys:@{}];
 }
 
@@ -88,7 +86,8 @@ NSString* ILSoupEntryMutationDate   = @"soup.entry.mutated";
 {
     NSMutableDictionary* mutatedKeys = (self.entryKeysStorage ? self.entryKeysStorage.mutableCopy : NSMutableDictionary.new);
     mutatedKeys[mutatedKey] = value;
-    return [self.class soupEntryFromKeys:mutatedKeys];
+    
+    return [self.class soupEntryWithKeys:mutatedKeys];
 }
 
 - (instancetype) mutatedEntry:(NSDictionary*) mutatedValues
@@ -99,7 +98,8 @@ NSString* ILSoupEntryMutationDate   = @"soup.entry.mutated";
     }
     mutatedKeys[ILSoupEntryAncestorKey] = self.entryHash;
     mutatedKeys[ILSoupEntryMutationDate] = NSDate.date;
-    return [self.class soupEntryFromKeys:mutatedKeys];
+    
+    return [self.class soupEntryWithKeys:mutatedKeys];
 }
 
 // MARK: - Ancestry
@@ -111,19 +111,22 @@ NSString* ILSoupEntryMutationDate   = @"soup.entry.mutated";
 
 // MARK: - Dynamic Properties
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
+- (NSMethodSignature*) methodSignatureForSelector:(SEL)selector
 {
+    NSMethodSignature* signature = nil;
     if ([self respondsToSelector:selector]) {
-        return [NSMethodSignature methodSignatureForSelector:selector];
+        signature = [NSMethodSignature methodSignatureForSelector:selector];
     }
     else {
         NSString *sel = NSStringFromSelector(selector);
         if ([sel rangeOfString:@"set"].location == 0) {
-            return [NSMethodSignature signatureWithObjCTypes:"v@:@"];
+            signature = [NSMethodSignature signatureWithObjCTypes:"v@:@"];
         } else {
-            return [NSMethodSignature signatureWithObjCTypes:"@@:"];
+            signature = [NSMethodSignature signatureWithObjCTypes:"@@:"];
         }
     }
+    
+    return signature;
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation

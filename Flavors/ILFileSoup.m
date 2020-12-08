@@ -146,7 +146,7 @@
     NSDictionary* entryKeys = [NSJSONSerialization JSONObjectWithStream:fileStream options:0 error:nil];
     [fileStream close];
     
-    ILStockEntry* stockEntry = [ILStockEntry soupEntryFromKeys:entryKeys];
+    ILStockEntry* stockEntry = [ILStockEntry soupEntryWithKeys:entryKeys];
 
     return stockEntry;
 }

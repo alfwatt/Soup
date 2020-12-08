@@ -1,16 +1,16 @@
 @import Foundation;
 
-/* @brief Soup Framework Umbrella Header */
-
 // MARK: Protocols
 
 #import <Soup/ILSoup.h>
 #import <Soup/ILSoupEntry.h>
 #import <Soup/ILSoupIndex.h>
 #import <Soup/ILSoupSequence.h>
+#import <Soup/ILSoupTime.h>
 
 // MARK: - Soup Stock
 
+#import <Soup/ILSoupClock.h>
 #import <Soup/ILSoupStock.h>
 #import <Soup/ILStockEntry.h>
 #import <Soup/ILStockIndex.h>
