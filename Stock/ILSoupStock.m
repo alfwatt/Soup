@@ -81,10 +81,10 @@
     id<ILMutableSoupEntry> entry = nil;
     
     if ([comformsToMutableSoupEntry conformsToProtocol:@protocol(ILMutableSoupEntry)]) {
-        [(id<ILMutableSoupEntry>)comformsToMutableSoupEntry soupEntryWithKeys:self.defaultEntry];
+        entry = [(id<ILMutableSoupEntry>)comformsToMutableSoupEntry soupEntryWithKeys:self.defaultEntry];
     }
 
-    if ([self.delegate respondsToSelector:@selector(soup:createdEntry:)]) { // notify
+    if (entry && [self.delegate respondsToSelector:@selector(soup:createdEntry:)]) { // notify
         [self.delegate soup:self createdEntry:entry];
     }
 
