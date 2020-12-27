@@ -10,7 +10,8 @@ let ILBirthday = "birthday"
 let ILParents = "parents"
 
 class CanneryBrowser: NSWindowController {
-    public var cannedSoup: ILSoup!
+    var cannedSoup: ILSoup?
+    var selectedEntry: ILSoupEntry?
     @IBOutlet private var entryList: NSOutlineView!
     @IBOutlet private var entryDetail: NSTableView!
 
@@ -34,13 +35,15 @@ class CanneryBrowser: NSWindowController {
         memory.createTextIndex(ILNotes)
         
         // add some entries to the union
-        soup.add(memory.createBlankEntry().mutatedEntry([
-            ILName:  "iStumbler Labs",
-            ILEmail: "support@istumbler.net",
-            ILURL:   URL(string:"https://istumbler.net/labs") as Any,
-            ILPhone: "415-449-0905"
-        ]))
-
+        if let entry = memory.createBlankEntry() {
+            soup.add(entry.mutatedEntry([
+                ILName:  "iStumbler Labs",
+                ILEmail: "support@istumbler.net",
+                ILURL:   URL(string:"https://istumbler.net/labs") as Any,
+                ILPhone: "415-449-0905"
+            ]))
+        }
+        
         soup.add(memory.createBlankEntry().mutatedEntry([
             ILName:  "John Doe",
             ILEmail: "j.doe@example.com"
@@ -73,9 +76,9 @@ class CanneryBrowser: NSWindowController {
         return soup
     }
 
-    // MARK: - NSWindowController Overrides
+    // MARK: - NSNibAwakening
 
-    override func windowDidLoad() {
+    override func awakeFromNib() {
         super.windowDidLoad()
         self.cannedSoup = demoSoup()
         entryList.reloadData()
@@ -109,25 +112,32 @@ extension CanneryBrowser:  NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         var rows = 0
         if tableView == entryList {
-            let allEntries = cannedSoup.cursor.entries
-            rows = allEntries!.count
+            let allEntries = cannedSoup?.cursor.entries
+            rows = allEntries?.count ?? 0
         }
-        else if tableView == entryDetail {
-            rows = 1
+        else if tableView == entryDetail { // get the number of properties for the selected item
+            if let selectedEntry = selectedEntry {
+                rows = selectedEntry.entryKeys.keys.count
+            }
         }
         return rows
     }
 
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         var value = "!"
+        /*
+        let entryKeys = rowEntry.entryKeys.sorted { $0 < $1 }
+        let rowKey = entryKeys[
+        
         if let columnId = tableColumn?.identifier.rawValue {
-            if columnId.isEqual("entry.key") {
+            if columnId.isEqual("entry.key")
                 value = "Key"
             }
             else if columnId.isEqual("entry.value") {
                 value = "Value"
             }
         }
+        */
         return value
     }
 }
@@ -139,7 +149,9 @@ extension CanneryBrowser: NSOutlineViewDataSource {
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         var children = 0
         if item == nil {
-            children = 2 // TODO number of indexes in the soup, starts withh Identity
+            if let allEntries = cannedSoup?.cursor.entries {
+                children = allEntries.count
+            }
         }
         return children
     }
@@ -149,6 +161,13 @@ extension CanneryBrowser: NSOutlineViewDataSource {
     }
 
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-        return "entry"
+        var data = "!"
+        if item == nil {
+            if let allEntries = cannedSoup?.cursor.entries {
+                let rowEntry = allEntries[index]
+                data = rowEntry.entryHash!
+            }
+        }
+        return data
     }
 }
