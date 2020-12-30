@@ -11,11 +11,6 @@
 
 // MARK: -
 
-NSString* ILSoupEntryUUID           = @"soup.entry.uuid";
-NSString* ILSoupEntryCreationDate   = @"soup.entry.created";
-NSString* ILSoupEntryDataHash       = @"soup.entry.dataHash";
-NSString* ILSoupEntryKeysHash       = @"soup.entry.keysHash";
-
 @implementation ILStockEntry
 
 + (instancetype) soupEntryWithKeys:(NSDictionary*) entryKeys {
@@ -27,6 +22,7 @@ NSString* ILSoupEntryKeysHash       = @"soup.entry.keysHash";
 - (instancetype) initWithKeys:(NSDictionary*) entryKeys {
     if ((self = super.init)) {
         NSMutableDictionary* newEntryKeys = (entryKeys ? entryKeys.mutableCopy : NSMutableDictionary.new);
+        
         if (![newEntryKeys.allKeys containsObject:ILSoupEntryUUID]) { // create a new UUID for the entry
             newEntryKeys[ILSoupEntryUUID] = NSUUID.UUID.UUIDString;
         }
@@ -35,15 +31,20 @@ NSString* ILSoupEntryKeysHash       = @"soup.entry.keysHash";
             newEntryKeys[ILSoupEntryCreationDate] = NSDate.date;
         }
         
+        if (![newEntryKeys.allKeys containsObject:ILSoupEntryClassName]) { // enter the class name for this instance
+            newEntryKeys[ILSoupEntryClassName] = NSStringFromClass(self.class);
+        }
+        
         NSMutableDictionary* entryDataKeys = newEntryKeys.mutableCopy;
         for (NSString* soupKey in @[ILSoupEntryUUID, ILSoupEntryCreationDate, ILSoupEntryDataHash,
             ILSoupEntryKeysHash, ILSoupEntryAncestorKey, ILSoupEntryMutationDate]) {
             [entryDataKeys removeObjectForKey:soupKey];
         }
         
+        // generate the keys and data hash values for the entry
         newEntryKeys[ILSoupEntryDataHash] = [entryDataKeys sha224AllKeysAndValues];
         newEntryKeys[ILSoupEntryKeysHash] = [entryDataKeys sha224AllKeys];
-        
+
         self.entryKeysStorage = newEntryKeys;
         self.entryKeysMutations = NSMutableDictionary.new;
     }
