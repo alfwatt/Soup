@@ -1,16 +1,24 @@
 #ifndef ILSoupEntry_h
 #define ILSoupEntry_h
 
+// MARK: Core Property Keys
+
+/// String UUID
+static NSString* const ILSoupEntryUUID = @"soup.entry.uuid";
+
+/// Date creation date
+static NSString* const ILSoupEntryCreationDate = @"soup.entry.created";
+
+/// String dataHash
+static NSString* const ILSoupEntryDataHash = @"soup.entry.dataHash";
+
+/// String keysHash
+static NSString* const ILSoupEntryKeysHash = @"soup.entry.keysHash";
+
+/// String className — the local className for the entry
+static NSString* const ILSoupEntryClassName = @"soup.entry.className";
+
 // MARK: -
-
-/// NSString* UUID
-extern NSString* ILSoupEntryUUID;
-
-/// NSDate* creation date
-extern NSString* ILSoupEntryCreationDate; // NSDate*
-
-/// NSString* dataHash
-extern NSString* ILSoupEntryDataHash; // NSString*
 
 /// protocol for an entry in ILSoup
 @protocol ILSoupEntry
