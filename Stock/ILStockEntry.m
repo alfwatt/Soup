@@ -131,25 +131,25 @@ NSString* ILSoupEntryMutationDate   = @"soup.entry.mutated";
 
 - (void)forwardInvocation:(NSInvocation *)invocation
 {
-    NSString *key = NSStringFromSelector([invocation selector]);
+    NSString *key = NSStringFromSelector(invocation.selector);
     if ([key rangeOfString:@"set"].location == 0) {
         key = [key substringWithRange:NSMakeRange(3, (key.length - 4))].lowercaseString;
         if (key) {
-            NSString *obj;
+            id obj;
             [invocation getArgument:&obj atIndex:2];
             if (obj) {
-                if ([obj conformsToProtocol:@protocol(NSCopying)]) {
-                    [self.entryKeysMutations setObject:obj.copy forKey:key];
+                if ([obj conformsToProtocol:@protocol(NSCopying)]) { // make an immutable copy
+                    obj = [obj copy];
                 }
-                else {
-                    [self.entryKeysMutations setObject:obj forKey:key];
-                }
+
+                [self.entryKeysMutations setObject:obj forKey:key];
             }
             else {
                 [self.entryKeysMutations removeObjectForKey:key];
             }
         }
-    } else {
+    }
+    else {
         NSString *obj = [self.entryKeysMutations objectForKey:key];
         if (obj) {
             [invocation setReturnValue:&obj];
