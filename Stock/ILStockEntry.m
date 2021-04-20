@@ -89,7 +89,13 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
 - (instancetype) mutatedEntry:(NSDictionary*) mutatedValues {
     NSMutableDictionary* mutatedKeys = (self.entryKeysStorage ? self.entryKeysStorage.mutableCopy : NSMutableDictionary.new);
     for (id key in mutatedValues.allKeys) {
-        mutatedKeys[key] = mutatedValues[key];
+        id object = mutatedValues[key];
+        if (object == NSNull.null) {
+            mutatedKeys[key] = nil;
+        }
+        else {
+            mutatedKeys[key] = object;
+        }
     }
     mutatedKeys[ILSoupEntryAncestorKey] = self.entryHash;
     mutatedKeys[ILSoupEntryMutationDate] = NSDate.date;
@@ -125,15 +131,15 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
 
 /*! @brief check for `set` invocations and attempt to copy or record the presented object into */
 - (void)forwardInvocation:(NSInvocation *)invocation {
+    NSUInteger argc = invocation.methodSignature.numberOfArguments;
     NSString *key = NSStringFromSelector(invocation.selector);
-    if ([key rangeOfString:@"set"].location == 0
-     && invocation.methodSignature.numberOfArguments == 1) { // setter
+    if ([key rangeOfString:@"set"].location == 0 && argc == 3) { // setter
         key = [key substringWithRange:NSMakeRange(3, (key.length - 4))].lowercaseString;
         if (key) {
             id obj;
             [invocation getArgument:&obj atIndex:2];
             if (obj) {
-                if ([obj conformsToProtocol:@protocol(NSCopying)]) { // make an immutable copy
+                if ([obj conformsToProtocol:@protocol(NSCopying)]) { // retain an immutable copy
                     obj = [obj copy];
                 }
                 else { // if we can't copy, NSInvocation needs to retain the argument for us
@@ -142,14 +148,14 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
 
                 [self.entryKeysMutations setObject:obj forKey:key];
             }
-            else {
-                [self.entryKeysMutations removeObjectForKey:key];
+            else { // set an NSNull value, so we can mask an underyling key
+                [self.entryKeysMutations setObject:NSNull.null forKey:key];
             }
         }
     }
-    else if (invocation.methodSignature.numberOfArguments == 0) { // implied getter
-        NSString *obj = [self.entryKeysMutations objectForKey:key];
-        if (obj) {
+    else if (argc == 2) { // implied getter
+        id obj = [self.entryKeysMutations objectForKey:key];
+        if (obj && obj != NSNull.null) { // hide the NSNull values
             [invocation setReturnValue:&obj];
         }
     }
@@ -168,7 +174,14 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
 // MARK: - NSObject
 
 - (NSString*) description {
-    return [NSString stringWithFormat:@"%@ %@ %@ ~ %@", self.class, self.entryHash, self.entryKeys, self.entryKeysMutations];
+    NSString* description = nil;
+    if (self.entryKeysMutations.allKeys.count > 0) {
+        description = [NSString stringWithFormat:@"%@ %@ %@ ~ %@", self.class, self.entryHash, self.entryKeys, self.entryKeysMutations];
+    }
+    else {
+        description = [NSString stringWithFormat:@"%@ %@ %@", self.class, self.entryHash, self.entryKeys];
+    }
+    return description;
 }
 
 @end
