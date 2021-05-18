@@ -141,6 +141,9 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
             if (obj) {
                 if ([obj conformsToProtocol:@protocol(NSCopying)]) { // retain an immutable copy
                     obj = [obj copy];
+                    if (CFGetTypeID((CFTypeRef)obj)) { // retainArguments for CFTypes
+                        CFRetain((CFTypeRef)obj);
+                    }
                 }
                 else { // if we can't copy, NSInvocation needs to retain the argument for us
                     [invocation retainArguments];
