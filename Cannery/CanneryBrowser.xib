@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -22,16 +22,16 @@
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="640" height="480"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <splitView arrangesAllSubviews="NO" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ihj-PD-no1">
                         <rect key="frame" x="0.0" y="0.0" width="646" height="480"/>
                         <subviews>
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="w6e-z9-oPT">
-                                <rect key="frame" x="0.0" y="0.0" width="248" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="188" height="480"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <clipView key="contentView" drawsBackground="NO" id="r7p-hh-O5l">
-                                    <rect key="frame" x="1" y="1" width="246" height="478"/>
+                                    <rect key="frame" x="1" y="1" width="186" height="478"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Xf9-LA-P8o" viewBased="YES" indentationPerLevel="16" outlineTableColumn="wj6-oQ-pHS" id="vDR-JW-Twz">
@@ -99,15 +99,15 @@
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
-                                                <outlet property="dataSource" destination="-2" id="KdT-Hh-tTm"/>
-                                                <outlet property="delegate" destination="-2" id="cyZ-r9-zkB"/>
+                                                <outlet property="dataSource" destination="-2" id="TCY-5L-PBl"/>
+                                                <outlet property="delegate" destination="-2" id="cIz-3n-NJe"/>
                                             </connections>
                                         </outlineView>
                                     </subviews>
                                     <nil key="backgroundColor"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="JvF-Oa-ncC">
-                                    <rect key="frame" x="1" y="463" width="246" height="16"/>
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.18333333333333332" horizontal="YES" id="JvF-Oa-ncC">
+                                    <rect key="frame" x="1" y="463" width="186" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="6Z1-3C-E9m">
@@ -120,14 +120,14 @@
                                 </tableHeaderView>
                             </scrollView>
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="MgA-yC-Q43">
-                                <rect key="frame" x="249" y="0.0" width="397" height="480"/>
+                                <rect key="frame" x="189" y="0.0" width="457" height="480"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <clipView key="contentView" id="YUO-Cl-Ja5">
-                                    <rect key="frame" x="1" y="1" width="395" height="478"/>
+                                    <rect key="frame" x="1" y="1" width="455" height="478"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="4o8-rJ-Ysg" viewBased="YES" id="HFb-TY-lW0">
-                                            <rect key="frame" x="0.0" y="0.0" width="395" height="453"/>
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="4o8-rJ-Ysg" viewBased="YES" id="HFb-TY-lW0">
+                                            <rect key="frame" x="0.0" y="0.0" width="455" height="453"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -165,7 +165,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="entry.value" editable="NO" width="264" minWidth="40" maxWidth="1000" id="Tsa-U8-pXv">
+                                                <tableColumn identifier="entry.value" editable="NO" width="235" minWidth="40" maxWidth="1000" id="Tsa-U8-pXv">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Value">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -178,11 +178,11 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="cYU-lB-uRO">
-                                                            <rect key="frame" x="125" y="1" width="268" height="17"/>
+                                                            <rect key="frame" x="125" y="1" width="328" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pib-My-RWU">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="268" height="17"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="328" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="JZp-Gy-8HU">
                                                                         <font key="font" metaFont="system"/>
@@ -199,13 +199,14 @@
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
-                                                <outlet property="dataSource" destination="-2" id="WRF-ub-JnR"/>
+                                                <outlet property="dataSource" destination="-2" id="ot4-RB-nXg"/>
+                                                <outlet property="delegate" destination="-2" id="NVU-PR-Hcf"/>
                                             </connections>
                                         </tableView>
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="lei-gi-BPP">
-                                    <rect key="frame" x="1" y="253" width="177" height="16"/>
+                                    <rect key="frame" x="1" y="463" width="356" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="xEd-S5-L5h">
@@ -213,7 +214,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <tableHeaderView key="headerView" wantsLayer="YES" id="4o8-rJ-Ysg">
-                                    <rect key="frame" x="0.0" y="0.0" width="395" height="25"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="455" height="25"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
@@ -231,10 +232,50 @@
                     <constraint firstItem="Ihj-PD-no1" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="oLG-Q2-Xig"/>
                 </constraints>
             </view>
+            <toolbar key="toolbar" implicitIdentifier="EE4C25D9-B4C4-44CB-BD5C-BEE1E3965180" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="SOw-0P-OnV">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="XHz-u3-UZa"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="2Z4-g0-8R2"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="hwf-9R-54i"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="nfC-Ab-wSh"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="xgV-ww-tVJ"/>
+                    <toolbarItem implicitItemIdentifier="44099BE6-BE41-4C65-A251-9DB7EC3DC33C" label="Create" paletteLabel="Create" tag="-1" image="NSAddTemplate" bordered="YES" sizingBehavior="auto" id="lVq-zv-7jl">
+                        <connections>
+                            <action selector="onCreateEntry:" target="-2" id="EK9-gg-Z7G"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="28A4E1DB-AF8D-4CE4-8EE8-39CD447BD5DD" label="Revert" paletteLabel="Revert" tag="-1" image="arrow.uturn.backward" catalog="system" bordered="YES" sizingBehavior="auto" id="2ax-eT-L4n">
+                        <connections>
+                            <action selector="onRevertEntry:" target="-2" id="36C-Ze-1v7"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="0DD8B6CB-48AA-4B5F-8D5C-112E611F9562" label="Update" paletteLabel="Update" tag="-1" image="arrow.up" catalog="system" bordered="YES" sizingBehavior="auto" id="sUU-At-eyo">
+                        <connections>
+                            <action selector="onUpdateEntry:" target="-2" id="bAl-sK-1Vu"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="EC37D6F4-0998-4D59-AA2F-95968DF00EE4" label="Delete" paletteLabel="Delete" tag="-1" image="xmark" catalog="system" bordered="YES" sizingBehavior="auto" id="gxK-7x-6qG">
+                        <connections>
+                            <action selector="onDeleteEntry:" target="-2" id="DrA-4R-as8"/>
+                        </connections>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="xgV-ww-tVJ"/>
+                    <toolbarItem reference="lVq-zv-7jl"/>
+                    <toolbarItem reference="2ax-eT-L4n"/>
+                    <toolbarItem reference="sUU-At-eyo"/>
+                    <toolbarItem reference="gxK-7x-6qG"/>
+                </defaultToolbarItems>
+            </toolbar>
             <point key="canvasLocation" x="87" y="120"/>
         </window>
     </objects>
     <resources>
         <image name="NSActionTemplate" width="15" height="15"/>
+        <image name="NSAddTemplate" width="14" height="13"/>
+        <image name="arrow.up" catalog="system" width="13" height="14"/>
+        <image name="arrow.uturn.backward" catalog="system" width="15" height="14"/>
+        <image name="xmark" catalog="system" width="14" height="13"/>
     </resources>
 </document>

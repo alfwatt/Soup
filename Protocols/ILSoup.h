@@ -3,68 +3,72 @@
 
 // MARK: -
 
-@protocol ILSoupEntry;          // ILSoupEntry.h
+@protocol ILSoupEntry;
 @protocol ILMutableSoupEntry;
-@protocol ILSoupIndex;          // ILSoupIndex.h
+@protocol ILSoupIndex;
 @protocol ILSoupIdentityIndex;
 @protocol ILSoupTextIndex;
 @protocol ILSoupNumberIndex;
 @protocol ILSoupDateIndex;
 @protocol ILSoupCursor;
-@protocol ILSoupSequence;       // ILSoupSequence.h
-@protocol ILSoupDelegate;       // ILSoup.h
+@protocol ILSoupSequence;
+@protocol ILSoupDelegate;
 
-/// A Soup contains a collection of Entries, and maintains Indicies to allow for access to those entries, and Sequences to track evolution of those entties
+/// @protocol a Soup contains a collection of `<ILSoupEntries>`,
+/// and maintains `<ILSoupIndex>` objects to allow for access to those entries,
+/// along with `<ILSoupSequence>` objects to track evolution of those entties
 @protocol ILSoup
 
-/// UUID for this soup
+/// @property the UUID for this soup
 @property(nonatomic, readonly) NSUUID* soupUUID;
 
-/// name of the soup
+/// @property name of the soup
 @property(nonatomic, retain) NSString* soupName;
 
-/// description of the soups content
+/// @property a description of the soups content
 @property(nonatomic, retain) NSString* soupDescription;
 
-/// query string for the default cursor
+/// @property the `NSPredicate` for the default cursor
 @property(nonatomic, retain) NSPredicate* soupQuery;
 
-/// default entry keys and values
+/// @property the default entry keys and values for a new `<ILSoupEntry>`
 @property(nonatomic, retain) NSDictionary* defaultEntry; // XXX replace with generator block
 
-/// the <ILSoupDelegate> whis is notified when changes are made
+/// @property the `<ILSoupDelegate>` which is notified when changes are made
 @property(nonatomic, assign) NSObject<ILSoupDelegate>* delegate;
 
 // MARK: - Kitchen
 
-/// create a new soup with the provided name
+/// @returns a new `<ILSoup>` with the provided name
 + (instancetype) makeSoup:(NSString*) soupName;
 
 // MARK: - Designated Initilizer
 
-/// initilize a new soup with the provided name
+/// @return a new `<ILSoup>` with the provided name
 - (instancetype) initWithName:(NSString*) soupName;
 
 // MARK: - Entries
 
-/// create a new blank entry, with the defaults for this soup and a new UUID,
+/// @returns a new blank entry, with the defaults for this soup and a new UUID,
 /// NB that the new entry is not yet stored in the soup
 - (id<ILMutableSoupEntry>) createBlankEntry;
 
-/// create a new blank entry, with the defaults for this soup and a new UUID,
+/// @param comformsToMutableSoupEntry — must conform to the `<ILMutableSoupEntry>` protocol
+/// @returns a new blank entry, with the defaults for this soup and a new UUID,
 /// NB that the new entry is not yet stored in the soup
-/// - Parameter comformsToMutableSoupEntry: must conform to the ILMutableSoupEntry
 - (id<ILMutableSoupEntry>) createBlankEntryOfClass:(Class)comformsToMutableSoupEntry;
 
-/// store an entry to this soup
-/// - Returns: the alias used to store the entry
+/// @param entry — an `<ILSoupEntry>` to add to this soup
+/// @returns: the alias used to store the entry
 - (NSString*) addEntry:(id<ILSoupEntry>) entry;
 
-/// duplicate the entry entry, providing a mutable entry with a new UUID,
-/// NB that the duplicate entry is not yet stored in the soup
+/// duplicate entry, providing a mutable entry with a new UUID
+/// N.B. that the duplicate entry is not yet stored in the soup
+/// @param entry – `<ILSoupEntry>` to be duplicated into a `<ILMutableSoupEntry>`
+/// @returns – `<ILMutableSoupEntry>` which is a duplicate of the data in `entry`
 - (id<ILMutableSoupEntry>) duplicateEntry:(id<ILSoupEntry>) entry;
 
-/// delete an entry from this soup
+/// @param entry - to be deleted from this soup
 - (void) deleteEntry:(id<ILSoupEntry>) entry;
 
 // MARK: - Aliases
@@ -175,10 +179,10 @@
 
 // MARK: - Lifecycle
 
-/// soup was initially filled
+/// @param deJour - an `<ILSoup>` which has been initilized and filled with entries
 - (void) soupFilled:(id<ILSoup>) deJour;
 
-/// soup is done
+/// @param deJour — an `<ILSoup>` which as been finalied and all entries are removed
 - (void) soupDone:(id<ILSoup>) deJour;
 
 @end

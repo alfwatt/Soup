@@ -22,6 +22,19 @@
 
 // MARK: - Properties
 
+- (NSString*) soupName {
+    return self.loadedSoupsStorage[0].soupName;
+}
+
+- (NSString*) soupDescription {
+    NSMutableString* unionDescription = [NSMutableString stringWithFormat:@"%@ members:\n", self.class];
+    NSUInteger index = 0;
+    for (id<ILSoup> member in self.loadedSoupsStorage) {
+        [unionDescription appendFormat:@"\t%li %@", index++, member];
+    }
+    return unionDescription;
+}
+
 - (NSArray<id<ILSoup>>*) loadedSoups
 {
     return [self.loadedSoupsStorage copy];

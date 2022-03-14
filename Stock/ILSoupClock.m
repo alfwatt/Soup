@@ -14,8 +14,16 @@
     return [self.alloc initWithEarliest:NSDate.distantPast andLatest:NSDate.date];
 }
 
++ (id<ILSoupTime>)earlierThan:(NSDate*) latest {
+    return [self.alloc initWithEarliest:NSDate.distantPast andLatest:latest];
+}
+
 + (id<ILSoupTime>)later {
     return [self.alloc initWithEarliest:NSDate.date andLatest:NSDate.distantFuture];
+}
+
++ (id<ILSoupTime>)laterThan:(NSDate*) earliest {
+    return [self.alloc initWithEarliest:earliest andLatest:NSDate.distantFuture];
 }
 
 + (id<ILSoupTime>)anytime {
@@ -77,16 +85,32 @@
     return nil;
 }
 
-+ (id<ILSoupTime>)nowish {
-    return nil;
+// MARK: -
+
+/// the time interval around the center date
++ (id<ILSoupTime>) interval:(NSTimeInterval) seconds before:(NSDate*) latest {
+    return [self.alloc initWithEarliest:[latest dateByAddingTimeInterval:-seconds] andLatest:latest];
+}
+
++ (id<ILSoupTime>) interval:(NSTimeInterval) seconds around:(NSDate*) center {
+    return [self.alloc initWithEarliest:[center dateByAddingTimeInterval:-(seconds/2)]
+                              andLatest:[center dateByAddingTimeInterval:(seconds/2)]];
+}
+
++ (id<ILSoupTime>) interval:(NSTimeInterval) seconds after:(NSDate*) earliest {
+    return [self.alloc initWithEarliest:earliest andLatest:[earliest dateByAddingTimeInterval:seconds]];
 }
 
 + (id<ILSoupTime>)recenly {
-    return nil;
+    return [self interval:(5 * 1000) before:NSDate.date];
+}
+
++ (id<ILSoupTime>)nowish {
+    return [self interval:(2 * 1000) around:NSDate.date];
 }
 
 + (id<ILSoupTime>)soonish {
-    return nil;
+    return [self interval:(5 * 1000) after:NSDate.date];
 }
 
 + (id<ILSoupTime>)thisCentury {

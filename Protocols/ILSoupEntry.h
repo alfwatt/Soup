@@ -1,7 +1,7 @@
 #ifndef ILSoupEntry_h
 #define ILSoupEntry_h
 
-// MARK: Core Property Keys
+// MARK: ILSoupEntry
 
 /// String UUID
 static NSString* const ILSoupEntryUUID = @"soup.entry.uuid";
@@ -18,35 +18,33 @@ static NSString* const ILSoupEntryKeysHash = @"soup.entry.keysHash";
 /// String className — the local className for the entry
 static NSString* const ILSoupEntryClassName = @"soup.entry.className";
 
-// MARK: -
-
-/// protocol for an entry in ILSoup
+/// @protocol for an entry in ILSoup
 @protocol ILSoupEntry
 
-/// hashcode for the entry
+/// @property entryHash — unique hashcode for the entry
 @property(nonatomic, readonly) NSString* entryHash;
 
-/// hashcode for the data records (excluding the Soup Meta-Data)
+/// @property dataHash — hashcode for the data records (excluding the Soup Meta-Data)
 @property(nonatomic, readonly) NSString* dataHash;
 
-/// hashcode for the keys of the entry (excluding the Soup Meta-Data Keys)
+/// @property keysHash — hashcode for the keys of the entry (excluding the Soup Meta-Data Keys)
+/// this is effectivley a `typeOf`' value for any given entity with the same set of keys
 @property(nonatomic, readonly) NSString* keysHash;
 
-/// keys and values for the entry
+/// @property dictionary of keys and values for the entry
 @property(nonatomic, readonly) NSDictionary* entryKeys;
 
-// MARK: -
-
+/// @param entryKeys —dictionary of keys and values for the entry
+/// @returns an auto-released `<ILSopuEntry>` with the `entryKeys` provided
 + (instancetype) soupEntryWithKeys:(NSDictionary*) entryKeys;
 
-// MARK: -
-
+/// @param entryKeys — dictionary of keys and values for the entry
+/// @returns a new `<ILSopuEntry>` with the `entryKeys` provided
 - (instancetype) initWithKeys:(NSDictionary*) entryKeys;
-
 
 @end
 
-// MARK: -
+// MARK: - ILMutableSoupEntry
 
 /// NSString* hash of the ancestor for a mutated entry
 extern NSString* ILSoupEntryAncestorKey;
@@ -54,14 +52,19 @@ extern NSString* ILSoupEntryAncestorKey;
 /// NSDate* that the entry was mutated
 extern NSString* ILSoupEntryMutationDate;
 
-/// protocol for mutable entries in ILSoup
+/// @protocol for mutable entries in ILSoup
 ///     <a id="ILMutableSoupEntry"></a>
 @protocol ILMutableSoupEntry <ILSoupEntry>
 
-/// mutate a single key and value in the entry, creating a new entry with the same UUID and a new hash
-- (instancetype) mutatedEntry:(NSString*) mutatedKey newValue:(id) value;
+/// @param mutatedKey — a key
+/// @param mutatedValue — a value
+/// @returns an `<ILMutableSoupEntry>` with a single mutated key and value in the entry
+/// creating a new entry with the same UUID and a new hash
+- (instancetype) mutatedEntry:(NSString*) mutatedKey newValue:(id) mutatedValue;
 
-/// mutate keys and values provided, creating a new entry with the same UUID and a new hash
+/// @param mutatedValues — a dictionary of keys and values
+/// @returns an `<ILMutableSoupEntry>` with mutated keys and values provided in `mutatedValues`
+/// creating a new entry with the same UUID and a new hash
 - (instancetype) mutatedEntry:(NSDictionary*) mutatedValues;
 
 @end

@@ -227,6 +227,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7519C115277567C600EACA50 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		7542328121AD1E7B008004E0 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		754323E120A2BEBB006EE620 /* NSData+Hashcodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Hashcodes.h"; sourceTree = "<group>"; };
 		754323E220A2BEBB006EE620 /* NSData+Hashcodes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Hashcodes.m"; sourceTree = "<group>"; };
@@ -449,6 +450,7 @@
 		75D12D6F2378BF40003F2899 /* Cannery */ = {
 			isa = PBXGroup;
 			children = (
+				7519C115277567C600EACA50 /* Readme.md */,
 				75D12D792378BF42003F2899 /* Info.plist */,
 				75D12D7A2378BF42003F2899 /* Cannery.entitlements */,
 				75D12D702378BF40003F2899 /* CanneryDelegate.swift */,

@@ -11,8 +11,14 @@
 /// match any time before now
 + (id<ILSoupTime>) earlier;
 
+/// match any time earliter than latest
++ (id<ILSoupTime>)earlierThan:(NSDate*) latest;
+
 /// match and time after now
 + (id<ILSoupTime>) later;
+
+/// match any time later than earliest
++ (id<ILSoupTime>)laterThan:(NSDate*) earliest;
 
 /// match any time between distantPast and distantFuture
 + (id<ILSoupTime>) anytime;
@@ -20,19 +26,24 @@
 /// match any time or nil
 + (id<ILSoupTime>) whenever;
 
-/// nevver doesn't match any dates, not now, not ever
+/// never doesn't match any dates, not now, not ever
 + (id<ILSoupTime>) never;
 
 // MARK: - right about now
+
+/// the time interval around the center date
++ (id<ILSoupTime>) interval:(NSTimeInterval) seconds before:(NSDate*) latest;
++ (id<ILSoupTime>) interval:(NSTimeInterval) seconds around:(NSDate*) center;
++ (id<ILSoupTime>) interval:(NSTimeInterval) seconds after:(NSDate*) earliest;
+
+/// the five minutes before now
++ (id<ILSoupTime>) recenly;
 
 /// the two minutes incluing the one before now and the one after
 + (id<ILSoupTime>) nowish;
 
 /// the five minutes after now
 + (id<ILSoupTime>) soonish;
-
-/// the five minutes before now
-+ (id<ILSoupTime>) recenly;
 
 /// from midnight today to 23:59:59
 + (id<ILSoupTime>) today;

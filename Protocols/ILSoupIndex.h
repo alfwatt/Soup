@@ -30,26 +30,27 @@
 
 // MARK: -
 
-/// Random Access to Cursor Entries by Index
+/// Random Access to Cursor Entries by Index or range
+/// @extends ILSoupCursor to add methods which might be performance intensive,
+/// depending on the indexing method used
 @protocol ILSoupCursorRandomAccess <ILSoupCursor>
 
-/// The number of entries in this cursor
+/// @returns the number of entries in this cursor
 @property(readonly) NSUInteger count;
 
-/// The entry at the index provided
+/// @param entryIndex — index of th entry we want to access
+/// @returns the `ILSoupEntry` entry at the entryIndex provided
 - (id<ILSoupEntry>) entryAtIndex:(NSUInteger) entryIndex;
 
-// MARK: - Access to Cursor Entries by Range
-
-/// - Parameter etnryRange: an `NSRage` indicating the index and count of entries to be returned
-/// - Returns: an array of `ILSoupEntry`s
+/// @param entryRange — an `NSRage` indicating the index and count of entries to be returned
+/// @returns an array of objects which implement `ILSoupEntry`
 - (NSArray<id<ILSoupEntry>>*) entriesInRange:(NSRange) entryRange;
 
 @end
 
 // MARK: -
 
-/// manintain an index of items by an indexPath provided
+/// @protocol manintains an index of items by an indexPath provided
 /// <a id="ILSoupIndex"></a>
 @protocol ILSoupIndex
 
@@ -121,10 +122,13 @@
 /// <a id="ILSoupDateIndex"></a>
 @protocol ILSoupDateIndex <ILSoupIndex>
 
-/// a cursor of items with values between the dates provided
-- (id<ILSoupCursor>) entriesWithDatesBetween:(NSDate*) earliest and:(NSDate*) latest;
+/// @param early — events before this are too early
+/// @param late — events after this are too late
+/// @returns a cursor of items with values between the dates provided
+- (id<ILSoupCursor>) entriesWithDatesBetween:(NSDate*) early and:(NSDate*) late;
 
-/// a cursor of items with values between the dates provided
+/// @param timeRange — an object implementing the ILSoupTime protocol
+/// @returns a cursor of items with values between the dates provided
 - (id<ILSoupCursor>) entriesWithTimeRange:(id<ILSoupTime>) timeRange;
 
 @end
