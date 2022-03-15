@@ -32,15 +32,18 @@ static NSString* const ILSoupEntryClassName = @"soup.entry.className";
 @property(nonatomic, readonly) NSString* keysHash;
 
 /// @property dictionary of keys and values for the entry
-@property(nonatomic, readonly) NSDictionary* entryKeys;
+@property(nonatomic, readonly) NSDictionary<NSString*, id>* entryKeys;
+
+/// @property sorted keys of the entryKeys dictionary
+@property(nonatomic, readonly) NSArray<NSString*>* sortedEntryKeys;
 
 /// @param entryKeys —dictionary of keys and values for the entry
 /// @returns an auto-released `<ILSopuEntry>` with the `entryKeys` provided
-+ (instancetype) soupEntryWithKeys:(NSDictionary*) entryKeys;
++ (instancetype) soupEntryWithKeys:(NSDictionary<NSString*, id>*) entryKeys;
 
 /// @param entryKeys — dictionary of keys and values for the entry
 /// @returns a new `<ILSopuEntry>` with the `entryKeys` provided
-- (instancetype) initWithKeys:(NSDictionary*) entryKeys;
+- (instancetype) initWithKeys:(NSDictionary<NSString*, id>*) entryKeys;
 
 @end
 
@@ -65,7 +68,7 @@ extern NSString* ILSoupEntryMutationDate;
 /// @param mutatedValues — a dictionary of keys and values
 /// @returns an `<ILMutableSoupEntry>` with mutated keys and values provided in `mutatedValues`
 /// creating a new entry with the same UUID and a new hash
-- (instancetype) mutatedEntry:(NSDictionary*) mutatedValues;
+- (instancetype) mutatedEntry:(NSDictionary<NSString*, id>*) mutatedValues;
 
 @end
 

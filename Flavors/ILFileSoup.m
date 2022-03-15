@@ -143,7 +143,7 @@
     NSString* entryPath = [[[self pathForEntryHash:alias] stringByExpandingTildeInPath] stringByAppendingPathComponent:@"entry.json"];
     NSInputStream* fileStream = [NSInputStream inputStreamWithFileAtPath:entryPath];
     [fileStream open];
-    NSDictionary* entryKeys = [NSJSONSerialization JSONObjectWithStream:fileStream options:0 error:nil];
+    NSDictionary<NSString*, id>* entryKeys = [NSJSONSerialization JSONObjectWithStream:fileStream options:0 error:nil];
     [fileStream close];
     
     ILStockEntry* stockEntry = [ILStockEntry soupEntryWithKeys:entryKeys];

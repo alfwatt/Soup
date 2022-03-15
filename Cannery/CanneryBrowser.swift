@@ -122,7 +122,7 @@ extension CanneryBrowser: NSOutlineViewDataSource {
     }
 
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        return true
+        return false
     }
 
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
@@ -140,17 +140,30 @@ extension CanneryBrowser: NSOutlineViewDataSource {
     }
     
     func outlineView(_ outlineView: NSOutlineView, objectValueFor column: NSTableColumn?, byItem item: Any?) -> Any? {
-
-        NSLog("objectValueFor: %@", column ?? "nul")
-        
         var data = "!"
         if let entry = item as? ILSoupEntry {
-            data = entry.entryHash
+            data = entry.entryKeys[ILName] as! String
         }
         
         return data
     }
 
+}
+
+// MARK: - NSOutlineViewDelegate
+
+extension CanneryBrowser: NSOutlineViewDelegate {
+    func outlineViewSelectionDidChange(_ notification: Notification) {
+        let selectedIndex = entryList.selectedRow
+        if selectedIndex != NSNotFound {
+            if let allEntries = cannedSoup?.cursor.entries {
+                if selectedIndex <= allEntries.count  {
+                    selectedEntry = allEntries[selectedIndex]
+                    entryDetail.reloadData()
+                }
+            }
+        }
+    }
 }
 
 // MARK: - NSTableViewDataSource
@@ -162,25 +175,25 @@ extension CanneryBrowser:  NSTableViewDataSource {
         // get the number of properties for the selected item
         if tableView == entryDetail {
             if let selectedEntry = selectedEntry {
-                rows = selectedEntry.entryKeys.keys.count
+                rows = selectedEntry.sortedEntryKeys.count
             }
         }
         return rows
     }
 
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        var value = "!"
-        if let cursor = cannedSoup?.cursor, row < cursor.entries.count,
-            entryList.selectedRowIndexes.count > 0, let tableColumn = tableColumn {
-            let rowEntry: ILSoupEntry = cursor.entries[entryList.selectedRow]
-            let entryKeyValues = Array(rowEntry.entryKeys.keys)
-            let sortedKeyValues = entryKeyValues.sorted { ($0 as! String) > ($1 as! String) }
-            let rowKey = sortedKeyValues[row]
-            if tableColumn.identifier.rawValue == "entry.key" {
-                value = rowKey as! String
-            }
-            else if tableColumn.identifier.rawValue == "entry.value" {
-                value = rowEntry.entryKeys[row] as? String ?? "nil"
+        var value: NSObject = "!" as NSObject
+        if let selectedEntry = selectedEntry {
+            if let columnId = tableColumn?.identifier.rawValue {
+                let sortedKeys = selectedEntry.sortedEntryKeys
+                if let selectedKey = sortedKeys?[row] {
+                    if columnId.isEqual("entry.key") {
+                        value = selectedKey as NSObject;
+                    }
+                    else if columnId.isEqual("entry.value") {
+                        value = selectedEntry.entryKeys[selectedKey] as! NSObject
+                    }
+                }
             }
         }
         return value

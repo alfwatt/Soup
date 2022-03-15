@@ -2,10 +2,10 @@
 #import "NSDictionary+Hashcodes.h"
 
 @interface ILStockEntry ()
-@property(nonatomic,retain) NSDictionary* entryKeysStorage;
+@property(nonatomic,retain) NSDictionary<NSString*, id>* entryKeysStorage;
 @property(nonatomic,retain) NSMutableDictionary* entryKeysMutations;
 
-- (instancetype) initWithKeys:(NSDictionary*) entryKeys;
+- (instancetype) initWithKeys:(NSDictionary<NSString*, id>*) entryKeys;
 
 @end
 
@@ -13,15 +13,15 @@
 
 @implementation ILStockEntry
 
-+ (instancetype) soupEntryWithKeys:(NSDictionary*) entryKeys {
++ (instancetype) soupEntryWithKeys:(NSDictionary<NSString*, id>*) entryKeys {
     return [ILStockEntry.alloc initWithKeys:entryKeys];
 }
 
 // MARK: - ILSoupStockEntry
 
-- (instancetype) initWithKeys:(NSDictionary*) entryKeys {
+- (instancetype) initWithKeys:(NSDictionary<NSString*, id>*) entryKeys {
     if ((self = super.init)) {
-        NSMutableDictionary* newEntryKeys = (entryKeys ? entryKeys.mutableCopy : NSMutableDictionary.new);
+        NSMutableDictionary<NSString*, id>* newEntryKeys = (entryKeys ? entryKeys.mutableCopy : NSMutableDictionary.new);
         
         if (![newEntryKeys.allKeys containsObject:ILSoupEntryUUID]) { // create a new UUID for the entry
             newEntryKeys[ILSoupEntryUUID] = NSUUID.UUID.UUIDString;
@@ -70,8 +70,12 @@
     return self.entryKeys[ILSoupEntryKeysHash];
 }
 
-- (NSDictionary*) entryKeys {
+- (NSDictionary<NSString*, id>*) entryKeys {
     return self.entryKeysStorage;
+}
+
+- (NSArray<NSString*>*) sortedEntryKeys {
+    return [self.entryKeys.allKeys sortedArrayUsingSelector:@selector(compare:)];
 }
 
 // MARK: - ILMutableSoupEntry

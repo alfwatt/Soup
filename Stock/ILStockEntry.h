@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Stock in-memory implementaion of the ILSoupEntry protocol
 @interface ILStockEntry : NSObject <ILMutableSoupEntry>
 
-- (instancetype) initWithKeys:(NSDictionary*) entryKeys NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithKeys:(NSDictionary<NSString*, id>*) entryKeys NS_DESIGNATED_INITIALIZER;
 
 // MARK: - Mutations
 
