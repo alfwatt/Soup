@@ -23,7 +23,7 @@
 /// @brief get the next entry in the cursor, and advance the index
 - (id<ILSoupEntry>) nextEntry;
 
-/// reset the cursor index to 0
+/// @brief reset the cursor index to 0
 - (void) resetCursor;
 
 @end
@@ -50,17 +50,20 @@
 
 // MARK: -
 
+/// @typedef ILIndexPath an NSString
+typedef NSString ILIndexPath;
+
 /// @protocol manintains an index of items by an indexPath provided
 /// <a id="ILSoupIndex"></a>
 @protocol ILSoupIndex
 
 /// this path used to fetch indexed properties from the items to build the index
-@property(readonly) NSString* indexPath;
+@property(readonly) ILIndexPath * indexPath;
 
 // MARK: -
 
 /// create an index with the path provided
-+ (instancetype) indexWithPath:(NSString*) indexPath;
++ (instancetype) indexWithPath:(ILIndexPath *) indexPath;
 
 // MARK: - Entries
 

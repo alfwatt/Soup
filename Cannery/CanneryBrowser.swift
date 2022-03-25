@@ -71,6 +71,19 @@ class CanneryBrowser: NSWindowController {
         return memory
     }
 
+    static func valueForAny(object: Any) -> String {
+        var value = ""
+        
+        if let object = object as? String {
+            value = object
+        }
+        else if let object = object as? NSObject {
+            value = object.description
+        }
+        
+        return value
+    }
+    
     // MARK: - NSNibAwakening
 
     override func awakeFromNib() {
@@ -113,38 +126,48 @@ extension CanneryBrowser: NSOutlineViewDataSource {
 
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         var children = 0
-        if item == nil {
-            if let allEntries = cannedSoup?.cursor.entries {
-                children = allEntries.count
+        if item == nil, let allIndicies = cannedSoup?.soupIndicies {
+            children = allIndicies.count
+        }
+        else if let soupIndexPath = item as? ILIndexPath {
+            if let soupIndex = cannedSoup?.soupIndicies[soupIndexPath] {
+                children = soupIndex.
             }
         }
         return children
     }
 
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        return false
+        return item is ILSoupIndex
     }
 
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-        var entry: ILSoupEntry?
-        if item == nil {
-            if let allEntries = cannedSoup?.cursor.entries {
-                entry = allEntries[index]
+        var entry = "!" as Any
+        if item == nil, let allIndicies = cannedSoup?.soupIndicies {
+            entry = allIndicies[index].indexPath! // save the index path so we can look it up later
+        }
+        else if let soupIndex = item as? ILSoupIndex {
+            if index < soupIndex.allEntries().entries.count {
+                entry = soupIndex.allEntries()?.entries[index] as Any
+            }
+            else {
+                print("WARNING - soupIndex: \(soupIndex) too short for outline index: \(index)")
             }
         }
         return entry as Any
     }
-    
-    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
-        return false
-    }
-    
-    func outlineView(_ outlineView: NSOutlineView, objectValueFor column: NSTableColumn?, byItem item: Any?) -> Any? {
-        var data = "!"
-        if let entry = item as? ILSoupEntry {
-            data = entry.entryKeys[ILName] as! String
-        }
         
+    func outlineView(_ outlineView: NSOutlineView, objectValueFor column: NSTableColumn?, byItem item: Any?) -> Any? {
+        var data: Any?
+        if let soupIndex = item as? ILIndexPath {
+            data = soupIndex
+        }
+        else if let soupEntry = item as? ILSoupEntry {
+            let entryIndexPath = outlineView.parent(forItem: item) as! ILIndexPath
+            if let entryValue = soupEntry.entryKeys[entryIndexPath as String] {
+                data = String(describing: entryValue)
+            }
+        }
         return data
     }
 

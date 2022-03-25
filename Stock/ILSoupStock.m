@@ -199,7 +199,7 @@
 }
 
 - (NSArray<id<ILSoupIndex>>*) soupIndicies {
-    return [self.soupIndiciesStorage allValues];
+    return [[self.soupIndiciesStorage allValues] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"indexPath" ascending:YES]]];
 }
 
 - (id<ILSoupIndex>) createIndex:(NSString *)indexPath {

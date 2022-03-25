@@ -100,7 +100,8 @@
 
 - (NSString*) description
 {
-    return [NSString stringWithFormat:@"%@ %@ %lu entries", self.class, self.indexPath, self.indexStorage.allKeys.count];
+    return [NSString stringWithFormat:@"<%@ %p \"%@\" %lu entries>",
+            self.class, self, self.indexPath, self.indexStorage.allKeys.count];
 }
 
 @end
