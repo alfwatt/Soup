@@ -134,6 +134,10 @@
 
 // MARK: - Indicies
 
+- (id<ILSoupIndex>)indexForPath:(NSString *)indexPath {
+    return [self.queued indexForPath:indexPath];
+}
+
 - (NSArray<id<ILSoupIndex>>*) soupIndicies
 {
     return self.queued.soupIndicies;

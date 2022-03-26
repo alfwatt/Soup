@@ -151,6 +151,12 @@
 
 // MARK: - Indicies
 
+- (id<ILSoupIndex>)indexForPath:(NSString*)indexPath {
+    @synchronized (self.synchronized) {
+        return [self.synchronized indexForPath:indexPath];
+    }
+}
+
 - (NSArray<id<ILSoupIndex>>*) soupIndicies
 {
     @synchronized(self.synchronized) {

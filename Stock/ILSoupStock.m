@@ -198,6 +198,10 @@
     }
 }
 
+- (id<ILSoupIndex>) indexForPath:(NSString*)indexPath {
+    return self.soupIndiciesStorage[indexPath];
+}
+
 - (NSArray<id<ILSoupIndex>>*) soupIndicies {
     return [[self.soupIndiciesStorage allValues] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"indexPath" ascending:YES]]];
 }

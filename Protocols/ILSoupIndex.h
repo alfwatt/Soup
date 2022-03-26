@@ -50,20 +50,17 @@
 
 // MARK: -
 
-/// @typedef ILIndexPath an NSString
-typedef NSString ILIndexPath;
-
 /// @protocol manintains an index of items by an indexPath provided
 /// <a id="ILSoupIndex"></a>
 @protocol ILSoupIndex
 
 /// this path used to fetch indexed properties from the items to build the index
-@property(readonly) ILIndexPath * indexPath;
+@property(readonly) NSString* indexPath;
 
 // MARK: -
 
 /// create an index with the path provided
-+ (instancetype) indexWithPath:(ILIndexPath *) indexPath;
++ (instancetype) indexWithPath:(NSString*) indexPath;
 
 // MARK: - Entries
 

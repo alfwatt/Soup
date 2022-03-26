@@ -135,9 +135,6 @@
 		75D12D8E2378C099003F2899 /* Soup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 754323FF20A3786F006EE620 /* Soup.framework */; };
 		75D12D8F2378C099003F2899 /* Soup.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 754323FF20A3786F006EE620 /* Soup.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		75D12D9423791C9D003F2899 /* CanneryBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D12D9323791C9D003F2899 /* CanneryBrowser.xib */; };
-		75F3E0A927EAC91200A455E6 /* SoupAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F3E0A827EAC91200A455E6 /* SoupAliases.swift */; };
-		75F3E0AA27EAC91200A455E6 /* SoupAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F3E0A827EAC91200A455E6 /* SoupAliases.swift */; };
-		75F3E0AB27EAC91200A455E6 /* SoupAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F3E0A827EAC91200A455E6 /* SoupAliases.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -284,7 +281,6 @@
 		75D12D852378BF42003F2899 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75D12D9323791C9D003F2899 /* CanneryBrowser.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CanneryBrowser.xib; sourceTree = "<group>"; };
 		75EA39BC1B20D6340058E49D /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
-		75F3E0A827EAC91200A455E6 /* SoupAliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoupAliases.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -398,7 +394,6 @@
 			children = (
 				7543240320A37870006EE620 /* Info.plist */,
 				7543240220A37870006EE620 /* Soup.h */,
-				75F3E0A827EAC91200A455E6 /* SoupAliases.swift */,
 			);
 			path = Soup;
 			sourceTree = "<group>";
@@ -806,7 +801,6 @@
 				7543241720A37958006EE620 /* ILMemorySoup.m in Sources */,
 				7543241820A37958006EE620 /* ILFileSoup.m in Sources */,
 				7543242420A384C9006EE620 /* ILSoupStock.m in Sources */,
-				75F3E0AB27EAC91200A455E6 /* SoupAliases.swift in Sources */,
 				7543243D20A3A2E4006EE620 /* ILStockIndex.m in Sources */,
 				7543241B20A37959006EE620 /* ILUnionSoup.m in Sources */,
 				7543241C20A37959006EE620 /* NSData+Hashcodes.m in Sources */,
@@ -835,7 +829,6 @@
 				7580B785218188FE00D1E62F /* ILMemorySoup.m in Sources */,
 				7580B786218188FE00D1E62F /* ILFileSoup.m in Sources */,
 				7580B787218188FE00D1E62F /* ILSoupStock.m in Sources */,
-				75F3E0A927EAC91200A455E6 /* SoupAliases.swift in Sources */,
 				7580B788218188FE00D1E62F /* ILStockIndex.m in Sources */,
 				7580B789218188FE00D1E62F /* ILUnionSoup.m in Sources */,
 				7580B78A218188FE00D1E62F /* NSData+Hashcodes.m in Sources */,
@@ -856,7 +849,6 @@
 				758880D121862FCA00488CE1 /* ILMemorySoup.m in Sources */,
 				758880D221862FCA00488CE1 /* ILFileSoup.m in Sources */,
 				758880D321862FCA00488CE1 /* ILSoupStock.m in Sources */,
-				75F3E0AA27EAC91200A455E6 /* SoupAliases.swift in Sources */,
 				758880D421862FCA00488CE1 /* ILStockIndex.m in Sources */,
 				758880D521862FCA00488CE1 /* ILUnionSoup.m in Sources */,
 				758880D621862FCA00488CE1 /* NSData+Hashcodes.m in Sources */,
@@ -1515,7 +1507,6 @@
 		75D12D862378BF42003F2899 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1590,7 +1581,6 @@
 		75D12D872378BF42003F2899 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;

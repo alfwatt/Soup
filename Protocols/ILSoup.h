@@ -89,6 +89,8 @@
 /// the indexes currently maintained for this soup, ordered by indexPath ascending
 @property(nonatomic, readonly) NSArray<id<ILSoupIndex>>* soupIndicies;
 
+- (id<ILSoupIndex>) indexForPath:(NSString*)indexPath;
+
 /// create a new index on this soup with the path provided
 - (id<ILSoupIndex>) createIndex:(NSString*)indexPath;
 

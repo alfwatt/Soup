@@ -129,10 +129,8 @@ extension CanneryBrowser: NSOutlineViewDataSource {
         if item == nil, let allIndicies = cannedSoup?.soupIndicies {
             children = allIndicies.count
         }
-        else if let soupIndexPath = item as? ILIndexPath {
-            if let soupIndex = cannedSoup?.soupIndicies[soupIndexPath] {
-                children = soupIndex.
-            }
+        else if let soupIndex = item as? ILSoupIndex {
+            children = soupIndex.allEntries().entries.count
         }
         return children
     }
@@ -144,11 +142,12 @@ extension CanneryBrowser: NSOutlineViewDataSource {
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         var entry = "!" as Any
         if item == nil, let allIndicies = cannedSoup?.soupIndicies {
-            entry = allIndicies[index].indexPath! // save the index path so we can look it up later
+            entry = allIndicies[index]
         }
         else if let soupIndex = item as? ILSoupIndex {
             if index < soupIndex.allEntries().entries.count {
-                entry = soupIndex.allEntries()?.entries[index] as Any
+                let soupEntry = soupIndex.allEntries()!.entries[index]
+                entry = [ "value": soupEntry.entryKeys[soupIndex.indexPath], "entry": soupEntry ]
             }
             else {
                 print("WARNING - soupIndex: \(soupIndex) too short for outline index: \(index)")
@@ -159,14 +158,11 @@ extension CanneryBrowser: NSOutlineViewDataSource {
         
     func outlineView(_ outlineView: NSOutlineView, objectValueFor column: NSTableColumn?, byItem item: Any?) -> Any? {
         var data: Any?
-        if let soupIndex = item as? ILIndexPath {
-            data = soupIndex
+        if let soupIndex = item as? ILSoupIndex {
+            data = soupIndex.indexPath
         }
-        else if let soupEntry = item as? ILSoupEntry {
-            let entryIndexPath = outlineView.parent(forItem: item) as! ILIndexPath
-            if let entryValue = soupEntry.entryKeys[entryIndexPath as String] {
-                data = String(describing: entryValue)
-            }
+        else if let soupValue = item as? Dictionary<String,Any> {
+            data = soupValue["value"]
         }
         return data
     }
@@ -177,15 +173,14 @@ extension CanneryBrowser: NSOutlineViewDataSource {
 
 extension CanneryBrowser: NSOutlineViewDelegate {
     func outlineViewSelectionDidChange(_ notification: Notification) {
-        let selectedIndex = entryList.selectedRow
-        if selectedIndex != NSNotFound {
-            if let allEntries = cannedSoup?.cursor.entries {
-                if selectedIndex <= allEntries.count  {
-                    selectedEntry = allEntries[selectedIndex]
-                    entryDetail.reloadData()
-                }
-            }
+        let selectedItem = entryList.item(atRow: entryList.selectedRow)
+        if selectedItem is ILSoupIndex {
+            selectedEntry = nil
         }
+        else if let soupItem = selectedItem as? Dictionary<String,Any> {
+            selectedEntry = soupItem["entry"] as? ILSoupEntry
+        }
+        entryDetail.reloadData()
     }
 }
 
