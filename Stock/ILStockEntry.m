@@ -23,8 +23,8 @@
     if ((self = super.init)) {
         NSMutableDictionary<NSString*, id>* newEntryKeys = (entryKeys ? entryKeys.mutableCopy : NSMutableDictionary.new);
         
-        if (![newEntryKeys.allKeys containsObject:ILSoupEntryUUID]) { // create a new UUID for the entry
-            newEntryKeys[ILSoupEntryUUID] = NSUUID.UUID.UUIDString;
+        if (![newEntryKeys.allKeys containsObject:ILSoupEntryIdentityUUID]) { // create a new UUID for the entry
+            newEntryKeys[ILSoupEntryIdentityUUID] = NSUUID.UUID.UUIDString;
         }
         
         if (![newEntryKeys.allKeys containsObject:ILSoupEntryCreationDate]) { // enter a creation date for the entry
@@ -36,8 +36,8 @@
         }
         
         NSMutableDictionary* entryDataKeys = newEntryKeys.mutableCopy;
-        for (NSString* soupKey in @[ILSoupEntryUUID, ILSoupEntryCreationDate, ILSoupEntryDataHash,
-            ILSoupEntryKeysHash, ILSoupEntryAncestorKey, ILSoupEntryMutationDate]) {
+        for (NSString* soupKey in @[ILSoupEntryIdentityUUID, ILSoupEntryCreationDate, ILSoupEntryDataHash,
+            ILSoupEntryKeysHash, ILSoupEntryAncestorEntryHash, ILSoupEntryMutationDate]) {
             [entryDataKeys removeObjectForKey:soupKey];
         }
         
@@ -80,7 +80,7 @@
 
 // MARK: - ILMutableSoupEntry
 
-NSString* ILSoupEntryAncestorKey = @"soup.entry.ancestor";
+NSString* ILSoupEntryAncestorEntryHash = @"soup.entry.ancestor";
 NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
 
 - (instancetype) mutatedEntry:(NSString*) mutatedKey newValue:(id) value {
@@ -101,7 +101,7 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
             mutatedKeys[key] = object;
         }
     }
-    mutatedKeys[ILSoupEntryAncestorKey] = self.entryHash;
+    mutatedKeys[ILSoupEntryAncestorEntryHash] = self.entryHash;
     mutatedKeys[ILSoupEntryMutationDate] = NSDate.date;
     
     return [self.class soupEntryWithKeys:mutatedKeys];
@@ -110,7 +110,7 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
 // MARK: - Ancestry
 
 - (NSString*) ancestorEntryHash {
-    return self.entryKeys[ILSoupEntryAncestorKey];
+    return self.entryKeys[ILSoupEntryAncestorEntryHash];
 }
 
 // MARK: - Dynamic Properties

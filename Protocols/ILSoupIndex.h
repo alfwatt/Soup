@@ -96,6 +96,25 @@
 
 // MARK: -
 
+// an ancestory index mantains the chain of ancestery for an entry
+@protocol ILSoupAncestryIndex <ILSoupIndex>
+
+// every entry has zero or one ancestor
+// @returns a soup entry or nil if the ancestor cannot be found
+- (id<ILSoupEntry>) ancestorOf:(id<ILSoupEntry>) descendant;
+
+// the chain of ancestors for the descendant provided, including itself
+// @returns a cursor with the ancestors ordered from most recent (jr) to least recent (sr)
+- (id<ILSoupCursor>) ancesteryOf:(id<ILSoupEntry>) descendant;
+
+// every entry can have multiple immediate descendants
+// @returns a cursor with the immediate descendents of this entry
+- (id<ILSoupCursor>) descendantsOf:(id<ILSoupEntry>) ancestor;
+
+@end
+
+// MARK: -
+
 /// only indexes values which are strings, can be searched with a regex
 /// <a id="ILSoupTextIndex"></a>
 @protocol ILSoupTextIndex <ILSoupIndex>

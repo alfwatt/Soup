@@ -27,16 +27,16 @@
 // MARK: - Managing Entries
 
 /// copy an entry from one soup to another
-- (void) copyEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup;
+- (bool) copyEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup;
 
 /// move an entry from on soup to another
-- (void) moveEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup;
+- (bool) moveEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup;
 
 /// search the stack from the top for the entry and move it down one soup
-- (void) pushEntry:(NSString*) entryHash;
+- (bool) pushEntry:(NSString*) entryHash;
 
 /// search the stack from the bottom for the entry and move it up one soup
-- (void) popEntry:(NSString*) entryHash;
+- (bool) popEntry:(NSString*) entryHash;
 
 @end
 

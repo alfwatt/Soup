@@ -165,7 +165,7 @@ in your applications.
 
     // prep the soup with some default indexes
     memory.soupDescription = @"Address Book Example Soup";
-    [memory createIndex:ILSoupEntryAncestorKey];
+    [memory createIndex:ILSoupEntryAncestorEntryHash];
     [memory createDateIndex:ILSoupEntryCreationDate];
     [memory createDateIndex:ILSoupEntryMutationDate];
     [memory createTextIndex:ILName];

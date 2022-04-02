@@ -152,12 +152,20 @@
     return [self.queued queryIndex:indexPath];
 }
 
-- (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString*) indexPath {
-    return [self.queued createIdentityIndex:indexPath];
+- (id<ILSoupIdentityIndex>) createIdentityIndex {
+    return [self.queued createIdentityIndex];
 }
 
-- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString*) indexPath {
-    return [self.queued queryIdentityIndex:indexPath];
+- (id<ILSoupIdentityIndex>) queryIdentityIndex {
+    return [self.queued queryIdentityIndex];
+}
+
+- (id<ILSoupAncestryIndex>)createAncestryIndex {
+    return [self.queued createAncestryIndex];
+}
+
+- (id<ILSoupAncestryIndex>)queryAncestryIndex {
+    return [self.queued queryAncestryIndex];
 }
 
 - (id<ILSoupTextIndex>) createTextIndex:(NSString*) indexPath {

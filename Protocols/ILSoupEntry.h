@@ -4,16 +4,20 @@
 // MARK: ILSoupEntry
 
 /// String UUID
-static NSString* const ILSoupEntryUUID = @"soup.entry.uuid";
+static NSString* const ILSoupEntryIdentityUUID = @"soup.entry.uuid";
 
 /// Date creation date
 static NSString* const ILSoupEntryCreationDate = @"soup.entry.created";
+
+/// String  entryHash 
+static NSString* const ILSoupEntryHash = @"soup.entry.hash";
 
 /// String dataHash
 static NSString* const ILSoupEntryDataHash = @"soup.entry.dataHash";
 
 /// String keysHash
 static NSString* const ILSoupEntryKeysHash = @"soup.entry.keysHash";
+
 
 /// String className — the local className for the entry
 static NSString* const ILSoupEntryClassName = @"soup.entry.className";
@@ -50,7 +54,7 @@ static NSString* const ILSoupEntryClassName = @"soup.entry.className";
 // MARK: - ILMutableSoupEntry
 
 /// NSString* hash of the ancestor for a mutated entry
-extern NSString* ILSoupEntryAncestorKey;
+extern NSString* ILSoupEntryAncestorEntryHash;
 
 /// NSDate* that the entry was mutated
 extern NSString* ILSoupEntryMutationDate;

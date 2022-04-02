@@ -98,7 +98,7 @@
 
 - (id<ILSoupEntry>) duplicateEntry:(id<ILSoupEntry>) entry {
     NSMutableDictionary* duplicateKeys = entry.entryKeys.mutableCopy;
-    [duplicateKeys removeObjectForKey:ILSoupEntryUUID];
+    [duplicateKeys removeObjectForKey:ILSoupEntryIdentityUUID];
     id<ILSoupEntry> duplicate = [ILStockEntry soupEntryWithKeys:duplicateKeys];
 
     if ([self.delegate respondsToSelector:@selector(soup:createdEntry:)]) { // notify
@@ -216,14 +216,24 @@
     return self.soupIndiciesStorage[indexPath];
 }
 
-- (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString*)indexPath {
-    ILStockIdentityIndex* stockIndex = [ILStockIdentityIndex indexWithPath:indexPath];
-    [self loadIndex:indexPath index:stockIndex];
+- (id<ILSoupIdentityIndex>) createIdentityIndex {
+    ILStockIdentityIndex* stockIndex = [ILStockIdentityIndex indexWithPath:ILSoupEntryIdentityUUID];
+    [self loadIndex:ILSoupEntryIdentityUUID index:stockIndex];
     return stockIndex;
 }
 
-- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString*)indexPath {
-    return (id<ILSoupIdentityIndex>)self.soupIndiciesStorage[indexPath];
+- (id<ILSoupIdentityIndex>) queryIdentityIndex {
+    return (id<ILSoupIdentityIndex>)self.soupIndiciesStorage[ILSoupEntryIdentityUUID];
+}
+
+- (id<ILSoupAncestryIndex>) createAncestryIndex {
+    ILStockAncestryIndex* stockIndex = [ILStockAncestryIndex indexWithPath:ILSoupEntryAncestorEntryHash];
+    [self loadIndex:ILSoupEntryAncestorEntryHash index:stockIndex];
+    return stockIndex;
+}
+
+- (id<ILSoupAncestryIndex>) queryAncestryIndex {
+    return (id<ILSoupAncestryIndex>)self.soupIndiciesStorage[ILSoupEntryAncestorEntryHash];
 }
 
 - (id<ILSoupTextIndex>) createTextIndex:(NSString *)indexPath {

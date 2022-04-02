@@ -58,10 +58,10 @@
         sequencyEntry.entryDate = timeIndex;
         sequencyEntry.entryValue = numberValue;
         
-        NSMutableArray* sequence = self.sequenceStorage[entry.entryKeys[ILSoupEntryUUID]];
+        NSMutableArray* sequence = self.sequenceStorage[entry.entryKeys[ILSoupEntryIdentityUUID]];
         if (!sequence) {
             sequence = NSMutableArray.new;
-            self.sequenceStorage[entry.entryKeys[ILSoupEntryUUID]] = sequence;
+            self.sequenceStorage[entry.entryKeys[ILSoupEntryIdentityUUID]] = sequence;
         }
         
         [sequence addObject:sequencyEntry];
@@ -71,19 +71,19 @@
 
 - (void) removeEntry:(id<ILSoupEntry>) entry
 {
-    [self.sequenceStorage removeObjectForKey:entry.entryKeys[ILSoupEntryUUID]];
+    [self.sequenceStorage removeObjectForKey:entry.entryKeys[ILSoupEntryIdentityUUID]];
 }
 
 - (BOOL) includesEntry:(id<ILSoupEntry>) entry
 {
-    return [self.sequenceStorage.allKeys containsObject:entry.entryKeys[ILSoupEntryUUID]];
+    return [self.sequenceStorage.allKeys containsObject:entry.entryKeys[ILSoupEntryIdentityUUID]];
 }
 
 // MARK: - fetching sequence data
 
 - (BOOL) fetchSequenceFor:(id<ILSoupEntry>) entry times:(NSArray<NSDate*>**) timeArray values:(NSArray<NSNumber*>**) valueArray
 {
-    NSArray<ILStockSequenceEntry*>* sequence = [self.sequenceStorage[entry.entryKeys[ILSoupEntryUUID]] copy]; // snapshot
+    NSArray<ILStockSequenceEntry*>* sequence = [self.sequenceStorage[entry.entryKeys[ILSoupEntryIdentityUUID]] copy]; // snapshot
     NSMutableArray* timeSequence = [NSMutableArray arrayWithCapacity:sequence.count];
     NSMutableArray* valueSequence = [NSMutableArray arrayWithCapacity:sequence.count];
     NSUInteger index = 0;

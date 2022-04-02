@@ -7,19 +7,23 @@
 // MARK: -
 
 @interface ILStockIndex : NSObject <ILSoupIndex>
-
 @end
 
 // MARK: -
 
 @interface ILStockIdentityIndex : ILStockIndex <ILSoupIdentityIndex>
+@end
+
+// MARK: -
+
+@interface ILStockAncestryIndex : ILStockIndex <ILSoupAncestryIndex>
+- (instancetype) initWithSoup:(id<ILSoup>) sourceSoup;
 
 @end
 
 // MARK:-
 
 @interface ILStockTextIndex : ILStockIndex <ILSoupTextIndex>
-
 @end
 
 // MARK: -

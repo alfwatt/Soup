@@ -177,18 +177,32 @@
     }
 }
 
-- (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString*)indexPath;
+- (id<ILSoupIdentityIndex>) createIdentityIndex;
 {
     @synchronized(self.synchronized) {
-        return [self.synchronized createIdentityIndex:indexPath];
+        return [self.synchronized createIdentityIndex];
     }
 }
 
-- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString *)indexPath {
+- (id<ILSoupIdentityIndex>) queryIdentityIndex {
     @synchronized(self.synchronized) {
-        return [self.synchronized queryIdentityIndex:indexPath];
+        return [self.synchronized queryIdentityIndex];
     }
 }
+
+- (id<ILSoupAncestryIndex>)createAncestryIndex {
+    @synchronized (self.synchronized) {
+        return [self.synchronized createAncestryIndex];
+    }
+}
+
+
+- (id<ILSoupAncestryIndex>)queryAncestryIndex {
+    @synchronized (self.synchronized) {
+        return [self.synchronized queryAncestryIndex];
+    }
+}
+
 
 - (id<ILSoupTextIndex>) createTextIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {

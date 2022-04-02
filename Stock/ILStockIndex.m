@@ -96,7 +96,7 @@
     return cursor;
 }
 
-// MARK: - NSObject
+// MARK: -
 
 - (NSString*) description
 {
@@ -173,7 +173,59 @@
 
 @end
 
+// MARK: - ILStockAncestryIndex
+
+@interface ILStockAncestryIndex ()
+@property(nonatomic, retain) id<ILSoup> containingSoup;
+@property(nonatomic, retain) NSMutableDictionary<NSString*,id<ILSoupEntry>>* entryHashStorage;
+
+@end
+
 // MARK: -
+
+@implementation ILStockAncestryIndex
+
+- (instancetype) initWithSoup:(id<ILSoup>) sourceSoup {
+    if (self = [super init]) {
+        self.containingSoup = sourceSoup;
+    }
+    return self;
+}
+
+- (id<ILSoupEntry>) ancestorOf:(id<ILSoupEntry>) descendant {
+    id <ILSoupEntry> ancestor = nil;
+    NSString* ancestorAlias = descendant.entryKeys[ILSoupEntryAncestorEntryHash];
+    if (ancestorAlias) {
+        ancestor = [self.containingSoup gotoAlias:ancestorAlias];
+    }
+    return ancestor;
+}
+
+- (id<ILSoupCursor>) ancesteryOf:(id<ILSoupEntry>) descendant {
+    NSMutableArray<id<ILSoupEntry>>* ancestery = NSMutableArray.new;
+    [ancestery addObject:descendant]; // start with the descendant as they are part of this
+    
+    id<ILSoupEntry> nextAncestor = [self ancestorOf:descendant];
+    while (nextAncestor != nil) {
+        [ancestery addObject:nextAncestor];
+    }
+    
+    return [ILStockCursor.alloc initWithEntries:[NSArray arrayWithArray:ancestery]];;
+}
+
+- (id<ILSoupCursor>) descendantsOf:(id<ILSoupEntry>) ancestor {
+    id<ILSoupCursor> descendantCursor = nil;
+    NSString* ancestorHash = ancestor.entryHash;
+    if (ancestorHash) {
+        descendantCursor = [self entriesWithValue:ancestorHash];
+    }
+    return descendantCursor;
+}
+
+@end
+
+
+// MARK: - ILStockTextIndex
 
 @implementation ILStockTextIndex
 
@@ -200,7 +252,7 @@
 
 @end
 
-// MARK: -
+// MARK: - ILStockNumberIndex
 
 @implementation ILStockNumberIndex
 
@@ -219,7 +271,7 @@
 
 @end
 
-// MARK: -
+// MARK: - ILStockDateIndex
 
 @implementation ILStockDateIndex
 
@@ -242,11 +294,11 @@
 
 @end
 
-// MARK: -
+// MARK: - ILStockCursor
 
 @interface ILStockCursor ()
 @property(nonatomic, retain) NSArray<id<ILSoupEntry>>* entriesStorage;
-@property(nonatomic, assign) NSUInteger indexStorage;
+@property(nonatomic, assign) NSUInteger cursorIndex;
 
 @end
 
@@ -258,7 +310,7 @@
 {
     if ((self = super.init)) {
         self.entriesStorage = [NSArray arrayWithArray:entries]; // don't want someone sneaking in a mutable array here
-        self.indexStorage = 0;
+        self.cursorIndex = 0;
     }
     
     return self;
@@ -273,7 +325,7 @@
 
 - (NSUInteger) index
 {
-    return self.indexStorage;
+    return self.cursorIndex;
 }
 
 // MARK: -
@@ -281,33 +333,33 @@
 - (id<ILSoupEntry>) nextEntry
 {
     id<ILSoupEntry> next = nil;
-    NSUInteger index = self.indexStorage;
+    NSUInteger index = self.cursorIndex;
     if (index < self.entriesStorage.count) {
-        next = self.entriesStorage[self.indexStorage];
-        self.indexStorage = (index + 1);
+        next = self.entriesStorage[self.cursorIndex];
+        self.cursorIndex = (index + 1);
     }
     return next;
 }
 
 - (void) resetCursor
 {
-    self.indexStorage = 0;
+    self.cursorIndex = 0;
 }
 
-// MARK: - NSObject
+// MARK: -
 
 - (NSString*) description
 {
-    return [NSString stringWithFormat:@"%@ %lu items, index %lu", self.class, self.entries.count, self.index];
+    return [NSString stringWithFormat:@"<%@ %lu items, index %lu>", self.class, self.entries.count, self.index];
 }
 
 @end
 
-// MARK: -
+// MARK: - ILStockAliasCursor
 
 @interface ILStockAliasCursor()
 @property(nonatomic, retain) NSArray<NSString*>* aliasStorage;
-@property(nonatomic, assign) NSUInteger indexStorage;
+@property(nonatomic, assign) NSUInteger cursorIndex;
 @property(nonatomic, assign) id<ILSoup> soupStorage;
 @end
 
@@ -319,7 +371,7 @@
 {
     if ((self = super.init)) {
         self.aliasStorage = [NSArray arrayWithArray:aliases]; // no mutants
-        self.indexStorage = 0;
+        self.cursorIndex = 0;
         self.soupStorage = sourceSoup;
     }
     
@@ -340,7 +392,7 @@
 
 - (NSUInteger) index
 {
-    return self.indexStorage;
+    return self.cursorIndex;
 }
 
 // MARK: -
@@ -348,10 +400,10 @@
 - (NSString*) nextAlias
 {
     NSString* next = nil;
-    NSUInteger index = self.indexStorage;
+    NSUInteger index = self.cursorIndex;
     if (index < self.aliasStorage.count) {
-        next = self.aliasStorage[self.indexStorage];
-        self.indexStorage = (index + 1);
+        next = self.aliasStorage[self.cursorIndex];
+        self.cursorIndex = (index + 1);
     }
     return next;
 }
@@ -370,7 +422,7 @@
 
 - (void) resetCursor
 {
-    self.indexStorage = 0;
+    self.cursorIndex = 0;
 }
 
 @end

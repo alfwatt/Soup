@@ -7,6 +7,7 @@
 @protocol ILMutableSoupEntry;
 @protocol ILSoupIndex;
 @protocol ILSoupIdentityIndex;
+@protocol ILSoupAncestryIndex;
 @protocol ILSoupTextIndex;
 @protocol ILSoupNumberIndex;
 @protocol ILSoupDateIndex;
@@ -59,7 +60,7 @@
 - (id<ILMutableSoupEntry>) createBlankEntryOfClass:(Class)comformsToMutableSoupEntry;
 
 /// @param entry — an `<ILSoupEntry>` to add to this soup
-/// @returns: the alias used to store the entry
+/// @returns: the alias used to retrieve the entry
 - (NSString*) addEntry:(id<ILSoupEntry>) entry;
 
 /// duplicate entry, providing a mutable entry with a new UUID
@@ -73,10 +74,10 @@
 
 // MARK: - Aliases
 
-/// get the soups alias the entry (may be the hash, UUID or other string)
+/// get the soups alias for the individual entry, string is the entryHash of the entry
 - (NSString*) entryAlias:(id<ILSoupEntry>) entry;
 
-/// the the item from the soup, based on the alias provided
+/// the entry from the soup, based on the alias provided
 - (id<ILSoupEntry>) gotoAlias:(NSString*) alias;
 
 // MARK: - Queries
@@ -97,11 +98,17 @@
 /// returns the index for the path provided
 - (id<ILSoupIndex>) queryIndex:(NSString*)indexPath;
 
-/// returns the identity index for the path provided
-- (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString*)indexPath;
+/// returns the identity index for this soup
+- (id<ILSoupIdentityIndex>) createIdentityIndex;
 
 /// returns the identity index for the path provided
-- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString*)indexPath;
+- (id<ILSoupIdentityIndex>) queryIdentityIndex;
+
+/// returns the ancestory index for this soup
+- (id<ILSoupAncestryIndex>) createAncestryIndex;
+
+/// returns
+- (id<ILSoupAncestryIndex>) queryAncestryIndex;
 
 /// create a new index on this soup with the path provided
 - (id<ILSoupTextIndex>) createTextIndex:(NSString*)indexPath;

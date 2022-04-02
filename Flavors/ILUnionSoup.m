@@ -66,16 +66,36 @@
 
 // MARK: - Managing Entries
 
-- (void) copyEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup
+- (bool) copyEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup
 {
+    bool success = false;
+    id<ILSoupEntry> fromEntry = [fromSoup gotoAlias:entryHash];
+    if (fromEntry) {
+        NSString* toAlias = [toSoup addEntry:fromEntry];
+        if (toAlias) {
+            success = true;
+        }
+    }
+    return success;
 }
 
-- (void) moveEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup
+- (bool) moveEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup
 {
+    bool success = false;
+    id<ILSoupEntry> fromEntry = [fromSoup gotoAlias:entryHash];
+    if (fromEntry) {
+        NSString* toAlias = [toSoup addEntry:fromEntry];
+        if (toAlias) { // make sure the entry was added and a new alias assigned
+            [fromSoup deleteEntry:fromEntry];
+            success = true;
+        }
+    }
+    return success;
 }
 
-- (void) pushEntry:(NSString*) entryHash
+- (bool) pushEntry:(NSString*) entryHash
 {
+    bool success = false;
     NSArray* loadedSoups = self.loadedSoups; // get a snapshot
     id<ILSoup> topSoup;
     id<ILSoupEntry> entry;
@@ -84,23 +104,30 @@
         if (entry) break; // for
     }
     
-    id<ILSoup> bottomSoup;
-    NSUInteger topIndex = [loadedSoups indexOfObject:topSoup];
-    NSUInteger bottomIndex = topIndex + 1;
-    if (bottomIndex < loadedSoups.count) {
-        bottomSoup = loadedSoups[bottomIndex];
-        [bottomSoup addEntry:entry];
-        [topSoup deleteEntry:entry];
-        
-        // TODO call delegate with move message
+    if (entry) {
+        id<ILSoup> bottomSoup;
+        NSUInteger topIndex = [loadedSoups indexOfObject:topSoup];
+        NSUInteger bottomIndex = topIndex + 1;
+        if (bottomIndex < loadedSoups.count) {
+            bottomSoup = loadedSoups[bottomIndex];
+            NSString* bottomAlias = [bottomSoup addEntry:entry];
+            if (bottomAlias) {
+                [topSoup deleteEntry:entry];
+                // TODO call delegate with move message
+                success = true;
+            }
+        }
+        else NSLog(@"can't push entry off bottom of stack: %@ in %@", entryHash, topSoup);
     }
-    else NSLog(@"can't push entry off bottom of stack: %@ in %@", entryHash, topSoup);
+    else NSLog(@"can't find entry to push: %@ in %@", entryHash, topSoup);
     // TODO call delegate with error message
+    return success;
 }
 
-- (void) popEntry:(NSString*) entryHash
+- (bool) popEntry:(NSString*) entryHash
 {
-    NSArray* loadedSoups = self.loadedSoups; // get a snapshot
+    bool success = false;
+    NSArray* loadedSoups = self.loadedSoups; // get a snapshot and search bottom up for the entryHash
     id<ILSoup> bottomSoup;
     id<ILSoupEntry> entry;
     for (bottomSoup in loadedSoups.reverseObjectEnumerator) {
@@ -108,18 +135,22 @@
         if (entry) break; // for
     }
     
-    id<ILSoup> topSoup;
-    NSUInteger bottomIndex = [loadedSoups indexOfObject:bottomSoup];
-    NSUInteger topIndex = bottomIndex - 1;
-    if (topIndex < loadedSoups.count) {
-        topSoup = loadedSoups[topIndex];
-        [bottomSoup deleteEntry:entry];
-        [topSoup addEntry:entry];
-        
-        // TODO call delegate with success
+    if (entry) { // we may not have found anything
+        NSUInteger topIndex = [loadedSoups indexOfObject:bottomSoup] - 1;
+        if (topIndex < loadedSoups.count) {
+            id<ILSoup> topSoup = loadedSoups[topIndex];
+            NSString* popedHash = [topSoup addEntry:entry];
+            if (popedHash) { // don't delete unless it's added successfully
+                [bottomSoup deleteEntry:entry];
+                success = true;
+                // TODO call delegate with success
+            }
+        }
+        else NSLog(@"can't pop entry off top of stack: %@ in %@", entryHash, bottomSoup);
     }
-    else NSLog(@"can't pop entry off top of stack: %@ in %@", entryHash, bottomSoup);
+    else NSLog(@"can't find entry to pop: %@ in %@", entryHash, bottomSoup);
     // TODO call delegate with error
+    return success;
 }
 
 // MARK: - ILSoupStock Overrides

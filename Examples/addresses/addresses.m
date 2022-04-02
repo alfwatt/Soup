@@ -19,8 +19,8 @@ int main(int argc, const char * argv[]) {
 
         // setup memory soup
         memory.soupDescription = @"Address Book Example Soup";
-        [memory createIdentityIndex:ILSoupEntryUUID];
-        [memory createIndex:ILSoupEntryAncestorKey];
+        [memory createIdentityIndex:ILSoupEntryIdentityUUID];
+        [memory createIndex:ILSoupEntryAncestorEntryHash];
         [memory createIndex:ILSoupEntryDataHash];
         [memory createDateIndex:ILSoupEntryCreationDate];
         [memory createDateIndex:ILSoupEntryMutationDate];
@@ -50,13 +50,13 @@ int main(int argc, const char * argv[]) {
             ILName:  @"Kim Gru",
             ILEmail: @"kim.g@example.com"
         }]];
-        NSUUID* kimUUID = [soup gotoAlias:kimAlias].entryKeys[ILSoupEntryUUID];
+        NSUUID* kimUUID = [soup gotoAlias:kimAlias].entryKeys[ILSoupEntryIdentityUUID];
         
         NSString* samAlias = [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
             ILName:  @"Sam Liu",
             ILEmail: @"sam.l@example.com"
         }]];
-        NSUUID* samUUID = [soup gotoAlias:samAlias].entryKeys[ILSoupEntryUUID];
+        NSUUID* samUUID = [soup gotoAlias:samAlias].entryKeys[ILSoupEntryIdentityUUID];
 
         [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
             ILName: @"Fin Gru-Liu",
