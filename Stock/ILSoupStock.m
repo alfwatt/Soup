@@ -186,6 +186,10 @@
 
 // MARK: - Indicies
 
+- (NSArray<id<ILSoupIndex>>*) soupIndicies {
+    return [[self.soupIndiciesStorage allValues] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"indexPath" ascending:YES]]];
+}
+
 - (void) loadIndex:(NSString*) indexPath index:(id<ILSoupIndex>) stockIndex {
     self.soupIndiciesStorage[indexPath] = stockIndex;
     
@@ -202,9 +206,6 @@
     return self.soupIndiciesStorage[indexPath];
 }
 
-- (NSArray<id<ILSoupIndex>>*) soupIndicies {
-    return [[self.soupIndiciesStorage allValues] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"indexPath" ascending:YES]]];
-}
 
 - (id<ILSoupIndex>) createIndex:(NSString *)indexPath {
     ILStockIndex* stockIndex = [ILStockIndex indexWithPath:indexPath];
@@ -216,14 +217,16 @@
     return self.soupIndiciesStorage[indexPath];
 }
 
-- (id<ILSoupIdentityIndex>) createIdentityIndex {
+// MARK: - Default Indicies
+
+- (id<ILSoupIdentityIndex>) createEntryIdentityIndex {
     ILStockIdentityIndex* stockIndex = [ILStockIdentityIndex indexWithPath:ILSoupEntryIdentityUUID];
     [self loadIndex:ILSoupEntryIdentityUUID index:stockIndex];
     return stockIndex;
 }
 
-- (id<ILSoupIdentityIndex>) queryIdentityIndex {
-    return (id<ILSoupIdentityIndex>)self.soupIndiciesStorage[ILSoupEntryIdentityUUID];
+- (id<ILSoupIdentityIndex>) queryEntryIdentityIndex {
+    return (id<ILSoupIdentityIndex>) self.soupIndiciesStorage[ILSoupEntryIdentityUUID];
 }
 
 - (id<ILSoupAncestryIndex>) createAncestryIndex {
@@ -233,7 +236,19 @@
 }
 
 - (id<ILSoupAncestryIndex>) queryAncestryIndex {
-    return (id<ILSoupAncestryIndex>)self.soupIndiciesStorage[ILSoupEntryAncestorEntryHash];
+    return (id<ILSoupAncestryIndex>) self.soupIndiciesStorage[ILSoupEntryAncestorEntryHash];
+}
+
+// MARK: - User Indicies
+
+- (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString *)indexPath {
+    ILStockIdentityIndex* stockIndex = [ILStockIdentityIndex indexWithPath:indexPath];
+    [self loadIndex:indexPath index:stockIndex];
+    return stockIndex;
+}
+
+- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString *)indexPath {
+    return (id<ILSoupIdentityIndex>) self.soupIndiciesStorage[indexPath];
 }
 
 - (id<ILSoupTextIndex>) createTextIndex:(NSString *)indexPath {
@@ -243,7 +258,7 @@
 }
 
 - (id<ILSoupTextIndex>) queryTextIndex:(NSString *)indexPath {
-    return (id<ILSoupTextIndex>)self.soupIndiciesStorage[indexPath];
+    return (id<ILSoupTextIndex>) self.soupIndiciesStorage[indexPath];
 }
 
 - (id<ILSoupDateIndex>) createDateIndex:(NSString *)indexPath {
@@ -253,7 +268,7 @@
 }
 
 - (id<ILSoupTextIndex>) queryDateIndex:(NSString *)indexPath {
-    return (id<ILSoupTextIndex>)self.soupIndiciesStorage[indexPath];
+    return (id<ILSoupTextIndex>) self.soupIndiciesStorage[indexPath];
 }
 
 - (id<ILSoupNumberIndex>) createNumberIndex:(NSString *)indexPath {
@@ -263,7 +278,7 @@
 }
 
 - (id<ILSoupNumberIndex>) queryNumberIndex:(NSString *)indexPath {
-    return (id<ILSoupNumberIndex>)self.soupIndiciesStorage[indexPath];
+    return (id<ILSoupNumberIndex>) self.soupIndiciesStorage[indexPath];
 }
 
 // MARK: - Cursor

@@ -90,6 +90,7 @@
 /// the indexes currently maintained for this soup, ordered by indexPath ascending
 @property(nonatomic, readonly) NSArray<id<ILSoupIndex>>* soupIndicies;
 
+/// returns the index for the path provided
 - (id<ILSoupIndex>) indexForPath:(NSString*)indexPath;
 
 /// create a new index on this soup with the path provided
@@ -98,17 +99,27 @@
 /// returns the index for the path provided
 - (id<ILSoupIndex>) queryIndex:(NSString*)indexPath;
 
-/// returns the identity index for this soup
-- (id<ILSoupIdentityIndex>) createIdentityIndex;
+// MARK: - Default Indicies
 
-/// returns the identity index for the path provided
-- (id<ILSoupIdentityIndex>) queryIdentityIndex;
+/// returns the entry UUID  identity index for this soup
+- (id<ILSoupIdentityIndex>) createEntryIdentityIndex;
+
+/// returns the entry UUID identity index for this soup
+- (id<ILSoupIdentityIndex>) queryEntryIdentityIndex;
 
 /// returns the ancestory index for this soup
 - (id<ILSoupAncestryIndex>) createAncestryIndex;
 
 /// returns
 - (id<ILSoupAncestryIndex>) queryAncestryIndex;
+
+// MARK: - User Indicies
+
+/// returns an identity index for the indexPath provided
+- (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString*)indexPath;
+
+/// returns the entry identity index for this soup
+- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString*)indexPath;
 
 /// create a new index on this soup with the path provided
 - (id<ILSoupTextIndex>) createTextIndex:(NSString*)indexPath;

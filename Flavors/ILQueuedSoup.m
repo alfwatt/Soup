@@ -152,12 +152,14 @@
     return [self.queued queryIndex:indexPath];
 }
 
-- (id<ILSoupIdentityIndex>) createIdentityIndex {
-    return [self.queued createIdentityIndex];
+// MARK: - Default Indicies
+
+- (id<ILSoupIdentityIndex>)createEntryIdentityIndex {
+    return [self.queued createEntryIdentityIndex];
 }
 
-- (id<ILSoupIdentityIndex>) queryIdentityIndex {
-    return [self.queued queryIdentityIndex];
+- (id<ILSoupIdentityIndex>) queryEntryIdentityIndex {
+    return [self.queued queryEntryIdentityIndex];
 }
 
 - (id<ILSoupAncestryIndex>)createAncestryIndex {
@@ -168,12 +170,22 @@
     return [self.queued queryAncestryIndex];
 }
 
+// MARK: - User Indicies
+
 - (id<ILSoupTextIndex>) createTextIndex:(NSString*) indexPath {
     return [self.queued createTextIndex:indexPath];
 }
 
 - (id<ILSoupTextIndex>) queryTextIndex:(NSString*) indexPath {
     return [self.queued queryTextIndex:indexPath];
+}
+
+- (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString*)indexPath {
+    return [self.queued createIdentityIndex:indexPath];
+}
+
+- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString*) indexPath {
+    return [self.queued queryIdentityIndex:indexPath];
 }
 
 - (id<ILSoupDateIndex>) createDateIndex:(NSString*) indexPath {

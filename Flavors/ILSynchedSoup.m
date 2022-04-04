@@ -151,16 +151,16 @@
 
 // MARK: - Indicies
 
-- (id<ILSoupIndex>)indexForPath:(NSString*)indexPath {
-    @synchronized (self.synchronized) {
-        return [self.synchronized indexForPath:indexPath];
-    }
-}
-
 - (NSArray<id<ILSoupIndex>>*) soupIndicies
 {
     @synchronized(self.synchronized) {
         return self.synchronized.soupIndicies;
+    }
+}
+
+- (id<ILSoupIndex>)indexForPath:(NSString*)indexPath {
+    @synchronized (self.synchronized) {
+        return [self.synchronized indexForPath:indexPath];
     }
 }
 
@@ -177,16 +177,18 @@
     }
 }
 
-- (id<ILSoupIdentityIndex>) createIdentityIndex;
+// MARK: - Default Indicies
+
+- (id<ILSoupIdentityIndex>) createEntryIdentityIndex;
 {
     @synchronized(self.synchronized) {
-        return [self.synchronized createIdentityIndex];
+        return [self.synchronized createEntryIdentityIndex];
     }
 }
 
-- (id<ILSoupIdentityIndex>) queryIdentityIndex {
+- (id<ILSoupIdentityIndex>) queryEntryIdentityIndex {
     @synchronized(self.synchronized) {
-        return [self.synchronized queryIdentityIndex];
+        return [self.synchronized queryEntryIdentityIndex];
     }
 }
 
@@ -203,6 +205,19 @@
     }
 }
 
+// MARK: - User Indicies
+
+- (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString *)indexPath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized createIdentityIndex:indexPath];
+    }
+}
+
+- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString *)indexPath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized queryIdentityIndex:indexPath];
+    }
+}
 
 - (id<ILSoupTextIndex>) createTextIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
