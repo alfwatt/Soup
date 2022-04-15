@@ -1,6 +1,8 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "NSData+Hashcodes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation NSData (Hashcodes)
 
 - (NSString*) md5 {
@@ -16,7 +18,6 @@
     
     return output;
 }
-
 
 - (NSString*) sha1 {
     uint8_t digest[CC_SHA1_DIGEST_LENGTH];
@@ -75,3 +76,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,6 +1,8 @@
 #import "NSDictionary+Hashcodes.h"
 #import "NSData+Hashcodes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation NSDictionary (Hashcodes)
 
 - (NSData*) allKeysDigest
@@ -31,3 +33,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

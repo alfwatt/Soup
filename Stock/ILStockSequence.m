@@ -1,6 +1,8 @@
 #import "ILStockSequence.h"
 #import "ILSoupEntry.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface ILStockSequenceEntry : NSObject
 @property(retain) NSString* entryHash; // at the time
 @property(retain) NSNumber* entryValue;
@@ -154,3 +156,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

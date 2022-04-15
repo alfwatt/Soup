@@ -1,6 +1,8 @@
 #ifndef ILSoupIndex_h
 #define ILSoupIndex_h
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol ILSoupEntry;
 @protocol ILSoupTime;
 
@@ -79,7 +81,7 @@
 - (id<ILSoupCursor>) allEntries;
 
 /// a cursor with all items having the provided value in the index
-- (id<ILSoupCursor>) entriesWithValue:(id) value;
+- (id<ILSoupCursor>) entriesWithValue:(nullable id) value;
 
 @end
 
@@ -151,5 +153,7 @@
 - (id<ILSoupCursor>) entriesWithTimeRange:(id<ILSoupTime>) timeRange;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif

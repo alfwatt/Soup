@@ -1,5 +1,7 @@
 @import Foundation;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSData (Hashcodes)
 
 - (NSString*) md5;
@@ -9,3 +11,5 @@
 - (NSString*) sha512;
 
 @end
+
+NS_ASSUME_NONNULL_END

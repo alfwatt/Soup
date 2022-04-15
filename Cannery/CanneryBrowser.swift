@@ -25,7 +25,7 @@ class CanneryBrowser: NSWindowController {
 
         // setup memory soup
         memory.soupDescription = "Address Book Example Soup"
-        memory.createIdentityIndex()
+        memory.createEntryIdentityIndex()
         memory.createAncestryIndex()
         memory.createIndex(ILSoupEntryDataHash)
         memory.createDateIndex(ILSoupEntryCreationDate)
@@ -48,33 +48,33 @@ class CanneryBrowser: NSWindowController {
         ])
         memory.add(luca); // BUG: the hash luca gets stored as isn't the same that the mutated entries get
         
-        memory.add(luca!.mutatedEntry([
+        memory.add(luca.mutatedEntry([
             ILName:  "John Doe",
             ILEmail: "j.doe@example.com",
             ILSoupEntryIdentityUUID: NSUUID()
         ]))
 
-        memory.add(luca!.mutatedEntry([
+        memory.add(luca.mutatedEntry([
             ILName:  "Jane Doe",
             ILEmail: "jane.d@example.com",
             ILSoupEntryIdentityUUID: NSUUID()
         ]))
 
-        let kimAlias = memory.add(luca!.mutatedEntry([
+        let kimAlias = memory.add(luca.mutatedEntry([
             ILName:  "Kim Gru",
             ILEmail: "kim.g@example.com",
             ILSoupEntryIdentityUUID: NSUUID()
         ]))
         let kimUUID = memory.gotoAlias(kimAlias).entryKeys[ILSoupEntryIdentityUUID]
         
-        let samAlias = memory.add(luca!.mutatedEntry([
+        let samAlias = memory.add(luca.mutatedEntry([
             ILName:  "Sam Liu",
             ILEmail: "sam.l@example.com",
             ILSoupEntryIdentityUUID: NSUUID()
         ]))
         let samUUID = memory.gotoAlias(samAlias).entryKeys[ILSoupEntryIdentityUUID];
 
-        memory.add(luca!.mutatedEntry([
+        memory.add(luca.mutatedEntry([
             ILName: "Fin Gru-Liu",
             ILEmail: "fin.gl@example.com",
             ILBirthday: Date(),
@@ -161,7 +161,7 @@ extension CanneryBrowser: NSOutlineViewDataSource {
         }
         else if let soupIndex = item as? ILSoupIndex {
             if index < soupIndex.allEntries().entries.count {
-                let soupEntry = soupIndex.allEntries()!.entries[index]
+                let soupEntry = soupIndex.allEntries().entries[index]
                 entry = [ "value": soupEntry.entryKeys[soupIndex.indexPath], "entry": soupEntry ]
             }
             else {
@@ -196,7 +196,7 @@ extension CanneryBrowser: NSOutlineViewDelegate {
         }
         else if let soupItem = selectedItem as? Dictionary<String,Any> {
             selectedEntry = soupItem["entry"] as? ILSoupEntry
-            selectedAncestors = cannedSoup?.queryAncestryIndex().ancestery(of:selectedEntry)
+            selectedAncestors = cannedSoup?.queryAncestryIndex().ancestery(of:selectedEntry!)
             self.window?.title = selectedEntry?.dataHash ?? "!"
         }
         entryDetail.reloadData()
@@ -227,14 +227,12 @@ extension CanneryBrowser:  NSTableViewDataSource {
         if let selectedEntry = selectedEntry {
             if tableView == entryDetail {
                 if let columnId = tableColumn?.identifier.rawValue {
-                    let sortedKeys = selectedEntry.sortedEntryKeys
-                    if let selectedKey = sortedKeys?[row] {
-                        if columnId.isEqual("entry.key") {
-                            value = selectedKey as NSObject;
-                        }
-                        else if columnId.isEqual("entry.value") {
-                            value = selectedEntry.entryKeys[selectedKey] as! NSObject
-                        }
+                    let selectedKey = selectedEntry.sortedEntryKeys[row]
+                    if columnId.isEqual("entry.key") {
+                        value = selectedKey as NSObject;
+                    }
+                    else if columnId.isEqual("entry.value") {
+                        value = selectedEntry.entryKeys[selectedKey] as! NSObject
                     }
                 }
             }
@@ -242,7 +240,7 @@ extension CanneryBrowser:  NSTableViewDataSource {
                 if let columnId = tableColumn?.identifier.rawValue {
                     if let rowAncestor = selectedAncestors?.entries[row] {
                         if columnId.isEqual("ancestor.hash") {
-                            value = rowAncestor.dataHash! as NSObject
+                            value = rowAncestor.dataHash as NSObject
                         }
                         else if columnId.isEqual("ancestor.mutated") {
                             value = rowAncestor.entryKeys[ILSoupEntryMutationDate] as! NSObject

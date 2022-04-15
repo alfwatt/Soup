@@ -2,6 +2,8 @@
 
 #import <Soup/ILSoupStock.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol ILUnionSoupDelegate;
 
 /// ILUnionSoup provides a single query interface to multiple soups
@@ -66,3 +68,5 @@
 - (void) unionSoup:(ILUnionSoup*) unionSoup popedEntry:(id<ILSoupEntry>) entry fromSoup:(id<ILSoupEntry>) fromSoup toSoup:(id<ILSoupEntry>) toSoup;
 
 @end
+
+NS_ASSUME_NONNULL_END

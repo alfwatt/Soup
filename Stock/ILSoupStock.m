@@ -3,6 +3,8 @@
 #import "ILStockIndex.h"
 #import "ILStockSequence.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface ILSoupStock ()
 @property(nonatomic, retain) NSString* soupUUIDStorage;
 @property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILSoupEntry>>* soupEntryStorage;
@@ -342,3 +344,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

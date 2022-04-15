@@ -3,6 +3,8 @@
 #import "NSString+Hashcodes.h"
 #import "NSData+Hashcodes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation NSString (Hashcodes)
 
 - (NSString*) md5 {
@@ -36,3 +38,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

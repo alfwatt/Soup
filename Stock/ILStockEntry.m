@@ -1,6 +1,8 @@
 #import "ILStockEntry.h"
 #import "NSDictionary+Hashcodes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface ILStockEntry ()
 @property(nonatomic,retain) NSDictionary<NSString*, id>* entryKeysStorage;
 @property(nonatomic,retain) NSMutableDictionary* entryKeysMutations;
@@ -170,7 +172,7 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
 
 // MARK: - Mutations
 
-- (NSDictionary*) propertyMutations {
+- (nullable NSDictionary*) propertyMutations {
     return [NSDictionary dictionaryWithDictionary:self.entryKeysMutations];
 }
 
@@ -192,3 +194,5 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

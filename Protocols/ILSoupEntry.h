@@ -1,6 +1,8 @@
 #ifndef ILSoupEntry_h
 #define ILSoupEntry_h
 
+NS_ASSUME_NONNULL_BEGIN
+
 // MARK: ILSoupEntry
 
 /// String UUID
@@ -75,5 +77,7 @@ extern NSString* ILSoupEntryMutationDate;
 - (instancetype) mutatedEntry:(NSDictionary<NSString*, id>*) mutatedValues;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif

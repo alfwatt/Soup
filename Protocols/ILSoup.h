@@ -1,6 +1,8 @@
 #ifndef ILSoup_h
 #define ILSoup_h
 
+NS_ASSUME_NONNULL_BEGIN
+
 // MARK: -
 
 @protocol ILSoupEntry;
@@ -207,4 +209,7 @@
 
 @end
 
+NS_ASSUME_NONNULL_END
+
 #endif
+

@@ -2,6 +2,8 @@
 
 #import <Soup/ILSoup.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// Stock in-memory implementation of the ILSoup protocol
 @interface ILSoupStock : NSObject <ILSoup>
 
@@ -22,3 +24,5 @@
 - (void) removeFromSequences:(id<ILSoupEntry>) entry;
 
 @end
+
+NS_ASSUME_NONNULL_END

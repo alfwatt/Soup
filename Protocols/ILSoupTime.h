@@ -3,6 +3,8 @@
 
 @import Foundation;
 
+NS_ASSUME_NONNULL_BEGIN
+
 // MARK: -
 
 /// ILSoupTime supports relative time ranges for querying an ILSoupDateIndex
@@ -111,5 +113,7 @@
 - (NSComparisonResult) compare:(NSDate*)date;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif

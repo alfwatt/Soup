@@ -1,6 +1,8 @@
 #import "ILQueuedSoup.h"
 #import "ILSoupEntry.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation ILQueuedSoup
 
 + (instancetype) makeSoup:(NSString*) soupName
@@ -13,7 +15,7 @@
     return [ILQueuedSoup queuedSoup:queuedSoup soupQueue:nil];
 }
 
-+ (instancetype) queuedSoup:(id<ILSoup>) queuedSoup soupQueue:(NSOperationQueue*) soupOps
++ (instancetype) queuedSoup:(id<ILSoup>) queuedSoup soupQueue:(nullable NSOperationQueue*) soupOps
 {
     ILQueuedSoup* soup = ILQueuedSoup.new;
     soup.queued = queuedSoup;
@@ -250,3 +252,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

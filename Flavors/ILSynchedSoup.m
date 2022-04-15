@@ -1,5 +1,7 @@
 #import "ILSynchedSoup.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation ILSynchedSoup
 
 + (instancetype) makeSoup:(NSString*) soupName
@@ -317,3 +319,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

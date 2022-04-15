@@ -1,5 +1,7 @@
 #import "ILSoupClock.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface ILSoupClock ()
 @property(nonatomic,retain) NSDate* earliestStorage;
 @property(nonatomic,retain) NSDate* latestStorage;
@@ -178,3 +180,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

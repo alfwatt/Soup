@@ -3,6 +3,8 @@
 #import "ILSoupEntry.h"
 #import "ILSoupTime.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface ILStockIndex ()
 @property(nonatomic, retain) NSString* indexPathStorage;
 @property(nonatomic, retain) NSMutableDictionary* indexStorage;
@@ -77,7 +79,7 @@
     return [self entriesWithValue:nil];
 }
 
-- (id<ILSoupCursor>) entriesWithValue:(id) value
+- (id<ILSoupCursor>) entriesWithValue:(nullable id) value
 {
     ILStockCursor* cursor = nil;
 
@@ -147,7 +149,7 @@
     return [ILStockCursor.alloc initWithEntries:self.indexStorage.allValues];
 }
 
-- (id<ILSoupCursor>) entriesWithValue:(id) value
+- (id<ILSoupCursor>) entriesWithValue:(nullable id) value
 {
     ILStockCursor* valueCursor = nil;
     id<ILSoupEntry> entry = [self entryWithValue:value];
@@ -426,3 +428,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

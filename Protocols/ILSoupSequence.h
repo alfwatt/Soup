@@ -1,6 +1,8 @@
 #ifndef ILSoupSequence_h
 #define ILSoupSequence_h
 
+NS_ASSUME_NONNULL_BEGIN
+
 @import CoreGraphics;
 
 // MARK: -
@@ -35,7 +37,7 @@
 // MARK: - fetching sequence data
 
 /// - Returns: YES if the fetch succeeded to get all sequence dates and values for a given entry
-- (BOOL) fetchSequenceFor:(id<ILSoupEntry>) entry times:(NSArray<NSDate*>**) timeArray values:(NSArray<NSNumber*>**) valueArray;
+- (BOOL) fetchSequenceFor:(id<ILSoupEntry>) entry times:(NSArray<NSDate*>* _Nonnull * _Nonnull) timeArray values:( NSArray<NSNumber*>* _Nonnull * _Nonnull) valueArray;
 
 ///  get a sequence source for the entry */
 - (id<ILSoupSequenceSource>) fetchSequenceSourceFor:(id<ILSoupEntry>) entry;
@@ -54,5 +56,7 @@
 - (CGFloat) sampleValueAtIndex:(NSUInteger) index;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif
