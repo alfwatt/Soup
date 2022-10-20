@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ILSoupStock ()
 @property(nonatomic, retain) NSString* soupUUIDStorage;
-@property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILSoupEntry>>* soupEntryStorage;
+@property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILMutableSoupEntry>>* soupEntryStorage;
 @property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILSoupIndex>>* soupIndiciesStorage;
 @property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILSoupSequence>>* soupSequencesStorage;
 @property(nonatomic, retain) NSPredicate* soupQueryStorage;
@@ -174,7 +174,7 @@ NS_ASSUME_NONNULL_BEGIN
     return entry.entryHash;
 }
 
-- (id<ILSoupEntry>) gotoAlias:(id)alias {
+- (id<ILMutableSoupEntry>) gotoAlias:(id)alias {
     return self.soupEntryStorage[alias];
 }
 

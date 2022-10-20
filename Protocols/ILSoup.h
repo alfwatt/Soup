@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*) entryAlias:(id<ILSoupEntry>) entry;
 
 /// the entry from the soup, based on the alias provided
-- (id<ILSoupEntry>) gotoAlias:(NSString*) alias;
+- (id<ILMutableSoupEntry>) gotoAlias:(NSString*) alias;
 
 // MARK: - Queries
 

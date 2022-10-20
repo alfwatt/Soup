@@ -144,7 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupEntry>) gotoAlias:(NSString*) alias
+- (id<ILMutableSoupEntry>) gotoAlias:(NSString*) alias
 {
     @synchronized(self.synchronized) {
         return [self.synchronized gotoAlias:alias];

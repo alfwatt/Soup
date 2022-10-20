@@ -140,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Aliases
 
-- (id<ILSoupEntry>)gotoAlias:(NSString*)alias
+- (id<ILMutableSoupEntry>)gotoAlias:(NSString*)alias
 {
     NSString* entryPath = [[[self pathForEntryHash:alias] stringByExpandingTildeInPath] stringByAppendingPathComponent:@"entry.json"];
     NSInputStream* fileStream = [NSInputStream inputStreamWithFileAtPath:entryPath];

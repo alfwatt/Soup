@@ -74,11 +74,21 @@ class CanneryBrowser: NSWindowController {
         ]))
         let samUUID = memory.gotoAlias(samAlias).entryKeys[ILSoupEntryIdentityUUID];
 
-        memory.add(luca.mutatedEntry([
+        let finAlias = memory.add(luca.mutatedEntry([
             ILName: "Fin Gru-Liu",
             ILEmail: "fin.gl@example.com",
             ILBirthday: Date(),
             ILParents: [kimUUID, samUUID],
+            ILSoupEntryIdentityUUID: NSUUID()
+        ]))
+        let fin = memory.gotoAlias(finAlias)
+        let finUUID = fin.entryKeys[ILSoupEntryIdentityUUID]
+        
+        let fin2 = memory.add(fin.mutatedEntry([
+            ILName: "Fin Gru-Liu the 2nd",
+            ILEmail: "fin.gl2@example.com",
+            ILBirthday: Date(),
+            ILParents: [finUUID],
             ILSoupEntryIdentityUUID: NSUUID()
         ]))
         
