@@ -18,12 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: -
 
-@interface ILStockAncestryIndex : ILStockIndex <ILSoupAncestryIndex>
-- (instancetype) initWithSoup:(id<ILSoup>) sourceSoup;
-
+@interface ILStockAncestryIndex : ILStockIdentityIndex <ILSoupAncestryIndex>
 @end
 
-// MARK:-
+// MARK: -
 
 @interface ILStockTextIndex : ILStockIndex <ILSoupTextIndex>
 @end

@@ -5,7 +5,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NSString ILEntryKey;
+typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
+
 @interface ILStockIndex ()
+@property(nonatomic, weak) id<ILSoup> indexedSoup; // weak reference to avoid loop, the soup owns the set of Indicies
 @property(nonatomic, retain) NSString* indexPathStorage;
 @property(nonatomic, retain) NSMutableDictionary* indexStorage;
 
@@ -15,9 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation ILStockIndex
 
-+ (instancetype) indexWithPath:(NSString *)indexPath
++ (instancetype) indexWithPath:(NSString *)indexPath inSoup:(id<ILSoup>) containingSoup
 {
     ILStockIndex* stockIndex = self.new;
+    stockIndex.indexedSoup = containingSoup;
     stockIndex.indexPathStorage = indexPath;
     stockIndex.indexStorage = NSMutableDictionary.new;
 
@@ -36,15 +41,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) indexEntry:(id<ILSoupEntry>) entry
 {
     id value = [entry.entryKeys valueForKeyPath:self.indexPath];
+
     if (value) {
-        NSMutableSet<id<ILSoupEntry>>* entrySet = self.indexStorage[value];
+        ILEntryKeySet* entrySet = self.indexStorage[value]; // set of entryHash strings
         if (!entrySet) {
             entrySet = NSMutableSet.new;
             self.indexStorage[value] = entrySet;
         }
         
-        if (![entrySet containsObject:entry]) {
-            [entrySet addObject:entry];
+        if (![entrySet containsObject:entry.entryHash]) {
+            [entrySet addObject:entry.entryHash];
         }
     }
 }
@@ -53,9 +59,9 @@ NS_ASSUME_NONNULL_BEGIN
 {
     id value = [entry.entryKeys valueForKeyPath:self.indexPath];
     if (value) {
-        NSMutableSet<id<ILSoupEntry>>* entrySet = self.indexStorage[value];
+        ILEntryKeySet* entrySet = self.indexStorage[value];
         if (entrySet) {
-            [entrySet removeObject:entry];
+            [entrySet removeObject:entry.entryHash]; // TODO remove entryHash
         }
     }
 }
@@ -63,11 +69,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL) includesEntry:(id<ILSoupEntry>) entry
 {
     BOOL included = NO;
-    id value = [entry.entryKeys valueForKeyPath:self.indexPath];
+    id value = [entry.entryKeys valueForKeyPath:self.indexPath]; // get the value of the entry for this index
     if (value) {
-        NSMutableSet<id<ILSoupEntry>>* entrySet = self.indexStorage[value];
+        ILEntryKeySet* entrySet = self.indexStorage[value]; // get the set of entires indexed for this value
         if (entrySet) {
-            [entrySet removeObject:entry];
+            included = [entrySet containsObject:entry.entryHash]; // check to see if we're included in that set
         }
     }
     
@@ -81,18 +87,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id<ILSoupCursor>) entriesWithValue:(nullable id) value
 {
-    ILStockCursor* cursor = nil;
+    ILStockAliasCursor* cursor = nil;
 
     if (value) {
-        NSMutableSet<id<ILSoupEntry>>* entrySet = self.indexStorage[value];
-        cursor = [ILStockCursor.alloc initWithEntries:entrySet.allObjects];
+        ILEntryKeySet* entrySet = self.indexStorage[value];
+        cursor = [ILStockAliasCursor.alloc initWithAliases:entrySet.allObjects inSoup:self.indexedSoup];
     }
     else {
-        NSMutableSet<id<ILSoupEntry>>* entrySet = NSMutableSet.set;
-        for (NSMutableSet<id<ILSoupEntry>>* entrySubset in self.indexStorage.allValues) {
+        ILEntryKeySet* entrySet = NSMutableSet.set;
+        for (ILEntryKeySet* entrySubset in self.indexStorage.allValues) {
             [entrySet addObjectsFromArray:entrySubset.allObjects];
         }
-        cursor = [ILStockCursor.alloc initWithEntries:entrySet.allObjects];
+        cursor = [ILStockAliasCursor.alloc initWithAliases:entrySet.allObjects inSoup:self.indexedSoup];
     }
     
     return cursor;
@@ -177,9 +183,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - ILStockAncestryIndex
 
-@interface ILStockAncestryIndex ()
-@property(nonatomic, retain) id<ILSoup> containingSoup;
-@property(nonatomic, retain) NSMutableDictionary<NSString*,id<ILSoupEntry>>* entryHashStorage;
+@interface ILStockAncestryIndex (ILStockIdentityIndex)
 
 @end
 
@@ -187,28 +191,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation ILStockAncestryIndex
 
-- (instancetype) initWithSoup:(id<ILSoup>) sourceSoup {
-    if (self = [super init]) {
-        self.containingSoup = sourceSoup;
-    }
-    return self;
-}
-
 - (id<ILSoupEntry>) ancestorOf:(id<ILSoupEntry>) descendant {
     id <ILSoupEntry> ancestor = nil;
     NSString* ancestorAlias = descendant.entryKeys[ILSoupEntryAncestorEntryHash];
     if (ancestorAlias) {
-        ancestor = [self.containingSoup gotoAlias:ancestorAlias];
+        ancestor = [self.indexedSoup gotoAlias:ancestorAlias];
     }
     return ancestor;
 }
 
+/// Index will be ILSoupEntryAncestorEntryHash -> ILSoupEntry[]
 - (id<ILSoupCursor>) ancesteryOf:(id<ILSoupEntry>) descendant {
     NSMutableArray<id<ILSoupEntry>>* ancestery = NSMutableArray.new;
     [ancestery addObject:descendant]; // start with the descendant as they are part of this
     
-    id<ILSoupEntry> nextAncestor = [self ancestorOf:descendant];
-    while (nextAncestor != nil) {
+    id<ILSoupEntry> nextAncestor = descendant;
+    while ((nextAncestor = [self ancestorOf:nextAncestor])) {
         [ancestery addObject:nextAncestor];
     }
     

@@ -8,6 +8,7 @@ let ILURL = "url"
 let ILNotes = "notes"
 let ILBirthday = "birthday"
 let ILParents = "parents"
+let ILSpouse = "spouse"
 
 class CanneryBrowser: NSWindowController {
     var cannedSoup: ILSoup?
@@ -42,55 +43,65 @@ class CanneryBrowser: NSWindowController {
             ILPhone: "415-449-0905"
         ]))
         
-        let luca = memory.createBlankEntry().mutatedEntry([
+        let root = memory.createBlankEntry() // root node in the soup
+        memory.add(root)
+        
+        let luca = root.mutatedCopy([
             ILName: "LUCA",
             ILEmail: "luca@life.earth"
         ])
         memory.add(luca); // BUG: the hash luca gets stored as isn't the same that the mutated entries get
         
-        memory.add(luca.mutatedEntry([
+        let john = luca.mutatedCopy([
             ILName:  "John Doe",
-            ILEmail: "j.doe@example.com",
-            ILSoupEntryIdentityUUID: NSUUID()
-        ]))
+            ILEmail: "j.doe@example.com"
+        ])
+        memory.add(john)
 
-        memory.add(luca.mutatedEntry([
+        let jane = luca.mutatedCopy([
             ILName:  "Jane Doe",
-            ILEmail: "jane.d@example.com",
-            ILSoupEntryIdentityUUID: NSUUID()
-        ]))
+            ILEmail: "jane.d@example.com"
+        ])
+        memory.add(jane)
 
-        let kimAlias = memory.add(luca.mutatedEntry([
+        let kim = luca.mutatedCopy([
             ILName:  "Kim Gru",
-            ILEmail: "kim.g@example.com",
-            ILSoupEntryIdentityUUID: NSUUID()
-        ]))
-        let kimUUID = memory.gotoAlias(kimAlias).entryKeys[ILSoupEntryIdentityUUID]
+            ILEmail: "kim.g@example.com"
+        ])
+        memory.add(kim)
         
-        let samAlias = memory.add(luca.mutatedEntry([
+        let sam = luca.mutatedCopy([
             ILName:  "Sam Liu",
-            ILEmail: "sam.l@example.com",
-            ILSoupEntryIdentityUUID: NSUUID()
-        ]))
-        let samUUID = memory.gotoAlias(samAlias).entryKeys[ILSoupEntryIdentityUUID];
+            ILEmail: "sam.l@example.com"
+        ])
+        memory.add(sam)
 
-        let finAlias = memory.add(luca.mutatedEntry([
+        let fin = luca.mutatedCopy([
             ILName: "Fin Gru-Liu",
             ILEmail: "fin.gl@example.com",
             ILBirthday: Date(),
-            ILParents: [kimUUID, samUUID],
-            ILSoupEntryIdentityUUID: NSUUID()
-        ]))
-        let fin = memory.gotoAlias(finAlias)
-        let finUUID = fin.entryKeys[ILSoupEntryIdentityUUID]
+            ILParents: [kim.entryKeys[ILSoupEntryIdentityUUID],
+                        sam.entryKeys[ILSoupEntryIdentityUUID]]
+        ])
+        memory.add(fin)
         
-        let fin2 = memory.add(fin.mutatedEntry([
+        
+        
+        let fin2 = fin.mutatedCopy([
             ILName: "Fin Gru-Liu the 2nd",
             ILEmail: "fin.gl2@example.com",
             ILBirthday: Date(),
-            ILParents: [finUUID],
-            ILSoupEntryIdentityUUID: NSUUID()
-        ]))
+            ILParents: [fin.entryKeys[ILSoupEntryIdentityUUID]] // cloned
+        ])
+        memory.add(fin2)
+        
+        let fin3 = fin2.mutatedCopy([
+            ILName: "Fin Gru-Liu the 3rd",
+            ILEmail: "fin.gl2@example.com",
+            ILBirthday: Date(),
+            ILParents: [fin2.entryKeys[ILSoupEntryIdentityUUID]]
+        ])
+        memory.add(fin3)
         
         return memory
     }
@@ -233,7 +244,7 @@ extension CanneryBrowser:  NSTableViewDataSource {
     }
 
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        var value: NSObject = "!" as NSObject
+        var value: NSObject = "-" as NSObject
         if let selectedEntry = selectedEntry {
             if tableView == entryDetail {
                 if let columnId = tableColumn?.identifier.rawValue {
@@ -252,11 +263,17 @@ extension CanneryBrowser:  NSTableViewDataSource {
                         if columnId.isEqual("ancestor.hash") {
                             value = rowAncestor.dataHash as NSObject
                         }
-                        else if columnId.isEqual("ancestor.mutated") {
+                        else if columnId.isEqual("ancestor.mutated"),
+                            rowAncestor.entryKeys[ILSoupEntryMutationDate] != nil {
                             value = rowAncestor.entryKeys[ILSoupEntryMutationDate] as! NSObject
                         }
-                        else if columnId.isEqual("ancestor.created") {
+                        else if columnId.isEqual("ancestor.created"),
+                            rowAncestor.entryKeys[ILSoupEntryCreationDate] != nil {
                             value = rowAncestor.entryKeys[ILSoupEntryCreationDate] as! NSObject
+                        }
+                        else if columnId.isEqual(ILName),
+                            rowAncestor.entryKeys[ILName] != nil {
+                            value = rowAncestor.entryKeys[ILName] as! NSObject
                         }
                     }
                 }

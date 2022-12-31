@@ -65,16 +65,15 @@ extern NSString* ILSoupEntryMutationDate;
 ///     <a id="ILMutableSoupEntry"></a>
 @protocol ILMutableSoupEntry <ILSoupEntry>
 
-/// @param mutatedKey — a key
-/// @param mutatedValue — a value
-/// @returns an `<ILMutableSoupEntry>` with a single mutated key and value in the entry
-/// creating a new entry with the same UUID and a new hash
-- (instancetype) mutatedEntry:(NSString*) mutatedKey newValue:(id) mutatedValue;
-
 /// @param mutatedValues — a dictionary of keys and values
 /// @returns an `<ILMutableSoupEntry>` with mutated keys and values provided in `mutatedValues`
 /// creating a new entry with the same UUID and a new hash
 - (instancetype) mutatedEntry:(NSDictionary<NSString*, id>*) mutatedValues;
+
+/// @param mutatedValues — a dictionary of keys and values
+/// @returns an `<ILMutableSoupEntry>` with a single mutated key and value in the entry
+/// creating a new entry with the same UUID and a new hash
+- (instancetype) mutatedCopy:(NSDictionary<NSString*, id>*) mutatedValues;
 
 @end
 

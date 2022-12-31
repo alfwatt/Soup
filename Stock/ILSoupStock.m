@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString*) addEntry:(id<ILSoupEntry>) entry {
-    [self.soupEntryStorage setObject:entry forKey:entry.entryHash]; // [entry.entryHash] = entry;
+    [self.soupEntryStorage setObject:(id<ILMutableSoupEntry>)entry forKey:entry.entryHash]; // TODO resolve the mutable/immutable
 
     [self indexEntry:entry];
     [self sequenceEntry:entry];
@@ -175,7 +175,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (id<ILMutableSoupEntry>) gotoAlias:(id)alias {
-    return self.soupEntryStorage[alias];
+    return (id<ILMutableSoupEntry>) self.soupEntryStorage[alias]; // nothing better to do here until the mutabiliyt interface is resolved
 }
 
 // MARK: - Queries
@@ -210,7 +210,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 - (id<ILSoupIndex>) createIndex:(NSString *)indexPath {
-    ILStockIndex* stockIndex = [ILStockIndex indexWithPath:indexPath];
+    ILStockIndex* stockIndex = [ILStockIndex indexWithPath:indexPath inSoup:self];
     [self loadIndex:indexPath index:stockIndex];
     return stockIndex;
 }
@@ -222,7 +222,7 @@ NS_ASSUME_NONNULL_BEGIN
 // MARK: - Default Indicies
 
 - (id<ILSoupIdentityIndex>) createEntryIdentityIndex {
-    ILStockIdentityIndex* stockIndex = [ILStockIdentityIndex indexWithPath:ILSoupEntryIdentityUUID];
+    ILStockIdentityIndex* stockIndex = [ILStockIdentityIndex indexWithPath:ILSoupEntryIdentityUUID inSoup:self];
     [self loadIndex:ILSoupEntryIdentityUUID index:stockIndex];
     return stockIndex;
 }
@@ -232,7 +232,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (id<ILSoupAncestryIndex>) createAncestryIndex {
-    ILStockAncestryIndex* stockIndex = [ILStockAncestryIndex indexWithPath:ILSoupEntryAncestorEntryHash];
+    ILStockAncestryIndex* stockIndex = [ILStockAncestryIndex indexWithPath:ILSoupEntryAncestorEntryHash inSoup:self];
     [self loadIndex:ILSoupEntryAncestorEntryHash index:stockIndex];
     return stockIndex;
 }
@@ -244,7 +244,7 @@ NS_ASSUME_NONNULL_BEGIN
 // MARK: - User Indicies
 
 - (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString *)indexPath {
-    ILStockIdentityIndex* stockIndex = [ILStockIdentityIndex indexWithPath:indexPath];
+    ILStockIdentityIndex* stockIndex = [ILStockIdentityIndex indexWithPath:indexPath inSoup:self];
     [self loadIndex:indexPath index:stockIndex];
     return stockIndex;
 }
@@ -254,7 +254,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (id<ILSoupTextIndex>) createTextIndex:(NSString *)indexPath {
-    ILStockTextIndex* stockIndex = [ILStockTextIndex indexWithPath:indexPath];
+    ILStockTextIndex* stockIndex = [ILStockTextIndex indexWithPath:indexPath inSoup:self];
     [self loadIndex:indexPath index:stockIndex];
     return stockIndex;
 }
@@ -264,7 +264,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (id<ILSoupDateIndex>) createDateIndex:(NSString *)indexPath {
-    ILStockDateIndex* stockIndex = [ILStockDateIndex indexWithPath:indexPath];
+    ILStockDateIndex* stockIndex = [ILStockDateIndex indexWithPath:indexPath inSoup:self];
     [self loadIndex:indexPath index:stockIndex];
     return stockIndex;
 }
@@ -274,7 +274,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (id<ILSoupNumberIndex>) createNumberIndex:(NSString *)indexPath {
-    ILStockNumberIndex* stockIndex = [ILStockNumberIndex indexWithPath:indexPath];
+    ILStockNumberIndex* stockIndex = [ILStockNumberIndex indexWithPath:indexPath inSoup:self];
     [self loadIndex:indexPath index:stockIndex];
     return stockIndex;
 }

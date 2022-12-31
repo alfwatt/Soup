@@ -3,6 +3,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol ILSoup;
 @protocol ILSoupEntry;
 @protocol ILSoupTime;
 
@@ -62,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 // MARK: -
 
 /// create an index with the path provided
-+ (instancetype) indexWithPath:(NSString*) indexPath;
++ (instancetype) indexWithPath:(NSString*) indexPath inSoup:(id<ILSoup>) containingSoup;
 
 // MARK: - Entries
 
@@ -98,8 +99,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: -
 
-// an ancestory index mantains the chain of ancestery for an entry
-@protocol ILSoupAncestryIndex <ILSoupIndex>
+/// an ancestory index mantains the chain of ancestery for an entry
+/// the ancestory index is an identity index with the entry key pointing to the ancestor
+///
+/// A given entry MAY have one Ancestor and multiple Descendants
+/// (i.e. an entry can be mutated multiple times, creating multiple lines of descendents)
+///
+/// <a id="ILSoupAncestryIndex"></a>
+@protocol ILSoupAncestryIndex <ILSoupIdentityIndex>
 
 // every entry has zero or one ancestor
 // @returns a soup entry or nil if the ancestor cannot be found

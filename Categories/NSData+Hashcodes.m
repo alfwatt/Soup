@@ -7,9 +7,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString*) md5 {
     unsigned char digest[16];
-    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     CC_MD5( self.bytes, (unsigned)self.length, digest);
-    
+#pragma clang diagnostic pop
+
     NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     
     for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {

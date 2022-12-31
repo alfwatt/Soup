@@ -85,13 +85,6 @@ NS_ASSUME_NONNULL_BEGIN
 NSString* ILSoupEntryAncestorEntryHash = @"soup.entry.ancestor";
 NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
 
-- (instancetype) mutatedEntry:(NSString*) mutatedKey newValue:(id) value {
-    NSMutableDictionary* mutatedKeys = (self.entryKeysStorage ? self.entryKeysStorage.mutableCopy : NSMutableDictionary.new);
-    mutatedKeys[mutatedKey] = value;
-    
-    return [self.class soupEntryWithKeys:mutatedKeys];
-}
-
 - (instancetype) mutatedEntry:(NSDictionary*) mutatedValues {
     NSMutableDictionary* mutatedKeys = (self.entryKeysStorage ? self.entryKeysStorage.mutableCopy : NSMutableDictionary.new);
     for (id key in mutatedValues.allKeys) {
@@ -103,10 +96,19 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
             mutatedKeys[key] = object;
         }
     }
+    // link the entry to it's ancestor
     mutatedKeys[ILSoupEntryAncestorEntryHash] = self.entryHash;
+    // mutation date gurantees a new entryHash, even if all the other data is the same
     mutatedKeys[ILSoupEntryMutationDate] = NSDate.date;
     
     return [self.class soupEntryWithKeys:mutatedKeys];
+}
+
+- (instancetype) mutatedCopy:(NSDictionary*) mutatedValues {
+    NSMutableDictionary* mutableValues = mutatedValues.mutableCopy;
+    // copies need a new UUID
+    mutableValues[ILSoupEntryIdentityUUID] = NSUUID.new;
+    return [self mutatedEntry:mutableValues];
 }
 
 // MARK: - Ancestry
