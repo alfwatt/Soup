@@ -227,7 +227,7 @@ NS_ASSUME_NONNULL_BEGIN
     return stockIndex;
 }
 
-- (id<ILSoupIdentityIndex>) queryEntryIdentityIndex {
+- (id<ILSoupIdentityIndex> _Nullable) queryEntryIdentityIndex {
     return (id<ILSoupIdentityIndex>) self.soupIndiciesStorage[ILSoupEntryIdentityUUID];
 }
 
@@ -237,7 +237,7 @@ NS_ASSUME_NONNULL_BEGIN
     return stockIndex;
 }
 
-- (id<ILSoupAncestryIndex>) queryAncestryIndex {
+- (id<ILSoupAncestryIndex> _Nullable) queryAncestryIndex {
     return (id<ILSoupAncestryIndex>) self.soupIndiciesStorage[ILSoupEntryAncestorEntryHash];
 }
 
@@ -249,7 +249,7 @@ NS_ASSUME_NONNULL_BEGIN
     return stockIndex;
 }
 
-- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString *)indexPath {
+- (id<ILSoupIdentityIndex> _Nullable) queryIdentityIndex:(NSString *)indexPath {
     return (id<ILSoupIdentityIndex>) self.soupIndiciesStorage[indexPath];
 }
 
@@ -259,7 +259,7 @@ NS_ASSUME_NONNULL_BEGIN
     return stockIndex;
 }
 
-- (id<ILSoupTextIndex>) queryTextIndex:(NSString *)indexPath {
+- (id<ILSoupTextIndex> _Nullable) queryTextIndex:(NSString *)indexPath {
     return (id<ILSoupTextIndex>) self.soupIndiciesStorage[indexPath];
 }
 
@@ -269,7 +269,7 @@ NS_ASSUME_NONNULL_BEGIN
     return stockIndex;
 }
 
-- (id<ILSoupTextIndex>) queryDateIndex:(NSString *)indexPath {
+- (id<ILSoupTextIndex> _Nullable) queryDateIndex:(NSString *)indexPath {
     return (id<ILSoupTextIndex>) self.soupIndiciesStorage[indexPath];
 }
 
@@ -279,7 +279,7 @@ NS_ASSUME_NONNULL_BEGIN
     return stockIndex;
 }
 
-- (id<ILSoupNumberIndex>) queryNumberIndex:(NSString *)indexPath {
+- (id<ILSoupNumberIndex> _Nullable) queryNumberIndex:(NSString *)indexPath {
     return (id<ILSoupNumberIndex>) self.soupIndiciesStorage[indexPath];
 }
 
@@ -321,7 +321,7 @@ NS_ASSUME_NONNULL_BEGIN
     return stockSequence;
 }
 
-- (id<ILSoupSequence>) querySequence:(NSString*) sequencePath {
+- (id<ILSoupSequence> _Nullable) querySequence:(NSString*) sequencePath {
     return self.soupSequencesStorage[sequencePath];
 }
 

@@ -127,6 +127,8 @@
 		758C8CED2267ED79001B366E /* ILSoupClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 758C8CE92267ED79001B366E /* ILSoupClock.m */; };
 		758C8CEE2267ED79001B366E /* ILSoupClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 758C8CE92267ED79001B366E /* ILSoupClock.m */; };
 		758C8CEF2267ED79001B366E /* ILSoupClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 758C8CE92267ED79001B366E /* ILSoupClock.m */; };
+		75967A9C2963838E00BE394B /* SoupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75967A9B2963838E00BE394B /* SoupTests.swift */; };
+		75967A9D2963838E00BE394B /* Soup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 754323FF20A3786F006EE620 /* Soup.framework */; };
 		75D12D712378BF40003F2899 /* CanneryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D12D702378BF40003F2899 /* CanneryDelegate.swift */; };
 		75D12D732378BF40003F2899 /* CanneryBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D12D722378BF40003F2899 /* CanneryBrowser.swift */; };
 		75D12D752378BF42003F2899 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75D12D742378BF42003F2899 /* Assets.xcassets */; };
@@ -186,6 +188,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 75D12D7E2378BF42003F2899;
 			remoteInfo = CanneryTests;
+		};
+		75967A9E2963838E00BE394B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75EA39B61B20D5A00058E49D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 754323FE20A3786F006EE620;
+			remoteInfo = "Soup (macOS)";
 		};
 		75D12D802378BF42003F2899 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -269,6 +278,8 @@
 		758C8CE42267E8B7001B366E /* ILSoupTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupTime.h; sourceTree = "<group>"; };
 		758C8CE82267ED79001B366E /* ILSoupClock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupClock.h; sourceTree = "<group>"; };
 		758C8CE92267ED79001B366E /* ILSoupClock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSoupClock.m; sourceTree = "<group>"; };
+		75967A992963838E00BE394B /* SoupTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoupTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		75967A9B2963838E00BE394B /* SoupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoupTests.swift; sourceTree = "<group>"; };
 		75D12D6E2378BF40003F2899 /* Cannery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cannery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75D12D702378BF40003F2899 /* CanneryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanneryDelegate.swift; sourceTree = "<group>"; };
 		75D12D722378BF40003F2899 /* CanneryBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanneryBrowser.swift; sourceTree = "<group>"; };
@@ -313,6 +324,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				758880DE21862FCA00488CE1 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		75967A962963838E00BE394B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				75967A9D2963838E00BE394B /* Soup.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +404,7 @@
 				758880F521862FCA00488CE1 /* Soup.framework */,
 				75D12D6E2378BF40003F2899 /* Cannery.app */,
 				75D12D7F2378BF42003F2899 /* CanneryTests.xctest */,
+				75967A992963838E00BE394B /* SoupTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -447,6 +467,14 @@
 			name = Packaging;
 			sourceTree = "<group>";
 		};
+		75967A9A2963838E00BE394B /* SoupTests */ = {
+			isa = PBXGroup;
+			children = (
+				75967A9B2963838E00BE394B /* SoupTests.swift */,
+			);
+			path = SoupTests;
+			sourceTree = "<group>";
+		};
 		75D12D6F2378BF40003F2899 /* Cannery */ = {
 			isa = PBXGroup;
 			children = (
@@ -484,6 +512,7 @@
 				7543242520A39B2A006EE620 /* Examples */,
 				75D12D6F2378BF40003F2899 /* Cannery */,
 				75D12D822378BF42003F2899 /* CanneryTests */,
+				75967A9A2963838E00BE394B /* SoupTests */,
 				7543240820A37902006EE620 /* Frameworks */,
 				7543240020A3786F006EE620 /* Products */,
 				7552D95221619949004FF8C8 /* Packaging */,
@@ -646,6 +675,24 @@
 			productReference = 758880F521862FCA00488CE1 /* Soup.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		75967A982963838E00BE394B /* SoupTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 75967AA22963838E00BE394B /* Build configuration list for PBXNativeTarget "SoupTests" */;
+			buildPhases = (
+				75967A952963838E00BE394B /* Sources */,
+				75967A962963838E00BE394B /* Frameworks */,
+				75967A972963838E00BE394B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				75967A9F2963838E00BE394B /* PBXTargetDependency */,
+			);
+			name = SoupTests;
+			productName = SoupTests;
+			productReference = 75967A992963838E00BE394B /* SoupTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		75D12D6D2378BF40003F2899 /* Cannery */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 75D12D8A2378BF42003F2899 /* Build configuration list for PBXNativeTarget "Cannery" */;
@@ -689,7 +736,7 @@
 		75EA39B61B20D5A00058E49D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1120;
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					7507526F21A9F2AF00DA776A = {
@@ -714,6 +761,11 @@
 					758880CF21862FCA00488CE1 = {
 						LastSwiftMigration = 1330;
 						ProvisioningStyle = Manual;
+					};
+					75967A982963838E00BE394B = {
+						CreatedOnToolsVersion = 14.2;
+						DevelopmentTeam = E8G8ARB44Z;
+						ProvisioningStyle = Automatic;
 					};
 					75D12D6D2378BF40003F2899 = {
 						CreatedOnToolsVersion = 11.2;
@@ -748,6 +800,7 @@
 				7543242920A39B5B006EE620 /* addresses */,
 				75D12D6D2378BF40003F2899 /* Cannery */,
 				75D12D7E2378BF42003F2899 /* CanneryTests */,
+				75967A982963838E00BE394B /* SoupTests */,
 			);
 		};
 /* End PBXProject section */
@@ -768,6 +821,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		758880F121862FCA00488CE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		75967A972963838E00BE394B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -862,6 +922,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		75967A952963838E00BE394B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				75967A9C2963838E00BE394B /* SoupTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		75D12D6A2378BF40003F2899 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -916,6 +984,11 @@
 			isa = PBXTargetDependency;
 			target = 75D12D7E2378BF42003F2899 /* CanneryTests */;
 			targetProxy = 756BE1FB25759C79009D096A /* PBXContainerItemProxy */;
+		};
+		75967A9F2963838E00BE394B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 754323FE20A3786F006EE620 /* Soup (macOS) */;
+			targetProxy = 75967A9E2963838E00BE394B /* PBXContainerItemProxy */;
 		};
 		75D12D812378BF42003F2899 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1510,6 +1583,86 @@
 			};
 			name = Release;
 		};
+		75967AA02963838E00BE394B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = E8G8ARB44Z;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = net.istumbler.SoupTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		75967AA12963838E00BE394B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = E8G8ARB44Z;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = net.istumbler.SoupTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		75D12D862378BF42003F2899 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1915,6 +2068,15 @@
 			buildConfigurations = (
 				758880F321862FCA00488CE1 /* Debug */,
 				758880F421862FCA00488CE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		75967AA22963838E00BE394B /* Build configuration list for PBXNativeTarget "SoupTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				75967AA02963838E00BE394B /* Debug */,
+				75967AA12963838E00BE394B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

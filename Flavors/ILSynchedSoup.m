@@ -188,7 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupIdentityIndex>) queryEntryIdentityIndex {
+- (id<ILSoupIdentityIndex> _Nullable) queryEntryIdentityIndex {
     @synchronized(self.synchronized) {
         return [self.synchronized queryEntryIdentityIndex];
     }
@@ -201,7 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-- (id<ILSoupAncestryIndex>)queryAncestryIndex {
+- (id<ILSoupAncestryIndex> _Nullable)queryAncestryIndex {
     @synchronized (self.synchronized) {
         return [self.synchronized queryAncestryIndex];
     }
@@ -215,7 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString *)indexPath {
+- (id<ILSoupIdentityIndex> _Nullable) queryIdentityIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized queryIdentityIndex:indexPath];
     }
@@ -227,7 +227,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupTextIndex>) queryTextIndex:(NSString *)indexPath {
+- (id<ILSoupTextIndex> _Nullable) queryTextIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized queryTextIndex:indexPath];
     }
@@ -239,7 +239,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupDateIndex>) queryDateIndex:(NSString *)indexPath {
+- (id<ILSoupDateIndex> _Nullable) queryDateIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized queryDateIndex:indexPath];
     }
@@ -251,7 +251,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupNumberIndex>) queryNumberIndex:(NSString *)indexPath {
+- (id<ILSoupNumberIndex> _Nullable) queryNumberIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized queryNumberIndex:indexPath];
     }
@@ -296,7 +296,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupSequence>) querySequence:(NSString *)sequencePath {
+- (id<ILSoupSequence> _Nullable) querySequence:(NSString *)sequencePath {
     @synchronized(self.synchronized) {
         return [self.synchronized querySequence:sequencePath];
     }

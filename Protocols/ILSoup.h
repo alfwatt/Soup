@@ -107,13 +107,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<ILSoupIdentityIndex>) createEntryIdentityIndex;
 
 /// returns the entry UUID identity index for this soup
-- (id<ILSoupIdentityIndex>) queryEntryIdentityIndex;
+- (id<ILSoupIdentityIndex> _Nullable) queryEntryIdentityIndex;
 
 /// returns the ancestory index for this soup
 - (id<ILSoupAncestryIndex>) createAncestryIndex;
 
 /// returns
-- (id<ILSoupAncestryIndex>) queryAncestryIndex;
+- (id<ILSoupAncestryIndex> _Nullable) queryAncestryIndex;
 
 // MARK: - User Indicies
 
@@ -121,25 +121,25 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString*)indexPath;
 
 /// returns the entry identity index for this soup
-- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString*)indexPath;
+- (id<ILSoupIdentityIndex> _Nullable) queryIdentityIndex:(NSString*)indexPath;
 
 /// create a new index on this soup with the path provided
 - (id<ILSoupTextIndex>) createTextIndex:(NSString*)indexPath;
 
 /// returns the index for the path provided
-- (id<ILSoupTextIndex>) queryTextIndex:(NSString*)indexPath;
+- (id<ILSoupTextIndex> _Nullable) queryTextIndex:(NSString*)indexPath;
 
 /// create a new index on this soup with the path provided
 - (id<ILSoupNumberIndex>) createNumberIndex:(NSString*)indexPath;
 
 /// returns the index for the path provided
-- (id<ILSoupNumberIndex>) queryNumberIndex:(NSString*)indexPath;
+- (id<ILSoupNumberIndex> _Nullable) queryNumberIndex:(NSString*)indexPath;
 
 /// create a new index on this soup with the path provided
 - (id<ILSoupDateIndex>) createDateIndex:(NSString*)indexPath;
 
 /// returns the index for the path provided
-- (id<ILSoupDateIndex>) queryDateIndex:(NSString*)indexPath;
+- (id<ILSoupDateIndex> _Nullable) queryDateIndex:(NSString*)indexPath;
 
 // MARK: - Default Cursor
 
@@ -158,7 +158,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<ILSoupSequence>) createSequence:(NSString*) sequencePath;
 
 /// returns the sequence for the path provided
-- (id<ILSoupSequence>) querySequence:(NSString*) sequencePath;
+- (id<ILSoupSequence> _Nullable) querySequence:(NSString*) sequencePath;
 
 // MARK: - Soup Managment
 

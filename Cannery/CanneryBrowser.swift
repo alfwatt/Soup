@@ -43,36 +43,38 @@ class CanneryBrowser: NSWindowController {
             ILPhone: "415-449-0905"
         ]))
         
-        let root = memory.createBlankEntry() // root node in the soup
-        memory.add(root)
-        
-        let luca = root.mutatedCopy([
+        let luca = memory.createBlankEntry().mutatedCopy([
             ILName: "LUCA",
-            ILEmail: "luca@life.earth"
+            ILEmail: "luca@life.earth",
+            ILNotes: "I live on the ocean floor"
         ])
         memory.add(luca); // BUG: the hash luca gets stored as isn't the same that the mutated entries get
         
         let john = luca.mutatedCopy([
             ILName:  "John Doe",
-            ILEmail: "j.doe@example.com"
+            ILEmail: "j.doe@example.com",
+            ILNotes: NSNull()
         ])
         memory.add(john)
 
         let jane = luca.mutatedCopy([
             ILName:  "Jane Doe",
-            ILEmail: "jane.d@example.com"
+            ILEmail: "jane.d@example.com",
+            ILNotes: NSNull()
         ])
         memory.add(jane)
 
         let kim = luca.mutatedCopy([
             ILName:  "Kim Gru",
-            ILEmail: "kim.g@example.com"
+            ILEmail: "kim.g@example.com",
+            ILNotes: NSNull()
         ])
         memory.add(kim)
         
         let sam = luca.mutatedCopy([
             ILName:  "Sam Liu",
-            ILEmail: "sam.l@example.com"
+            ILEmail: "sam.l@example.com",
+            ILNotes: NSNull()
         ])
         memory.add(sam)
 
@@ -84,8 +86,6 @@ class CanneryBrowser: NSWindowController {
                         sam.entryKeys[ILSoupEntryIdentityUUID]]
         ])
         memory.add(fin)
-        
-        
         
         let fin2 = fin.mutatedCopy([
             ILName: "Fin Gru-Liu the 2nd",
@@ -217,7 +217,7 @@ extension CanneryBrowser: NSOutlineViewDelegate {
         }
         else if let soupItem = selectedItem as? Dictionary<String,Any> {
             selectedEntry = soupItem["entry"] as? ILSoupEntry
-            selectedAncestors = cannedSoup?.queryAncestryIndex().ancestery(of:selectedEntry!)
+            selectedAncestors = cannedSoup?.queryAncestryIndex()?.ancestery(of:selectedEntry!)
             self.window?.title = selectedEntry?.dataHash ?? "!"
         }
         entryDetail.reloadData()

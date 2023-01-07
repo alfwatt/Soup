@@ -160,7 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createEntryIdentityIndex];
 }
 
-- (id<ILSoupIdentityIndex>) queryEntryIdentityIndex {
+- (id<ILSoupIdentityIndex> _Nullable) queryEntryIdentityIndex {
     return [self.queued queryEntryIdentityIndex];
 }
 
@@ -168,7 +168,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createAncestryIndex];
 }
 
-- (id<ILSoupAncestryIndex>)queryAncestryIndex {
+- (id<ILSoupAncestryIndex> _Nullable)queryAncestryIndex {
     return [self.queued queryAncestryIndex];
 }
 
@@ -178,7 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createTextIndex:indexPath];
 }
 
-- (id<ILSoupTextIndex>) queryTextIndex:(NSString*) indexPath {
+- (id<ILSoupTextIndex> _Nullable) queryTextIndex:(NSString*) indexPath {
     return [self.queued queryTextIndex:indexPath];
 }
 
@@ -186,7 +186,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createIdentityIndex:indexPath];
 }
 
-- (id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString*) indexPath {
+- (id<ILSoupIdentityIndex> _Nullable) queryIdentityIndex:(NSString*) indexPath {
     return [self.queued queryIdentityIndex:indexPath];
 }
 
@@ -194,7 +194,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createDateIndex:indexPath];
 }
 
-- (id<ILSoupDateIndex>) queryDateIndex:(NSString*) indexPath {
+- (id<ILSoupDateIndex> _Nullable) queryDateIndex:(NSString*) indexPath {
     return [self.queued queryDateIndex:indexPath];
 }
 
@@ -202,7 +202,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createNumberIndex:indexPath];
 }
 
-- (id<ILSoupNumberIndex>) queryNumberIndex:(NSString*) indexPath {
+- (id<ILSoupNumberIndex> _Nullable) queryNumberIndex:(NSString*) indexPath {
     return [self.queued queryNumberIndex:indexPath];
 }
 
@@ -235,7 +235,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createSequence:sequencePath];
 }
 
-- (id<ILSoupSequence>) querySequence:(NSString*) sequencePath {
+- (id<ILSoupSequence> _Nullable) querySequence:(NSString*) sequencePath {
     return [self.queued querySequence:sequencePath];
 }
 
