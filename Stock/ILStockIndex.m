@@ -36,6 +36,11 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
     return self.indexPathStorage;
 }
 
+- (NSUInteger) count
+{
+    return self.indexStorage.count;
+}
+
 // MARK: - Indexing
 
 - (void) indexEntry:(id<ILSoupEntry>) entry
@@ -419,7 +424,19 @@ static ILStockAliasCursor* EMPTY_ALIAS_CURSOR;
 
 - (NSArray<id<ILSoupEntry>>*) entries
 {
-    return nil; // self.aliasStorage;
+    NSMutableArray<id<ILSoupEntry>>* entries = NSMutableArray.new;
+    if (self.soupStorage) {
+        for (NSString* alias in self.aliasStorage) {
+            id<ILSoupEntry> entry = [self.soupStorage gotoAlias:alias];
+            [entries addObject:entry];
+        }
+    }
+    return entries;
+}
+
+- (NSUInteger) count
+{
+    return self.aliasStorage.count;
 }
 
 - (NSUInteger) index

@@ -166,7 +166,7 @@ extension CanneryBrowser: NSOutlineViewDataSource {
             children = allIndicies.count
         }
         else if let soupIndex = item as? ILSoupIndex {
-            children = soupIndex.allEntries().entries.count
+            children = Int(soupIndex.count)
         }
         return children
     }

@@ -68,6 +68,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// this path used to fetch indexed properties from the items to build the index
 @property(readonly) NSString* indexPath;
 
+/// the number of entries in the index
+@property(readonly) NSUInteger count;
+
 // MARK: -
 
 /// create an index with the path provided
