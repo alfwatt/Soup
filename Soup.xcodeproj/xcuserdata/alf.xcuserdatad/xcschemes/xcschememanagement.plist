@@ -9,41 +9,49 @@
 			<key>isShown</key>
 			<true/>
 			<key>orderHint</key>
-			<integer>25</integer>
+			<integer>1</integer>
 		</dict>
 		<key>Soup (iOS).xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>28</integer>
+			<integer>3</integer>
 		</dict>
 		<key>Soup (macOS).xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>30</integer>
+			<integer>4</integer>
 		</dict>
 		<key>Soup (tvOS).xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>31</integer>
+			<integer>5</integer>
 		</dict>
 		<key>Soup.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>27</integer>
+			<integer>2</integer>
 		</dict>
 		<key>SoupTests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>87</integer>
+			<integer>6</integer>
 		</dict>
 		<key>addresses.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>24</integer>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>75967A982963838E00BE394B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

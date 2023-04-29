@@ -91,7 +91,11 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
     if (value) {
         ILEntryKeySet* entrySet = self.indexStorage[value];
-        cursor = [ILStockAliasCursor.alloc initWithAliases:entrySet.allObjects inSoup:self.indexedSoup];
+        if (entrySet) {
+            cursor = [ILStockAliasCursor.alloc initWithAliases:entrySet.allObjects inSoup:self.indexedSoup];
+        } else {
+            cursor = ILStockAliasCursor.emptyCursor;
+        }
     }
     else {
         ILEntryKeySet* entrySet = NSMutableSet.set;
@@ -161,6 +165,8 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
     id<ILSoupEntry> entry = [self entryWithValue:value];
     if (entry) {
         valueCursor = [ILStockCursor.alloc initWithEntries:@[entry]];
+    } else {
+        valueCursor = ILStockCursor.emptyCursor;
     }
     
     return valueCursor;
@@ -181,7 +187,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 @end
 
-// MARK: - ILStockAncestryIndex
+// MARK: - 
 
 @interface ILStockAncestryIndex (ILStockIdentityIndex)
 
@@ -191,7 +197,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 @implementation ILStockAncestryIndex
 
-- (id<ILSoupEntry>) ancestorOf:(id<ILSoupEntry>) descendant {
+- (id<ILSoupEntry> _Nullable) ancestorOf:(id<ILSoupEntry>) descendant {
     id <ILSoupEntry> ancestor = nil;
     NSString* ancestorAlias = descendant.entryKeys[ILSoupEntryAncestorEntryHash];
     if (ancestorAlias) {
@@ -218,6 +224,8 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
     NSString* ancestorHash = ancestor.entryHash;
     if (ancestorHash) {
         descendantCursor = [self entriesWithValue:ancestorHash];
+    } else {
+        descendantCursor = ILStockCursor.emptyCursor;
     }
     return descendantCursor;
 }
@@ -304,7 +312,19 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 // MARK: -
 
+static ILStockCursor* EMPTY_STOCK_CURSOR;
+
 @implementation ILStockCursor
+
++ (instancetype) emptyCursor
+{
+    if (!EMPTY_STOCK_CURSOR) {
+        EMPTY_STOCK_CURSOR = [ILStockCursor.alloc initWithEntries:NSArray.new];
+    }
+    return EMPTY_STOCK_CURSOR;
+}
+
+// MARK: -
 
 - (instancetype) initWithEntries:(NSArray<id<ILSoupEntry>>*) entries
 {
@@ -330,7 +350,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 // MARK: -
 
-- (id<ILSoupEntry>) nextEntry
+- (id<ILSoupEntry> _Nullable) nextEntry
 {
     id<ILSoupEntry> next = nil;
     NSUInteger index = self.cursorIndex;
@@ -367,7 +387,19 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 @implementation ILStockAliasCursor
 
-- (instancetype) initWithAliases:(NSArray<NSString*>*) aliases inSoup:(id<ILSoup>) sourceSoup
+static ILStockAliasCursor* EMPTY_ALIAS_CURSOR;
+
++ (instancetype) emptyCursor
+{
+    if (!EMPTY_ALIAS_CURSOR) {
+        EMPTY_ALIAS_CURSOR = [ILStockAliasCursor.alloc initWithAliases:NSArray.new inSoup:nil];
+    }
+    return EMPTY_ALIAS_CURSOR;
+}
+
+// MARK: -
+
+- (instancetype) initWithAliases:(NSArray<NSString*>*) aliases inSoup:(id<ILSoup> _Nullable) sourceSoup
 {
     if ((self = super.init)) {
         self.aliasStorage = [NSArray arrayWithArray:aliases]; // no mutants
@@ -410,11 +442,11 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 // MARK: -
 
-- (id<ILSoupEntry>) nextEntry
+- (id<ILSoupEntry> _Nullable) nextEntry
 {
     id<ILSoupEntry> nextEntry = nil;
     NSString* nextAlias = self.nextAlias;
-    if (nextAlias) {
+    if (nextAlias && self.soupStorage) {
         nextEntry = [self.soupStorage gotoAlias:nextAlias];
     }
     return nextEntry;

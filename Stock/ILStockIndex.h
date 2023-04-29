@@ -52,7 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// a cursor of Aliases, and the soup from which they can be fetched
 @interface ILStockAliasCursor : NSObject <ILSoupCursor>
 
-- (instancetype) initWithAliases:(NSArray<NSString*>*) aliases inSoup:(id<ILSoup>) sourceSoup;
+/// @brief init the cursor with:
+/// @param aliases - an array of entry aliiases in the provided
+/// @param sourceSoup - if provided, use this soup to resolve aliases to entries, if not provided 
+- (instancetype) initWithAliases:(NSArray<NSString*>*) aliases inSoup:(id<ILSoup> _Nullable) sourceSoup;
 
 // MARK: -
 

@@ -20,11 +20,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: -
 
+/// @brief an empty cursor, methods returning a cursor are not `__Nullable` so even if there are no entries to return it must return an object
+/// For the emptyCursor `entries` will always be an array with zero entries, so the best way to determine that a cursor is empty is `cursor.entries.length`
+/// many methods will return the same emptyCursor, but checking for object identity is not reccomended
++ (instancetype) emptyCursor;
+
+// MARK: -
+
 /// @brief create a cursor with the entries provided
 - (instancetype) initWithEntries:(NSArray<id<ILSoupEntry>>*) entries;
 
 /// @brief get the next entry in the cursor, and advance the index
-- (id<ILSoupEntry>) nextEntry;
+/// nextEntry is nullable so that you can use `while ((entry = cursor.nextEntry)) { ... }` to iterate a cursor
+- (id<ILSoupEntry> _Nullable) nextEntry;
 
 /// @brief reset the cursor index to 0
 - (void) resetCursor;
@@ -110,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // every entry has zero or one ancestor
 // @returns a soup entry or nil if the ancestor cannot be found
-- (id<ILSoupEntry>) ancestorOf:(id<ILSoupEntry>) descendant;
+- (id<ILSoupEntry> _Nullable) ancestorOf:(id<ILSoupEntry>) descendant;
 
 // the chain of ancestors for the descendant provided, including itself
 // @returns a cursor with the ancestors ordered from most recent (jr) to least recent (sr)
