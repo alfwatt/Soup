@@ -195,6 +195,23 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
     return description;
 }
 
+- (_Nullable id) valueForKey:(NSString *)key {
+    id value = nil;
+    
+    if (self.entryKeysMutations[key] != nil) {
+        value = self.entryKeysMutations[key];
+    }
+    else {
+        value = self.entryKeys[key];
+    }
+    
+    return self.entryKeys[key];
+}
+
+- (void) setValue:(_Nullable id)value forKey:(NSString *)key {
+    self.entryKeysMutations[key] = value;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
