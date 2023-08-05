@@ -191,7 +191,7 @@ in your applications.
     }
     
     // search for does
-    id<ILSoupCursor> does = [[memory queryTextIndex:ILName] entriesWithStringValueMatching:@".* Doe"];
+    id<ILSoupCursor> does = [[memory queryTextIndex:ILName] entriesMatching:@".* Doe"];
     while ((entry = [does nextEntry])) {
         NSLog(@"doe %lu: %@", does.index, entry);
     }
@@ -250,7 +250,7 @@ Doing so in Objective-C is slightly more verbose:
 
     The MIT License (MIT)
 
-    Copyright © 2019-2022 Alf Watt
+    Copyright © 2019-2023 Alf Watt
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

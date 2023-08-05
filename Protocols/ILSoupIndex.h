@@ -140,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ILSoupTextIndex <ILSoupIndex>
 
 /// a cursor with all items matching the regular expression pattern provided
-- (id<ILSoupCursor>) entriesWithStringValueMatching:(NSString*) pattern;
+- (id<ILSoupCursor>) entriesMatching:(NSString*) pattern;
 
 @end
 
@@ -151,7 +151,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ILSoupNumberIndex <ILSoupIndex>
 
 /// a cursor of items with values between the numbers provided
-- (id<ILSoupCursor>) entriesWithValuesBetween:(NSNumber*) min and:(NSNumber*) max;
+- (id<ILSoupCursor>) entriesBetween:(NSNumber*) min and:(NSNumber*) max;
 
 @end
 
@@ -164,11 +164,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param early — events before this are too early
 /// @param late — events after this are too late
 /// @returns a cursor of items with values between the dates provided
-- (id<ILSoupCursor>) entriesWithDatesBetween:(NSDate*) early and:(NSDate*) late;
+- (id<ILSoupCursor>) entriesBetween:(NSDate*) early and:(NSDate*) late;
 
 /// @param timeRange — an object implementing the ILSoupTime protocol
 /// @returns a cursor of items with values between the dates provided
-- (id<ILSoupCursor>) entriesWithTimeRange:(id<ILSoupTime>) timeRange;
+- (id<ILSoupCursor>) entriesInRange:(id<ILSoupTime>) timeRange;
 
 @end
 

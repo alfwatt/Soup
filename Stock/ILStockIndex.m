@@ -242,7 +242,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 @implementation ILStockTextIndex
 
-- (id<ILSoupCursor>) entriesWithStringValueMatching:(NSString*) pattern;
+- (id<ILSoupCursor>) entriesMatching:(NSString*) pattern;
 {
     NSError* patternError = nil;
     NSRegularExpression* patternExpression = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:&patternError];
@@ -269,7 +269,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 @implementation ILStockNumberIndex
 
-- (id<ILSoupCursor>) entriesWithValuesBetween:(NSNumber*) min and:(NSNumber*) max
+- (id<ILSoupCursor>) entriesBetween:(NSNumber*) min and:(NSNumber*) max
 {
     NSMutableSet* matching = NSMutableSet.new;
 
@@ -288,7 +288,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 @implementation ILStockDateIndex
 
-- (id<ILSoupCursor>) entriesWithDatesBetween:(NSDate*) earliest and:(NSDate*) latest
+- (id<ILSoupCursor>) entriesBetween:(NSDate*) earliest and:(NSDate*) latest
 {
     NSMutableSet* matching = NSMutableSet.new;
 
@@ -301,8 +301,8 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
     return [ILStockCursor.alloc initWithEntries:matching.allObjects];
 }
 
-- (id<ILSoupCursor>) entriesWithTimeRange:(id<ILSoupTime>) timeRange {
-    return [self entriesWithDatesBetween:timeRange.earliest and:timeRange.latest];
+- (id<ILSoupCursor>) entriesInRange:(id<ILSoupTime>) timeRange {
+    return [self entriesBetween:timeRange.earliest and:timeRange.latest];
 }
 
 @end

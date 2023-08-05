@@ -75,7 +75,7 @@ int main(int argc, const char * argv[]) {
         
         NSLog(@"memory cursor: %@", memory.cursor);
         
-        id<ILSoupCursor> does = [[memory queryTextIndex:ILName] entriesWithStringValueMatching:@".* Doe"];
+        id<ILSoupCursor> does = [[memory queryTextIndex:ILName] entriesMatching:@".* Doe"];
         while ((entry = does.nextEntry)) {
             NSLog(@"doe %lu: %@", does.index, entry);
         }
