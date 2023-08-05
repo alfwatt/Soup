@@ -9,13 +9,13 @@ class CanneryTests: XCTestCase {
     override func tearDown() {}
 
     func testSoupClockEarlier() {
-        let now: Date = Date()
-        XCTAssert(ILSoupClock.earlier().compare(now) == .orderedSame)
+        let earlier: Date = Date(timeIntervalSinceNow: -1) // a second earlier
+        XCTAssert(ILSoupClock.earlier().compare(earlier) == .orderedSame)
     }
     
     func testSoupClockLater() {
-        let now: Date = Date()
-        XCTAssert(ILSoupClock.later().compare(now) == .orderedAscending)
+        let later: Date = Date(timeIntervalSinceNow: 1) // a second later
+        XCTAssert(ILSoupClock.later().compare(later) == .orderedSame)
     }
 
     func testSoupClockAnytime() {
