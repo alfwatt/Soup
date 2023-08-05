@@ -55,36 +55,42 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: -
 
-+ (id<ILSoupTime>)lastCentury {
-    return nil;
+NSInteger const GREGORIAN_DAY = 60 * 60 * 24;
+NSInteger const GREGORIAN_YEAR = GREGORIAN_DAY * 365.2425;
+NSInteger const GREGORIAN_DECADE = GREGORIAN_YEAR * 10;
+NSInteger const GREGORIAN_CENTURY = GREGORIAN_YEAR * 100;
+NSInteger const GREGORIAN_MILLENIUM = GREGORIAN_YEAR * 1000;
+
++ (id<ILSoupTime>)lastYear {
+    return [self interval:GREGORIAN_YEAR before:NSDate.date];
 }
 
 + (id<ILSoupTime>)lastDecade {
-    return nil;
+    return [self interval:GREGORIAN_DECADE before:NSDate.date];
+}
+
++ (id<ILSoupTime>)lastCentury {
+    return [self interval:GREGORIAN_CENTURY before:NSDate.date];
 }
 
 + (id<ILSoupTime>)lastMillenium {
-    return nil;
-}
-
-+ (id<ILSoupTime>)lastYear {
-    return nil;
-}
-
-+ (id<ILSoupTime>)nextCentury {
-    return nil;
-}
-
-+ (id<ILSoupTime>)nextDecade {
-    return nil;
-}
-
-+ (id<ILSoupTime>)nextMillenium {
-    return nil;
+    return [self interval:GREGORIAN_MILLENIUM before:NSDate.date];
 }
 
 + (id<ILSoupTime>)nextYear {
-    return nil;
+    return [self interval:GREGORIAN_YEAR after:NSDate.date];
+}
+
++ (id<ILSoupTime>)nextDecade {
+    return [self interval:GREGORIAN_DECADE after:NSDate.date];
+}
+
++ (id<ILSoupTime>)nextCentury {
+    return [self interval:GREGORIAN_CENTURY after:NSDate.date];
+}
+
++ (id<ILSoupTime>)nextMillenium {
+    return [self interval:GREGORIAN_MILLENIUM after:NSDate.date];
 }
 
 // MARK: -
@@ -115,25 +121,40 @@ NS_ASSUME_NONNULL_BEGIN
     return [self interval:(5 * 1000) after:NSDate.date];
 }
 
-+ (id<ILSoupTime>)thisCentury {
++ (id<ILSoupTime>)today {
+    unsigned unitFlags = NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitEra;
+    NSDateComponents* components = [NSCalendar.currentCalendar components:unitFlags fromDate:NSDate.date];
+    NSDate* beginningOfToday = [components date];
+    return [self interval:GREGORIAN_DAY after:beginningOfToday];
+}
+
++ (id<ILSoupTime>)thisMonth {
+    unsigned unitFlags = NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitEra;
+    NSDateComponents* components = [NSCalendar.currentCalendar components:unitFlags fromDate:NSDate.date];
+    NSDate* beginningOfMonth = [components date];
+    return [self interval:(GREGORIAN_DAY * 30.438) after:beginningOfMonth];
+}
+
++ (id<ILSoupTime>)thisYear {
+    unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitEra;
+    NSDateComponents* components = [NSCalendar.currentCalendar components:unitFlags fromDate:NSDate.date];
+    NSDate* beginningOfYear = [components date];
+    return [self interval:GREGORIAN_YEAR after:beginningOfYear];
+}
+
+/*
++ (id<ILSoupTime>)thisDecade {
     return nil;
 }
 
-+ (id<ILSoupTime>)thisDecade {
++ (id<ILSoupTime>)thisCentury {
     return nil;
 }
 
 + (id<ILSoupTime>)thisMillenium {
     return nil;
 }
-
-+ (id<ILSoupTime>)thisYear {
-    return nil;
-}
-
-+ (id<ILSoupTime>)today {
-    return nil;
-}
+*/
 
 // MARK: -
 

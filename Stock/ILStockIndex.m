@@ -202,7 +202,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 @implementation ILStockAncestryIndex
 
-- (id<ILSoupEntry> _Nullable) ancestorOf:(id<ILSoupEntry>) descendant {
+- (nullable id<ILSoupEntry>) ancestorOf:(id<ILSoupEntry>) descendant {
     id <ILSoupEntry> ancestor = nil;
     NSString* ancestorAlias = descendant.entryKeys[ILSoupEntryAncestorEntryHash];
     if (ancestorAlias) {
@@ -249,7 +249,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
     if (!patternExpression && patternError) {
         NSLog(@"ERROR %@ compiling expression %@", patternError, pattern);
-        return nil;
+        return ILStockCursor.emptyCursor;
     }
     
     NSMutableSet* matching = [NSMutableSet new];
@@ -446,7 +446,7 @@ static ILStockAliasCursor* EMPTY_ALIAS_CURSOR;
 
 // MARK: -
 
-- (NSString*) nextAlias
+- (nullable NSString*) nextAlias
 {
     NSString* next = nil;
     NSUInteger index = self.cursorIndex;

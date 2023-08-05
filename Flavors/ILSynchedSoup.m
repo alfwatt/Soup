@@ -4,7 +4,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation ILSynchedSoup
 
-+ (instancetype) makeSoup:(NSString*) soupName
++ (nullable instancetype) makeSoup:(NSString*) soupName
 {
     return nil;
 }
@@ -110,14 +110,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILMutableSoupEntry>) createBlankEntry;
+- (nullable id<ILMutableSoupEntry>) createBlankEntry;
 {
     @synchronized(self.synchronized) {
         return [self.synchronized createBlankEntry];
     }
 }
 
-- (id<ILMutableSoupEntry>)createBlankEntryOfClass:(Class)comformsToMutableSoupEntry {
+- (nullable id<ILMutableSoupEntry>)createBlankEntryOfClass:(Class)comformsToMutableSoupEntry {
     @synchronized(self.synchronized) {
         return [self.synchronized createBlankEntryOfClass:comformsToMutableSoupEntry];
     }
@@ -144,7 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILMutableSoupEntry>) gotoAlias:(NSString*) alias
+- (nullable id<ILMutableSoupEntry>) gotoAlias:(NSString*) alias
 {
     @synchronized(self.synchronized) {
         return [self.synchronized gotoAlias:alias];

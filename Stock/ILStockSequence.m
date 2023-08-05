@@ -101,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
     return (sequence != nil);
 }
 
-- (id<ILSoupSequenceSource>) fetchSequenceSourceFor:(id<ILSoupEntry>) entry
+- (nullable id<ILSoupSequenceSource>) fetchSequenceSourceFor:(id<ILSoupEntry>) entry
 {
     ILStockSequenceSource* source;
 //    NSArray<NSDate*>* sequenceTimes;

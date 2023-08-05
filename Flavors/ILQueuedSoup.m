@@ -5,7 +5,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation ILQueuedSoup
 
-+ (instancetype) makeSoup:(NSString*) soupName
++ (nullable instancetype) makeSoup:(NSString*) soupName
 {
     return nil;
 }
@@ -19,9 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 {
     ILQueuedSoup* soup = ILQueuedSoup.new;
     soup.queued = queuedSoup;
-    soup.soupOperations = soupOps;
 
-    if (soup.soupOperations) {
+    if (soupOps) {
+        soup.soupOperations = soupOps;
+    }
+    else {
         soup.soupOperations = NSOperationQueue.new;
         soup.soupOperations.maxConcurrentOperationCount = 1;
     }
@@ -103,12 +105,12 @@ NS_ASSUME_NONNULL_BEGIN
     return entryHash;
 }
 
-- (id<ILMutableSoupEntry>) createBlankEntry;
+- (nullable id<ILMutableSoupEntry>) createBlankEntry;
 {
     return [self.queued createBlankEntry];
 }
 
-- (id<ILMutableSoupEntry>)createBlankEntryOfClass:(Class)comformsToMutableSoupEntry {
+- (nullable id<ILMutableSoupEntry>)createBlankEntryOfClass:(Class)comformsToMutableSoupEntry {
     return [self.queued createBlankEntryOfClass:comformsToMutableSoupEntry];
 }
 
@@ -129,7 +131,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued entryAlias:entry];
 }
 
-- (id<ILSoupEntry>) gotoAlias:(NSString*) alias
+- (nullable id<ILSoupEntry>) gotoAlias:(NSString*) alias
 {
     return [self.queued gotoAlias:alias];
 }

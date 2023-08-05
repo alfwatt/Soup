@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: -
 
-+ (id<ILSoup>)makeSoup:(NSString*)soupName {
++ (nullable id<ILSoup>)makeSoup:(NSString*)soupName {
     return [self.alloc initWithName:soupName];
 }
 
@@ -67,11 +67,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Entries
 
-- (id<ILMutableSoupEntry>) createBlankEntry {
+- (nullable id<ILMutableSoupEntry>) createBlankEntry {
     return [self createBlankEntryOfClass:ILStockEntry.class];
 }
 
-- (id<ILMutableSoupEntry>) createBlankEntryOfClass:(Class)comformsToMutableSoupEntry {
+- (nullable id<ILMutableSoupEntry>) createBlankEntryOfClass:(Class)comformsToMutableSoupEntry {
     id<ILMutableSoupEntry> entry = nil;
     
     if ([comformsToMutableSoupEntry conformsToProtocol:@protocol(ILMutableSoupEntry)]) {
@@ -116,6 +116,8 @@ NS_ASSUME_NONNULL_BEGIN
     if ([self.delegate respondsToSelector:@selector(soup:deletedEntry:)]) { // notify
         [self.delegate soup:self deletedEntry:entry];
     }
+    
+    [self removeFromIndicies:entry];
 }
 
 - (void) indexEntry:(id<ILSoupEntry>) entry {
@@ -174,7 +176,7 @@ NS_ASSUME_NONNULL_BEGIN
     return entry.entryHash;
 }
 
-- (id<ILMutableSoupEntry>) gotoAlias:(id)alias {
+- (nullable id<ILMutableSoupEntry>) gotoAlias:(id)alias {
     return (id<ILMutableSoupEntry>) self.soupEntryStorage[alias]; // nothing better to do here until the mutabiliyt interface is resolved
 }
 

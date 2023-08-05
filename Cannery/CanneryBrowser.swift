@@ -36,14 +36,14 @@ class CanneryBrowser: NSWindowController {
         // memory.createTextIndex(ILNotes)
         
         // add some entries to the union
-        memory.add(memory.createBlankEntry().mutatedEntry([
+        memory.add(memory.createBlankEntry()!.mutatedEntry([
             ILName:  "iStumbler Labs",
             ILEmail: "support@istumbler.net",
             ILURL:   URL(string:"https://istumbler.net/labs") as Any,
             ILPhone: "415-449-0905"
         ]))
         
-        let luca = memory.createBlankEntry().mutatedCopy([
+        let luca = memory.createBlankEntry()!.mutatedCopy([
             ILName: "LUCA",
             ILEmail: "luca@life.earth",
             ILNotes: "I live on the ocean floor"
@@ -133,7 +133,7 @@ class CanneryBrowser: NSWindowController {
     
     @IBAction func onCreateEntry(_ sender: Any) {
         if let memory = cannedSoup {
-            memory.add(memory.createBlankEntry().mutatedEntry([
+            memory.add(memory.createBlankEntry()!.mutatedEntry([
                 ILName: "New Entry"
             ]))
         }
@@ -152,7 +152,14 @@ class CanneryBrowser: NSWindowController {
     }
 
     @IBAction func onDeleteEntry(_ sender: Any) {
-        NSLog("onDeleteEntry")
+        for selectedRow in entryList.selectedRowIndexes {
+            let selectedItem: Dictionary = entryList.item(atRow: selectedRow) as! Dictionary<String, Any>
+            let selectedEntry = selectedItem["entry"]
+            if selectedEntry is ILSoupEntry {
+                self.cannedSoup?.delete(selectedEntry as! ILSoupEntry)
+            }
+        }
+        entryList.reloadItem(nil, reloadChildren:true)
     }
 }
 

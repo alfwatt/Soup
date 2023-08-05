@@ -198,6 +198,53 @@ in your applications.
 
 <a href="Examples/addresses/main.m">Example Code</a>
 
+## Dynamic Properties
+
+Much like other data handlig frameworks, support is provided for custom model classes
+using dynamic properties. For e.g. in Swift we can define a class with dynamic properties easily:
+
+    // AddressBookEntry.swift
+    //
+    final class AddressBookEntry: ILStockEntry {
+        dynamic var entryName: String? = nil
+        dynamic var entryEmail: String? = nil
+        dynamic var entryPhone: String? = nil
+        dynamic var entryURL: URL? = nil
+        dynamic var entryNotes: String? = nil
+        dynamic var entryBirthday: Date? = nil
+        dynamic var entryParents: Array<String>? = nil
+        dynamic var entrySpouse: String? = nil
+    }
+
+Doing so in Objective-C is slightly more verbose:
+
+    // AddressBookEntry.h
+    //
+    @interface AddressBookEntry : ILStockEntry
+    @property(nonatomic,retain) NSString* entryName;
+    @property(nonatomic,retain) NSString* entryEmail;
+    @property(nonatomic,retain) NSString* entryPhone;
+    @property(nonatomic,retain) NSURL* entryURL;
+    @property(nonatomic,retain) NSString* entryNotes;
+    @property(nonatomic,retain) NSDate* entryBirthday;
+    @property(nonatomic,retain) NSArray<NSString*>* entryParents;
+    @property(nonatimic,retain) NSString* entrySpouse;
+    @end
+    
+    // AddressBookEntry.m
+    //
+    @implementation AddressBookEntry
+    @dynamic entryName;
+    @dynamic entryEmail;
+    @dynamic entryPhone;
+    @dynamic entryURL;
+    @dynamic entryNotes;
+    @dynamic entryBirthday;
+    @dynamic entryParents;
+    @dynamic entrySpouse;
+    @end
+
+
 <a id="license"></a>
 ## License
 

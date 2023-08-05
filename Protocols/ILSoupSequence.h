@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL) fetchSequenceFor:(id<ILSoupEntry>) entry times:(NSArray<NSDate*>* _Nonnull * _Nonnull) timeArray values:( NSArray<NSNumber*>* _Nonnull * _Nonnull) valueArray;
 
 ///  get a sequence source for the entry */
-- (id<ILSoupSequenceSource>) fetchSequenceSourceFor:(id<ILSoupEntry>) entry;
+- (nullable id<ILSoupSequenceSource>) fetchSequenceSourceFor:(id<ILSoupEntry>) entry;
 
 @end
 

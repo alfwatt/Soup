@@ -140,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Aliases
 
-- (id<ILMutableSoupEntry>)gotoAlias:(NSString*)alias
+- (nullable id<ILMutableSoupEntry>)gotoAlias:(NSString*)alias
 {
     NSString* entryPath = [[[self pathForEntryHash:alias] stringByExpandingTildeInPath] stringByAppendingPathComponent:@"entry.json"];
     NSInputStream* fileStream = [NSInputStream inputStreamWithFileAtPath:entryPath];
@@ -155,10 +155,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Queries
 
+/*
 - (id<ILSoupCursor>)querySoup:(NSPredicate *)query
 {
     return nil;
 }
+*/
 
 // MARK: - Indicies
 
@@ -190,10 +192,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Sequences
 
+/*
 - (id<ILSoupSequence>)createSequence:(NSString*)sequencePath
 {
     return nil;
 }
+*/
 
 // MARK: - NSObject
 

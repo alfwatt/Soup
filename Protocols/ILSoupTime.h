@@ -52,17 +52,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - this era
 
+/// 
++ (id<ILSoupTime>) thisMonth;
+
 /// from midnight jan 1 this year to 23:59:59 on dec 31
 + (id<ILSoupTime>) thisYear;
 
 /// from midnight jan 1 the first year of this decade to 23:59:59 on dec 31 of the last year of the decade
-+ (id<ILSoupTime>) thisDecade;
+// + (id<ILSoupTime>) thisDecade;
 
 /// from midnight jan 1 the first year of this centuray to 23:59:59 on dec 31 of the last yaer of the century
-+ (id<ILSoupTime>) thisCentury;
+// + (id<ILSoupTime>) thisCentury;
 
 /// from midnight jan 1 the first year of this millenium to 23:59:59 on dec 31 of the last yaer of the millenium
-+ (id<ILSoupTime>) thisMillenium;
+// + (id<ILSoupTime>) thisMillenium;
 
 // MARK: - last era
 

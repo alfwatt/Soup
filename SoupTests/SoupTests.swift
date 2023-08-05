@@ -1,19 +1,34 @@
 import XCTest
 import Soup
 
-let ILName = "name"
-let ILEmail = "email"
-let ILPhone = "phone"
-let ILURL = "url"
-let ILNotes = "notes"
-let ILBirthday = "birthday"
-let ILParents = "parents"
-let ILSpouse = "spouse"
+let ILName = "entryName"
+let ILEmail = "entryEmail"
+let ILPhone = "entryPhone"
+let ILURL = "entryURL"
+let ILNotes = "entryNotes"
+let ILBirthday = "entryBirthday"
+let ILParents = "entryParents"
+let ILSpouse = "entrySpouse"
+
+
+final class AddressBookEntry: ILStockEntry {
+    dynamic var entryName: String? = nil
+    dynamic var entryEmail: String? = nil
+    dynamic var entryPhone: String? = nil
+    dynamic var entryURL: URL? = nil
+    dynamic var entryNotes: String? = nil
+    dynamic var entryBirthday: Date? = nil
+    dynamic var entryParents: Array<String>? = nil
+    dynamic var entrySpouse: String? = nil
+    
+}
+
+// MARK: -
 
 final class SoupTests: XCTestCase {
 
     var memory: ILMemorySoup = ILMemorySoup(name: "Test Soup");
-    
+
     override func setUpWithError() throws {
         // self.memory = ILMemorySoup(name: "Test Soup")
         self.memory.createEntryIdentityIndex()
@@ -26,14 +41,14 @@ final class SoupTests: XCTestCase {
         // memory.createTextIndex(ILNotes)
         
         // add some entries to the union
-        self.memory.add(memory.createBlankEntry().mutatedEntry([
+        self.memory.add(memory.createBlankEntry()!.mutatedEntry([
             ILName:  "iStumbler Labs",
             ILEmail: "support@istumbler.net",
             ILURL:   URL(string:"https://istumbler.net/labs") as Any,
             ILPhone: "415-449-0905"
         ]))
         
-        let luca = self.memory.createBlankEntry().mutatedCopy([
+        let luca = self.memory.createBlankEntry()!.mutatedCopy([
             ILName: "LUCA",
             ILEmail: "luca@life.earth",
             ILNotes: "I live on the ocean floor"
@@ -104,7 +119,7 @@ final class SoupTests: XCTestCase {
         let memory: ILMemorySoup? = ILMemorySoup(name: "Test Soup")
         XCTAssert(memory != nil, "Create Test Soup")
     }
-    
+
     func testSoupDescription() throws {
         // setup memory soup
         let memory: ILMemorySoup = ILMemorySoup(name: "Test Soup")
@@ -123,19 +138,19 @@ final class SoupTests: XCTestCase {
         memory.createEntryIdentityIndex()
         XCTAssert(memory.queryEntryIdentityIndex() != nil, "Created Entry Identity Index")
     }
-    
+
     func testSoupAncestryIndex() throws {
         let memory = ILMemorySoup(name: "Generations")
         memory.createAncestryIndex()
 
         let first = memory.createBlankEntry()
-        memory.add(first)
-        XCTAssertFalse(memory.queryAncestryIndex()!.includesEntry(first))
+        memory.add(first!)
+        XCTAssertFalse(memory.queryAncestryIndex()!.includesEntry(first!))
 
-        let ancestor = memory.queryAncestryIndex()!.ancestor(of: first)
+        let ancestor = memory.queryAncestryIndex()!.ancestor(of: first!)
         XCTAssert(ancestor == nil)
 
-        let second = first.mutatedCopy([
+        let second = first!.mutatedCopy([
             ILName: "Second Generation"
         ])
         memory.add(second)
@@ -168,6 +183,27 @@ final class SoupTests: XCTestCase {
         XCTAssert(memory.queryAncestryIndex()!.ancestery(of: fifth).entries.count == 5)
     }
 
+    // tests the uses of dynamic properties from a swfit defined subclass of ILStockEntry
+    func testSoupAddressBookEntry() throws {
+        var testEntry: AddressBookEntry? = AddressBookEntry()
+        testEntry!.entryName = "test entry name"
+        XCTAssert(testEntry!.entryName == "test entry name")
+        
+        testEntry = nil // test dealloc
+        
+        var nextEntry: AddressBookEntry? = AddressBookEntry()
+        nextEntry!.entryName = "next entry"
+        nextEntry!.entryEmail = "test@example.com"
+        nextEntry!.entryNotes = "on to the next one"
+        
+        let memory: ILMemorySoup = ILMemorySoup(name: "Test Soup");
+        let nextEntryAlias = memory.add(nextEntry!)
+        nextEntry = nil // should still exist in the soup, let's look it up
+        
+        let storedEntry: AddressBookEntry = memory.gotoAlias(nextEntryAlias) as! AddressBookEntry
+        XCTAssert(storedEntry.entryName == "next entry")
+    }
+    
     // func testPerformanceExample() throws {
     // This is an example of a performance test case.
     //    measure {

@@ -173,7 +173,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (NSString*) getAlias:(id<ILSoupEntry>) entry
+- (nullable NSString*) getAlias:(id<ILSoupEntry>) entry
 {
     NSString* alias;
     for (id<ILSoup> member in self.loadedSoups) {
@@ -183,7 +183,7 @@ NS_ASSUME_NONNULL_BEGIN
     return alias;
 }
 
-- (id<ILSoupEntry>) gotoAlias:(NSString*) alias
+- (nullable id<ILSoupEntry>) gotoAlias:(NSString*) alias
 {
     id<ILSoupEntry> entry;
     for (id<ILSoup> member in self.loadedSoups) {

@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 // MARK: -
 
 /// - Returns: the next alias in the cursor
-- (NSString*) nextAlias;
+- (nullable NSString*) nextAlias;
 
 @end
 

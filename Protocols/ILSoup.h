@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 // MARK: - Kitchen
 
 /// @returns a new `<ILSoup>` with the provided name
-+ (instancetype) makeSoup:(NSString*) soupName;
++ (nullable instancetype) makeSoup:(NSString*) soupName;
 
 // MARK: - Designated Initilizer
 
@@ -54,12 +54,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// @returns a new blank entry, with the defaults for this soup and a new UUID,
 /// NB that the new entry is not yet stored in the soup
-- (id<ILMutableSoupEntry>) createBlankEntry;
+- (nullable id<ILMutableSoupEntry>) createBlankEntry;
 
 /// @param comformsToMutableSoupEntry — must conform to the `<ILMutableSoupEntry>` protocol
 /// @returns a new blank entry, with the defaults for this soup and a new UUID,
 /// NB that the new entry is not yet stored in the soup
-- (id<ILMutableSoupEntry>) createBlankEntryOfClass:(Class)comformsToMutableSoupEntry;
+- (nullable id<ILMutableSoupEntry>) createBlankEntryOfClass:(Class)comformsToMutableSoupEntry;
 
 /// @param entry — an `<ILSoupEntry>` to add to this soup
 /// @returns: the alias used to retrieve the entry
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*) entryAlias:(id<ILSoupEntry>) entry;
 
 /// the entry from the soup, based on the alias provided
-- (id<ILMutableSoupEntry>) gotoAlias:(NSString*) alias;
+- (nullable id<ILMutableSoupEntry>) gotoAlias:(NSString*) alias;
 
 // MARK: - Queries
 

@@ -1,5 +1,6 @@
 #import "ILStockEntry.h"
 #import "NSDictionary+Hashcodes.h"
+#import <objc/runtime.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,10 +14,42 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: -
 
+NSString* accessorGetter(id self, SEL _cmd)
+{
+    NSString *key = NSStringFromSelector(_cmd);
+    return [(ILStockEntry*)self valueForKey:key];
+}
+
+void accessorSetter(id self, SEL _cmd, id newValue)
+{
+    NSString *methodName = NSStringFromSelector(_cmd);
+
+    // remove leading 'set' and trailing ':' and lowercase the method name
+    NSString *key = [methodName substringWithRange:NSMakeRange(3, (methodName.length - 4))].lowercaseString;
+
+    [(ILStockEntry*)self setValue:newValue forKey:key];
+}
+
 @implementation ILStockEntry
 
 + (instancetype) soupEntryWithKeys:(NSDictionary<NSString*, id>*) entryKeys {
-    return [ILStockEntry.alloc initWithKeys:entryKeys];
+    return [self.alloc initWithKeys:entryKeys];
+}
+
+// MARK: - Dynamic Properties
+
++ (BOOL) resolveInstanceMethod:(SEL)aSEL {
+    NSString *method = NSStringFromSelector(aSEL);
+
+    if ([method hasPrefix:@"set"]) {
+        class_addMethod([self class], aSEL, (IMP) accessorSetter, "v@:@");
+        return YES;
+    }
+    else if ([method componentsSeparatedByString:@":"].count == 2) { // get method with one
+        class_addMethod([self class], aSEL, (IMP) accessorGetter, "@@:");
+        return YES;
+    }
+    return [super resolveInstanceMethod:aSEL];
 }
 
 // MARK: - ILSoupStockEntry
@@ -117,9 +150,16 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
     return self.entryKeys[ILSoupEntryAncestorEntryHash];
 }
 
-// MARK: - Dynamic Properties
+// XXX: - Dynamic Properties
 
-/*! @return the method signature for a given selector, if it's not already defined then generate a generic get or set signature */
+/*
+
+ This implementation has a sublte over-release bug that I wasn't able to resolve,
+ the resolveInstanceMethod: implemenatation above is a simpler and more reliable implementation
+
+*/
+
+/*! @return the method signature for a given selector, if it's not already defined then generate a generic get or set signature
 - (NSMethodSignature*) methodSignatureForSelector:(SEL)selector {
     NSMethodSignature* signature = nil;
     if ([self respondsToSelector:selector]) {
@@ -136,27 +176,27 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
     
     return signature;
 }
+ */
 
-/*! @brief check for `set` invocations and attempt to copy or record the presented object into */
+/*! @brief check for `set` invocations and attempt to copy or record the presented object into
 - (void)forwardInvocation:(NSInvocation *)invocation {
     NSUInteger argc = invocation.methodSignature.numberOfArguments;
     NSString *key = NSStringFromSelector(invocation.selector);
+    
     if ([key rangeOfString:@"set"].location == 0 && argc == 3) { // setter
         key = [key substringWithRange:NSMakeRange(3, (key.length - 4))].lowercaseString;
         if (key) {
             id obj;
             [invocation getArgument:&obj atIndex:2];
             if (obj) {
-                if ([obj conformsToProtocol:@protocol(NSCopying)]) { // retain an immutable copy
-                    obj = [obj copy];
-                    if (CFGetTypeID((CFTypeRef)obj)) { // retainArguments for CFTypes
-                        CFRetain((CFTypeRef)obj);
-                    }
+                [invocation retainArguments];
+                if ([obj conformsToProtocol:@protocol(NSCopying)]) {
+                    obj = [obj copy]; // retain an immutable copy
                 }
-                else { // if we can't copy, NSInvocation needs to retain the argument for us
+                else { // we need to retain the arguments
                     [invocation retainArguments];
                 }
-
+                // NSLog(@"setting mutated key: %@ obj: %@ ref: %ld", key, obj, (long)CFGetRetainCount((__bridge CFTypeRef)(obj)));
                 [self.entryKeysMutations setObject:obj forKey:key];
             }
             else { // set an NSNull value, so we can mask an underyling key
@@ -171,6 +211,7 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
         }
     }
 }
+ */
 
 // MARK: - Mutations
 
@@ -195,6 +236,8 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
     return description;
 }
 
+// MARK: - NSKeyValueCoding
+
 - (_Nullable id) valueForKey:(NSString *)key {
     id value = nil;
     
@@ -205,7 +248,7 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
         value = self.entryKeys[key];
     }
     
-    return self.entryKeys[key];
+    return value;
 }
 
 - (void) setValue:(_Nullable id)value forKey:(NSString *)key {
