@@ -12,12 +12,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-// MARK: -
+// MARK: - Dynamic Getter and Setter
 
-NSString* accessorGetter(id self, SEL _cmd)
+void* accessorGetter(id self, SEL _cmd)
 {
-    NSString *key = NSStringFromSelector(_cmd);
-    return [(ILStockEntry*)self valueForKey:key];
+    NSString* key = NSStringFromSelector(_cmd);
+    NSObject* value = [(ILStockEntry*)self valueForKey:key];
+    void* returnValue = NULL;
+    char* returnType = NULL;
+    if (value) {
+        /* TODO we need to check and see if it needs unboxing
+        Class dynamicClass = object_getClass(self);
+        Method getMethod = class_getInstanceMethod(dynamicClass, _cmd);
+        returnType = method_copyReturnType(getMethod);
+        */
+        returnValue = (__bridge void*) value;
+    }
+exit:
+    if (returnType) free(returnType);
+    return returnValue;
 }
 
 void accessorSetter(id self, SEL _cmd, id newValue)
@@ -25,10 +38,15 @@ void accessorSetter(id self, SEL _cmd, id newValue)
     NSString *methodName = NSStringFromSelector(_cmd);
 
     // remove leading 'set' and trailing ':' and lowercase the method name
-    NSString *key = [methodName substringWithRange:NSMakeRange(3, (methodName.length - 4))].lowercaseString;
+    NSString *keyName = [methodName substringWithRange:NSMakeRange(3, (methodName.length - 4))];
+    // lowercase the first character
+    keyName = [[keyName substringWithRange:NSMakeRange(0, 1)].lowercaseString stringByAppendingString:
+               [keyName substringWithRange:NSMakeRange(1, (keyName.length - 1))]];
 
-    [(ILStockEntry*)self setValue:newValue forKey:key];
+    [(ILStockEntry*)self setValue:newValue forKey:keyName];
 }
+
+// MARK: -
 
 @implementation ILStockEntry
 
@@ -45,7 +63,7 @@ void accessorSetter(id self, SEL _cmd, id newValue)
         class_addMethod([self class], aSEL, (IMP) accessorSetter, "v@:@");
         return YES;
     }
-    else if ([method componentsSeparatedByString:@":"].count == 2) { // get method with one
+    else if ([method rangeOfString:@":"].location == NSNotFound) { // get method with one
         class_addMethod([self class], aSEL, (IMP) accessorGetter, "@@:");
         return YES;
     }
