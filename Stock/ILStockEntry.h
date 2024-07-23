@@ -1,5 +1,4 @@
-@import Foundation;
-
+#import <Foundation/Foundation.h>
 #import <Soup/ILSoupEntry.h>
 
 NS_ASSUME_NONNULL_BEGIN

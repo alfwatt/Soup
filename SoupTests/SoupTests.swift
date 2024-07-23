@@ -20,108 +20,49 @@ final class AddressBookEntry: ILStockEntry {
     dynamic var entryBirthday: Date? = nil
     dynamic var entryParents: Array<String>? = nil
     dynamic var entrySpouse: String? = nil
-    
 }
 
 // MARK: -
 
 final class SoupTests: XCTestCase {
 
-    var memory: ILMemorySoup = ILMemorySoup(name: "Test Soup");
+    override func setUpWithError() throws {}
 
-    override func setUpWithError() throws {
-        // self.memory = ILMemorySoup(name: "Test Soup")
-        self.memory.createEntryIdentityIndex()
-        self.memory.createAncestryIndex()
-        self.memory.createIndex(ILSoupEntryDataHash)
-        self.memory.createDateIndex(ILSoupEntryCreationDate)
-        self.memory.createDateIndex(ILSoupEntryMutationDate)
-        self.memory.createTextIndex(ILName)
-        self.memory.createTextIndex(ILEmail)
-        // memory.createTextIndex(ILNotes)
-        
-        // add some entries to the union
-        self.memory.add(memory.createBlankEntry()!.mutatedEntry([
-            ILName:  "iStumbler Labs",
-            ILEmail: "support@istumbler.net",
-            ILURL:   URL(string:"https://istumbler.net/labs") as Any,
-            ILPhone: "415-449-0905"
-        ]))
-        
-        let luca = self.memory.createBlankEntry()!.mutatedCopy([
-            ILName: "LUCA",
-            ILEmail: "luca@life.earth",
-            ILNotes: "I live on the ocean floor"
-        ])
-        self.memory.add(luca); // BUG: the hash luca gets stored as isn't the same that the mutated entries get
-        
-        let john = luca.mutatedCopy([
-            ILName:  "John Doe",
-            ILEmail: "j.doe@example.com",
-            ILNotes: NSNull()
-        ])
-        self.memory.add(john)
-
-        let jane = luca.mutatedCopy([
-            ILName:  "Jane Doe",
-            ILEmail: "jane.d@example.com",
-            ILNotes: NSNull()
-        ])
-        self.memory.add(jane)
-
-        let kim = luca.mutatedCopy([
-            ILName:  "Kim Gru",
-            ILEmail: "kim.g@example.com",
-            ILNotes: NSNull()
-        ])
-        self.memory.add(kim)
-        
-        let sam = luca.mutatedCopy([
-            ILName:  "Sam Liu",
-            ILEmail: "sam.l@example.com",
-            ILNotes: NSNull()
-        ])
-        self.memory.add(sam)
-
-        let fin = luca.mutatedCopy([
-            ILName: "Fin Gru-Liu",
-            ILEmail: "fin.gl@example.com",
-            ILBirthday: Date(),
-            ILParents: [kim.entryKeys[ILSoupEntryIdentityUUID],
-                        sam.entryKeys[ILSoupEntryIdentityUUID]]
-        ])
-        self.memory.add(fin)
-        
-        let fin2 = fin.mutatedCopy([
-            ILName: "Fin Gru-Liu the 2nd",
-            ILEmail: "fin.gl2@example.com",
-            ILBirthday: Date(),
-            ILParents: [fin.entryKeys[ILSoupEntryIdentityUUID]] // cloned
-        ])
-        self.memory.add(fin2)
-        
-        let fin3 = fin2.mutatedCopy([
-            ILName: "Fin Gru-Liu the 3rd",
-            ILEmail: "fin.gl2@example.com",
-            ILBirthday: Date(),
-            ILParents: [fin2.entryKeys[ILSoupEntryIdentityUUID]]
-        ])
-        self.memory.add(fin3)
+    // MARK: - ILSoupClock
+    
+    func testSoupClockEarlier() {
+        let earlier: Date = Date(timeIntervalSinceNow: -1) // a second earlier
+        XCTAssert(ILSoupClock.earlier().compare(earlier) == .orderedSame)
+    }
+    
+    func testSoupClockLater() {
+        let later: Date = Date(timeIntervalSinceNow: 1) // a second later
+        XCTAssert(ILSoupClock.later().compare(later) == .orderedSame)
     }
 
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-    // Any test you write for XCTest can be annotated as throws and async.
-    // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-    // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    func testSoupClockAnytime() {
+        XCTAssert(ILSoupClock.anytime().compare(Date()) == .orderedSame)
+    }
 
+    func testSoupClockNever() {
+        XCTAssert(ILSoupClock.never().compare(Date()) == .orderedAscending)
+    }
+    
+    func testSoupClockWhenever() {
+        XCTAssert(ILSoupClock.whenever().compare(Date()) == .orderedSame)
+    }
+    
+    // MARK: - ILSoup
+    
+    // TODO: make these test cases functions which take the soup as an argument
+    // add driver methods to test various soup types (memory/file/remote/&c.)
+    
     func testSoupCreation() throws {
         let memory: ILMemorySoup? = ILMemorySoup(name: "Test Soup")
         XCTAssert(memory != nil, "Create Test Soup")
     }
 
     func testSoupDescription() throws {
-        // setup memory soup
         let memory: ILMemorySoup = ILMemorySoup(name: "Test Soup")
         memory.soupDescription = "Test Soup"
         XCTAssert(memory.soupDescription == "Test Soup", "make sure soup description is readable")
@@ -204,6 +145,76 @@ final class SoupTests: XCTestCase {
         XCTAssert(storedEntry.entryName == "next entry")
     }
     
+    func testSoupNumberIndex() throws {
+        let memory = ILMemorySoup(name: "Numbers")
+        memory.createNumberIndex("number")
+        
+        // create some numbers to populate the index
+        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 1]))!)
+        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 2]))!)
+        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 2]))!)
+        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 3]))!)
+        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 3]))!)
+        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 3]))!)
+        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 4]))!)
+        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 5]))!)
+        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 10]))!)
+        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 100]))!)
+        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 1000]))!)
+        
+        let oneCursor = memory.queryNumberIndex("number")!.entries(withValue: 1)
+        XCTAssert(oneCursor.entries.count == 1)
+        
+        let twoCursor = memory.queryNumberIndex("number")!.entries(withValue: 2)
+        XCTAssert(twoCursor.entries.count == 2)
+
+        let threeCursor = memory.queryNumberIndex("number")!.entries(withValue: 3)
+        XCTAssert(threeCursor.entries.count == 3)
+
+        let zeroTwoCursor = memory.queryNumberIndex("number")!.entriesBetween(0, and: 2)
+        XCTAssert(zeroTwoCursor.entries.count == 3)
+        
+        let zeroInfCursor = memory.queryNumberIndex("number")!.entriesBetween(0, and: 999999999)
+        XCTAssert(zeroInfCursor.entries.count == 11)
+    }
+    
+    func testSoupTextIndexDuplicates() throws {
+        let memory = ILMemorySoup(name: "Identity")
+        let name = memory.createTextIndex(ILName)
+        let email = memory.createTextIndex(ILEmail)
+        
+        let fin2 = memory.createBlankEntry()!.mutatedCopy([
+            ILName: "Fin Gru-Liu the 2nd",
+            ILEmail: "fin.gl2@example.com"
+        ])
+        memory.add(fin2)
+        
+        let fin3 = memory.createBlankEntry()!.mutatedCopy([
+            ILName: "Fin Gru-Liu the 3rd",
+            ILEmail: "fin.gl2@example.com" // Same email, different name
+        ])
+        memory.add(fin3)
+
+        // check the number of entires in the indicies
+        XCTAssert(name.count == 2)
+        XCTAssert(email.count == 2)
+
+        // check for an exact match of one records
+        let fin2ndMatches = name.entries(matching: "Fin Gru-Liu the 2nd")
+        XCTAssert(fin2ndMatches.entries.count == 1)
+
+        // check for a regex match of two records
+        let finMatches = name.entries(matching: "Fin Gru-Liu.*")
+        XCTAssert(finMatches.entries.count == 2)
+
+        // check for an email match of two records
+        let emailIterator = email.entries(matching: "fin\\.gl2@example\\.com")
+        XCTAssert(emailIterator.entries.count == 2)
+
+    }
+
+    // func testSoupIdentityIndex
+
     // func testPerformanceExample() throws {
     // This is an example of a performance test case.
     //    measure {
@@ -214,5 +225,6 @@ final class SoupTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+
 
 }

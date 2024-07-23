@@ -5,11 +5,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString ILEntryKey;
-typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
+/// the set of entryHash's for each value
+typedef NSMutableSet<NSString*> ILEntryKeySet;
 
 @interface ILStockIndex ()
-@property(nonatomic, weak) id<ILSoup> indexedSoup; // weak reference to avoid loop, the soup owns the set of Indicies
+// weak reference to containing soup to avoid loop, the soup owns the set of Indicies
+@property(nonatomic, weak) id<ILSoup> indexedSoup;
 @property(nonatomic, retain) NSString* indexPathStorage;
 @property(nonatomic, retain) NSMutableDictionary* indexStorage;
 
@@ -17,10 +18,21 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 // MARK: -
 
+/// ILStockIndex - implement the ILSoupIndex protocol for general key/value storage
+///
+/// The Stock Index uses a mutable dictionary for index storage, each key in the
+/// dictionary is the indexed entry value, which can be Any id or nil
+///
+/// each value in the dictionary is a ILEntryKeySet with the entry hash of all entries
+/// which have been added to the index with the same value
+///
+/// stockIndex.indexStorage = {
+///   'value': <entryHash1, entryHash2, ...>
+/// }
+///
 @implementation ILStockIndex
 
-+ (instancetype) indexWithPath:(NSString *)indexPath inSoup:(id<ILSoup>) containingSoup
-{
++ (instancetype) indexWithPath:(NSString *)indexPath inSoup:(id<ILSoup>) containingSoup {
     ILStockIndex* stockIndex = self.new;
     stockIndex.indexedSoup = containingSoup;
     stockIndex.indexPathStorage = indexPath;
@@ -31,37 +43,48 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 // MARK: - Properties
 
-- (NSString*) indexPath
-{
+- (NSString*) indexPath {
     return self.indexPathStorage;
 }
 
-- (NSUInteger) count
-{
-    return self.indexStorage.count;
+- (NSInteger) entryCount {
+    return self.allEntries.entries.count;
 }
 
-// MARK: - Indexing
+// MARK: - Values
 
-- (void) indexEntry:(id<ILSoupEntry>) entry
-{
+- (NSInteger) valueCount {
+    return self.allValues.count;
+}
+
+- (NSArray<id>*) allValues {
+    return self.indexStorage.allKeys;
+}
+
+- (NSArray<NSObject*>*) allValuesOrderedBy:(NSSortDescriptor*) descriptor {
+    return [self.allValues sortedArrayUsingDescriptors:@[descriptor]];
+}
+
+
+// MARK: - Entries
+
+- (void) indexEntry:(id<ILSoupEntry>) entry {
     id value = [entry.entryKeys valueForKeyPath:self.indexPath];
 
     if (value) {
+        // get the set of hashs for the indexed entries
         ILEntryKeySet* entrySet = self.indexStorage[value]; // set of entryHash strings
-        if (!entrySet) {
+        if (!entrySet) { // create an empty entrySet, add it to index storage
             entrySet = NSMutableSet.new;
             self.indexStorage[value] = entrySet;
         }
-        
-        if (![entrySet containsObject:entry.entryHash]) {
-            [entrySet addObject:entry.entryHash];
-        }
+
+        // add the hash to the entrySet, even if it's already there
+        [entrySet addObject:entry.entryHash];
     }
 }
 
-- (void) removeEntry:(id<ILSoupEntry>) entry
-{
+- (void) removeEntry:(id<ILSoupEntry>) entry {
     id value = [entry.entryKeys valueForKeyPath:self.indexPath];
     if (value) {
         ILEntryKeySet* entrySet = self.indexStorage[value];
@@ -71,8 +94,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
     }
 }
 
-- (BOOL) includesEntry:(id<ILSoupEntry>) entry
-{
+- (BOOL) includesEntry:(id<ILSoupEntry>) entry {
     BOOL included = NO;
     id value = [entry.entryKeys valueForKeyPath:self.indexPath]; // get the value of the entry for this index
     if (value) {
@@ -85,13 +107,13 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
     return included;
 }
 
-- (id<ILSoupCursor>) allEntries
-{
+// MARK: - Entry Cursors
+
+- (id<ILSoupCursor>) allEntries {
     return [self entriesWithValue:nil];
 }
 
-- (id<ILSoupCursor>) entriesWithValue:(nullable id) value
-{
+- (id<ILSoupCursor>) entriesWithValue:(nullable id) value {
     ILStockAliasCursor* cursor = nil;
 
     if (value) {
@@ -102,9 +124,9 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
             cursor = ILStockAliasCursor.emptyCursor;
         }
     }
-    else {
+    else { // return all the entries in the index
         ILEntryKeySet* entrySet = NSMutableSet.set;
-        for (ILEntryKeySet* entrySubset in self.indexStorage.allValues) {
+        for (ILEntryKeySet* entrySubset in self.indexStorage.allValues) { // unpack each value
             [entrySet addObjectsFromArray:entrySubset.allObjects];
         }
         cursor = [ILStockAliasCursor.alloc initWithAliases:entrySet.allObjects inSoup:self.indexedSoup];
@@ -115,8 +137,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 // MARK: -
 
-- (NSString*) description
-{
+- (NSString*) description {
     return [NSString stringWithFormat:@"<%@ %p \"%@\" %lu entries>",
             self.class, self, self.indexPath, self.indexStorage.allKeys.count];
 }
@@ -129,24 +150,21 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 // MARK: - ILSoupIndex
 
-- (void) indexEntry:(id<ILSoupEntry>) entry
-{
+- (void) indexEntry:(id<ILSoupEntry>) entry {
     id value = [entry.entryKeys valueForKeyPath:self.indexPath];
     if (value) {
-        self.indexStorage[value] = entry;
+        self.indexStorage[value] = entry; // last writer wins
     }
 }
 
-- (void) removeEntry:(id<ILSoupEntry>) entry
-{
+- (void) removeEntry:(id<ILSoupEntry>) entry {
     id value = [entry.entryKeys valueForKeyPath:self.indexPath];
     if (value) {
         [self.indexStorage removeObjectForKey:value];
     }
 }
 
-- (BOOL) includesEntry:(id<ILSoupEntry>) entry
-{
+- (BOOL) includesEntry:(id<ILSoupEntry>) entry {
     BOOL includesEntry = NO;
     id value = [entry.entryKeys valueForKeyPath:self.indexPath];
     
@@ -159,13 +177,11 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
     return includesEntry;
 }
 
-- (id<ILSoupCursor>) allEntries
-{
+- (id<ILSoupCursor>) allEntries {
     return [ILStockCursor.alloc initWithEntries:self.indexStorage.allValues];
 }
 
-- (id<ILSoupCursor>) entriesWithValue:(nullable id) value
-{
+- (id<ILSoupCursor>) entriesWithValue:(nullable id) value {
     ILStockCursor* valueCursor = nil;
     id<ILSoupEntry> entry = [self entryWithValue:value];
     if (entry) {
@@ -179,8 +195,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 // MARK: - ILSoupIdentityIndex
 
-- (id<ILSoupEntry>) entryWithValue:(id) value
-{
+- (id<ILSoupEntry>) entryWithValue:(id) value {
     id<ILSoupEntry> entry = nil;
     
     if (value) {
@@ -242,8 +257,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 @implementation ILStockTextIndex
 
-- (id<ILSoupCursor>) entriesMatching:(NSString*) pattern;
-{
+- (id<ILSoupCursor>) entriesMatching:(NSString*) pattern {
     NSError* patternError = nil;
     NSRegularExpression* patternExpression = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:&patternError];
 
@@ -269,8 +283,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 @implementation ILStockNumberIndex
 
-- (id<ILSoupCursor>) entriesBetween:(NSNumber*) min and:(NSNumber*) max
-{
+- (id<ILSoupCursor>) entriesBetween:(NSNumber*) min and:(NSNumber*) max {
     NSMutableSet* matching = NSMutableSet.new;
 
     for (NSNumber* keyNumber in self.indexStorage.allKeys) {
@@ -288,8 +301,7 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 @implementation ILStockDateIndex
 
-- (id<ILSoupCursor>) entriesBetween:(NSDate*) earliest and:(NSDate*) latest
-{
+- (id<ILSoupCursor>) entriesBetween:(NSDate*) earliest and:(NSDate*) latest {
     NSMutableSet* matching = NSMutableSet.new;
 
     for (NSDate* keyDate in self.indexStorage.allKeys) {
@@ -317,22 +329,22 @@ typedef NSMutableSet<ILEntryKey*> ILEntryKeySet;
 
 // MARK: -
 
-static ILStockCursor* EMPTY_STOCK_CURSOR;
 
 @implementation ILStockCursor
 
-+ (instancetype) emptyCursor
-{
-    if (!EMPTY_STOCK_CURSOR) {
++ (instancetype) emptyCursor {
+    static ILStockCursor* EMPTY_STOCK_CURSOR;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         EMPTY_STOCK_CURSOR = [ILStockCursor.alloc initWithEntries:NSArray.new];
-    }
+    });
+
     return EMPTY_STOCK_CURSOR;
 }
 
 // MARK: -
 
-- (instancetype) initWithEntries:(NSArray<id<ILSoupEntry>>*) entries
-{
+- (instancetype) initWithEntries:(NSArray<id<ILSoupEntry>>*) entries {
     if ((self = super.init)) {
         self.entriesStorage = [NSArray arrayWithArray:entries]; // don't want someone sneaking in a mutable array here
         self.cursorIndex = 0;
@@ -343,20 +355,17 @@ static ILStockCursor* EMPTY_STOCK_CURSOR;
 
 // MARK: - Properties
 
-- (NSArray<id<ILSoupEntry>>*) entries
-{
+- (NSArray<id<ILSoupEntry>>*) entries {
     return self.entriesStorage;
 }
 
-- (NSUInteger) index
-{
+- (NSUInteger) index {
     return self.cursorIndex;
 }
 
 // MARK: -
 
-- (id<ILSoupEntry> _Nullable) nextEntry
-{
+- (id<ILSoupEntry> _Nullable) nextEntry {
     id<ILSoupEntry> next = nil;
     NSUInteger index = self.cursorIndex;
     if (index < self.entriesStorage.count) {
@@ -366,16 +375,29 @@ static ILStockCursor* EMPTY_STOCK_CURSOR;
     return next;
 }
 
-- (void) resetCursor
-{
+- (void) resetCursor {
     self.cursorIndex = 0;
+}
+
+// MARK: - Random Access
+
+- (NSInteger) count {
+    return self.entriesStorage.count;
+}
+
+- (nonnull NSArray<id<ILSoupEntry>> *)entriesInRange:(NSRange)entryRange {
+    return [self.entriesStorage objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:entryRange]];
+}
+
+- (nonnull id<ILSoupEntry>)entryAtIndex:(NSUInteger)entryIndex {
+    return [self entriesInRange:NSMakeRange(entryIndex, 1)].lastObject;
 }
 
 // MARK: -
 
-- (NSString*) description
-{
-    return [NSString stringWithFormat:@"<%@ %lu items, index %lu>", self.class, self.entries.count, self.index];
+- (NSString*) description {
+    return [NSString stringWithFormat:@"<%@ %lu items, index %lu>", 
+            self.class, self.entries.count, self.index];
 }
 
 @end
@@ -392,20 +414,18 @@ static ILStockCursor* EMPTY_STOCK_CURSOR;
 
 @implementation ILStockAliasCursor
 
-static ILStockAliasCursor* EMPTY_ALIAS_CURSOR;
-
-+ (instancetype) emptyCursor
-{
-    if (!EMPTY_ALIAS_CURSOR) {
++ (instancetype) emptyCursor {
+    static ILStockAliasCursor* EMPTY_ALIAS_CURSOR;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         EMPTY_ALIAS_CURSOR = [ILStockAliasCursor.alloc initWithAliases:NSArray.new inSoup:nil];
-    }
+    });
     return EMPTY_ALIAS_CURSOR;
 }
 
 // MARK: -
 
-- (instancetype) initWithAliases:(NSArray<NSString*>*) aliases inSoup:(id<ILSoup> _Nullable) sourceSoup
-{
+- (instancetype) initWithAliases:(NSArray<NSString*>*) aliases inSoup:(id<ILSoup> _Nullable) sourceSoup {
     if ((self = super.init)) {
         self.aliasStorage = [NSArray arrayWithArray:aliases]; // no mutants
         self.cursorIndex = 0;
@@ -415,15 +435,13 @@ static ILStockAliasCursor* EMPTY_ALIAS_CURSOR;
     return self;
 }
 
-- (instancetype)initWithEntries:(NSArray<id<ILSoupEntry>> *)entries
-{
+- (instancetype)initWithEntries:(NSArray<id<ILSoupEntry>> *)entries {
     return nil;
 }
 
 // MARK: - Properties
 
-- (NSArray<id<ILSoupEntry>>*) entries
-{
+- (NSArray<id<ILSoupEntry>>*) entries {
     NSMutableArray<id<ILSoupEntry>>* entries = NSMutableArray.new;
     if (self.soupStorage) {
         for (NSString* alias in self.aliasStorage) {
@@ -434,20 +452,13 @@ static ILStockAliasCursor* EMPTY_ALIAS_CURSOR;
     return entries;
 }
 
-- (NSUInteger) count
-{
-    return self.aliasStorage.count;
-}
-
-- (NSUInteger) index
-{
+- (NSUInteger) index {
     return self.cursorIndex;
 }
 
 // MARK: -
 
-- (nullable NSString*) nextAlias
-{
+- (nullable NSString*) nextAlias {
     NSString* next = nil;
     NSUInteger index = self.cursorIndex;
     if (index < self.aliasStorage.count) {
@@ -459,8 +470,7 @@ static ILStockAliasCursor* EMPTY_ALIAS_CURSOR;
 
 // MARK: -
 
-- (id<ILSoupEntry> _Nullable) nextEntry
-{
+- (id<ILSoupEntry> _Nullable) nextEntry {
     id<ILSoupEntry> nextEntry = nil;
     NSString* nextAlias = self.nextAlias;
     if (nextAlias && self.soupStorage) {
@@ -469,9 +479,22 @@ static ILStockAliasCursor* EMPTY_ALIAS_CURSOR;
     return nextEntry;
 }
 
-- (void) resetCursor
-{
+- (void) resetCursor {
     self.cursorIndex = 0;
+}
+
+// MARK: - Random Access
+
+- (NSInteger) count {
+    return self.aliasStorage.count;
+}
+
+- (nonnull NSArray<id<ILSoupEntry>> *)entriesInRange:(NSRange)entryRange {
+    return [self.entries objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:entryRange]];
+}
+
+- (nonnull id<ILSoupEntry>)entryAtIndex:(NSUInteger)entryIndex { 
+    return [self entriesInRange:NSMakeRange(entryIndex, 1)].lastObject;
 }
 
 @end

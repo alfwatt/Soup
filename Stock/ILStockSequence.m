@@ -27,8 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation ILStockSequence
 
-+ (instancetype) sequenceWithPath:(NSString*) sequencePath
-{
++ (instancetype) sequenceWithPath:(NSString*) sequencePath {
     ILStockSequence* stockSequence = ILStockSequence.new;
     stockSequence.sequencePathStorage = sequencePath;
     stockSequence.sequenceStorage = NSMutableDictionary.new;
@@ -38,13 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Properties
 
-- (NSString*) sequencePath
-{
+- (NSString*) sequencePath {
     return self.sequencePathStorage;
 }
 
-- (void) sequenceEntry:(id<ILSoupEntry>) entry atTime:(NSDate*) timeIndex
-{
+- (void) sequenceEntry:(id<ILSoupEntry>) entry atTime:(NSDate*) timeIndex {
     id value = [entry.entryKeys valueForKeyPath:self.sequencePath];
     NSNumber* numberValue = nil;
     if ([value isKindOfClass:NSNumber.class]) {
@@ -71,20 +68,17 @@ NS_ASSUME_NONNULL_BEGIN
     // else report sequence error?
 }
 
-- (void) removeEntry:(id<ILSoupEntry>) entry
-{
+- (void) removeEntry:(id<ILSoupEntry>) entry {
     [self.sequenceStorage removeObjectForKey:entry.entryKeys[ILSoupEntryIdentityUUID]];
 }
 
-- (BOOL) includesEntry:(id<ILSoupEntry>) entry
-{
+- (BOOL) includesEntry:(id<ILSoupEntry>) entry {
     return [self.sequenceStorage.allKeys containsObject:entry.entryKeys[ILSoupEntryIdentityUUID]];
 }
 
 // MARK: - fetching sequence data
 
-- (BOOL) fetchSequenceFor:(id<ILSoupEntry>) entry times:(NSArray<NSDate*>**) timeArray values:(NSArray<NSNumber*>**) valueArray
-{
+- (BOOL) fetchSequenceFor:(id<ILSoupEntry>) entry times:(NSArray<NSDate*>**) timeArray values:(NSArray<NSNumber*>**) valueArray {
     NSArray<ILStockSequenceEntry*>* sequence = [self.sequenceStorage[entry.entryKeys[ILSoupEntryIdentityUUID]] copy]; // snapshot
     NSMutableArray* timeSequence = [NSMutableArray arrayWithCapacity:sequence.count];
     NSMutableArray* valueSequence = [NSMutableArray arrayWithCapacity:sequence.count];
@@ -101,8 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
     return (sequence != nil);
 }
 
-- (nullable id<ILSoupSequenceSource>) fetchSequenceSourceFor:(id<ILSoupEntry>) entry
-{
+- (nullable id<ILSoupSequenceSource>) fetchSequenceSourceFor:(id<ILSoupEntry>) entry {
     ILStockSequenceSource* source;
 //    NSArray<NSDate*>* sequenceTimes;
 //    NSArray<NSNumber*>* sequenceValues;
@@ -116,8 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - NSObject
 
-- (NSString*) description
-{
+- (NSString*) description {
     return [NSString stringWithFormat:@"%@ %@ %lu entries", self.class, self.sequencePath, self.sequenceStorage.allKeys.count];
 }
 
@@ -135,8 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation ILStockSequenceSource
 
-+ (instancetype) sequencSourceWithTimes:(NSArray<NSDate*>*) seqenceTimes andValues:(NSArray<NSNumber*>*) sequenceValues;
-{
++ (instancetype) sequencSourceWithTimes:(NSArray<NSDate*>*) seqenceTimes andValues:(NSArray<NSNumber*>*) sequenceValues; {
     ILStockSequenceSource* stockSource = ILStockSequenceSource.new;
     stockSource.sequenceDates = seqenceTimes;
     stockSource.sequenceValues = sequenceValues;
@@ -145,13 +136,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: -
 
-- (NSArray<NSDate*>*) sampleDates
-{
+- (NSArray<NSDate*>*) sampleDates {
     return self.sequenceDates;
 }
 
-- (CGFloat)sampleValueAtIndex:(NSUInteger)index
-{
+- (CGFloat)sampleValueAtIndex:(NSUInteger)index {
     return [self.sequenceValues[index] doubleValue];
 }
 

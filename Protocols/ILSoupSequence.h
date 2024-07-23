@@ -1,9 +1,9 @@
 #ifndef ILSoupSequence_h
 #define ILSoupSequence_h
 
-NS_ASSUME_NONNULL_BEGIN
+#import <CoreGraphics/CoreGraphics.h>
 
-@import CoreGraphics;
+NS_ASSUME_NONNULL_BEGIN
 
 // MARK: -
 

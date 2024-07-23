@@ -13,8 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation ILUnionSoup
 @synthesize delegate;
 
-- (instancetype) init
-{
+- (instancetype) init {
     if ((self = super.init)) {
         self.loadedSoupsStorage = [NSMutableArray new];
     }
@@ -37,23 +36,20 @@ NS_ASSUME_NONNULL_BEGIN
     return unionDescription;
 }
 
-- (NSArray<id<ILSoup>>*) loadedSoups
-{
+- (NSArray<id<ILSoup>>*) loadedSoups {
     return [self.loadedSoupsStorage copy];
 }
 
 // MARK: - Managing Soups
 
 
-- (void) addSoup:(id<ILSoup>) soup
-{
+- (void) addSoup:(id<ILSoup>) soup {
     if (![self.loadedSoupsStorage containsObject:soup]) {
         [self.loadedSoupsStorage addObject:soup];
     }
 }
 
-- (void) insertSoup:(id<ILSoup>) soup atIndex:(NSUInteger) index
-{
+- (void) insertSoup:(id<ILSoup>) soup atIndex:(NSUInteger) index {
     if ([self.loadedSoupsStorage containsObject:soup]) {
         [self.loadedSoupsStorage removeObject:soup];
     }
@@ -61,15 +57,13 @@ NS_ASSUME_NONNULL_BEGIN
     [self.loadedSoupsStorage insertObject:soup atIndex:index];
 }
 
-- (void) removeSoup:(id<ILSoup>) soup
-{
+- (void) removeSoup:(id<ILSoup>) soup {
     [self.loadedSoupsStorage removeObject:soup];
 }
 
 // MARK: - Managing Entries
 
-- (bool) copyEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup
-{
+- (bool) copyEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup {
     bool success = false;
     id<ILSoupEntry> fromEntry = [fromSoup gotoAlias:entryHash];
     if (fromEntry) {
@@ -81,8 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
     return success;
 }
 
-- (bool) moveEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup
-{
+- (bool) moveEntry:(NSString*) entryHash fromSoup:(id<ILSoup>) fromSoup toSoup:(id<ILSoup>) toSoup {
     bool success = false;
     id<ILSoupEntry> fromEntry = [fromSoup gotoAlias:entryHash];
     if (fromEntry) {
@@ -95,8 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
     return success;
 }
 
-- (bool) pushEntry:(NSString*) entryHash
-{
+- (bool) pushEntry:(NSString*) entryHash {
     bool success = false;
     NSArray* loadedSoups = self.loadedSoups; // get a snapshot
     id<ILSoup> topSoup;
@@ -126,8 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
     return success;
 }
 
-- (bool) popEntry:(NSString*) entryHash
-{
+- (bool) popEntry:(NSString*) entryHash {
     bool success = false;
     NSArray* loadedSoups = self.loadedSoups; // get a snapshot and search bottom up for the entryHash
     id<ILSoup> bottomSoup;
@@ -157,8 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - ILSoupStock Overrides
 
-- (NSString*)addEntry:(id<ILSoupEntry>)entry
-{
+- (NSString*)addEntry:(id<ILSoupEntry>)entry {
     for (id<ILSoup> member in self.loadedSoups) {
         [member addEntry:entry];
     }
@@ -166,15 +156,13 @@ NS_ASSUME_NONNULL_BEGIN
     return entry.entryHash;
 }
 
-- (void) deleteEntry:(id<ILSoupEntry>) entry
-{
+- (void) deleteEntry:(id<ILSoupEntry>) entry {
     for (id<ILSoup> member in self.loadedSoups) {
         [member deleteEntry:entry];
     }
 }
 
-- (nullable NSString*) getAlias:(id<ILSoupEntry>) entry
-{
+- (nullable NSString*) getAlias:(id<ILSoupEntry>) entry {
     NSString* alias;
     for (id<ILSoup> member in self.loadedSoups) {
         alias = [member entryAlias:entry];
@@ -183,8 +171,7 @@ NS_ASSUME_NONNULL_BEGIN
     return alias;
 }
 
-- (nullable id<ILSoupEntry>) gotoAlias:(NSString*) alias
-{
+- (nullable id<ILSoupEntry>) gotoAlias:(NSString*) alias {
     id<ILSoupEntry> entry;
     for (id<ILSoup> member in self.loadedSoups) {
         entry = [member gotoAlias:alias];

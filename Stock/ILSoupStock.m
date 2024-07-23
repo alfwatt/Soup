@@ -182,8 +182,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Queries
 
-- (id<ILSoupCursor>) querySoup:(NSPredicate *)query
-{
+- (id<ILSoupCursor>) querySoup:(NSPredicate *)query {
     NSArray* allEntries = self.soupEntryStorage.allValues;
     return [ILStockCursor.alloc initWithEntries:[allEntries filteredArrayUsingPredicate:query]];
 }

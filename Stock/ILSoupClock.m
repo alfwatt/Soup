@@ -55,11 +55,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: -
 
-NSInteger const GREGORIAN_DAY = 60 * 60 * 24;
-NSInteger const GREGORIAN_YEAR = GREGORIAN_DAY * 365.2425;
-NSInteger const GREGORIAN_DECADE = GREGORIAN_YEAR * 10;
-NSInteger const GREGORIAN_CENTURY = GREGORIAN_YEAR * 100;
-NSInteger const GREGORIAN_MILLENIUM = GREGORIAN_YEAR * 1000;
+NSTimeInterval const GREGORIAN_DAY = 60 * 60 * 24; // Seconds * Minutes * Hours
+NSTimeInterval const GREGORIAN_YEAR = GREGORIAN_DAY * 365.2425;
+NSTimeInterval const GREGORIAN_DECADE = GREGORIAN_YEAR * 10;
+NSTimeInterval const GREGORIAN_CENTURY = GREGORIAN_YEAR * 100;
+NSTimeInterval const GREGORIAN_MILLENIUM = GREGORIAN_YEAR * 1000;
 
 + (id<ILSoupTime>)lastYear {
     return [self interval:GREGORIAN_YEAR before:NSDate.date];

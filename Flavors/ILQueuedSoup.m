@@ -5,18 +5,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation ILQueuedSoup
 
-+ (nullable instancetype) makeSoup:(NSString*) soupName
-{
++ (nullable instancetype) makeSoup:(NSString*) soupName {
     return nil;
 }
 
-+ (instancetype) queuedSoup:(id<ILSoup>) queuedSoup
-{
++ (instancetype) queuedSoup:(id<ILSoup>) queuedSoup {
     return [ILQueuedSoup queuedSoup:queuedSoup soupQueue:nil];
 }
 
-+ (instancetype) queuedSoup:(id<ILSoup>) queuedSoup soupQueue:(nullable NSOperationQueue*) soupOps
-{
++ (instancetype) queuedSoup:(id<ILSoup>) queuedSoup soupQueue:(nullable NSOperationQueue*) soupOps {
     ILQueuedSoup* soup = ILQueuedSoup.new;
     soup.queued = queuedSoup;
 
@@ -27,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
         soup.soupOperations = NSOperationQueue.new;
         soup.soupOperations.maxConcurrentOperationCount = 1;
     }
-
+    
     return soup;
 }
 
@@ -39,65 +36,53 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Properties
 
-- (NSUUID*) soupUUID
-{
+- (NSUUID*) soupUUID {
     return self.queued.soupUUID;
 }
 
-- (NSString*) soupName
-{
+- (NSString*) soupName {
     return self.queued.soupName;
 }
 
-- (void) setSoupName:(NSString*) newName
-{
+- (void) setSoupName:(NSString*) newName {
     self.queued.soupName = newName;
 }
 
-- (NSString*) soupDescription
-{
+- (NSString*) soupDescription {
     return self.queued.soupDescription;
 }
 
-- (void) setSoupDescription:(NSString*) newDescription
-{
+- (void) setSoupDescription:(NSString*) newDescription {
     self.queued.soupDescription = newDescription;
 }
 
-- (NSPredicate*) soupQuery
-{
+- (NSPredicate*) soupQuery {
     return self.queued.soupQuery;
 }
 
-- (void) setSoupQuery:(NSPredicate*) newQuery
-{
+- (void) setSoupQuery:(NSPredicate*) newQuery {
     self.queued.soupQuery = newQuery;
 }
 
-- (NSDictionary*) defaultEntry
-{
+- (NSDictionary*) defaultEntry {
     return self.queued.defaultEntry;
 }
 
-- (void) setDefaultEntry:(NSDictionary*) newDefaults
-{
+- (void) setDefaultEntry:(NSDictionary*) newDefaults {
     self.queued.defaultEntry = newDefaults;
 }
 
-- (NSObject<ILSoupDelegate>*) delegate
-{
+- (NSObject<ILSoupDelegate>*) delegate {
     return self.queued.delegate;
 }
 
-- (void) setDelegate:(NSObject<ILSoupDelegate>*) delegate
-{
+- (void) setDelegate:(NSObject<ILSoupDelegate>*) delegate {
     self.queued.delegate = delegate;
 }
 
 // MARK: - Entries
 
-- (NSString*) addEntry:(id<ILSoupEntry>) entry;
-{
+- (NSString*) addEntry:(id<ILSoupEntry>) entry; {
     NSString* entryHash = entry.entryHash;
     [self.soupOperations addOperationWithBlock:^{
         [self.queued addEntry:entry];
@@ -105,8 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
     return entryHash;
 }
 
-- (nullable id<ILMutableSoupEntry>) createBlankEntry;
-{
+- (nullable id<ILMutableSoupEntry>) createBlankEntry; {
     return [self.queued createBlankEntry];
 }
 
@@ -114,25 +98,21 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createBlankEntryOfClass:comformsToMutableSoupEntry];
 }
 
-- (void) deleteEntry:(id<ILSoupEntry>) entry;
-{
+- (void) deleteEntry:(id<ILSoupEntry>) entry; {
     [self.soupOperations addOperationWithBlock:^{
         [self.queued deleteEntry:entry];
     }];
 }
 
-- (id<ILMutableSoupEntry>) duplicateEntry:(id<ILSoupEntry>) entry;
-{
+- (id<ILMutableSoupEntry>) duplicateEntry:(id<ILSoupEntry>) entry; {
     return [self.queued duplicateEntry:entry];
 }
 
-- (NSString*) entryAlias:(id<ILSoupEntry>) entry;
-{
+- (NSString*) entryAlias:(id<ILSoupEntry>) entry; {
     return [self.queued entryAlias:entry];
 }
 
-- (nullable id<ILSoupEntry>) gotoAlias:(NSString*) alias
-{
+- (nullable id<ILSoupEntry>) gotoAlias:(NSString*) alias {
     return [self.queued gotoAlias:alias];
 }
 
@@ -142,13 +122,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued indexForPath:indexPath];
 }
 
-- (NSArray<id<ILSoupIndex>>*) soupIndicies
-{
+- (NSArray<id<ILSoupIndex>>*) soupIndicies {
     return self.queued.soupIndicies;
 }
 
-- (id<ILSoupIndex>) createIndex:(NSString*) indexPath;
-{
+- (id<ILSoupIndex>) createIndex:(NSString*) indexPath; {
     return [self.queued createIndex:indexPath];
 }
 
@@ -210,30 +188,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Default Cursor
 
-- (id<ILSoupCursor>) resetCursor
-{
+- (id<ILSoupCursor>) resetCursor {
     return [self.queued resetCursor];
 }
 
-- (id<ILSoupCursor>) cursor
-{
+- (id<ILSoupCursor>) cursor {
     return self.queued.cursor;
 }
 
-- (id<ILSoupCursor>) querySoup:(NSPredicate*) query
-{
+- (id<ILSoupCursor>) querySoup:(NSPredicate*) query {
     return [self.queued querySoup:query];
 }
 
 // MARK: - Sequences
 
-- (NSArray<id<ILSoupSequence>>*) soupSequences
-{
+- (NSArray<id<ILSoupSequence>>*) soupSequences {
     return self.queued.soupSequences;
 }
 
-- (id<ILSoupSequence>) createSequence:(NSString*) sequencePath
-{
+- (id<ILSoupSequence>) createSequence:(NSString*) sequencePath {
     return [self.queued createSequence:sequencePath];
 }
 
@@ -243,13 +216,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Soup Managment
 
-- (void) doneWithSoup:(NSString*) appIdentifier
-{
+- (void) doneWithSoup:(NSString*) appIdentifier {
     [self.queued doneWithSoup:appIdentifier];
 }
 
-- (void) fillNewSoup
-{
+- (void) fillNewSoup {
     [self.queued fillNewSoup];
 }
 

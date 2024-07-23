@@ -246,6 +246,11 @@ Doing so in Objective-C is slightly more verbose:
 
 Currently only object properties are supported, boxing and unboxing of primative types is a goal, along with alias storage
 
+<a id="history"></a>
+## History
+
+- Release 0.1
+
 <a id="license"></a>
 ## License
 

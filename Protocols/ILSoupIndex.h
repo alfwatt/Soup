@@ -37,17 +37,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @brief reset the cursor index to 0
 - (void) resetCursor;
 
-@end
-
-// MARK: -
-
-/// Random Access to Cursor Entries by Index or range
-/// @extends ILSoupCursor to add methods which might be performance intensive,
-/// depending on the indexing method used
-@protocol ILSoupCursorRandomAccess <ILSoupCursor>
+// MARK: - Random Access
 
 /// @returns the number of entries in this cursor
-@property(readonly) NSUInteger count;
+@property(readonly) NSInteger count;
 
 /// @param entryIndex — index of th entry we want to access
 /// @returns the `ILSoupEntry` entry at the entryIndex provided
@@ -68,15 +61,24 @@ NS_ASSUME_NONNULL_BEGIN
 /// this path used to fetch indexed properties from the items to build the index
 @property(readonly) NSString* indexPath;
 
-/// the number of entries in the index
-@property(readonly) NSUInteger count;
-
 // MARK: -
 
 /// create an index with the path provided
 + (instancetype) indexWithPath:(NSString*) indexPath inSoup:(id<ILSoup>) containingSoup;
 
+// MARK: - Values
+
+/// the number of values in the index
+@property(readonly) NSInteger valueCount;
+
+- (NSArray<id>*) allValues;
+
+- (NSArray<NSObject*>*) allValuesOrderedBy:(NSSortDescriptor*) descriptor;
+
 // MARK: - Entries
+
+/// the number of entries in the index
+@property(readonly) NSInteger entryCount;
 
 /// add the entry to the index
 - (void) indexEntry:(id<ILSoupEntry>) entry;
@@ -87,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// is the entry in the index
 - (BOOL) includesEntry:(id<ILSoupEntry>) entry;
 
-// MARK: - Cursors
+// MARK: - Entry Cursors
 
 /// a cursor with all the entries currently in the index
 - (id<ILSoupCursor>) allEntries;

@@ -37,15 +37,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation ILFileSoup
 
-+ (ILFileSoup*) fileSoupAtPath:(NSString*) filePath
-{
++ (ILFileSoup*) fileSoupAtPath:(NSString*) filePath {
     return [ILFileSoup.alloc initWithFilePath:filePath];
 }
 
 // MARK: -
 
-- (instancetype) initWithFilePath:(NSString*) filePath;
-{
+- (instancetype) initWithFilePath:(NSString*) filePath; {
     if ((self = super.init)) {
         self.filePathStorage = filePath;
         self.soupName = filePath.lastPathComponent;
@@ -56,32 +54,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: -
 
-- (NSString*) pathForEntryHash:(NSString*) entryHash
-{
+- (NSString*) pathForEntryHash:(NSString*) entryHash {
     return [[self.filePath stringByAppendingPathComponent:@"entries"] stringByAppendingPathComponent:entryHash];
 }
 
-- (NSString*) pathForIndex:(NSString*) indexPath
-{
+- (NSString*) pathForIndex:(NSString*) indexPath {
     return [[self.filePath stringByAppendingPathComponent:@"indicies"] stringByAppendingPathComponent:indexPath];
 }
 
-- (NSString*) pathForSequence:(NSString*) sequencePath
-{
+- (NSString*) pathForSequence:(NSString*) sequencePath {
     return [[self.filePath stringByAppendingPathComponent:@"sequences"] stringByAppendingPathComponent:sequencePath];
 }
 
 // MARK: -
 
-- (NSString*) filePath
-{
+- (NSString*) filePath {
     return [self.filePathStorage stringByExpandingTildeInPath];
 }
 
 // MARK: -
 
-- (NSString*)addEntry:(id<ILSoupEntry>)entry
-{
+- (NSString*)addEntry:(id<ILSoupEntry>)entry {
     NSMutableDictionary* jsonKeys = NSMutableDictionary.new;
     
     for (NSString* key in entry.entryKeys.allKeys) {
@@ -126,8 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
     return entry.entryHash;
 }
 
-- (void)deleteEntry:(id<ILSoupEntry>)entry
-{
+- (void)deleteEntry:(id<ILSoupEntry>)entry {
     NSString* entryPath = [self pathForEntryHash:entry.entryHash];
     
     [self removeFromIndicies:entry];
@@ -140,8 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Aliases
 
-- (nullable id<ILMutableSoupEntry>)gotoAlias:(NSString*)alias
-{
+- (nullable id<ILMutableSoupEntry>)gotoAlias:(NSString*)alias {
     NSString* entryPath = [[[self pathForEntryHash:alias] stringByExpandingTildeInPath] stringByAppendingPathComponent:@"entry.json"];
     NSInputStream* fileStream = [NSInputStream inputStreamWithFileAtPath:entryPath];
     [fileStream open];
@@ -156,27 +147,23 @@ NS_ASSUME_NONNULL_BEGIN
 // MARK: - Queries
 
 /*
-- (id<ILSoupCursor>)querySoup:(NSPredicate *)query
-{
+- (id<ILSoupCursor>)querySoup:(NSPredicate *)query {
     return nil;
 }
 */
 
 // MARK: - Indicies
 
-- (void) loadIndex:(NSString*) indexPath index:(id<ILSoupIndex>) stockIndex
-{
+- (void) loadIndex:(NSString*) indexPath index:(id<ILSoupIndex>) stockIndex {
 }
 
 // MARK: - Cursor
 
-- (id<ILSoupCursor>)getCursor
-{
+- (id<ILSoupCursor>)getCursor {
     return self.fileSoupCursor;
 }
 
-- (id<ILSoupCursor>)setupCursor
-{
+- (id<ILSoupCursor>)setupCursor {
     NSString* entriesPath = [self.filePath stringByAppendingPathComponent:@"entries"];
     NSMutableArray* soupEntries = [NSMutableArray new];
     for (NSString* filePath in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:entriesPath error:nil]) {
@@ -193,16 +180,14 @@ NS_ASSUME_NONNULL_BEGIN
 // MARK: - Sequences
 
 /*
-- (id<ILSoupSequence>)createSequence:(NSString*)sequencePath
-{
+- (id<ILSoupSequence>)createSequence:(NSString*)sequencePath {
     return nil;
 }
 */
 
 // MARK: - NSObject
 
-- (NSString*) description
-{
+- (NSString*) description {
     return [NSString stringWithFormat:@"%@: \"%@\" %@ %@ %@\nindicies:\n%@\nsequences:\n%@",
             self.class, self.soupName, self.soupDescription, self.soupUUID, self.filePath,
             self.soupIndicies, self.soupSequences];

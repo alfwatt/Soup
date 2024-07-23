@@ -32,7 +32,7 @@ class CanneryBrowser: NSWindowController {
         memory.createDateIndex(ILSoupEntryCreationDate)
         memory.createDateIndex(ILSoupEntryMutationDate)
         memory.createTextIndex(ILName)
-        memory.createTextIndex(ILEmail)
+        memory.createIdentityIndex(ILEmail)
         // memory.createTextIndex(ILNotes)
         
         // add some entries to the union
@@ -102,6 +102,12 @@ class CanneryBrowser: NSWindowController {
             ILParents: [fin2.entryKeys[ILSoupEntryIdentityUUID]]
         ])
         memory.add(fin3)
+        
+        // update the email to create a mutated fin3
+        let fin3update = fin3.mutatedEntry([
+            ILEmail: "fin.gl3@example.com"
+        ])
+        memory.add(fin3update)
         
         return memory
     }
@@ -173,43 +179,74 @@ extension CanneryBrowser: NSOutlineViewDataSource {
             children = allIndicies.count
         }
         else if let soupIndex = item as? ILSoupIndex {
-            children = Int(soupIndex.count)
+            children = Int(soupIndex.valueCount)
         }
+        else if let indexValue = item as? Dictionary<String, Any>,
+            let index = indexValue["index"] as? ILSoupIndex { // the dictionary has an index key
+            let entries = index.entries(withValue: indexValue["value"])
+            children = (entries.count == 1 ? 0 : entries.count) // one is none (don't show children)
+        }
+        
         return children
     }
 
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        return item is ILSoupIndex
+        var expandable: Bool = false
+        if item is ILSoupIndex {
+            expandable = true
+        }
+        else if let indexValue = item as? Dictionary<String, Any>,
+                let index = indexValue["index"] as? ILSoupIndex {
+            let cursor = index.entries(withValue: indexValue["value"])
+            expandable = (cursor.count > 1)
+        }
+        return expandable
     }
 
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-        var entry = "!" as Any
+        var childItem = "!" as Any // don't auto-type childItem
+        
+        // root is the list of indicies inthe soup
         if item == nil, let allIndicies = cannedSoup?.soupIndicies {
-            entry = allIndicies[index]
+            childItem = allIndicies[index]
         }
+        // if the item is an index, get the cursor for all entries
         else if let soupIndex = item as? ILSoupIndex {
-            if index < soupIndex.allEntries().entries.count {
-                let soupEntry = soupIndex.allEntries().entries[index]
-                entry = [ "value": soupEntry.entryKeys[soupIndex.indexPath], "entry": soupEntry ]
-            }
-            else {
-                print("WARNING - soupIndex: \(soupIndex) too short for outline index: \(index)")
-            }
+                let descriptor = NSSortDescriptor(key: "description", ascending: true, selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
+            let value = soupIndex.allValuesOrdered(by: descriptor)[index]
+            childItem = ["index": soupIndex, "value": value] as [String : Any]
         }
-        return entry as Any
+        // if we got an index and a value, fetch the entries
+        else if let indexValue = item as? Dictionary<String, Any>,
+                let soupIndex = indexValue["index"] as? ILSoupIndex {
+            let cursor = soupIndex.entries(withValue: indexValue["value"])
+            childItem = cursor.entry(at: UInt(index))
+        }
+        
+        return childItem as Any
     }
         
     func outlineView(_ outlineView: NSOutlineView, objectValueFor column: NSTableColumn?, byItem item: Any?) -> Any? {
         var data: Any?
         if let soupIndex = item as? ILSoupIndex {
-            data = soupIndex.indexPath
+            data = String(format:"%@ \"%@\" %i/%i",
+                          String(describing:type(of: soupIndex)).replacingOccurrences(of: "ILStock", with: ""),
+                          soupIndex.indexPath,
+                          soupIndex.valueCount,
+                          soupIndex.entryCount)
         }
         else if let soupValue = item as? Dictionary<String,Any> {
             data = soupValue["value"]
+            if let array = data as? [String] {
+                data = array.joined(separator: ", ")
+            }
         }
+        else if let entry = item as? ILSoupEntry {
+            data = entry.dataHash
+        }
+
         return data
     }
-
 }
 
 // MARK: - NSOutlineViewDelegate
@@ -217,16 +254,29 @@ extension CanneryBrowser: NSOutlineViewDataSource {
 extension CanneryBrowser: NSOutlineViewDelegate {
     func outlineViewSelectionDidChange(_ notification: Notification) {
         let selectedItem = entryList.item(atRow: entryList.selectedRow)
-        if selectedItem is ILSoupIndex {
+        if let index = selectedItem as? ILSoupIndex {
             selectedEntry = nil
             selectedAncestors = nil
-            self.window?.title = "Cannery"
+            self.window?.title = "Cannery: " + index.indexPath
         }
-        else if let soupItem = selectedItem as? Dictionary<String,Any> {
-            selectedEntry = soupItem["entry"] as? ILSoupEntry
+        else if let indexValue = selectedItem as? Dictionary<String, Any>,
+                let soupIndex = indexValue["index"] as? ILSoupIndex {
+            // TODO: show a list of entries when the user selects a value
+            let cursor = soupIndex.entries(withValue: indexValue["value"])
+            if cursor.count == 1 {
+                selectedEntry = cursor.entries.last
+            }
+            // else present a list of entries in the middle panel
+        }
+        else if let soupEntry = selectedItem as? ILSoupEntry {
+            selectedEntry = soupEntry
+        }
+
+        if selectedEntry != nil {
             selectedAncestors = cannedSoup?.queryAncestryIndex()?.ancestery(of:selectedEntry!)
-            self.window?.title = selectedEntry?.dataHash ?? "!"
+            self.window?.title = "Cannery: " + (selectedEntry?.dataHash ?? "!")
         }
+
         entryDetail.reloadData()
         entryAncestors.reloadData()
     }
@@ -251,7 +301,7 @@ extension CanneryBrowser:  NSTableViewDataSource {
     }
 
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        var value: NSObject = "-" as NSObject
+        var value = "-" as Any?
         if let selectedEntry = selectedEntry {
             if tableView == entryDetail {
                 if let columnId = tableColumn?.identifier.rawValue {
@@ -260,27 +310,30 @@ extension CanneryBrowser:  NSTableViewDataSource {
                         value = selectedKey as NSObject;
                     }
                     else if columnId.isEqual("entry.value") {
-                        value = selectedEntry.entryKeys[selectedKey] as! NSObject
+                        value = selectedEntry.entryKeys[selectedKey]
                     }
                 }
             }
             else if tableView == entryAncestors {
                 if let columnId = tableColumn?.identifier.rawValue {
                     if let rowAncestor = selectedAncestors?.entries[row] {
+                        if columnId.isEqual("ancestor.generation") {
+                            value = row
+                        }
                         if columnId.isEqual("ancestor.hash") {
                             value = rowAncestor.dataHash as NSObject
                         }
                         else if columnId.isEqual("ancestor.mutated"),
                             rowAncestor.entryKeys[ILSoupEntryMutationDate] != nil {
-                            value = rowAncestor.entryKeys[ILSoupEntryMutationDate] as! NSObject
+                            value = rowAncestor.entryKeys[ILSoupEntryMutationDate]
                         }
                         else if columnId.isEqual("ancestor.created"),
                             rowAncestor.entryKeys[ILSoupEntryCreationDate] != nil {
-                            value = rowAncestor.entryKeys[ILSoupEntryCreationDate] as! NSObject
+                            value = rowAncestor.entryKeys[ILSoupEntryCreationDate]
                         }
-                        else if columnId.isEqual(ILName),
+                        else if columnId.isEqual("ancestor.name"),
                             rowAncestor.entryKeys[ILName] != nil {
-                            value = rowAncestor.entryKeys[ILName] as! NSObject
+                            value = rowAncestor.entryKeys[ILName]
                         }
                     }
                 }

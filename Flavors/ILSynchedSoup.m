@@ -4,13 +4,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation ILSynchedSoup
 
-+ (nullable instancetype) makeSoup:(NSString*) soupName
-{
++ (nullable instancetype) makeSoup:(NSString*) soupName {
     return nil;
 }
 
-+ (instancetype) synchronizedSoup:(id<ILSoup>) synched
-{
++ (instancetype) synchronizedSoup:(id<ILSoup>) synched {
     ILSynchedSoup* soup = [ILSynchedSoup new];
     soup.synchronized = synched;
     return soup;
@@ -24,78 +22,67 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Properties
 
-- (NSUUID*) soupUUID
-{
+- (NSUUID*) soupUUID {
     @synchronized(self.synchronized) {
         return self.synchronized.soupUUID;
     }
 }
 
-- (NSString*) soupName
-{
+- (NSString*) soupName {
     @synchronized(self.synchronized) {
         return self.synchronized.soupName;
     }
 }
 
-- (void) setSoupName:(NSString*) newName
-{
+- (void) setSoupName:(NSString*) newName {
     @synchronized(self.synchronized) {
         self.synchronized.soupName = newName;
     }
 }
 
-- (NSString*) soupDescription
-{
+- (NSString*) soupDescription {
     @synchronized(self.synchronized) {
         return self.synchronized.soupDescription;
     }
 }
 
-- (void) setSoupDescription:(NSString*) newDescription
-{
+- (void) setSoupDescription:(NSString*) newDescription {
     @synchronized(self.synchronized) {
         self.synchronized.soupDescription = newDescription;
     }
 }
 
-- (NSPredicate*) soupQuery
-{
+- (NSPredicate*) soupQuery {
     @synchronized(self.synchronized) {
         return self.synchronized.soupQuery;
     }
 }
 
-- (void) setSoupQuery:(NSPredicate*) newQuery
-{
+- (void) setSoupQuery:(NSPredicate*) newQuery {
     @synchronized(self.synchronized) {
         self.synchronized.soupQuery = newQuery;
     }
 }
 
-- (NSDictionary*) defaultEntry
-{
+- (NSDictionary*) defaultEntry {
     @synchronized(self.synchronized) {
         return self.synchronized.defaultEntry;
     }
 }
 
-- (void) setDefaultEntry:(NSDictionary*) newDefaults
-{
+- (void) setDefaultEntry:(NSDictionary*) newDefaults {
     @synchronized(self.synchronized) {
         self.synchronized.defaultEntry = newDefaults;
     }
 }
 
-- (NSObject<ILSoupDelegate>*) delegate
-{
+- (NSObject<ILSoupDelegate>*) delegate {
     @synchronized(self.synchronized) {
         return self.synchronized.delegate;
     }
 }
 
-- (void) setDelegate:(NSObject<ILSoupDelegate>*) delegate
-{
+- (void) setDelegate:(NSObject<ILSoupDelegate>*) delegate {
     @synchronized(self.synchronized) {
         self.synchronized.delegate = delegate;
     }
@@ -103,15 +90,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Entries
 
-- (NSString*) addEntry:(id<ILSoupEntry>) entry;
-{
+- (NSString*) addEntry:(id<ILSoupEntry>) entry; {
     @synchronized(self.synchronized) {
         return [self.synchronized addEntry:entry];
     }
 }
 
-- (nullable id<ILMutableSoupEntry>) createBlankEntry;
-{
+- (nullable id<ILMutableSoupEntry>) createBlankEntry; {
     @synchronized(self.synchronized) {
         return [self.synchronized createBlankEntry];
     }
@@ -123,29 +108,25 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void) deleteEntry:(id<ILSoupEntry>) entry;
-{
+- (void) deleteEntry:(id<ILSoupEntry>) entry; {
     @synchronized(self.synchronized) {
         [self.synchronized deleteEntry:entry];
     }
 }
 
-- (id<ILMutableSoupEntry>) duplicateEntry:(id<ILSoupEntry>) entry;
-{
+- (id<ILMutableSoupEntry>) duplicateEntry:(id<ILSoupEntry>) entry; {
     @synchronized(self.synchronized) {
         return [self.synchronized duplicateEntry:entry];
     }
 }
 
-- (NSString*) entryAlias:(id<ILSoupEntry>) entry;
-{
+- (NSString*) entryAlias:(id<ILSoupEntry>) entry; {
     @synchronized(self.synchronized) {
         return [self.synchronized entryAlias:entry];
     }
 }
 
-- (nullable id<ILMutableSoupEntry>) gotoAlias:(NSString*) alias
-{
+- (nullable id<ILMutableSoupEntry>) gotoAlias:(NSString*) alias {
     @synchronized(self.synchronized) {
         return [self.synchronized gotoAlias:alias];
     }
@@ -153,8 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Indicies
 
-- (NSArray<id<ILSoupIndex>>*) soupIndicies
-{
+- (NSArray<id<ILSoupIndex>>*) soupIndicies {
     @synchronized(self.synchronized) {
         return self.synchronized.soupIndicies;
     }
@@ -166,8 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupIndex>) createIndex:(NSString*)indexPath;
-{
+- (id<ILSoupIndex>) createIndex:(NSString*)indexPath; {
     @synchronized(self.synchronized) {
         return [self.synchronized createIndex:indexPath];
     }
@@ -181,8 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Default Indicies
 
-- (id<ILSoupIdentityIndex>) createEntryIdentityIndex;
-{
+- (id<ILSoupIdentityIndex>) createEntryIdentityIndex; {
     @synchronized(self.synchronized) {
         return [self.synchronized createEntryIdentityIndex];
     }
@@ -259,22 +237,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Default Cursor
 
-- (id<ILSoupCursor>) resetCursor
-{
+- (id<ILSoupCursor>) resetCursor {
     @synchronized(self.synchronized) {
         return [self.synchronized resetCursor];
     }
 }
 
-- (id<ILSoupCursor>) cursor
-{
+- (id<ILSoupCursor>) cursor {
     @synchronized(self.synchronized) {
         return [self.synchronized cursor];
     }
 }
 
-- (id<ILSoupCursor>) querySoup:(NSPredicate*) query
-{
+- (id<ILSoupCursor>) querySoup:(NSPredicate*) query {
     @synchronized(self.synchronized) {
         return [self.synchronized querySoup:query];
     }
@@ -282,15 +257,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Sequences
 
-- (NSArray<id<ILSoupSequence>>*) soupSequences
-{
+- (NSArray<id<ILSoupSequence>>*) soupSequences {
     @synchronized(self.synchronized) {
         return self.synchronized.soupSequences;
     }
 }
 
-- (id<ILSoupSequence>) createSequence:(NSString*) sequencePath
-{
+- (id<ILSoupSequence>) createSequence:(NSString*) sequencePath {
     @synchronized(self.synchronized) {
         return [self.synchronized createSequence:sequencePath];
     }
@@ -304,15 +277,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Soup Managment
 
-- (void) doneWithSoup:(NSString*) appIdentifier
-{
+- (void) doneWithSoup:(NSString*) appIdentifier {
     @synchronized(self.synchronized) {
         [self.synchronized doneWithSoup:appIdentifier];
     }
 }
 
-- (void) fillNewSoup
-{
+- (void) fillNewSoup {
     @synchronized(self.synchronized) {
         [self.synchronized fillNewSoup];
     }

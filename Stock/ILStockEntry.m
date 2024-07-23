@@ -14,8 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Dynamic Getter and Setter
 
-void* accessorGetter(id self, SEL _cmd)
-{
+void* accessorGetter(id self, SEL _cmd) {
     NSString* key = NSStringFromSelector(_cmd);
     NSObject* value = [(ILStockEntry*)self valueForKey:key];
     void* returnValue = NULL;
@@ -24,7 +23,7 @@ void* accessorGetter(id self, SEL _cmd)
         /* TODO we need to check and see if it needs unboxing
         Class dynamicClass = object_getClass(self);
         Method getMethod = class_getInstanceMethod(dynamicClass, _cmd);
-        returnType = method_copyReturnType(getMethod);
+        Class returnType = method_copyReturnType(getMethod);
         */
         returnValue = (__bridge void*) value;
     }
@@ -33,8 +32,7 @@ exit:
     return returnValue;
 }
 
-void accessorSetter(id self, SEL _cmd, id newValue)
-{
+void accessorSetter(id self, SEL _cmd, id newValue) {
     NSString *methodName = NSStringFromSelector(_cmd);
 
     // remove leading 'set' and trailing ':' and lowercase the method name
@@ -59,11 +57,11 @@ void accessorSetter(id self, SEL _cmd, id newValue)
 + (BOOL) resolveInstanceMethod:(SEL)aSEL {
     NSString *method = NSStringFromSelector(aSEL);
 
-    if ([method hasPrefix:@"set"]) {
+    if ([method hasPrefix:@"set"]) { // TODO also check for a single in arg & no out
         class_addMethod([self class], aSEL, (IMP) accessorSetter, "v@:@");
         return YES;
     }
-    else if ([method rangeOfString:@":"].location == NSNotFound) { // get method with one
+    else if ([method rangeOfString:@":"].location == NSNotFound) { // get method has no in args
         class_addMethod([self class], aSEL, (IMP) accessorGetter, "@@:");
         return YES;
     }
@@ -167,69 +165,6 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
 - (NSString*) ancestorEntryHash {
     return self.entryKeys[ILSoupEntryAncestorEntryHash];
 }
-
-// XXX: - Dynamic Properties
-
-/*
-
- This implementation has a sublte over-release bug that I wasn't able to resolve,
- the resolveInstanceMethod: implemenatation above is a simpler and more reliable implementation
-
-*/
-
-/*! @return the method signature for a given selector, if it's not already defined then generate a generic get or set signature
-- (NSMethodSignature*) methodSignatureForSelector:(SEL)selector {
-    NSMethodSignature* signature = nil;
-    if ([self respondsToSelector:selector]) {
-        signature = [NSMethodSignature methodSignatureForSelector:selector];
-    }
-    else {
-        NSString *sel = NSStringFromSelector(selector);
-        if ([sel rangeOfString:@"set"].location == 0) {
-            signature = [NSMethodSignature signatureWithObjCTypes:"v@:@"];
-        } else {
-            signature = [NSMethodSignature signatureWithObjCTypes:"@@:"];
-        }
-    }
-    
-    return signature;
-}
- */
-
-/*! @brief check for `set` invocations and attempt to copy or record the presented object into
-- (void)forwardInvocation:(NSInvocation *)invocation {
-    NSUInteger argc = invocation.methodSignature.numberOfArguments;
-    NSString *key = NSStringFromSelector(invocation.selector);
-    
-    if ([key rangeOfString:@"set"].location == 0 && argc == 3) { // setter
-        key = [key substringWithRange:NSMakeRange(3, (key.length - 4))].lowercaseString;
-        if (key) {
-            id obj;
-            [invocation getArgument:&obj atIndex:2];
-            if (obj) {
-                [invocation retainArguments];
-                if ([obj conformsToProtocol:@protocol(NSCopying)]) {
-                    obj = [obj copy]; // retain an immutable copy
-                }
-                else { // we need to retain the arguments
-                    [invocation retainArguments];
-                }
-                // NSLog(@"setting mutated key: %@ obj: %@ ref: %ld", key, obj, (long)CFGetRetainCount((__bridge CFTypeRef)(obj)));
-                [self.entryKeysMutations setObject:obj forKey:key];
-            }
-            else { // set an NSNull value, so we can mask an underyling key
-                [self.entryKeysMutations setObject:NSNull.null forKey:key];
-            }
-        }
-    }
-    else if (argc == 2) { // implied getter
-        id obj = [self.entryKeysMutations objectForKey:key];
-        if (obj && obj != NSNull.null) { // hide the NSNull values
-            [invocation setReturnValue:&obj];
-        }
-    }
-}
- */
 
 // MARK: - Mutations
 

@@ -1,4 +1,4 @@
-#  <#Title#>
+#  Cannery
 
 ## Features
 
@@ -10,7 +10,7 @@
     
 - Provide `CRUD` options in the toolbar
     - Create a new entry
-    - Remove an entry
+    - Revert an entry
     - Update an entry
     - Delete an entry
 
