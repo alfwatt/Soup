@@ -20,12 +20,16 @@ static NSString* const ILSoupEntryDataHash = @"soup.entry.dataHash";
 /// String keysHash
 static NSString* const ILSoupEntryKeysHash = @"soup.entry.keysHash";
 
-
 /// String className — the local className for the entry
 static NSString* const ILSoupEntryClassName = @"soup.entry.className";
 
+/// String duplicateUUID - the identityUUID of the entry this was duplicated from
+static NSString* const ILSoupEntryDuplicateUUID = @"soup.entry.duplicate.uuid";
+
+@protocol ILMutableSoupEntry; // for mutableCopy
+
 /// @protocol for an entry in ILSoup
-@protocol ILSoupEntry
+@protocol ILSoupEntry <NSCopying,NSMutableCopying>
 
 /// @property entryHash — unique hashcode for the entry
 @property(nonatomic, readonly) NSString* entryHash;
@@ -51,6 +55,12 @@ static NSString* const ILSoupEntryClassName = @"soup.entry.className";
 /// @returns a new `<ILSopuEntry>` with the `entryKeys` provided
 - (instancetype) initWithKeys:(NSDictionary<NSString*, id>*) entryKeys;
 
+// MARK: - NSObject Overrides
+
+- (instancetype) copy;
+
+- (id<ILMutableSoupEntry>) mutableCopy;
+
 @end
 
 // MARK: - ILMutableSoupEntry
@@ -65,15 +75,23 @@ extern NSString* ILSoupEntryMutationDate;
 ///     <a id="ILMutableSoupEntry"></a>
 @protocol ILMutableSoupEntry <ILSoupEntry>
 
+/// @returns a mutable version of the entry provided
++ (instancetype) mutableEntry:(id<ILSoupEntry>) entry;
+
+/// @returns an initalized <ILMutableSoupEntry>
+- (instancetype) initWithEntry:(id<ILSoupEntry>) entry;
+
 /// @param mutatedValues — a dictionary of keys and values
 /// @returns an `<ILMutableSoupEntry>` with mutated keys and values provided in `mutatedValues`
 /// creating a new entry with the same UUID and a new hash
+//  Note: mutatedCopy would be more natural but too easy to conflate with mutableCopy
 - (instancetype) mutatedEntry:(NSDictionary<NSString*, id>*) mutatedValues;
 
-/// @param mutatedValues — a dictionary of keys and values
-/// @returns an `<ILMutableSoupEntry>` with a single mutated key and value in the entry
-/// creating a new entry with the same UUID and a new hash
-- (instancetype) mutatedCopy:(NSDictionary<NSString*, id>*) mutatedValues;
+/// duplicate entry, providing a mutable entry with a new UUID
+/// duplicate will have a ILSoupEntryDuplicateUUID key with the identity UUID of the original object
+/// N.B. that the duplicate entry is not yet stored in the soup
+/// @returns – `<ILMutableSoupEntry>` which is a duplicate of the data in `entry`
+- (instancetype) duplicateEntry;
 
 @end
 

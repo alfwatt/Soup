@@ -33,12 +33,17 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
 @implementation ILStockIndex
 
 + (instancetype) indexWithPath:(NSString *)indexPath inSoup:(id<ILSoup>) containingSoup {
-    ILStockIndex* stockIndex = self.new;
-    stockIndex.indexedSoup = containingSoup;
-    stockIndex.indexPathStorage = indexPath;
-    stockIndex.indexStorage = NSMutableDictionary.new;
+    return [self.alloc initWithPath:indexPath inSoup:containingSoup];
+}
 
-    return stockIndex;
+- (instancetype) initWithPath:(NSString*) indexPath inSoup:(id<ILSoup>) containingSoup {
+    if ((self = super.init)) {
+        self.indexPathStorage = indexPath;
+        self.indexedSoup = containingSoup;
+        self.indexStorage = NSMutableDictionary.new;
+    }
+    
+    return self;
 }
 
 // MARK: - Properties
@@ -72,7 +77,7 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
     id value = [entry.entryKeys valueForKeyPath:self.indexPath];
 
     if (value) {
-        // get the set of hashs for the indexed entries
+        // get the set of hashes for the indexed entries
         ILEntryKeySet* entrySet = self.indexStorage[value]; // set of entryHash strings
         if (!entrySet) { // create an empty entrySet, add it to index storage
             entrySet = NSMutableSet.new;
@@ -209,13 +214,36 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
 
 // MARK: - 
 
-@interface ILStockAncestryIndex (ILStockIdentityIndex)
+@interface ILStockAncestryIndex ()
+
+@property(nonatomic,retain) NSMutableSet* progenatorsStorage;
 
 @end
 
 // MARK: -
 
 @implementation ILStockAncestryIndex
+
+- (instancetype) initWithPath:(NSString *)indexPath inSoup:(id<ILSoup>) containingSoup {
+    if (self = [super initWithPath:indexPath inSoup:containingSoup]) {
+        self.progenatorsStorage = NSMutableSet.new;
+    }
+
+    return self;
+}
+
+// MARK: Entries
+
+- (void) indexEntry:(id<ILSoupEntry>) entry {
+    if (![entry.entryKeys valueForKeyPath:self.indexPath]) { // no ancestor, add it to the index of progenators
+        [self.progenatorsStorage addObject:entry]; // entryHash -> entry
+    }
+    else {
+        [super indexEntry:entry];
+    }
+}
+
+// MARK - ILStockAncestryIndex
 
 - (nullable id<ILSoupEntry>) ancestorOf:(id<ILSoupEntry>) descendant {
     id <ILSoupEntry> ancestor = nil;
@@ -248,6 +276,10 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
         descendantCursor = ILStockCursor.emptyCursor;
     }
     return descendantCursor;
+}
+
+- (id<ILSoupCursor>) progenitors {
+    return [ILStockCursor.alloc initWithEntries:self.progenatorsStorage.allObjects];
 }
 
 @end

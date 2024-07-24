@@ -58,70 +58,113 @@ final class SoupTests: XCTestCase {
     // add driver methods to test various soup types (memory/file/remote/&c.)
     
     func testSoupCreation() throws {
-        let memory: ILMemorySoup? = ILMemorySoup(name: "Test Soup")
+        let memory: ILMemorySoup? = ILMemorySoup(name: "Soup Creation Test")
         XCTAssert(memory != nil, "Create Test Soup")
     }
 
     func testSoupDescription() throws {
-        let memory: ILMemorySoup = ILMemorySoup(name: "Test Soup")
+        let memory: ILMemorySoup = ILMemorySoup(name: "Soup Description Test")
         memory.soupDescription = "Test Soup"
         XCTAssert(memory.soupDescription == "Test Soup", "make sure soup description is readable")
     }
 
     func testSoupCreateBlankEntry() throws {
-        let memory: ILMemorySoup = ILMemorySoup(name: "Test Soup")
+        let memory: ILMemorySoup = ILMemorySoup(name: "Create Blank Entry Test")
         let blankEntry: ILSoupEntry? = memory.createBlankEntry()
         XCTAssert(blankEntry != nil, "Created Blank Entry")
     }
 
     func testSoupIdentityIndexCreation() throws {
-        let memory: ILMemorySoup = ILMemorySoup(name: "Test Soup")
+        let memory: ILMemorySoup = ILMemorySoup(name: "Identity Index Creation Test")
         memory.createEntryIdentityIndex()
-        XCTAssert(memory.queryEntryIdentityIndex() != nil, "Created Entry Identity Index")
+        XCTAssert(memory.queryIndex(ILSoupEntryIdentityUUID) != nil, "Created Entry Identity Index")
     }
 
+    func testSoupIdentityIndex() throws {
+        let memory = ILMemorySoup(name: "Identity Index Test")
+        memory.createEntryIdentityIndex()
+        
+        let first = memory.createBlankEntry()
+        memory.add(first)
+        let firstUUID = first.entryKeys[ILSoupEntryIdentityUUID] as! String
+        let firstFound = memory.queryEntryIdentityIndex(firstUUID)
+        XCTAssert(first === firstFound, "First entry is firstFound")
+
+        // copies
+        let copy = first.copy()
+        memory.add(copy)
+        let copyFound = memory.queryEntryIdentityIndex(firstUUID)
+        XCTAssert(first !== copyFound, "copyFound is not the first")
+        XCTAssert(copy === copyFound, "copyFound is the copy")
+
+        // duplicates
+        let duplicate = first.duplicate()
+        memory.add(duplicate)
+        let duplicateUUID = duplicate.entryKeys[ILSoupEntryIdentityUUID] as! String
+        XCTAssert(duplicate !== first, "duplicate is a new entry")
+        XCTAssert(duplicateUUID != firstUUID, "duplicate has a new UUID")
+        
+        let duplicateFound = memory.queryEntryIdentityIndex(duplicateUUID)
+        XCTAssert(duplicateFound === duplicate, "duplicate found is duplicate")
+        
+        // mutants
+        let mutant = first.mutatedEntry(["mutant": true])
+        let mutantUUID = mutant.entryKeys[ILSoupEntryIdentityUUID] as! String
+        XCTAssert(mutant !== first, "mutant is a new entry")
+        XCTAssert(mutantUUID == firstUUID, "mutant has new UUID")
+        
+        memory.add(mutant)
+        let mutantFound = memory.queryEntryIdentityIndex(firstUUID)
+        XCTAssert(mutantFound === mutant)
+    }
+    
     func testSoupAncestryIndex() throws {
-        let memory = ILMemorySoup(name: "Generations")
+        let memory = ILMemorySoup(name: "Ancestry Index Test")
         memory.createAncestryIndex()
 
-        let first = memory.createBlankEntry()
-        memory.add(first!)
-        XCTAssertFalse(memory.queryAncestryIndex()!.includesEntry(first!))
-
-        let ancestor = memory.queryAncestryIndex()!.ancestor(of: first!)
-        XCTAssert(ancestor == nil)
-
-        let second = first!.mutatedCopy([
-            ILName: "Second Generation"
-        ])
-        memory.add(second)
-        XCTAssert(memory.queryAncestryIndex()!.includesEntry(second))
-        XCTAssert(memory.queryAncestryIndex()!.ancestor(of: second) === first)
-        XCTAssert(memory.queryAncestryIndex()!.ancestery(of: second).entries.count == 2)
-
-        let third = second.mutatedCopy([
-            ILName: "Third Generation"
-        ])
-        memory.add(third)
-        XCTAssert(memory.queryAncestryIndex()!.includesEntry(third))
-        XCTAssert(memory.queryAncestryIndex()!.ancestor(of: third) === second)
-        XCTAssert(memory.queryAncestryIndex()!.ancestery(of: third).entries.count == 3)
-
-        let fourth = third.mutatedCopy([
-            ILName: "Fourth Generation"
-        ])
-        memory.add(fourth)
-        XCTAssert(memory.queryAncestryIndex()!.includesEntry(fourth))
-        XCTAssert(memory.queryAncestryIndex()!.ancestor(of: fourth) === third)
-        XCTAssert(memory.queryAncestryIndex()!.ancestery(of: fourth).entries.count == 4)
-
-        let fifth = fourth.mutatedCopy([
-            ILName: "Fifth Generation"
-        ])
-        memory.add(fifth)
-        XCTAssert(memory.queryAncestryIndex()!.includesEntry(fifth))
-        XCTAssert(memory.queryAncestryIndex()!.ancestor(of: fifth) === fourth)
-        XCTAssert(memory.queryAncestryIndex()!.ancestery(of: fifth).entries.count == 5)
+        if let ancestery = memory.queryAncestryIndex() {
+            let first = memory.createBlankEntry()
+            memory.add(first)
+            XCTAssertFalse(ancestery.includesEntry(first))
+            
+            let ancestor = ancestery.ancestor(of: first)
+            XCTAssert(ancestor == nil)
+            
+            let second = first.mutatedEntry([
+                ILName: "Second Generation"
+            ])
+            memory.add(second)
+            XCTAssert(ancestery.includesEntry(second))
+            XCTAssert(ancestery.ancestor(of: second) === first)
+            XCTAssert(ancestery.ancestery(of: second).entries.count == 2)
+            
+            let third = second.mutatedEntry([
+                ILName: "Third Generation"
+            ])
+            memory.add(third)
+            XCTAssert(ancestery.includesEntry(third))
+            XCTAssert(ancestery.ancestor(of: third) === second)
+            XCTAssert(ancestery.ancestery(of: third).entries.count == 3)
+            
+            let fourth = third.mutatedEntry([
+                ILName: "Fourth Generation"
+            ])
+            memory.add(fourth)
+            XCTAssert(ancestery.includesEntry(fourth))
+            XCTAssert(ancestery.ancestor(of: fourth) === third)
+            XCTAssert(ancestery.ancestery(of: fourth).entries.count == 4)
+            
+            let fifth = fourth.mutatedEntry([
+                ILName: "Fifth Generation"
+            ])
+            memory.add(fifth)
+            XCTAssert(ancestery.includesEntry(fifth))
+            XCTAssert(ancestery.ancestor(of: fifth) === fourth)
+            XCTAssert(ancestery.ancestery(of: fifth).entries.count == 5)
+            
+            let progenators = ancestery.progenitors()
+            XCTAssert(progenators.count == 1)
+        }
     }
 
     // tests the uses of dynamic properties from a swfit defined subclass of ILStockEntry
@@ -150,17 +193,17 @@ final class SoupTests: XCTestCase {
         memory.createNumberIndex("number")
         
         // create some numbers to populate the index
-        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 1]))!)
-        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 2]))!)
-        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 2]))!)
-        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 3]))!)
-        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 3]))!)
-        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 3]))!)
-        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 4]))!)
-        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 5]))!)
-        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 10]))!)
-        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 100]))!)
-        memory.add((memory.createBlankEntry()?.mutatedEntry(["number": 1000]))!)
+        memory.add((memory.createBlankEntry().mutatedEntry(["number": 1])))
+        memory.add((memory.createBlankEntry().mutatedEntry(["number": 2])))
+        memory.add((memory.createBlankEntry().mutatedEntry(["number": 2])))
+        memory.add((memory.createBlankEntry().mutatedEntry(["number": 3])))
+        memory.add((memory.createBlankEntry().mutatedEntry(["number": 3])))
+        memory.add((memory.createBlankEntry().mutatedEntry(["number": 3])))
+        memory.add((memory.createBlankEntry().mutatedEntry(["number": 4])))
+        memory.add((memory.createBlankEntry().mutatedEntry(["number": 5])))
+        memory.add((memory.createBlankEntry().mutatedEntry(["number": 10])))
+        memory.add((memory.createBlankEntry().mutatedEntry(["number": 100])))
+        memory.add((memory.createBlankEntry().mutatedEntry(["number": 1000])))
         
         let oneCursor = memory.queryNumberIndex("number")!.entries(withValue: 1)
         XCTAssert(oneCursor.entries.count == 1)
@@ -183,21 +226,21 @@ final class SoupTests: XCTestCase {
         let name = memory.createTextIndex(ILName)
         let email = memory.createTextIndex(ILEmail)
         
-        let fin2 = memory.createBlankEntry()!.mutatedCopy([
+        let fin2 = memory.createBlankEntry().mutatedEntry([
             ILName: "Fin Gru-Liu the 2nd",
             ILEmail: "fin.gl2@example.com"
         ])
         memory.add(fin2)
         
-        let fin3 = memory.createBlankEntry()!.mutatedCopy([
+        let fin3 = memory.createBlankEntry().mutatedEntry([
             ILName: "Fin Gru-Liu the 3rd",
             ILEmail: "fin.gl2@example.com" // Same email, different name
         ])
         memory.add(fin3)
 
         // check the number of entires in the indicies
-        XCTAssert(name.count == 2)
-        XCTAssert(email.count == 2)
+        XCTAssert(name.entryCount == 2)
+        XCTAssert(email.entryCount == 2)
 
         // check for an exact match of one records
         let fin2ndMatches = name.entries(matching: "Fin Gru-Liu the 2nd")

@@ -36,49 +36,49 @@ class CanneryBrowser: NSWindowController {
         // memory.createTextIndex(ILNotes)
         
         // add some entries to the union
-        memory.add(memory.createBlankEntry()!.mutatedEntry([
+        memory.add(memory.createBlankEntry().mutatedEntry([
             ILName:  "iStumbler Labs",
             ILEmail: "support@istumbler.net",
             ILURL:   URL(string:"https://istumbler.net/labs") as Any,
             ILPhone: "415-449-0905"
         ]))
         
-        let luca = memory.createBlankEntry()!.mutatedCopy([
+        let luca = memory.createBlankEntry().mutatedEntry([
             ILName: "LUCA",
             ILEmail: "luca@life.earth",
             ILNotes: "I live on the ocean floor"
         ])
         memory.add(luca); // BUG: the hash luca gets stored as isn't the same that the mutated entries get
         
-        let john = luca.mutatedCopy([
+        let john = luca.mutatedEntry([
             ILName:  "John Doe",
             ILEmail: "j.doe@example.com",
             ILNotes: NSNull()
         ])
         memory.add(john)
 
-        let jane = luca.mutatedCopy([
+        let jane = luca.mutatedEntry([
             ILName:  "Jane Doe",
             ILEmail: "jane.d@example.com",
             ILNotes: NSNull()
         ])
         memory.add(jane)
 
-        let kim = luca.mutatedCopy([
+        let kim = luca.mutatedEntry([
             ILName:  "Kim Gru",
             ILEmail: "kim.g@example.com",
             ILNotes: NSNull()
         ])
         memory.add(kim)
         
-        let sam = luca.mutatedCopy([
+        let sam = luca.mutatedEntry([
             ILName:  "Sam Liu",
             ILEmail: "sam.l@example.com",
             ILNotes: NSNull()
         ])
         memory.add(sam)
 
-        let fin = luca.mutatedCopy([
+        let fin = luca.mutatedEntry([
             ILName: "Fin Gru-Liu",
             ILEmail: "fin.gl@example.com",
             ILBirthday: Date(),
@@ -87,7 +87,7 @@ class CanneryBrowser: NSWindowController {
         ])
         memory.add(fin)
         
-        let fin2 = fin.mutatedCopy([
+        let fin2 = fin.mutatedEntry([
             ILName: "Fin Gru-Liu the 2nd",
             ILEmail: "fin.gl2@example.com",
             ILBirthday: Date(),
@@ -95,7 +95,7 @@ class CanneryBrowser: NSWindowController {
         ])
         memory.add(fin2)
         
-        let fin3 = fin2.mutatedCopy([
+        let fin3 = fin2.mutatedEntry([
             ILName: "Fin Gru-Liu the 3rd",
             ILEmail: "fin.gl2@example.com",
             ILBirthday: Date(),
@@ -139,7 +139,7 @@ class CanneryBrowser: NSWindowController {
     
     @IBAction func onCreateEntry(_ sender: Any) {
         if let memory = cannedSoup {
-            memory.add(memory.createBlankEntry()!.mutatedEntry([
+            memory.add(memory.createBlankEntry().mutatedEntry([
                 ILName: "New Entry"
             ]))
         }

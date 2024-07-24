@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (nullable id<ILMutableSoupEntry>) createBlankEntry; {
+- (id<ILMutableSoupEntry>) createBlankEntry; {
     @synchronized(self.synchronized) {
         return [self.synchronized createBlankEntry];
     }
@@ -111,12 +111,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) deleteEntry:(id<ILSoupEntry>) entry; {
     @synchronized(self.synchronized) {
         [self.synchronized deleteEntry:entry];
-    }
-}
-
-- (id<ILMutableSoupEntry>) duplicateEntry:(id<ILSoupEntry>) entry; {
-    @synchronized(self.synchronized) {
-        return [self.synchronized duplicateEntry:entry];
     }
 }
 
@@ -152,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupIndex>) queryIndex:(NSString *)indexPath {
+- (nullable id<ILSoupIndex>) queryIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized queryIndex:indexPath];
     }
@@ -166,9 +160,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupIdentityIndex> _Nullable) queryEntryIdentityIndex {
+- (nullable id<ILSoupEntry>) queryEntryIdentityIndex:(NSString*) entryIdentityUUID {
     @synchronized(self.synchronized) {
-        return [self.synchronized queryEntryIdentityIndex];
+        return [self.synchronized queryEntryIdentityIndex:entryIdentityUUID];
     }
 }
 
@@ -179,7 +173,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-- (id<ILSoupAncestryIndex> _Nullable)queryAncestryIndex {
+- (nullable id<ILSoupAncestryIndex>)queryAncestryIndex {
     @synchronized (self.synchronized) {
         return [self.synchronized queryAncestryIndex];
     }
@@ -193,7 +187,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupIdentityIndex> _Nullable) queryIdentityIndex:(NSString *)indexPath {
+- (nullable id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized queryIdentityIndex:indexPath];
     }
@@ -205,7 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupTextIndex> _Nullable) queryTextIndex:(NSString *)indexPath {
+- (nullable id<ILSoupTextIndex>) queryTextIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized queryTextIndex:indexPath];
     }
@@ -217,7 +211,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupDateIndex> _Nullable) queryDateIndex:(NSString *)indexPath {
+- (nullable id<ILSoupDateIndex>) queryDateIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized queryDateIndex:indexPath];
     }
@@ -229,7 +223,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupNumberIndex> _Nullable) queryNumberIndex:(NSString *)indexPath {
+- (nullable id<ILSoupNumberIndex>) queryNumberIndex:(NSString *)indexPath {
     @synchronized(self.synchronized) {
         return [self.synchronized queryNumberIndex:indexPath];
     }
@@ -269,7 +263,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (id<ILSoupSequence> _Nullable) querySequence:(NSString *)sequencePath {
+- (nullable id<ILSoupSequence>) querySequence:(NSString *)sequencePath {
     @synchronized(self.synchronized) {
         return [self.synchronized querySequence:sequencePath];
     }

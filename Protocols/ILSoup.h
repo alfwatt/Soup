@@ -35,8 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// @property the `NSPredicate` for the default cursor
 @property(nonatomic, retain) NSPredicate* soupQuery;
 
+/// the default cursor for this soup, filtered by the `soupQuery` predicate
+@property(nonatomic, readonly) id<ILSoupCursor> cursor;
+
 /// @property the default entry keys and values for a new `<ILSoupEntry>`
-@property(nonatomic, retain) NSDictionary* defaultEntry; // XXX replace with generator block
+@property(nonatomic, retain) NSDictionary* defaultEntry; // XXX replace with generator block or copy property
 
 /// @property the `<ILSoupDelegate>` which is notified when changes are made
 @property(nonatomic, assign) NSObject<ILSoupDelegate>* delegate;
@@ -55,22 +58,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// @returns a new blank entry, with the defaults for this soup and a new UUID,
 /// NB that the new entry is not yet stored in the soup
-- (nullable id<ILMutableSoupEntry>) createBlankEntry;
+- (id<ILMutableSoupEntry>) createBlankEntry;
 
 /// @param comformsToMutableSoupEntry — must conform to the `<ILMutableSoupEntry>` protocol
 /// @returns a new blank entry, with the defaults for this soup and a new UUID,
 /// NB that the new entry is not yet stored in the soup
+/// null if the class provided does not confirm to <ILMutableSoupEntry> or fails to initilize
 - (nullable id<ILMutableSoupEntry>) createBlankEntryOfClass:(Class)comformsToMutableSoupEntry;
 
 /// @param entry — an `<ILSoupEntry>` to add to this soup
 /// @returns: the alias used to retrieve the entry
 - (NSString*) addEntry:(id<ILSoupEntry>) entry;
-
-/// duplicate entry, providing a mutable entry with a new UUID
-/// N.B. that the duplicate entry is not yet stored in the soup
-/// @param entry – `<ILSoupEntry>` to be duplicated into a `<ILMutableSoupEntry>`
-/// @returns – `<ILMutableSoupEntry>` which is a duplicate of the data in `entry`
-- (id<ILMutableSoupEntry>) duplicateEntry:(id<ILSoupEntry>) entry;
 
 /// @param entry - to be deleted from this soup
 - (void) deleteEntry:(id<ILSoupEntry>) entry;
@@ -88,6 +86,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// a cursor with items specified by the predicate, O(N) time
 - (id<ILSoupCursor>) querySoup:(NSPredicate*) query;
 
+// MARK: - Default Cursor
+
+/// reset cursor to the zero index, automatically called when setitng property `soupQuery`
+- (id<ILSoupCursor>) resetCursor;
+
 // MARK: - Indicies
 
 /// the indexes currently maintained for this soup, ordered by indexPath ascending
@@ -100,21 +103,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<ILSoupIndex>) createIndex:(NSString*)indexPath;
 
 /// returns the index for the path provided
-- (id<ILSoupIndex>) queryIndex:(NSString*)indexPath;
+/// null if the index has not been created
+- (nullable id<ILSoupIndex>) queryIndex:(NSString*)indexPath;
 
 // MARK: - Default Indicies
 
 /// returns the entry UUID  identity index for this soup
 - (id<ILSoupIdentityIndex>) createEntryIdentityIndex;
 
-/// returns the entry UUID identity index for this soup
-- (id<ILSoupIdentityIndex> _Nullable) queryEntryIdentityIndex;
+/// @param entryIdentityUUID the ILSoupEntryIdentityUUID we are looking up
+/// @returns the entry UUID identity index for this soup
+/// null if the entryIdentityUUID is not found
+- (nullable id<ILSoupEntry>) queryEntryIdentityIndex:(NSString*) entryIdentityUUID;
 
 /// returns the ancestory index for this soup
 - (id<ILSoupAncestryIndex>) createAncestryIndex;
 
 /// returns
-- (id<ILSoupAncestryIndex> _Nullable) queryAncestryIndex;
+- (nullable id<ILSoupAncestryIndex>) queryAncestryIndex;
 
 // MARK: - User Indicies
 
@@ -122,33 +128,29 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString*)indexPath;
 
 /// returns the entry identity index for this soup
-- (id<ILSoupIdentityIndex> _Nullable) queryIdentityIndex:(NSString*)indexPath;
+/// null if the indexPath provided has not been created
+- (nullable id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString*)indexPath;
 
 /// create a new index on this soup with the path provided
 - (id<ILSoupTextIndex>) createTextIndex:(NSString*)indexPath;
 
 /// returns the index for the path provided
-- (id<ILSoupTextIndex> _Nullable) queryTextIndex:(NSString*)indexPath;
+/// null if the indexPath provided has not been created
+- (nullable id<ILSoupTextIndex>) queryTextIndex:(NSString*)indexPath;
 
 /// create a new index on this soup with the path provided
 - (id<ILSoupNumberIndex>) createNumberIndex:(NSString*)indexPath;
 
 /// returns the index for the path provided
-- (id<ILSoupNumberIndex> _Nullable) queryNumberIndex:(NSString*)indexPath;
+/// null if the indexPath provided has not been created
+- (nullable id<ILSoupNumberIndex>) queryNumberIndex:(NSString*)indexPath;
 
 /// create a new index on this soup with the path provided
 - (id<ILSoupDateIndex>) createDateIndex:(NSString*)indexPath;
 
 /// returns the index for the path provided
-- (id<ILSoupDateIndex> _Nullable) queryDateIndex:(NSString*)indexPath;
-
-// MARK: - Default Cursor
-
-/// reset cursor to the zero index, automatically called in when setitng property `soupQuery`
-- (id<ILSoupCursor>) resetCursor;
-
-/// the default cursor for this soup
-@property(nonatomic, readonly) id<ILSoupCursor> cursor;
+/// null if the indexPath provided has not been created
+- (nullable id<ILSoupDateIndex>) queryDateIndex:(NSString*)indexPath;
 
 // MARK: - Sequences
 
@@ -159,7 +161,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<ILSoupSequence>) createSequence:(NSString*) sequencePath;
 
 /// returns the sequence for the path provided
-- (id<ILSoupSequence> _Nullable) querySequence:(NSString*) sequencePath;
+/// null if the sequencePath provided has not been created
+- (nullable id<ILSoupSequence>) querySequence:(NSString*) sequencePath;
 
 // MARK: - Soup Managment
 

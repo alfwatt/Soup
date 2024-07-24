@@ -90,11 +90,11 @@ NS_ASSUME_NONNULL_BEGIN
     return entryHash;
 }
 
-- (nullable id<ILMutableSoupEntry>) createBlankEntry; {
+- (id<ILMutableSoupEntry>) createBlankEntry; {
     return [self.queued createBlankEntry];
 }
 
-- (nullable id<ILMutableSoupEntry>)createBlankEntryOfClass:(Class)comformsToMutableSoupEntry {
+- (nullable id<ILMutableSoupEntry>) createBlankEntryOfClass:(Class)comformsToMutableSoupEntry {
     return [self.queued createBlankEntryOfClass:comformsToMutableSoupEntry];
 }
 
@@ -102,10 +102,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self.soupOperations addOperationWithBlock:^{
         [self.queued deleteEntry:entry];
     }];
-}
-
-- (id<ILMutableSoupEntry>) duplicateEntry:(id<ILSoupEntry>) entry; {
-    return [self.queued duplicateEntry:entry];
 }
 
 - (NSString*) entryAlias:(id<ILSoupEntry>) entry; {
@@ -130,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createIndex:indexPath];
 }
 
-- (id<ILSoupIndex>) queryIndex:(NSString*) indexPath {
+- (nullable id<ILSoupIndex>) queryIndex:(NSString*) indexPath {
     return [self.queued queryIndex:indexPath];
 }
 
@@ -140,15 +136,15 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createEntryIdentityIndex];
 }
 
-- (id<ILSoupIdentityIndex> _Nullable) queryEntryIdentityIndex {
-    return [self.queued queryEntryIdentityIndex];
+- (nullable id<ILSoupEntry>) queryEntryIdentityIndex:(NSString*) entryIdentityUUID {
+    return [self.queued queryEntryIdentityIndex:entryIdentityUUID];
 }
 
 - (id<ILSoupAncestryIndex>)createAncestryIndex {
     return [self.queued createAncestryIndex];
 }
 
-- (id<ILSoupAncestryIndex> _Nullable)queryAncestryIndex {
+- (nullable id<ILSoupAncestryIndex>)queryAncestryIndex {
     return [self.queued queryAncestryIndex];
 }
 
@@ -158,7 +154,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createTextIndex:indexPath];
 }
 
-- (id<ILSoupTextIndex> _Nullable) queryTextIndex:(NSString*) indexPath {
+- (nullable id<ILSoupTextIndex>) queryTextIndex:(NSString*) indexPath {
     return [self.queued queryTextIndex:indexPath];
 }
 
@@ -166,7 +162,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createIdentityIndex:indexPath];
 }
 
-- (id<ILSoupIdentityIndex> _Nullable) queryIdentityIndex:(NSString*) indexPath {
+- (nullable id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString*) indexPath {
     return [self.queued queryIdentityIndex:indexPath];
 }
 
@@ -174,7 +170,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createDateIndex:indexPath];
 }
 
-- (id<ILSoupDateIndex> _Nullable) queryDateIndex:(NSString*) indexPath {
+- (nullable id<ILSoupDateIndex>) queryDateIndex:(NSString*) indexPath {
     return [self.queued queryDateIndex:indexPath];
 }
 
@@ -182,7 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued createNumberIndex:indexPath];
 }
 
-- (id<ILSoupNumberIndex> _Nullable) queryNumberIndex:(NSString*) indexPath {
+- (nullable id<ILSoupNumberIndex>) queryNumberIndex:(NSString*) indexPath {
     return [self.queued queryNumberIndex:indexPath];
 }
 

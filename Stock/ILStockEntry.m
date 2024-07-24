@@ -129,10 +129,32 @@ void accessorSetter(id self, SEL _cmd, id newValue) {
     return [self.entryKeys.allKeys sortedArrayUsingSelector:@selector(compare:)];
 }
 
+// MARK: - NSCopying
+
+- (id) copyWithZone:(nullable NSZone*) zone {
+    return [ILStockEntry soupEntryWithKeys:self.entryKeys];
+}
+
+// MARK: - NSMutableCopying
+
+- (id) mutableCopyWithZone:(nullable NSZone*) zone {
+    return [ILStockEntry soupEntryWithKeys:self.entryKeys];
+}
+
 // MARK: - ILMutableSoupEntry
 
 NSString* ILSoupEntryAncestorEntryHash = @"soup.entry.ancestor";
 NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
+
+/// @returns a mutable version of the entry provided
++ (instancetype) mutableEntry:(id<ILSoupEntry>) entry {
+    return [ILStockEntry.alloc initWithEntry:entry];
+}
+
+/// @returns an initalized <ILMutableSoupEntry>
+- (instancetype) initWithEntry:(id<ILSoupEntry>) entry {
+    return [self initWithKeys:entry.entryKeys];
+}
 
 - (instancetype) mutatedEntry:(NSDictionary*) mutatedValues {
     NSMutableDictionary* mutatedKeys = (self.entryKeysStorage ? self.entryKeysStorage.mutableCopy : NSMutableDictionary.new);
@@ -153,11 +175,16 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
     return [self.class soupEntryWithKeys:mutatedKeys];
 }
 
-- (instancetype) mutatedCopy:(NSDictionary*) mutatedValues {
-    NSMutableDictionary* mutableValues = mutatedValues.mutableCopy;
-    // copies need a new UUID
-    mutableValues[ILSoupEntryIdentityUUID] = NSUUID.new;
-    return [self mutatedEntry:mutableValues];
+- (instancetype) duplicateEntry {
+    NSMutableDictionary* duplicateKeys = self.entryKeys.mutableCopy;
+    [duplicateKeys removeObjectForKey:ILSoupEntryIdentityUUID];
+    
+    // set the ILSoupEntryDuplicateUUID
+    if ([self.entryKeys.allKeys containsObject:ILSoupEntryIdentityUUID]) {
+        duplicateKeys[ILSoupEntryDuplicateUUID] = self.entryKeys[ILSoupEntryIdentityUUID];
+    }
+
+    return [self.class soupEntryWithKeys:duplicateKeys];
 }
 
 // MARK: - Ancestry
@@ -191,7 +218,7 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
 
 // MARK: - NSKeyValueCoding
 
-- (_Nullable id) valueForKey:(NSString *)key {
+- (nullable id) valueForKey:(NSString *)key {
     id value = nil;
     
     if (self.entryKeysMutations[key] != nil) {
@@ -204,7 +231,7 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
     return value;
 }
 
-- (void) setValue:(_Nullable id)value forKey:(NSString *)key {
+- (void) setValue:(nullable id)value forKey:(NSString *)key {
     self.entryKeysMutations[key] = value;
 }
 

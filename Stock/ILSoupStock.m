@@ -7,9 +7,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ILSoupStock ()
 @property(nonatomic, retain) NSString* soupUUIDStorage;
-@property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILMutableSoupEntry>>* soupEntryStorage;
-@property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILSoupIndex>>* soupIndiciesStorage;
-@property(nonatomic, retain) NSMutableDictionary<NSString*, id<ILSoupSequence>>* soupSequencesStorage;
+@property(nonatomic, retain) NSMutableDictionary<NSString*, NSObject<ILSoupEntry>*>* soupEntryStorage;
+@property(nonatomic, retain) NSMutableDictionary<NSString*, NSObject<ILSoupIndex>*>* soupIndiciesStorage;
+@property(nonatomic, retain) NSMutableDictionary<NSString*, NSObject<ILSoupSequence>*>* soupSequencesStorage;
 @property(nonatomic, retain) NSPredicate* soupQueryStorage;
 @property(nonatomic, retain) id<ILSoupCursor> soupCursorStorage;
 
@@ -67,8 +67,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Entries
 
-- (nullable id<ILMutableSoupEntry>) createBlankEntry {
-    return [self createBlankEntryOfClass:ILStockEntry.class];
+- (id<ILMutableSoupEntry>) createBlankEntry {
+    id<ILMutableSoupEntry> entry = ILStockEntry.new;
+
+    if ([self.delegate respondsToSelector:@selector(soup:createdEntry:)]) { // notify
+        [self.delegate soup:self createdEntry:entry];
+    }
+
+    return entry;
 }
 
 - (nullable id<ILMutableSoupEntry>) createBlankEntryOfClass:(Class)comformsToMutableSoupEntry {
@@ -86,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString*) addEntry:(id<ILSoupEntry>) entry {
-    [self.soupEntryStorage setObject:(id<ILMutableSoupEntry>)entry forKey:entry.entryHash]; // TODO resolve the mutable/immutable
+    [self.soupEntryStorage setObject:(NSObject<ILSoupEntry>*)entry forKey:entry.entryHash];
 
     [self indexEntry:entry];
     [self sequenceEntry:entry];
@@ -96,18 +102,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     return [self entryAlias:entry];
-}
-
-- (id<ILSoupEntry>) duplicateEntry:(id<ILSoupEntry>) entry {
-    NSMutableDictionary* duplicateKeys = entry.entryKeys.mutableCopy;
-    [duplicateKeys removeObjectForKey:ILSoupEntryIdentityUUID];
-    id<ILSoupEntry> duplicate = [ILStockEntry soupEntryWithKeys:duplicateKeys];
-
-    if ([self.delegate respondsToSelector:@selector(soup:createdEntry:)]) { // notify
-        [self.delegate soup:self createdEntry:duplicate];
-    }
-
-    return duplicate;
 }
 
 - (void) deleteEntry:(id<ILSoupEntry>) entry {
@@ -194,7 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void) loadIndex:(NSString*) indexPath index:(id<ILSoupIndex>) stockIndex {
-    self.soupIndiciesStorage[indexPath] = stockIndex;
+    self.soupIndiciesStorage[indexPath] = (NSObject<ILSoupIndex>*) stockIndex;
     
     for (id<ILSoupEntry> entry in self.soupEntryStorage.allKeys) {
         [stockIndex indexEntry:entry];
@@ -216,7 +210,7 @@ NS_ASSUME_NONNULL_BEGIN
     return stockIndex;
 }
 
-- (id<ILSoupIndex>) queryIndex:(NSString *)indexPath {
+- (nullable id<ILSoupIndex>) queryIndex:(NSString *)indexPath {
     return self.soupIndiciesStorage[indexPath];
 }
 
@@ -228,8 +222,14 @@ NS_ASSUME_NONNULL_BEGIN
     return stockIndex;
 }
 
-- (id<ILSoupIdentityIndex> _Nullable) queryEntryIdentityIndex {
-    return (id<ILSoupIdentityIndex>) self.soupIndiciesStorage[ILSoupEntryIdentityUUID];
+- (nullable id<ILSoupEntry>) queryEntryIdentityIndex:(NSString*) entryIdentityUUID {
+    id<ILSoupEntry> entry = nil;
+    id<ILSoupIdentityIndex> identityIndex = (id<ILSoupIdentityIndex>)self.soupIndiciesStorage[ILSoupEntryIdentityUUID];
+    if (identityIndex) {
+        entry = [identityIndex entryWithValue:entryIdentityUUID];
+    }
+    
+    return entry;
 }
 
 - (id<ILSoupAncestryIndex>) createAncestryIndex {
@@ -238,8 +238,13 @@ NS_ASSUME_NONNULL_BEGIN
     return stockIndex;
 }
 
-- (id<ILSoupAncestryIndex> _Nullable) queryAncestryIndex {
-    return (id<ILSoupAncestryIndex>) self.soupIndiciesStorage[ILSoupEntryAncestorEntryHash];
+- (nullable id<ILSoupAncestryIndex>) queryAncestryIndex {
+    id<ILSoupAncestryIndex> ancestery = nil;
+    NSObject<ILSoupIndex>* index = self.soupIndiciesStorage[ILSoupEntryAncestorEntryHash];
+    if (index && [index conformsToProtocol:@protocol(ILSoupAncestryIndex)]) {
+        ancestery = (ILStockAncestryIndex*) index;
+    }
+    return ancestery;
 }
 
 // MARK: - User Indicies
@@ -250,8 +255,13 @@ NS_ASSUME_NONNULL_BEGIN
     return stockIndex;
 }
 
-- (id<ILSoupIdentityIndex> _Nullable) queryIdentityIndex:(NSString *)indexPath {
-    return (id<ILSoupIdentityIndex>) self.soupIndiciesStorage[indexPath];
+- (nullable id<ILSoupIdentityIndex>) queryIdentityIndex:(NSString *)indexPath {
+    id<ILSoupIdentityIndex> identity = nil;
+    NSObject<ILSoupIndex>* index = self.soupIndiciesStorage[indexPath];
+    if (index && [index conformsToProtocol:@protocol(ILSoupIdentityIndex)]) {
+        identity = (id<ILSoupIdentityIndex>) index;
+    }
+    return identity;
 }
 
 - (id<ILSoupTextIndex>) createTextIndex:(NSString *)indexPath {
@@ -260,8 +270,13 @@ NS_ASSUME_NONNULL_BEGIN
     return stockIndex;
 }
 
-- (id<ILSoupTextIndex> _Nullable) queryTextIndex:(NSString *)indexPath {
-    return (id<ILSoupTextIndex>) self.soupIndiciesStorage[indexPath];
+- (nullable id<ILSoupTextIndex>) queryTextIndex:(NSString *)indexPath {
+    id<ILSoupTextIndex> text = nil;
+    NSObject<ILSoupIndex>* index = self.soupIndiciesStorage[indexPath];
+    if (index && [index conformsToProtocol:@protocol(ILSoupTextIndex)]) {
+        text = (id<ILSoupTextIndex>) index;
+    }
+    return text;
 }
 
 - (id<ILSoupDateIndex>) createDateIndex:(NSString *)indexPath {
@@ -270,8 +285,13 @@ NS_ASSUME_NONNULL_BEGIN
     return stockIndex;
 }
 
-- (id<ILSoupTextIndex> _Nullable) queryDateIndex:(NSString *)indexPath {
-    return (id<ILSoupTextIndex>) self.soupIndiciesStorage[indexPath];
+- (nullable id<ILSoupDateIndex>) queryDateIndex:(NSString *)indexPath {
+    id<ILSoupDateIndex> date = nil;
+    NSObject<ILSoupIndex>* index = self.soupIndiciesStorage[indexPath];
+    if (index && [index conformsToProtocol:@protocol(ILSoupDateIndex)]) {
+        date = (id<ILSoupDateIndex>) index;
+    }
+    return date;
 }
 
 - (id<ILSoupNumberIndex>) createNumberIndex:(NSString *)indexPath {
@@ -280,8 +300,13 @@ NS_ASSUME_NONNULL_BEGIN
     return stockIndex;
 }
 
-- (id<ILSoupNumberIndex> _Nullable) queryNumberIndex:(NSString *)indexPath {
-    return (id<ILSoupNumberIndex>) self.soupIndiciesStorage[indexPath];
+- (nullable id<ILSoupNumberIndex>) queryNumberIndex:(NSString *)indexPath {
+    id<ILSoupNumberIndex> number = nil;
+    NSObject<ILSoupIndex>* index = self.soupIndiciesStorage[indexPath];
+    if (index && [index conformsToProtocol:@protocol(ILSoupNumberIndex)]) {
+        number = (id<ILSoupNumberIndex>) index;
+    }
+    return number;
 }
 
 // MARK: - Cursor
@@ -322,7 +347,7 @@ NS_ASSUME_NONNULL_BEGIN
     return stockSequence;
 }
 
-- (id<ILSoupSequence> _Nullable) querySequence:(NSString*) sequencePath {
+- (nullable id<ILSoupSequence>) querySequence:(NSString*) sequencePath {
     return self.soupSequencesStorage[sequencePath];
 }
 

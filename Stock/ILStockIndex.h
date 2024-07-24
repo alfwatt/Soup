@@ -41,9 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// a stock cursor, which contains the entries provided
 @interface ILStockCursor : NSObject <ILSoupCursor>
-
-- (instancetype) initWithEntries:(NSArray<id<ILSoupEntry>>*) entries;
-
 @end
 
 // MARK: -
