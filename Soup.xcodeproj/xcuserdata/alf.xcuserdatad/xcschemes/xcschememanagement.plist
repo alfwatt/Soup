@@ -9,34 +9,39 @@
 			<key>isShown</key>
 			<true/>
 			<key>orderHint</key>
-			<integer>6</integer>
+			<integer>1</integer>
+		</dict>
+		<key>Soup (All).xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
 		</dict>
 		<key>Soup (iOS).xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>15</integer>
+			<integer>3</integer>
 		</dict>
 		<key>Soup (macOS).xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>18</integer>
+			<integer>4</integer>
 		</dict>
 		<key>Soup (tvOS).xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>20</integer>
+			<integer>5</integer>
 		</dict>
 		<key>Soup.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>12</integer>
+			<integer>2</integer>
 		</dict>
 		<key>SoupTests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>21</integer>
+			<integer>6</integer>
 		</dict>
 		<key>addresses.xcscheme</key>
 		<dict>

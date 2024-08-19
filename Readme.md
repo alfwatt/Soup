@@ -3,23 +3,20 @@
 
 <img src="Artwork/Soup-Logo.png" width="256" height="256" style="margin:2em; float: right;">
 
-An object oriented persistance framework from [iStumbler Labs](https://istumbler.net/labs) 
+An object oriented persistence framework from [iStumbler Labs](https://istumbler.net/labs) 
 modeled on the [Apple Newton](https://en.wikipedia.org/wiki/Apple_Newton) API.
 
 <a id="links"></a>
 ## Getting Soup
 
-Soup on [GitHub](https://github.com/alfwatt/Soup), 
-[GitLab](https://gitlab.com/alfwatt/Soup)
-
- <!-- Currently Disabled: Circle CI Build:  [![CircleCI](https://circleci.com/gh/alfwatt/Soup.svg?style=svg)](https://circleci.com/gh/alfwatt/Soup) -->
+Soup on [GitHub](https://github.com/iStumblerLabs/Soup)
 
 <a id="support"></a>
 ## Support Soup!
 
 Are you using Soup.framework in your apps? Would you like to help support the project and get a sponsor credit?
 
-Visit the [iStumbler Labs Patreon Page](https://www.patreon.com/istumblerlabs) and patronize us in exchange for totally adequite rewards!
+Visit the [iStumbler Labs Patreon Page](https://www.patreon.com/istumblerlabs) and patronize us in exchange for totally adequate rewards!
 
 <a id="contents"></a>
 ## Contents
@@ -36,7 +33,7 @@ Visit the [iStumbler Labs Patreon Page](https://www.patreon.com/istumblerlabs) a
 ## Newton Soup History
 
     Unlike traditional operating systems such as the MacOS and Windows NT there is
-    no file system and therefore no files in the Newton Operating Sytystem. Data is
+    no file system and therefore no files in the Newton Operating System. Data is
     instead stored in opaque collections like a database in entities known as soups.
 
     Each entry in a soup can be likened to a record in a database and each data member
@@ -75,67 +72,67 @@ Visit the [iStumbler Labs Patreon Page](https://www.patreon.com/istumblerlabs) a
 ## Why Soup?
 
 Soup was designed for dealing with storage on a mobile device where storage is transient.
-This model is useful for modern mobile devcies, particlary when they move between offline
+This model is useful for modern mobile devices, particularly when they move between offline
 and connected states due to network availability. While most database focus on large data
-set performance or suitabiilty for high demand online production loads, few are optimized
-for the mobile use case, and fewer take the realaties of mobile networking into account.
+set performance or suitability for high demand online production loads, few are optimized
+for the mobile use case, and fewer take the realities of mobile networking into account.
 
-Soup brings back the simplicity and clarity of the Newton Soup API, adds modern conveniances
-and provides an interface tuned for developing user-facing data sets with flexable indexing
+Soup brings back the simplicity and clarity of the Newton Soup API, adds modern conveniences
+and provides an interface tuned for developing user-facing data sets with flexible indexing
 and storage.
 
 ### Simple Design, Small Footprint
 
-Soups clear, simple design makes it easy to understand and to quickly intergrate into apps. 
+Soups clear, simple design makes it easy to understand and to quickly integrate into apps. 
 The whole framework is less than 1MB!
 
-### Optimized for Presentaion
+### Optimized for Presentation
 
 Soup has features which make it a pleasure to work with when building User interfaces.
 
 Soup entires and cursors are immutable, but you can easily create copies with mutations
-and automaticallly maintain a hitory of edits, making undo operations easy to implement
+and automatically maintain a history of edits, making undo operations easy to implement
 and preventing errors resulting from mutating objects as they are displayed.
 
 ### Connected and Disconnected
 
-The ability to build union soups and for entries to be adoped from one soup to another
-allows for the flexability to have local, online, and peer soups which are merged into
-a single data source for an applicaiton to present to the user.
+The ability to build union soups and for entries to be adopted from one soup to another
+allows for the flexibility to have local, online, and peer soups which are merged into
+a single data source for an application to present to the user.
 
 <a id="protocols"></a>
 ## Soup Protocols
 
 The Soup framework consists of the following protocols:
 
-- [ILSoup](Protocols/ILSoup.h)  — ILSoup is the peer of the newtSoup proto
-    - [ILSoupDelegate](Protocols/ILSoup.h#ILSoupDelegate) — recieves messages when the soup performs operations or encouters errors
-- [ILSoupEntry](Protocols/ILSoup.h) — basic data storage unit in a soup
-    - [ILMutableSoupEntry](Protocols/ILSoup.h#ILMutableSoupEntry) — allows for mutation of elements
-- [ILSoupIndex](Protocols/ILSoupIndex.h) — fast access to soup entries by property index
-    - [ILSoupCursor](Protocols/ILSoupIndex.h#ILSoupCursor) — index operations return cursors, which contain a list of entries
-    - [ILSoupIdentityIndex](Protocols/ILSoupIndex.h#ILSoupIdentityIndex)
-    - [ILSoupTextIndex](Protocols/ILSoupIndex.h#ILSoupTextIndex) — index which can be queried for text
-    - [ILSoupDateIndex](Protocols/ILSoupIndex.h#ILSoupDateIndex) — index which can be queried for dates and ranges
-    - [ILSoupNumberIndex](Protocols/ILSoupIndex.h#ILSoupNumberIndex) — index which can be queried for numbers and ranges
-- [ILSoupSequence](Protocols/ILSoupSequence.h) — fast access to time sequence data for numeric properties of entries
-    - [ILSoupSequceSource](Protocols/ILSoupSequence.h#ILSoupSequceSource) — Impedence match with [SparkKit]()
+- [ILSoup](Source/Soup/include/ILSoup.h)  — ILSoup is the peer of the newtSoup proto
+    - [ILSoupDelegate](Source/Soup/include/ILSoup.h#ILSoupDelegate) — receives messages when the soup performs operations or encounters errors
+- [ILSoupEntry](Source/Soup/include/ILSoup.h) — basic data storage unit in a soup
+    - [ILMutableSoupEntry](Source/Soup/include/ILSoup.h#ILMutableSoupEntry) — allows for mutation of elements
+- [ILSoupIndex](Source/Soup/include/ILSoupIndex.h) — fast access to soup entries by property index
+    - [ILSoupCursor](Source/Soup/include/ILSoupIndex.h#ILSoupCursor) — index operations return cursors, which contain a list of entries
+    - [ILSoupIdentityIndex](Source/Soup/include/ILSoupIndex.h#ILSoupIdentityIndex)
+    - [ILSoupTextIndex](Source/Soup/include/ILSoupIndex.h#ILSoupTextIndex) — index which can be queried for text
+    - [ILSoupDateIndex](Source/Soup/include/ILSoupIndex.h#ILSoupDateIndex) — index which can be queried for dates and ranges
+    - [ILSoupNumberIndex](Source/Soup/include/ILSoupIndex.h#ILSoupNumberIndex) — index which can be queried for numbers and ranges
+- [ILSoupSequence](Source/Soup/include/ILSoupSequence.h) — fast access to time sequence data for numeric properties of entries
+    - [ILSoupSequenceSource](Source/Soup/include/ILSoupSequence.h#ILSoupSequenceSource) — Impedence match with [SparkKit]()
 
 <a id="stock"></a>
 ## Soup Stock
 
 Stock in-memory implementations of the Soup Protocols
 
-- [ILSoupStock](Stock/ILSoupStock.h) [.m](Stock/ILSoupStock.m)
-- [ILStockEntry](Stock/ILStockEntry.h) [.m](Stock/ILStockEntry.m)
+- [ILSoupStock](Source/Soup/include/ILSoupStock.h)
+- [ILStockEntry](Source/Soup/include/ILStockEntry.h)
     - ILMutableStockEntry
-- [ILStockIndex](Stock/ILStockIndex.h) [.m](Stock/ILStockIndex.m)
+- [ILStockIndex](Source/Soup/include/ILStockIndex.h)
     - ILStockCursor
     - ILStockIdentityIndex
     - ILStockTextIndex
     - ILStockDateIndex
     - ILStockNumberIndex
-- [ILStockSequence](Stock/ILStockSequence.h) [.m](Stock/ILStockSequence.m)
+- [ILStockSequence](Source/Soup/include/ILStockSequence.h)
     - ILStockSequenceSource 
 
 <a id="flavors"></a>
@@ -144,11 +141,11 @@ Stock in-memory implementations of the Soup Protocols
 The Soup framework includes a few pre-made flavors which you may find useful
 in your applications.
 
-- [ILFileSoup](Flavors/ILFileSoup.h) — file-system based soup, entries are written to files
-- [ILMemorySoup](Flavors/ILMemorySoup.h) — in-memory soup made with Stock ingredients
-- [ILQueuedSoup](Flavors/ILQueuedSoup.h) — performs all queue and delegate operations on serial background queues
-- [ILSynchedSoup](Flavors/ILSynchedSoup.h) — synchronized access to a soup, so that it can safely be mutated across multiple threads
-- [ILUnionSoup](Flavors/ILUnionSoup.h) — Combines several soups into a single virutal store
+- [ILFileSoup](Source/Soup/include/ILFileSoup.h) — file-system based soup, entries are written to files
+- [ILMemorySoup](Source/Soup/include/ILMemorySoup.h) — in-memory soup made with Stock ingredients
+- [ILQueuedSoup](Source/Soup/include/ILQueuedSoup.h) — performs all queue and delegate operations on serial background queues
+- [ILSynchedSoup](Source/Soup/include/ILSynchedSoup.h) — synchronized access to a soup, so that it can safely be mutated across multiple threads
+- [ILUnionSoup](Source/Soup/include/ILUnionSoup.h) — Combines several soups into a single virutal store
     - ILUnionSoupDelegate — Delegate messages relating to the soup
 
 <a id="example"></a>
@@ -171,22 +168,29 @@ in your applications.
     [memory createTextIndex:ILName];
     [memory createTextIndex:ILEmail];
     [memory createTextIndex:ILNotes];
-    
+
     // add some entries to the union
-    [memory addEntry:[[memory createBlankEntry] mutatedEntry:@{
+    [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
+        ILName:  @"iStumbler Labs",
+        ILEmail: @"support@istumbler.net",
+        ILURL:   [NSURL URLWithString:@"https://istumbler.net/labs"],
+        ILPhone: @"415-449-0905"
+    }]];
+
+    [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
         ILName:  @"John Doe",
         ILEmail: @"j.doe@example.com"
     }]];
 
-    [memory addEntry:[[memory createBlankEntry] mutatedEntry:@{
-        ILName:  @"Jane Gru",
-        ILEmail: @"jane.g@example.com"
+    [soup addEntry:[memory.createBlankEntry mutatedEntry:@{
+        ILName:  @"Jane Doe",
+        ILEmail: @"jane.d@example.com"
     }]];
 
     // print out all entries
     NSLog(@"%@", memory);
     id<ILSoupEntry> entry = nil;
-    while ((entry = [memory.cursor nextEntry])) {
+    while ((entry = memory.cursor.nextEntry)) {
         NSLog(@"entry: %@", entry);
     }
     
@@ -249,14 +253,15 @@ Currently only object properties are supported, boxing and unboxing of primative
 <a id="history"></a>
 ## History
 
-- Release 0.1
+- 0.2 — 19 August 2024: Swift Package Manager Support
+- 0.1 — 3 June 2018
 
 <a id="license"></a>
 ## License
 
     The MIT License (MIT)
 
-    Copyright © 2019-2023 Alf Watt
+    Copyright © 2019-2024 Alf Watt
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

@@ -23,6 +23,21 @@
 			name = Soup;
 			productName = "All Variants";
 		};
+		754EA4482C73E437004BBC13 /* Soup (All) */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 754EA4492C73E438004BBC13 /* Build configuration list for PBXAggregateTarget "Soup (All)" */;
+			buildPhases = (
+			);
+			dependencies = (
+				754EA44D2C73E446004BBC13 /* PBXTargetDependency */,
+				754EA44F2C73E446004BBC13 /* PBXTargetDependency */,
+				754EA4512C73E446004BBC13 /* PBXTargetDependency */,
+				754EA4532C73E446004BBC13 /* PBXTargetDependency */,
+				754EA4552C73E446004BBC13 /* PBXTargetDependency */,
+			);
+			name = "Soup (All)";
+			productName = "Soup (All)";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -168,6 +183,41 @@
 			remoteGlobalIDString = 754323FE20A3786F006EE620;
 			remoteInfo = Soup;
 		};
+		754EA44C2C73E446004BBC13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75EA39B61B20D5A00058E49D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 75D12D6D2378BF40003F2899;
+			remoteInfo = Cannery;
+		};
+		754EA44E2C73E446004BBC13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75EA39B61B20D5A00058E49D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7580B783218188FE00D1E62F;
+			remoteInfo = "Soup (iOS)";
+		};
+		754EA4502C73E446004BBC13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75EA39B61B20D5A00058E49D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 754323FE20A3786F006EE620;
+			remoteInfo = "Soup (macOS)";
+		};
+		754EA4522C73E446004BBC13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75EA39B61B20D5A00058E49D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 758880CF21862FCA00488CE1;
+			remoteInfo = "Soup (tvOS)";
+		};
+		754EA4542C73E446004BBC13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75EA39B61B20D5A00058E49D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7543242920A39B5B006EE620;
+			remoteInfo = addresses;
+		};
 		756BE1F725759C75009D096A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 75EA39B61B20D5A00058E49D /* Project object */;
@@ -272,7 +322,7 @@
 		7543244320A8B289006EE620 /* ILSynchedSoup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSynchedSoup.m; sourceTree = "<group>"; };
 		754324B720AE39FF006EE620 /* ILQueuedSoup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILQueuedSoup.h; sourceTree = "<group>"; };
 		754324B820AE39FF006EE620 /* ILQueuedSoup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILQueuedSoup.m; sourceTree = "<group>"; };
-		7552D95321619968004FF8C8 /* config.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = config.yml; path = .circleci/config.yml; sourceTree = "<group>"; };
+		754EA4472C73E3E7004BBC13 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		7580B7A9218188FE00D1E62F /* Soup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Soup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		758880F521862FCA00488CE1 /* Soup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Soup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		758C8CE42267E8B7001B366E /* ILSoupTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupTime.h; sourceTree = "<group>"; };
@@ -353,48 +403,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		754323E020A2BE49006EE620 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-				754323E120A2BEBB006EE620 /* NSData+Hashcodes.h */,
-				754323E220A2BEBB006EE620 /* NSData+Hashcodes.m */,
-				754323E320A2BEBB006EE620 /* NSString+Hashcodes.h */,
-				754323E420A2BEBB006EE620 /* NSString+Hashcodes.m */,
-				754323F820A3749D006EE620 /* NSDictionary+Hashcodes.h */,
-				754323F920A3749D006EE620 /* NSDictionary+Hashcodes.m */,
-			);
-			path = Categories;
-			sourceTree = "<group>";
-		};
-		754323E620A2BF20006EE620 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				754323E820A2BF56006EE620 /* ILSoup.h */,
-				754323F320A2C3D0006EE620 /* ILSoupEntry.h */,
-				754323F420A2C77B006EE620 /* ILSoupIndex.h */,
-				754323F520A2C7E5006EE620 /* ILSoupSequence.h */,
-				758C8CE42267E8B7001B366E /* ILSoupTime.h */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		754323E720A2BF27006EE620 /* Flavors */ = {
-			isa = PBXGroup;
-			children = (
-				754323ED20A2C0B7006EE620 /* ILFileSoup.h */,
-				754323EE20A2C0B7006EE620 /* ILFileSoup.m */,
-				754323EB20A2C055006EE620 /* ILMemorySoup.h */,
-				754323EC20A2C055006EE620 /* ILMemorySoup.m */,
-				754324B720AE39FF006EE620 /* ILQueuedSoup.h */,
-				754324B820AE39FF006EE620 /* ILQueuedSoup.m */,
-				7543244220A8B289006EE620 /* ILSynchedSoup.h */,
-				7543244320A8B289006EE620 /* ILSynchedSoup.m */,
-				754323F620A373F3006EE620 /* ILUnionSoup.h */,
-				754323F720A373F3006EE620 /* ILUnionSoup.m */,
-			);
-			path = Flavors;
-			sourceTree = "<group>";
-		};
 		7543240020A3786F006EE620 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -409,29 +417,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7543240120A37870006EE620 /* Soup */ = {
-			isa = PBXGroup;
-			children = (
-				7543240320A37870006EE620 /* Info.plist */,
-				7543240220A37870006EE620 /* Soup.h */,
-			);
-			path = Soup;
-			sourceTree = "<group>";
-		};
 		7543240820A37902006EE620 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				7543240920A37902006EE620 /* Foundation.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		7543242520A39B2A006EE620 /* Examples */ = {
-			isa = PBXGroup;
-			children = (
-				7543242B20A39B5C006EE620 /* addresses */,
-			);
-			path = Examples;
 			sourceTree = "<group>";
 		};
 		7543242B20A39B5C006EE620 /* addresses */ = {
@@ -442,29 +433,64 @@
 			path = addresses;
 			sourceTree = "<group>";
 		};
-		7543243920A3A158006EE620 /* Stock */ = {
+		754EA4442C73E339004BBC13 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				7543240220A37870006EE620 /* Soup.h */,
+				754323ED20A2C0B7006EE620 /* ILFileSoup.h */,
+				754323EB20A2C055006EE620 /* ILMemorySoup.h */,
+				754324B720AE39FF006EE620 /* ILQueuedSoup.h */,
+				7543244220A8B289006EE620 /* ILSynchedSoup.h */,
+				754323F620A373F3006EE620 /* ILUnionSoup.h */,
+				754323E820A2BF56006EE620 /* ILSoup.h */,
+				754323F320A2C3D0006EE620 /* ILSoupEntry.h */,
+				754323F420A2C77B006EE620 /* ILSoupIndex.h */,
+				754323F520A2C7E5006EE620 /* ILSoupSequence.h */,
+				758C8CE42267E8B7001B366E /* ILSoupTime.h */,
 				7543242120A384C9006EE620 /* ILSoupStock.h */,
-				7543242220A384C9006EE620 /* ILSoupStock.m */,
 				758C8CE82267ED79001B366E /* ILSoupClock.h */,
-				758C8CE92267ED79001B366E /* ILSoupClock.m */,
 				7543243520A3A153006EE620 /* ILStockEntry.h */,
-				7543243620A3A153006EE620 /* ILStockEntry.m */,
 				7543243A20A3A2E4006EE620 /* ILStockIndex.h */,
-				7543243B20A3A2E4006EE620 /* ILStockIndex.m */,
 				7543243E20A3A312006EE620 /* ILStockSequence.h */,
-				7543243F20A3A312006EE620 /* ILStockSequence.m */,
+				754323E120A2BEBB006EE620 /* NSData+Hashcodes.h */,
+				754323E320A2BEBB006EE620 /* NSString+Hashcodes.h */,
+				754323F820A3749D006EE620 /* NSDictionary+Hashcodes.h */,
 			);
-			path = Stock;
+			path = include;
 			sourceTree = "<group>";
 		};
-		7552D95221619949004FF8C8 /* Packaging */ = {
+		754EA4452C73E339004BBC13 /* Soup */ = {
 			isa = PBXGroup;
 			children = (
-				7552D95321619968004FF8C8 /* config.yml */,
+				7543240320A37870006EE620 /* Info.plist */,
+				7543242220A384C9006EE620 /* ILSoupStock.m */,
+				758C8CE92267ED79001B366E /* ILSoupClock.m */,
+				7543243620A3A153006EE620 /* ILStockEntry.m */,
+				7543243B20A3A2E4006EE620 /* ILStockIndex.m */,
+				7543243F20A3A312006EE620 /* ILStockSequence.m */,
+				754323EE20A2C0B7006EE620 /* ILFileSoup.m */,
+				754323EC20A2C055006EE620 /* ILMemorySoup.m */,
+				754324B820AE39FF006EE620 /* ILQueuedSoup.m */,
+				7543244320A8B289006EE620 /* ILSynchedSoup.m */,
+				754323F720A373F3006EE620 /* ILUnionSoup.m */,
+				754323E220A2BEBB006EE620 /* NSData+Hashcodes.m */,
+				754323E420A2BEBB006EE620 /* NSString+Hashcodes.m */,
+				754323F920A3749D006EE620 /* NSDictionary+Hashcodes.m */,
+				754EA4442C73E339004BBC13 /* include */,
 			);
-			name = Packaging;
+			path = Soup;
+			sourceTree = "<group>";
+		};
+		754EA4462C73E339004BBC13 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				754EA4452C73E339004BBC13 /* Soup */,
+				75967A9A2963838E00BE394B /* SoupTests */,
+				75D12D6F2378BF40003F2899 /* Cannery */,
+				75D12D822378BF42003F2899 /* CanneryTests */,
+				7543242B20A39B5C006EE620 /* addresses */,
+			);
+			path = Source;
 			sourceTree = "<group>";
 		};
 		75967A9A2963838E00BE394B /* SoupTests */ = {
@@ -504,18 +530,10 @@
 			children = (
 				7542328121AD1E7B008004E0 /* Makefile */,
 				75EA39BC1B20D6340058E49D /* Readme.md */,
-				7543240120A37870006EE620 /* Soup */,
-				754323E620A2BF20006EE620 /* Protocols */,
-				7543243920A3A158006EE620 /* Stock */,
-				754323E720A2BF27006EE620 /* Flavors */,
-				754323E020A2BE49006EE620 /* Categories */,
-				7543242520A39B2A006EE620 /* Examples */,
-				75967A9A2963838E00BE394B /* SoupTests */,
-				75D12D6F2378BF40003F2899 /* Cannery */,
-				75D12D822378BF42003F2899 /* CanneryTests */,
+				754EA4472C73E3E7004BBC13 /* Package.swift */,
+				754EA4462C73E339004BBC13 /* Source */,
 				7543240820A37902006EE620 /* Frameworks */,
 				7543240020A3786F006EE620 /* Products */,
-				7552D95221619949004FF8C8 /* Packaging */,
 			);
 			sourceTree = "<group>";
 		};
@@ -755,6 +773,9 @@
 						DevelopmentTeam = E8G8ARB44Z;
 						ProvisioningStyle = Automatic;
 					};
+					754EA4482C73E437004BBC13 = {
+						CreatedOnToolsVersion = 15.4;
+					};
 					7580B783218188FE00D1E62F = {
 						LastSwiftMigration = 1330;
 						ProvisioningStyle = Manual;
@@ -802,6 +823,7 @@
 				75D12D6D2378BF40003F2899 /* Cannery */,
 				75D12D7E2378BF42003F2899 /* CanneryTests */,
 				75967A982963838E00BE394B /* SoupTests */,
+				754EA4482C73E437004BBC13 /* Soup (All) */,
 			);
 		};
 /* End PBXProject section */
@@ -971,6 +993,31 @@
 			target = 754323FE20A3786F006EE620 /* Soup (macOS) */;
 			targetProxy = 7543243120A39B85006EE620 /* PBXContainerItemProxy */;
 		};
+		754EA44D2C73E446004BBC13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 75D12D6D2378BF40003F2899 /* Cannery */;
+			targetProxy = 754EA44C2C73E446004BBC13 /* PBXContainerItemProxy */;
+		};
+		754EA44F2C73E446004BBC13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7580B783218188FE00D1E62F /* Soup (iOS) */;
+			targetProxy = 754EA44E2C73E446004BBC13 /* PBXContainerItemProxy */;
+		};
+		754EA4512C73E446004BBC13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 754323FE20A3786F006EE620 /* Soup (macOS) */;
+			targetProxy = 754EA4502C73E446004BBC13 /* PBXContainerItemProxy */;
+		};
+		754EA4532C73E446004BBC13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 758880CF21862FCA00488CE1 /* Soup (tvOS) */;
+			targetProxy = 754EA4522C73E446004BBC13 /* PBXContainerItemProxy */;
+		};
+		754EA4552C73E446004BBC13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7543242920A39B5B006EE620 /* addresses */;
+			targetProxy = 754EA4542C73E446004BBC13 /* PBXContainerItemProxy */;
+		};
 		756BE1F825759C75009D096A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7543242920A39B5B006EE620 /* addresses */;
@@ -1097,7 +1144,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Soup/Info.plist;
+				INFOPLIST_FILE = Source/Soup/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1173,7 +1220,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Soup/Info.plist;
+				INFOPLIST_FILE = Source/Soup/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1312,6 +1359,22 @@
 			};
 			name = Release;
 		};
+		754EA44A2C73E438004BBC13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		754EA44B2C73E438004BBC13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7580B7A7218188FE00D1E62F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1372,7 +1435,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Soup/Info.plist;
+				INFOPLIST_FILE = Source/Soup/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1448,7 +1511,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Soup/Info.plist;
+				INFOPLIST_FILE = Source/Soup/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1528,7 +1591,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Soup/Info.plist;
+				INFOPLIST_FILE = Source/Soup/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1604,7 +1667,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Soup/Info.plist;
+				INFOPLIST_FILE = Source/Soup/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1737,7 +1800,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = Cannery/Cannery.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Source/Cannery/Cannery.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1762,7 +1825,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Cannery/Info.plist;
+				INFOPLIST_FILE = Source/Cannery/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1815,7 +1878,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = Cannery/Cannery.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Source/Cannery/Cannery.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1834,7 +1897,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Cannery/Info.plist;
+				INFOPLIST_FILE = Source/Cannery/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -2109,6 +2172,15 @@
 			buildConfigurations = (
 				7543242F20A39B5C006EE620 /* Debug */,
 				7543243020A39B5C006EE620 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		754EA4492C73E438004BBC13 /* Build configuration list for PBXAggregateTarget "Soup (All)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				754EA44A2C73E438004BBC13 /* Debug */,
+				754EA44B2C73E438004BBC13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
