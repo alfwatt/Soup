@@ -204,8 +204,9 @@ in your applications.
 
 ## Dynamic Properties
 
-Much like other data handlig frameworks, support is provided for custom model classes
-using dynamic properties. For e.g. in Swift we can define a class with dynamic properties easily:
+Much like other data storage frameworks, support is provided for custom model 
+classes using dynamic properties. For e.g. in Swift we can define a class with 
+dynamic properties easily:
 
     // AddressBookEntry.swift
     //
@@ -248,13 +249,46 @@ Doing so in Objective-C is slightly more verbose:
     @dynamic entrySpouse;
     @end
 
-Currently only object properties are supported, boxing and unboxing of primative types is a goal, along with alias storage
+Currently only object properties are supported, boxing and unboxing of primative 
+types is a goal, along with alias storage.
 
 <a id="history"></a>
 ## History
 
 - 0.2 — 19 August 2024: Swift Package Manager Support
 - 0.1 — 3 June 2018
+
+<a id="todo"></a>
+## To-Do List
+
+### Move these to ILFoundation along with URL extensions
+
+- sha2 & sha3 hash functions for NSStream to support large data objects (files, etc)
+
+    // vendor in: https://github.com/coruus/keccak-tiny/blob/singlefile/keccak-tiny.c
+    // needs an async version for large data
+    @category NSStream (Soup)
+    
+    // MARK: - SHA-2
+    
+    - (NSString*) sha256;
+    - (NSString*) sha512;
+    
+    // MARK: - SHA-3
+    
+    - (NSString*) sha3_256;
+    - (NSString*) sha3_512;
+    
+    @end
+
+- sha3 hash functions for NSData
+
+### Smart Soup features to enable AI and ML
+
+- text vector indexes for ILSoupIndex - support "similar" queries for text properties
+
+- image text vector indexes for ILSoupIndex - support "similar" queries for recognized 
+  objects in image properties
 
 <a id="license"></a>
 ## License

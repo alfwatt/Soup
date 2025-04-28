@@ -128,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - Indicies
 
-- (NSArray<id<ILSoupIndex>>*) soupIndicies {
+- (NSArray<id<ILSoupIndex>>*) soupIndices {
     @synchronized(self.synchronized) {
         return self.synchronized.soupIndices;
     }

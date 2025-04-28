@@ -1,4 +1,4 @@
-#if SWIFT_PACKAGE
+#ifdef SWIFT_PACKAGE
 #import "ILSoupTime.h"
 #else
 #import <Soup/ILSoupTime.h>

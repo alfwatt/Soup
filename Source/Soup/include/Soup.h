@@ -1,4 +1,36 @@
 
+#ifdef SWIFT_PACKAGE
+// MARK: Protocols
+
+#import "ILSoup.h"
+#import "ILSoupEntry.h"
+#import "ILSoupIndex.h"
+#import "ILSoupSequence.h"
+#import "ILSoupTime.h"
+
+// MARK: - Soup Stock
+
+#import "ILSoupClock.h"
+#import "ILSoupStock.h"
+#import "ILStockEntry.h"
+#import "ILStockIndex.h"
+#import "ILStockSequence.h"
+
+// MARK: - Soup Flavors
+
+#import "ILFileSoup.h"
+#import "ILMemorySoup.h"
+#import "ILQueuedSoup.h"
+#import "ILSynchedSoup.h"
+#import "ILUnionSoup.h"
+
+// MARK: - Soup Salt
+
+#import "NSArray+Soup.h"
+#import "NSDictionary+Soup.h"
+
+#else
+
 // MARK: Protocols
 
 #import <Soup/ILSoup.h>
@@ -25,6 +57,7 @@
 
 // MARK: - Soup Salt
 
-#import <Soup/NSData+Hashcodes.h>
-#import <Soup/NSString+Hashcodes.h>
-#import <Soup/NSDictionary+Hashcodes.h>
+#import <Soup/NSArray+Soup.h>
+#import <Soup/NSDictionary+Soup.h>
+
+#endif

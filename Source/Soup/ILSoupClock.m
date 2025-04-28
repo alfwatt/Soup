@@ -200,6 +200,21 @@ NSTimeInterval const GREGORIAN_MILLENIUM = GREGORIAN_YEAR * 1000;
     return result;
 }
 
++ (nonnull id<ILSoupTime>)lastMillennium { 
+    return nil;
+}
+
+
++ (nonnull id<ILSoupTime>)nextMillennium { 
+    return nil;
+}
+
+
++ (nonnull id<ILSoupTime>)recently { 
+    return nil;
+}
+
+
 @end
 
 NS_ASSUME_NONNULL_END

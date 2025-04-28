@@ -134,6 +134,7 @@ final class SoupTests: XCTestCase {
                 ILName: "Second Generation"
             ])
             memory.add(second)
+
             XCTAssert(ancestery.includesEntry(second))
             XCTAssert(ancestery.ancestor(of: second) === first)
             XCTAssert(ancestery.ancestery(of: second).entries.count == 2)

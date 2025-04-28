@@ -2,13 +2,23 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSDictionary (Hashcodes)
+@interface NSDictionary (Soup)
+
+// MARK: - Digests
 
 - (NSData*) allKeysDigest;
 - (NSData*) allKeysAndValuesDigest;
 
+// TODO: ~ (NSData*) deepKeysAndValuesDigest
+
+// MARK: - Hashcodes
+
 - (NSString*) sha224AllKeys;
 - (NSString*) sha224AllKeysAndValues;
+
+// MARK: - Deep Copy
+
+- (NSMutableDictionary*) deepMutableCopy;
 
 @end
 

@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.queued indexForPath:indexPath];
 }
 
-- (NSArray<id<ILSoupIndex>>*) soupIndicies {
+- (NSArray<id<ILSoupIndex>>*) soupIndices {
     return self.queued.soupIndices;
 }
 

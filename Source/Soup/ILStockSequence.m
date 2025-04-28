@@ -127,9 +127,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation ILStockSequenceSource
 
-+ (instancetype) sequencSourceWithTimes:(NSArray<NSDate*>*) seqenceTimes andValues:(NSArray<NSNumber*>*) sequenceValues; {
++ (nonnull instancetype)sequenceSourceWithTimes:(nonnull NSArray<NSDate *> *)sequenceTimes andValues:(nonnull NSArray<NSNumber *> *)sequenceValues {
     ILStockSequenceSource* stockSource = ILStockSequenceSource.new;
-    stockSource.sequenceDates = seqenceTimes;
+    stockSource.sequenceDates = sequenceTimes;
     stockSource.sequenceValues = sequenceValues;
     return stockSource;
 }

@@ -8,7 +8,10 @@ let package = Package(
     products: [
         .library( name: "Soup", type: .dynamic, targets: ["Soup"])
     ],
+    dependencies: [
+        .package( url: "https://github.com/iStumblerLabs/ILFoundation.git", from: "1.1.0")
+    ],
     targets: [
-        .target( name: "Soup")
+        .target( name: "Soup", dependencies: ["ILFoundation"]),
     ]
 )

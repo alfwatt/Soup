@@ -1,6 +1,13 @@
 #import "ILStockEntry.h"
-#import "NSDictionary+Hashcodes.h"
+#import "NSDictionary+Soup.h"
+
 #import <objc/runtime.h>
+
+#ifdef SWIFT_PACKAGE
+@import ILFoundation;
+#else
+#import <ILFoundation/ILFoundation.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -73,25 +80,25 @@ void accessorSetter(id self, SEL _cmd, id newValue) {
 - (instancetype) initWithKeys:(NSDictionary<NSString*, id>*) entryKeys {
     if ((self = super.init)) {
         NSMutableDictionary<NSString*, id>* newEntryKeys = (entryKeys ? entryKeys.mutableCopy : NSMutableDictionary.new);
-        
+
         if (![newEntryKeys.allKeys containsObject:ILSoupEntryIdentityUUID]) { // create a new UUID for the entry
             newEntryKeys[ILSoupEntryIdentityUUID] = NSUUID.UUID.UUIDString;
         }
-        
+
         if (![newEntryKeys.allKeys containsObject:ILSoupEntryCreationDate]) { // enter a creation date for the entry
             newEntryKeys[ILSoupEntryCreationDate] = NSDate.date;
         }
-        
+
         if (![newEntryKeys.allKeys containsObject:ILSoupEntryClassName]) { // enter the class name for this instance
             newEntryKeys[ILSoupEntryClassName] = NSStringFromClass(self.class);
         }
-        
+
         NSMutableDictionary* entryDataKeys = newEntryKeys.mutableCopy;
         for (NSString* soupKey in @[ILSoupEntryIdentityUUID, ILSoupEntryCreationDate, ILSoupEntryDataHash,
             ILSoupEntryKeysHash, ILSoupEntryAncestorEntryHash, ILSoupEntryMutationDate]) {
             [entryDataKeys removeObjectForKey:soupKey];
         }
-        
+
         // generate the keys and data hash values for the entry
         newEntryKeys[ILSoupEntryDataHash] = [entryDataKeys sha224AllKeysAndValues];
         newEntryKeys[ILSoupEntryKeysHash] = [entryDataKeys sha224AllKeys];
@@ -99,7 +106,7 @@ void accessorSetter(id self, SEL _cmd, id newValue) {
         self.entryKeysStorage = newEntryKeys;
         self.entryKeysMutations = NSMutableDictionary.new;
     }
-    
+
     return self;
 }
 
@@ -171,14 +178,14 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
     mutatedKeys[ILSoupEntryAncestorEntryHash] = self.entryHash;
     // mutation date gurantees a new entryHash, even if all the other data is the same
     mutatedKeys[ILSoupEntryMutationDate] = NSDate.date;
-    
+
     return [self.class soupEntryWithKeys:mutatedKeys];
 }
 
 - (instancetype) duplicateEntry {
     NSMutableDictionary* duplicateKeys = self.entryKeys.mutableCopy;
     [duplicateKeys removeObjectForKey:ILSoupEntryIdentityUUID];
-    
+
     // set the ILSoupEntryDuplicateUUID
     if ([self.entryKeys.allKeys containsObject:ILSoupEntryIdentityUUID]) {
         duplicateKeys[ILSoupEntryDuplicateUUID] = self.entryKeys[ILSoupEntryIdentityUUID];
@@ -220,14 +227,14 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
 
 - (nullable id) valueForKey:(NSString *)key {
     id value = nil;
-    
+
     if (self.entryKeysMutations[key] != nil) {
         value = self.entryKeysMutations[key];
     }
     else {
         value = self.entryKeys[key];
     }
-    
+
     return value;
 }
 

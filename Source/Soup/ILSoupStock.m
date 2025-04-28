@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation ILSoupStock
 @synthesize soupName;
 @synthesize soupDescription;
+@synthesize soupIndices;
 @synthesize defaultEntry;
 @synthesize delegate;
 
@@ -111,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self.delegate soup:self deletedEntry:entry];
     }
     
-    [self removeFromIndicies:entry];
+    [self removeFromIndices:entry];
 }
 
 - (void) indexEntry:(id<ILSoupEntry>) entry {
@@ -124,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void) removeFromIndicies:(id<ILSoupEntry>) entry {
+- (void)removeFromIndices:(nonnull id<ILSoupEntry>)entry {
     for (id<ILSoupIndex> index in self.soupIndicies) {
         [index removeEntry:entry];
 

@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#if SWIFT_PACKAGE
+#ifdef SWIFT_PACKAGE
 #import "ILSoupEntry.h"
 #else
 #import <Soup/ILSoupEntry.h>

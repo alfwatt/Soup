@@ -32,7 +32,7 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
 ///
 @implementation ILStockIndex
 
-+ (instancetype) indexWithPath:(NSString *)indexPath inSoup:(id<ILSoup>) containingSoup {
++ (nonnull instancetype)indexWithPath:(nonnull NSString *)indexPath inSoup:(nonnull id<ILSoup>)containingSoup {
     return [self.alloc initWithPath:indexPath inSoup:containingSoup];
 }
 
@@ -42,7 +42,7 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
         self.indexedSoup = containingSoup;
         self.indexStorage = NSMutableDictionary.new;
     }
-    
+
     return self;
 }
 
@@ -62,11 +62,11 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
     return self.allValues.count;
 }
 
-- (NSArray<id>*) allValues {
+- (nonnull NSArray<id> *)allValues {
     return self.indexStorage.allKeys;
 }
 
-- (NSArray<NSObject*>*) allValuesOrderedBy:(NSSortDescriptor*) descriptor {
+- (nonnull NSArray<NSObject *> *)allValuesOrderedBy:(nonnull NSSortDescriptor *)descriptor {
     return [self.allValues sortedArrayUsingDescriptors:@[descriptor]];
 }
 
@@ -89,7 +89,7 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
     }
 }
 
-- (void) removeEntry:(id<ILSoupEntry>) entry {
+- (void)removeEntry:(nonnull id<ILSoupEntry>)entry {
     id value = [entry.entryKeys valueForKeyPath:self.indexPath];
     if (value) {
         ILEntryKeySet* entrySet = self.indexStorage[value];
@@ -99,7 +99,7 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
     }
 }
 
-- (BOOL) includesEntry:(id<ILSoupEntry>) entry {
+- (BOOL)includesEntry:(nonnull id<ILSoupEntry>)entry {
     BOOL included = NO;
     id value = [entry.entryKeys valueForKeyPath:self.indexPath]; // get the value of the entry for this index
     if (value) {
@@ -108,17 +108,17 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
             included = [entrySet containsObject:entry.entryHash]; // check to see if we're included in that set
         }
     }
-    
+
     return included;
 }
 
 // MARK: - Entry Cursors
 
-- (id<ILSoupCursor>) allEntries {
+- (nonnull id<ILSoupCursor>)allEntries {
     return [self entriesWithValue:nil];
 }
 
-- (id<ILSoupCursor>) entriesWithValue:(nullable id) value {
+- (nonnull id<ILSoupCursor>)entriesWithValue:(nullable id)value {
     ILStockAliasCursor* cursor = nil;
 
     if (value) {
@@ -136,7 +136,7 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
         }
         cursor = [ILStockAliasCursor.alloc initWithAliases:entrySet.allObjects inSoup:self.indexedSoup];
     }
-    
+
     return cursor;
 }
 
@@ -172,13 +172,13 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
 - (BOOL) includesEntry:(id<ILSoupEntry>) entry {
     BOOL includesEntry = NO;
     id value = [entry.entryKeys valueForKeyPath:self.indexPath];
-    
+
     if (value) {
         if (self.indexStorage[value] != nil) {
             includesEntry = YES;
         }
     }
-    
+
     return includesEntry;
 }
 
@@ -194,25 +194,25 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
     } else {
         valueCursor = ILStockCursor.emptyCursor;
     }
-    
+
     return valueCursor;
 }
 
 // MARK: - ILSoupIdentityIndex
 
-- (id<ILSoupEntry>) entryWithValue:(id) value {
+- (nonnull id<ILSoupEntry>)entryWithValue:(nonnull id)value {
     id<ILSoupEntry> entry = nil;
-    
+
     if (value) {
         entry = self.indexStorage[value];
     }
-    
+
     return entry;
 }
 
 @end
 
-// MARK: - 
+// MARK: -
 
 @interface ILStockAncestryIndex ()
 
@@ -255,15 +255,15 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
 }
 
 /// Index will be ILSoupEntryAncestorEntryHash -> ILSoupEntry[]
-- (id<ILSoupCursor>) ancesteryOf:(id<ILSoupEntry>) descendant {
+- (nonnull id<ILSoupCursor>)ancestryOf:(nonnull id<ILSoupEntry>)descendant {
     NSMutableArray<id<ILSoupEntry>>* ancestery = NSMutableArray.new;
     [ancestery addObject:descendant]; // start with the descendant as they are part of this
-    
+
     id<ILSoupEntry> nextAncestor = descendant;
     while ((nextAncestor = [self ancestorOf:nextAncestor])) {
         [ancestery addObject:nextAncestor];
     }
-    
+
     return [ILStockCursor.alloc initWithEntries:[NSArray arrayWithArray:ancestery]];;
 }
 
@@ -297,15 +297,15 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
         NSLog(@"ERROR %@ compiling expression %@", patternError, pattern);
         return ILStockCursor.emptyCursor;
     }
-    
+
     NSMutableSet* matching = [NSMutableSet new];
-    
+
     for (NSString* keyString in self.indexStorage.allKeys) {
         if ([patternExpression matchesInString:keyString options:0 range:NSMakeRange(0, keyString.length)].count > 0) {
             [matching addObjectsFromArray:[[self entriesWithValue:keyString] entries]];
         }
     }
-    
+
     return [ILStockCursor.alloc initWithEntries:matching.allObjects];
 }
 
@@ -381,7 +381,7 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
         self.entriesStorage = [NSArray arrayWithArray:entries]; // don't want someone sneaking in a mutable array here
         self.cursorIndex = 0;
     }
-    
+
     return self;
 }
 
@@ -428,7 +428,7 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
 // MARK: -
 
 - (NSString*) description {
-    return [NSString stringWithFormat:@"<%@ %lu items, index %lu>", 
+    return [NSString stringWithFormat:@"<%@ %lu items, index %lu>",
             self.class, self.entries.count, self.index];
 }
 
@@ -463,7 +463,7 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
         self.cursorIndex = 0;
         self.soupStorage = sourceSoup;
     }
-    
+
     return self;
 }
 
@@ -525,7 +525,7 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
     return [self.entries objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:entryRange]];
 }
 
-- (nonnull id<ILSoupEntry>)entryAtIndex:(NSUInteger)entryIndex { 
+- (nonnull id<ILSoupEntry>)entryAtIndex:(NSUInteger)entryIndex {
     return [self entriesInRange:NSMakeRange(entryIndex, 1)].lastObject;
 }
 

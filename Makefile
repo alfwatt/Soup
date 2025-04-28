@@ -5,7 +5,6 @@ endef
 XCODE_APP := /Applications/XCode.app
 XCODE_PROJECT := Soup.xcodeproj
 XCODE_TARGET := Soup
-XCODE_TARGET_IOS := "$(XCODE_TARGET) (iOS)"
 
 XCODE_BUILD := /usr/local/xcodebuild
 
