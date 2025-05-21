@@ -4,9 +4,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ILStockSequenceEntry : NSObject
-@property(retain) NSString* entryHash; // at the time
-@property(retain) NSNumber* entryValue;
-@property(retain) NSDate* entryDate;
+@property(nonatomic,retain) NSString* entryHash; // at the time
+@property(nonatomic,retain) NSNumber* entryValue;
+@property(nonatomic,retain) NSDate* entryDate;
 
 @end
 
@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 // MARK: -
 
 @interface ILStockSequence ()
-@property(retain) NSString* sequencePathStorage;
-@property(retain) NSMutableDictionary<NSString*,id>* sequenceStorage;
+@property(nonatomic,retain) NSString* sequencePathStorage;
+@property(nonatomic,retain) NSMutableDictionary<NSString*,id>* sequenceStorage;
 @end
 
 // MARK: -
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - fetching sequence data
 
-- (BOOL) fetchSequenceFor:(id<ILSoupEntry>) entry times:(NSArray<NSDate*>**) timeArray values:(NSArray<NSNumber*>**) valueArray {
+- (BOOL) fetchSequenceFor:(id<ILSoupEntry>) entry times:(NSArray<NSDate*>* __autoreleasing*) timeArray values:(NSArray<NSNumber*>* __autoreleasing*) valueArray {
     NSArray<ILStockSequenceEntry*>* sequence = [self.sequenceStorage[entry.entryKeys[ILSoupEntryIdentityUUID]] copy]; // snapshot
     NSMutableArray* timeSequence = [NSMutableArray arrayWithCapacity:sequence.count];
     NSMutableArray* valueSequence = [NSMutableArray arrayWithCapacity:sequence.count];

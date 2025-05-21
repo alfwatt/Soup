@@ -8,6 +8,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ILFileIndex : ILStockIndex
 
+- (instancetype) initWithPath:(NSString*) indexPath inSoup:(ILFileSoup*) containingSoup;
+
+@property(nonatomic,readonly) NSURL* indexStorage; // containingSoup/indicies/indexPath.json
+
+// MARK: -
+
+- (BOOL) writeIndex:(NSError**) error;
+- (BOOL) readIndex:(NSError**) error;
+
 @end
 
 // MARK: -
@@ -48,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.filePathStorage = filePath;
         self.soupName = filePath.lastPathComponent;
     }
-    
+
     return self;
 }
 
@@ -76,10 +85,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString*)addEntry:(id<ILSoupEntry>)entry {
     NSMutableDictionary* jsonKeys = NSMutableDictionary.new;
-    
+
     for (NSString* key in entry.entryKeys.allKeys) {
         id value = entry.entryKeys[key];
-        
+
         // TODO convert other value types (URL, Image, etc)
         // if ([value isKindOfClass:[NSString class]]
         // || [value isKindOfClass:[NSNumber class]]) {
@@ -93,12 +102,12 @@ NS_ASSUME_NONNULL_BEGIN
 #if TARGET_OS_MAC
 /*
         else if ([value isKindOfClass:[NSImage class]]) { // write to a file in the container
-        
+
         }
 */
 #elif TARGET_OS_IPHONE || TARGET_OS_TV
         else if ([value isKindOfClass:UIImage.class]) { // write into a file in the container
-            
+
         }
 #endif
         else {
@@ -113,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
     [fileStream open];
     [NSJSONSerialization writeJSONObject:jsonKeys toStream:fileStream options:(NSJSONWritingPrettyPrinted) error:nil];
     [fileStream close];
-    
+
     [self indexEntry:entry];
     [self setupCursor]; // we changed the entry set
     return entry.entryHash;
@@ -121,10 +130,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)deleteEntry:(id<ILSoupEntry>)entry {
     NSString* entryPath = [self pathForEntryHash:entry.entryHash];
-    
+
     [self removeFromIndices:entry];
     [self removeFromSequences:entry];
-    
+
     [[NSFileManager defaultManager] removeItemAtPath:entryPath error:nil];
 
     [self setupCursor]; // we changed the entry set
@@ -138,7 +147,7 @@ NS_ASSUME_NONNULL_BEGIN
     [fileStream open];
     NSDictionary<NSString*, id>* entryKeys = [NSJSONSerialization JSONObjectWithStream:fileStream options:0 error:nil];
     [fileStream close];
-    
+
     ILStockEntry* stockEntry = [ILStockEntry soupEntryWithKeys:entryKeys];
 
     return stockEntry;
@@ -171,7 +180,7 @@ NS_ASSUME_NONNULL_BEGIN
             [soupEntries addObject:filePath];
         }
     }
-    
+
     self.fileSoupCursor = [[ILStockAliasCursor alloc] initWithAliases:soupEntries inSoup:self];
 
     return self.fileSoupCursor;

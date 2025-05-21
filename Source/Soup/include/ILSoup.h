@@ -1,5 +1,3 @@
-#ifndef ILSoup_h
-#define ILSoup_h
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -124,7 +122,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - User Indices
 
-/// returns an identity index for the indexPath provided
+/// @returns an index which stores a set of entries for each value
+- (id<ILSoupIndex>) createValueIndex:(NSString*)indexPath;
+
+/// @returns an identity index for the indexPath provided
 - (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString*)indexPath;
 
 /// returns the entry identity index for this soup
@@ -214,5 +215,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-#endif
 

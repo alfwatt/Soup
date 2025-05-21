@@ -14,10 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ILUnionSoup : ILSoupStock
 
 /// the soups in the union, in priority order
-@property(readonly) NSArray<id<ILSoup>>* loadedSoups;
+@property(nonatomic,readonly) NSArray<id<ILSoup>>* loadedSoups;
 
 /// the delegate of the union
-@property(assign) id<ILUnionSoupDelegate> delegate;
+@property(nonatomic,assign) id<ILUnionSoupDelegate> delegate;
 
 // MARK: - Managing Soups
 

@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 #ifdef SWIFT_PACKAGE
 #import "ILSoupTime.h"
 #else

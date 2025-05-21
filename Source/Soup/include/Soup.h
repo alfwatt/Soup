@@ -15,6 +15,7 @@
 #import "ILStockEntry.h"
 #import "ILStockIndex.h"
 #import "ILStockSequence.h"
+#import "ILSoupSnapshot.h"
 
 // MARK: - Soup Flavors
 
@@ -46,6 +47,7 @@
 #import <Soup/ILStockEntry.h>
 #import <Soup/ILStockIndex.h>
 #import <Soup/ILStockSequence.h>
+#import <Soup/ILSoupSnapshot.h>
 
 // MARK: - Soup Flavors
 

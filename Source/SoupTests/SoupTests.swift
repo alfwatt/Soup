@@ -29,12 +29,12 @@ final class SoupTests: XCTestCase {
     override func setUpWithError() throws {}
 
     // MARK: - ILSoupClock
-    
+
     func testSoupClockEarlier() {
         let earlier: Date = Date(timeIntervalSinceNow: -1) // a second earlier
         XCTAssert(ILSoupClock.earlier().compare(earlier) == .orderedSame)
     }
-    
+
     func testSoupClockLater() {
         let later: Date = Date(timeIntervalSinceNow: 1) // a second later
         XCTAssert(ILSoupClock.later().compare(later) == .orderedSame)
@@ -47,16 +47,16 @@ final class SoupTests: XCTestCase {
     func testSoupClockNever() {
         XCTAssert(ILSoupClock.never().compare(Date()) == .orderedAscending)
     }
-    
+
     func testSoupClockWhenever() {
         XCTAssert(ILSoupClock.whenever().compare(Date()) == .orderedSame)
     }
-    
+
     // MARK: - ILSoup
-    
+
     // TODO: make these test cases functions which take the soup as an argument
     // add driver methods to test various soup types (memory/file/remote/&c.)
-    
+
     func testSoupCreation() throws {
         let memory: ILMemorySoup? = ILMemorySoup(name: "Soup Creation Test")
         XCTAssert(memory != nil, "Create Test Soup")
@@ -80,10 +80,24 @@ final class SoupTests: XCTestCase {
         XCTAssert(memory.queryIndex(ILSoupEntryIdentityUUID) != nil, "Created Entry Identity Index")
     }
 
+    func testSoupValueIndexCreation() throws {
+        let memory: ILMemorySoup = ILMemorySoup(name: "Value Index Creation Test")
+        memory.createValueIndex(ILName)
+        XCTAssert(memory.queryIndex(ILName) != nil, "Created Value Index")
+    }
+
+    func testSoupValueIndexQueries() throws {
+        let memory: ILMemorySoup = ILMemorySoup(name: "Value Index Creation Test")
+        memory.createValueIndex(ILName)
+        XCTAssert(memory.queryIndex(ILName) != nil, "Created Value Index")
+
+        let first = memory.createBlankEntry().mutatedEntry([ILName: "First Entry"])
+    }
+
     func testSoupIdentityIndex() throws {
         let memory = ILMemorySoup(name: "Identity Index Test")
         memory.createEntryIdentityIndex()
-        
+
         let first = memory.createBlankEntry()
         memory.add(first)
         let firstUUID = first.entryKeys[ILSoupEntryIdentityUUID] as! String
@@ -103,21 +117,21 @@ final class SoupTests: XCTestCase {
         let duplicateUUID = duplicate.entryKeys[ILSoupEntryIdentityUUID] as! String
         XCTAssert(duplicate !== first, "duplicate is a new entry")
         XCTAssert(duplicateUUID != firstUUID, "duplicate has a new UUID")
-        
+
         let duplicateFound = memory.queryEntryIdentityIndex(duplicateUUID)
         XCTAssert(duplicateFound === duplicate, "duplicate found is duplicate")
-        
+
         // mutants
         let mutant = first.mutatedEntry(["mutant": true])
         let mutantUUID = mutant.entryKeys[ILSoupEntryIdentityUUID] as! String
         XCTAssert(mutant !== first, "mutant is a new entry")
         XCTAssert(mutantUUID == firstUUID, "mutant has new UUID")
-        
+
         memory.add(mutant)
         let mutantFound = memory.queryEntryIdentityIndex(firstUUID)
         XCTAssert(mutantFound === mutant)
     }
-    
+
     func testSoupAncestryIndex() throws {
         let memory = ILMemorySoup(name: "Ancestry Index Test")
         memory.createAncestryIndex()
@@ -126,10 +140,10 @@ final class SoupTests: XCTestCase {
             let first = memory.createBlankEntry()
             memory.add(first)
             XCTAssertFalse(ancestery.includesEntry(first))
-            
+
             let ancestor = ancestery.ancestor(of: first)
             XCTAssert(ancestor == nil)
-            
+
             let second = first.mutatedEntry([
                 ILName: "Second Generation"
             ])
@@ -137,32 +151,32 @@ final class SoupTests: XCTestCase {
 
             XCTAssert(ancestery.includesEntry(second))
             XCTAssert(ancestery.ancestor(of: second) === first)
-            XCTAssert(ancestery.ancestery(of: second).entries.count == 2)
-            
+            XCTAssert(ancestery.ancestry(of: second).entries.count == 2)
+
             let third = second.mutatedEntry([
                 ILName: "Third Generation"
             ])
             memory.add(third)
             XCTAssert(ancestery.includesEntry(third))
             XCTAssert(ancestery.ancestor(of: third) === second)
-            XCTAssert(ancestery.ancestery(of: third).entries.count == 3)
-            
+            XCTAssert(ancestery.ancestry(of: third).entries.count == 3)
+
             let fourth = third.mutatedEntry([
                 ILName: "Fourth Generation"
             ])
             memory.add(fourth)
             XCTAssert(ancestery.includesEntry(fourth))
             XCTAssert(ancestery.ancestor(of: fourth) === third)
-            XCTAssert(ancestery.ancestery(of: fourth).entries.count == 4)
-            
+            XCTAssert(ancestery.ancestry(of: fourth).entries.count == 4)
+
             let fifth = fourth.mutatedEntry([
                 ILName: "Fifth Generation"
             ])
             memory.add(fifth)
             XCTAssert(ancestery.includesEntry(fifth))
             XCTAssert(ancestery.ancestor(of: fifth) === fourth)
-            XCTAssert(ancestery.ancestery(of: fifth).entries.count == 5)
-            
+            XCTAssert(ancestery.ancestry(of: fifth).entries.count == 5)
+
             let progenators = ancestery.progenitors()
             XCTAssert(progenators.count == 1)
         }
@@ -173,26 +187,26 @@ final class SoupTests: XCTestCase {
         var testEntry: AddressBookEntry? = AddressBookEntry()
         testEntry!.entryName = "test entry name"
         XCTAssert(testEntry!.entryName == "test entry name")
-        
+
         testEntry = nil // test dealloc
-        
+
         var nextEntry: AddressBookEntry? = AddressBookEntry()
         nextEntry!.entryName = "next entry"
         nextEntry!.entryEmail = "test@example.com"
         nextEntry!.entryNotes = "on to the next one"
-        
+
         let memory: ILMemorySoup = ILMemorySoup(name: "Test Soup");
         let nextEntryAlias = memory.add(nextEntry!)
         nextEntry = nil // should still exist in the soup, let's look it up
-        
+
         let storedEntry: AddressBookEntry = memory.gotoAlias(nextEntryAlias) as! AddressBookEntry
         XCTAssert(storedEntry.entryName == "next entry")
     }
-    
+
     func testSoupNumberIndex() throws {
         let memory = ILMemorySoup(name: "Numbers")
         memory.createNumberIndex("number")
-        
+
         // create some numbers to populate the index
         memory.add((memory.createBlankEntry().mutatedEntry(["number": 1])))
         memory.add((memory.createBlankEntry().mutatedEntry(["number": 2])))
@@ -205,10 +219,10 @@ final class SoupTests: XCTestCase {
         memory.add((memory.createBlankEntry().mutatedEntry(["number": 10])))
         memory.add((memory.createBlankEntry().mutatedEntry(["number": 100])))
         memory.add((memory.createBlankEntry().mutatedEntry(["number": 1000])))
-        
+
         let oneCursor = memory.queryNumberIndex("number")!.entries(withValue: 1)
         XCTAssert(oneCursor.entries.count == 1)
-        
+
         let twoCursor = memory.queryNumberIndex("number")!.entries(withValue: 2)
         XCTAssert(twoCursor.entries.count == 2)
 
@@ -217,22 +231,22 @@ final class SoupTests: XCTestCase {
 
         let zeroTwoCursor = memory.queryNumberIndex("number")!.entriesBetween(0, and: 2)
         XCTAssert(zeroTwoCursor.entries.count == 3)
-        
+
         let zeroInfCursor = memory.queryNumberIndex("number")!.entriesBetween(0, and: 999999999)
         XCTAssert(zeroInfCursor.entries.count == 11)
     }
-    
+
     func testSoupTextIndexDuplicates() throws {
         let memory = ILMemorySoup(name: "Identity")
         let name = memory.createTextIndex(ILName)
         let email = memory.createTextIndex(ILEmail)
-        
+
         let fin2 = memory.createBlankEntry().mutatedEntry([
             ILName: "Fin Gru-Liu the 2nd",
             ILEmail: "fin.gl2@example.com"
         ])
         memory.add(fin2)
-        
+
         let fin3 = memory.createBlankEntry().mutatedEntry([
             ILName: "Fin Gru-Liu the 3rd",
             ILEmail: "fin.gl2@example.com" // Same email, different name
@@ -257,7 +271,52 @@ final class SoupTests: XCTestCase {
 
     }
 
-    // func testSoupIdentityIndex
+    // MARK: - ILSoupSnapshot
+
+    func testSoupSnapShot() throws {
+        let memory: ILMemorySoup = ILMemorySoup(name: "Snappy Soup")
+        memory.createEntryIdentityIndex()
+        memory.createValueIndex(ILEmail)
+
+        let snapshot = ILSoupSnapshot(map: [
+            ILSoupSnapshotProperties: [
+                ILName: [
+                    ILSoupSnapshotStorageKeyPath: "NameStorage"
+                ],
+                ILEmail: [:],
+                "LastUpdated": [:]
+                // TODO value transformer for the date
+            ],
+            ILSoupSnapshotMatchKeyPath: ILEmail // match on the email address, we'll change the name for each snapshot
+        ])
+
+        let object = [
+            ILName: "Test Name",
+            ILEmail: "name@example.com",
+            "LastUpdated": Date(),
+        ] as NSMutableDictionary
+
+        let firstVersion = snapshot.snapshot(object, in:memory)
+        XCTAssert(firstVersion != nil, "Snapshot created")
+
+        object[ILName] = "First, Las"
+        object["LastUpdated"] = Date()
+        let secondVersion = snapshot.snapshot(object, in:memory)
+        XCTAssert(secondVersion != nil, "2nd Snapshot created")
+
+        if let firstVersion = firstVersion, let secondVersion = secondVersion {
+            XCTAssert(firstVersion.entryKeys[ILSoupEntryIdentityUUID] == secondVersion.entryKeys[ILSoupEntryIdentityUUID], "UUIDs match")
+            XCTAssert(firstVersion.entryKeys[ILEmail] == secondVersion.entryKeys[ILEmail], "Emails match")
+            XCTAssert(firstVersion.entryKeys["NameStorage"] != secondVersion.entryKeys["NameStorage"], "Names Changed")
+            XCTAssert(firstVersion.entryKeys["LastUpdated"] != secondVersion.entryKeys["LastUpdated"], "Date Changed")
+        }
+    }
+
+    // MARK: - Teardown
+
+    override func tearDownWithError() throws {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
 
     // func testPerformanceExample() throws {
     // This is an example of a performance test case.
@@ -265,10 +324,4 @@ final class SoupTests: XCTestCase {
     // Put the code you want to measure the time of here.
     //    }
     // }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-
 }

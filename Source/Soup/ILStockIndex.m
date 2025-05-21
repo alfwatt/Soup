@@ -120,11 +120,12 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
 
 - (nonnull id<ILSoupCursor>)entriesWithValue:(nullable id)value {
     ILStockAliasCursor* cursor = nil;
+    id<ILSoup> indexed = self.indexedSoup;
 
     if (value) {
         ILEntryKeySet* entrySet = self.indexStorage[value];
         if (entrySet) {
-            cursor = [ILStockAliasCursor.alloc initWithAliases:entrySet.allObjects inSoup:self.indexedSoup];
+            cursor = [ILStockAliasCursor.alloc initWithAliases:entrySet.allObjects inSoup:indexed];
         } else {
             cursor = ILStockAliasCursor.emptyCursor;
         }
@@ -134,7 +135,7 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
         for (ILEntryKeySet* entrySubset in self.indexStorage.allValues) { // unpack each value
             [entrySet addObjectsFromArray:entrySubset.allObjects];
         }
-        cursor = [ILStockAliasCursor.alloc initWithAliases:entrySet.allObjects inSoup:self.indexedSoup];
+        cursor = [ILStockAliasCursor.alloc initWithAliases:entrySet.allObjects inSoup:indexed];
     }
 
     return cursor;

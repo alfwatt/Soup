@@ -1,6 +1,3 @@
-#ifndef ILSoupTime_h
-#define ILSoupTime_h
-
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -118,5 +115,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-
-#endif

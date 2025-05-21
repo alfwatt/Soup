@@ -4,7 +4,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ILUnionSoup ()
-@property(retain) NSMutableArray<id<ILSoup>>* loadedSoupsStorage;
+@property(nonatomic,retain) NSMutableArray<id<ILSoup>>* loadedSoupsStorage;
 
 @end
 

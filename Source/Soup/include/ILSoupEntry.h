@@ -1,29 +1,28 @@
-#ifndef ILSoupEntry_h
-#define ILSoupEntry_h
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-// MARK: ILSoupEntry
+// MARK: -
 
-/// String UUID
+/// The entity UUID which identifies all versions of an entry in the soup
 static NSString* const ILSoupEntryIdentityUUID = @"soup.entry.uuid";
 
-/// Date creation date
+/// Creation date of the entity
 static NSString* const ILSoupEntryCreationDate = @"soup.entry.created";
 
-/// String  entryHash 
+/// Hash of all the keys and data in the entry
 static NSString* const ILSoupEntryHash = @"soup.entry.hash";
 
-/// String dataHash
+/// Hash of all the data in the entry
 static NSString* const ILSoupEntryDataHash = @"soup.entry.dataHash";
 
-/// String keysHash
+/// Hash of all the keys in the entry, defines an entry type
 static NSString* const ILSoupEntryKeysHash = @"soup.entry.keysHash";
 
-/// String className — the local className for the entry
+/// The local className for the entry, used
 static NSString* const ILSoupEntryClassName = @"soup.entry.className";
 
-/// String duplicateUUID - the identityUUID of the entry this was duplicated from
+/// The identityUUID of the entry this was duplicated from
 static NSString* const ILSoupEntryDuplicateUUID = @"soup.entry.duplicate.uuid";
 
 @protocol ILMutableSoupEntry; // for mutableCopy
@@ -42,18 +41,18 @@ static NSString* const ILSoupEntryDuplicateUUID = @"soup.entry.duplicate.uuid";
 @property(nonatomic, readonly) NSString* keysHash;
 
 /// @property dictionary of keys and values for the entry
-@property(nonatomic, readonly) NSDictionary<NSString*, id>* entryKeys;
+@property(nonatomic, readonly) NSDictionary<NSString*, NSObject*>* entryKeys;
 
 /// @property sorted keys of the entryKeys dictionary
 @property(nonatomic, readonly) NSArray<NSString*>* sortedEntryKeys;
 
 /// @param entryKeys —dictionary of keys and values for the entry
 /// @returns an auto-released `<ILSoupEntry>` with the `entryKeys` provided
-+ (instancetype) soupEntryWithKeys:(NSDictionary<NSString*, id>*) entryKeys;
++ (instancetype) soupEntryWithKeys:(NSDictionary<NSString*, NSObject*>*) entryKeys;
 
 /// @param entryKeys — dictionary of keys and values for the entry
 /// @returns a new `<ILSoupEntry>` with the `entryKeys` provided
-- (instancetype) initWithKeys:(NSDictionary<NSString*, id>*) entryKeys;
+- (instancetype) initWithKeys:(NSDictionary<NSString*, NSObject*>*) entryKeys;
 
 // MARK: - NSObject Overrides
 
@@ -63,7 +62,7 @@ static NSString* const ILSoupEntryDuplicateUUID = @"soup.entry.duplicate.uuid";
 
 @end
 
-// MARK: - ILMutableSoupEntry
+// MARK: -
 
 /// NSString* hash of the ancestor for a mutated entry
 extern NSString* ILSoupEntryAncestorEntryHash;
@@ -96,5 +95,3 @@ extern NSString* ILSoupEntryMutationDate;
 @end
 
 NS_ASSUME_NONNULL_END
-
-#endif

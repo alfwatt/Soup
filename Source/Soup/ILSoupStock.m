@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.soupIndiciesStorage = NSMutableDictionary.new;
         self.soupSequencesStorage = NSMutableDictionary.new;
     }
-    
+
     return self;
 }
 
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
     if ((self = self.init)) {
         self.soupName = soupName;
     }
-    
+
     return self;
 }
 
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable id<ILMutableSoupEntry>) createBlankEntryOfClass:(Class)comformsToMutableSoupEntry {
     id<ILMutableSoupEntry> entry = nil;
-    
+
     if ([comformsToMutableSoupEntry conformsToProtocol:@protocol(ILMutableSoupEntry)]) {
         entry = [(id<ILMutableSoupEntry>)comformsToMutableSoupEntry soupEntryWithKeys:self.defaultEntry];
     }
@@ -97,11 +97,11 @@ NS_ASSUME_NONNULL_BEGIN
 
     [self indexEntry:entry];
     [self sequenceEntry:entry];
-    
+
     if ([self.delegate respondsToSelector:@selector(soup:addedEntry:)]) { // notify
         [self.delegate soup:self addedEntry:entry];
     }
-    
+
     return [self entryAlias:entry];
 }
 
@@ -111,14 +111,14 @@ NS_ASSUME_NONNULL_BEGIN
     if ([self.delegate respondsToSelector:@selector(soup:deletedEntry:)]) { // notify
         [self.delegate soup:self deletedEntry:entry];
     }
-    
+
     [self removeFromIndices:entry];
 }
 
 - (void) indexEntry:(id<ILSoupEntry>) entry {
     for (id<ILSoupIndex> index in self.soupIndicies) { // add item to the indexes
         [index indexEntry:entry];
-        
+
         if ([self.delegate respondsToSelector:@selector(soup:updatedIndex:)]) {
             [self.delegate soup:self updatedIndex:index];
         }
@@ -145,7 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!date) { // now's the time
         date = NSDate.date;
     }
-    
+
     for (id<ILSoupSequence> sequence in self.soupSequences) { // add item to the sequences
         [sequence sequenceEntry:entry atTime:date];
 
@@ -190,7 +190,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) loadIndex:(NSString*) indexPath index:(id<ILSoupIndex>) stockIndex {
     self.soupIndiciesStorage[indexPath] = (NSObject<ILSoupIndex>*) stockIndex;
-    
+
     for (id<ILSoupEntry> entry in self.soupEntryStorage.allKeys) {
         [stockIndex indexEntry:entry];
     }
@@ -229,7 +229,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (identityIndex) {
         entry = [identityIndex entryWithValue:entryIdentityUUID];
     }
-    
+
     return entry;
 }
 
@@ -249,6 +249,22 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 // MARK: - User Indicies
+
+/// @returns an index which stores a set of entries for each value
+- (id<ILSoupIndex>) createValueIndex:(NSString*)indexPath {
+    ILStockIndex* stockIndex = [ILStockIndex indexWithPath:indexPath inSoup:self];
+    [self loadIndex:indexPath index:stockIndex];
+    return stockIndex;
+}
+
+- (nullable id<ILSoupIndex>) queryValueIndex:(NSString*)indexPath {
+    id<ILSoupIndex> valueIndex = nil;
+    NSObject<ILSoupIndex>* index = self.soupIndiciesStorage[indexPath];
+    if (index && [index conformsToProtocol:@protocol(ILSoupIndex)]) {
+        valueIndex = (id<ILSoupIndex>) index;
+    }
+    return valueIndex;
+}
 
 - (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString *)indexPath {
     ILStockIdentityIndex* stockIndex = [ILStockIdentityIndex indexWithPath:indexPath inSoup:self];
@@ -319,7 +335,7 @@ NS_ASSUME_NONNULL_BEGIN
     else { // create a cursor with all the items
         self.soupCursorStorage = [ILStockCursor.alloc initWithEntries:self.soupEntryStorage.allValues];
     }
-    
+
     return self.soupCursorStorage;
 }
 
@@ -327,7 +343,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self.soupCursorStorage) {
         [self resetCursor];
     }
-    
+
     return self.soupCursorStorage;
 }
 
