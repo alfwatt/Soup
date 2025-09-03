@@ -6,12 +6,13 @@ NS_ASSUME_NONNULL_BEGIN
 static NSString* const ILSoupSnapshotProperties = @"Properties";
 
 /// Specify a key to use for storing the property in the soup entry, defaults the the key path
-static NSString* const ILSoupSnapshotStorageKeyPath = @"StorageKeyPath";
+static NSString* const ILSoupSnapshotStorageKey = @"StorageKeyPath";
 
 /// Specify a transformer to use when storing the property in the soup entry
 static NSString* const ILSoupSnapshotValueTransformer = @"ValueTransformer";
 
 /// key path to search in the soup for an existing version of the object
+/// in order for the matching to succeed you will need to create an `ILSoupIdentityIndex` for the key path
 static NSString* const ILSoupSnapshotMatchKeyPath = @"MatchKeyPath";
 
 // MARK: -
@@ -25,11 +26,10 @@ static NSString* const ILSoupSnapshotMatchKeyPath = @"MatchKeyPath";
 
 // MARK: -
 
+/// @param object to be snapshotted
+/// @param soup to store the snapshot in
+/// @return a, `<ILSoupEntry>` with a snapshot with the properties designated in the `snapshotMap`
 - (nullable id<ILSoupEntry>) snapshot:(NSObject*) object inSoup:(NSObject<ILSoup>*) soup NS_SWIFT_NAME(snapshot(_:in:));
-
-- (nullable id<ILSoupEntry>) snapshot:(NSObject*) object;
-
-- (nullable id<ILSoupEntry>) snapshot;
 
 @end
 

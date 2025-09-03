@@ -121,11 +121,11 @@ void accessorSetter(id self, SEL _cmd, id newValue) {
 }
 
 - (NSString*) dataHash {
-    return self.entryKeys[ILSoupEntryDataHash];
+    return (NSString*) self.entryKeys[ILSoupEntryDataHash];
 }
 
 - (NSString*) keysHash {
-    return self.entryKeys[ILSoupEntryKeysHash];
+    return (NSString*) self.entryKeys[ILSoupEntryKeysHash];
 }
 
 - (NSDictionary<NSString*, id>*) entryKeys {
@@ -197,7 +197,7 @@ NSString* ILSoupEntryMutationDate = @"soup.entry.mutated";
 // MARK: - Ancestry
 
 - (NSString*) ancestorEntryHash {
-    return self.entryKeys[ILSoupEntryAncestorEntryHash];
+    return (NSString*) self.entryKeys[ILSoupEntryAncestorEntryHash];
 }
 
 // MARK: - Mutations

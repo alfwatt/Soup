@@ -248,7 +248,7 @@ typedef NSMutableSet<NSString*> ILEntryKeySet;
 
 - (nullable id<ILSoupEntry>) ancestorOf:(id<ILSoupEntry>) descendant {
     id <ILSoupEntry> ancestor = nil;
-    NSString* ancestorAlias = descendant.entryKeys[ILSoupEntryAncestorEntryHash];
+    NSString* ancestorAlias = (NSString*) descendant.entryKeys[ILSoupEntryAncestorEntryHash];
     if (ancestorAlias) {
         ancestor = [self.indexedSoup gotoAlias:ancestorAlias];
     }

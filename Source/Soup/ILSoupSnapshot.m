@@ -49,15 +49,11 @@ Snapshot map for NSDate
     // if the map has ILSoupSnapshotMatchKeyPaths try to find an existing item
     NSString* matchKeyPath = self.snapshotMap[ILSoupSnapshotMatchKeyPath];
     if (matchKeyPath) {
-        id<ILSoupIndex> index = [soup indexForPath:matchKeyPath];
+        id<ILSoupIdentityIndex> index = [soup queryIdentityIndex:matchKeyPath];
         if (index) {
             // check to see if the map has a different ILSoupSnapshotStorage path
             id value = [object valueForKeyPath:matchKeyPath];
-            id<ILSoupCursor> itemCursor = [index entriesWithValue:value];
-            if (itemCursor.count == 1) {
-                snapEntry = [itemCursor entryAtIndex:0].mutableCopy;
-            }
-            // ???: warn or error if multiple items match?
+            snapEntry = [index entryWithValue:value].mutableCopy;
         }
     }
 
@@ -69,7 +65,7 @@ Snapshot map for NSDate
         id value = [object valueForKeyPath:keyPath];
 
         // check to see if there is a storage key we need to use
-        NSString* storageKey = (keyMap[ILSoupSnapshotStorageKeyPath] ?: keyPath);
+        NSString* storageKey = (keyMap[ILSoupSnapshotStorageKey] ?: keyPath);
 
         // check for a value trasformer
         NSString* valueTransformerName = keyMap[ILSoupSnapshotValueTransformer];
@@ -83,21 +79,21 @@ Snapshot map for NSDate
         objectValues[storageKey] = value;
     }
 
+    // check for a custom class name in the map
+    NSString* entryClassName = self.snapshotMap[ILSoupEntryClassName];
+    Class entryClass = nil;
+    if (entryClassName && (entryClass = NSClassFromString(entryClassName))) { // initilize the class specified
+        snapEntry = [soup createBlankEntryOfClass:entryClass];
+    }
+    else {
+        snapEntry = [soup createBlankEntry];
+    }
+
     // mutate the found or new blank entry
-    snapEntry = [(snapEntry ?: [soup createBlankEntry]) mutatedEntry:objectValues];
-    [soup addEntry:snapEntry];
-    
-    return snapEntry;
-}
+    id<ILSoupEntry> mutatedEntry = [snapEntry mutatedEntry:objectValues];
+    [soup addEntry:mutatedEntry];
 
-- (nullable id<ILSoupEntry>) snapshot:(NSObject*) object {
-    NSLog(@"snapshot: %@", object);
-    return nil;
-}
-
-- (nullable id<ILSoupEntry>) snapshot {
-    NSLog(@"snapshot: %@", self);
-    return nil;
+    return mutatedEntry;
 }
 
 @end

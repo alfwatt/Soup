@@ -41,18 +41,18 @@ static NSString* const ILSoupEntryDuplicateUUID = @"soup.entry.duplicate.uuid";
 @property(nonatomic, readonly) NSString* keysHash;
 
 /// @property dictionary of keys and values for the entry
-@property(nonatomic, readonly) NSDictionary<NSString*, NSObject*>* entryKeys;
+@property(nonatomic, readonly) NSDictionary<NSString*, id >* entryKeys;
 
 /// @property sorted keys of the entryKeys dictionary
 @property(nonatomic, readonly) NSArray<NSString*>* sortedEntryKeys;
 
 /// @param entryKeys —dictionary of keys and values for the entry
 /// @returns an auto-released `<ILSoupEntry>` with the `entryKeys` provided
-+ (instancetype) soupEntryWithKeys:(NSDictionary<NSString*, NSObject*>*) entryKeys;
++ (instancetype) soupEntryWithKeys:(NSDictionary<NSString*, id>*) entryKeys;
 
 /// @param entryKeys — dictionary of keys and values for the entry
 /// @returns a new `<ILSoupEntry>` with the `entryKeys` provided
-- (instancetype) initWithKeys:(NSDictionary<NSString*, NSObject*>*) entryKeys;
+- (instancetype) initWithKeys:(NSDictionary<NSString*, id>*) entryKeys;
 
 // MARK: - NSObject Overrides
 
@@ -84,7 +84,7 @@ extern NSString* ILSoupEntryMutationDate;
 /// @returns an `<ILMutableSoupEntry>` with mutated keys and values provided in `mutatedValues`
 /// creating a new entry with the same UUID and a new hash
 //  Note: mutatedCopy would be more natural but too easy to conflate with mutableCopy
-- (instancetype) mutatedEntry:(NSDictionary<NSString*, id>*) mutatedValues;
+- (instancetype) mutatedEntry:(NSDictionary<NSString*,  id>*) mutatedValues;
 
 /// duplicate entry, providing a mutable entry with a new UUID
 /// duplicate will have a ILSoupEntryDuplicateUUID key with the identity UUID of the original object

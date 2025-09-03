@@ -283,6 +283,19 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (nonnull id<ILSoupIndex>)createValueIndex:(nonnull NSString *)indexPath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized createValueIndex:indexPath];
+    }
+}
+
+- (nullable id<ILSoupIndex>)queryValueIndex:(nonnull NSString *)indexPath {
+    @synchronized(self.synchronized) {
+        return [self.synchronized queryValueIndex:indexPath];
+    }
+}
+
+
 @end
 
 NS_ASSUME_NONNULL_END

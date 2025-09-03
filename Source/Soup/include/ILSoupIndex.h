@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<id>*) allValues;
 
-- (NSArray<NSObject*>*) allValuesOrderedBy:(NSSortDescriptor*) descriptor;
+- (NSArray<id>*) allValuesOrderedBy:(NSSortDescriptor*) descriptor;
 
 // MARK: - Entries
 

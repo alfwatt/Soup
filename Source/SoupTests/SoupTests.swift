@@ -22,6 +22,10 @@ final class AddressBookEntry: ILStockEntry {
     dynamic var entrySpouse: String? = nil
 }
 
+// MARK: - Overrides
+
+
+
 // MARK: -
 
 final class SoupTests: XCTestCase {
@@ -91,7 +95,7 @@ final class SoupTests: XCTestCase {
         memory.createValueIndex(ILName)
         XCTAssert(memory.queryIndex(ILName) != nil, "Created Value Index")
 
-        let first = memory.createBlankEntry().mutatedEntry([ILName: "First Entry"])
+        _ = memory.createBlankEntry().mutatedEntry([ILName: "First Entry"])
     }
 
     func testSoupIdentityIndex() throws {
@@ -276,12 +280,12 @@ final class SoupTests: XCTestCase {
     func testSoupSnapShot() throws {
         let memory: ILMemorySoup = ILMemorySoup(name: "Snappy Soup")
         memory.createEntryIdentityIndex()
-        memory.createValueIndex(ILEmail)
+        memory.createIdentityIndex(ILEmail)
 
         let snapshot = ILSoupSnapshot(map: [
             ILSoupSnapshotProperties: [
                 ILName: [
-                    ILSoupSnapshotStorageKeyPath: "NameStorage"
+                    ILSoupSnapshotStorageKey: "NameStorage"
                 ],
                 ILEmail: [:],
                 "LastUpdated": [:]
@@ -305,10 +309,10 @@ final class SoupTests: XCTestCase {
         XCTAssert(secondVersion != nil, "2nd Snapshot created")
 
         if let firstVersion = firstVersion, let secondVersion = secondVersion {
-            XCTAssert(firstVersion.entryKeys[ILSoupEntryIdentityUUID] == secondVersion.entryKeys[ILSoupEntryIdentityUUID], "UUIDs match")
-            XCTAssert(firstVersion.entryKeys[ILEmail] == secondVersion.entryKeys[ILEmail], "Emails match")
-            XCTAssert(firstVersion.entryKeys["NameStorage"] != secondVersion.entryKeys["NameStorage"], "Names Changed")
-            XCTAssert(firstVersion.entryKeys["LastUpdated"] != secondVersion.entryKeys["LastUpdated"], "Date Changed")
+            XCTAssert((firstVersion.entryKeys[ILSoupEntryIdentityUUID] as! any Any.Type) == (secondVersion.entryKeys[ILSoupEntryIdentityUUID] as! any Any.Type), "UUIDs match")
+            XCTAssert((firstVersion.entryKeys[ILEmail] as! any Any.Type) == (secondVersion.entryKeys[ILEmail] as! any Any.Type), "Emails match")
+            XCTAssert((firstVersion.entryKeys["NameStorage"] as! any Any.Type) != (secondVersion.entryKeys["NameStorage"] as! any Any.Type), "Names Changed")
+            XCTAssert((firstVersion.entryKeys["LastUpdated"] as! any Any.Type) != (secondVersion.entryKeys["LastUpdated"] as! any Any.Type), "Date Changed")
         }
     }
 

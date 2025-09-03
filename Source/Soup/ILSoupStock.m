@@ -136,10 +136,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void) sequenceEntry:(id<ILSoupEntry>) entry {
-    NSDate* date = entry.entryKeys[ILSoupEntryMutationDate]; // try to get the mutation date
+    NSDate* date = (NSDate*) entry.entryKeys[ILSoupEntryMutationDate]; // try to get the mutation date
 
     if (!date) { // try for the creation date
-        date = entry.entryKeys[ILSoupEntryCreationDate];
+        date = (NSDate*) entry.entryKeys[ILSoupEntryCreationDate];
     }
 
     if (!date) { // now's the time

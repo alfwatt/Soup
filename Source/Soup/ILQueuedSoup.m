@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
         soup.soupOperations = NSOperationQueue.new;
         soup.soupOperations.maxConcurrentOperationCount = 1;
     }
-    
+
     return soup;
 }
 
@@ -150,6 +150,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - User Indicies
 
+- (nonnull id<ILSoupIndex>)createValueIndex:(nonnull NSString *)indexPath {
+    return [self.queued createValueIndex:indexPath];
+}
+
 - (id<ILSoupTextIndex>) createTextIndex:(NSString*) indexPath {
     return [self.queued createTextIndex:indexPath];
 }
@@ -218,6 +222,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) fillNewSoup {
     [self.queued fillNewSoup];
+}
+
+- (nullable id<ILSoupIndex>)queryValueIndex:(nonnull NSString *)indexPath { 
+    return [self.queued queryValueIndex:indexPath];
 }
 
 @end

@@ -125,6 +125,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// @returns an index which stores a set of entries for each value
 - (id<ILSoupIndex>) createValueIndex:(NSString*)indexPath;
 
+/// @returns the value index for the path provided
+- (nullable id<ILSoupIndex>) queryValueIndex:(NSString*)indexPath;
+
 /// @returns an identity index for the indexPath provided
 - (id<ILSoupIdentityIndex>) createIdentityIndex:(NSString*)indexPath;
 
