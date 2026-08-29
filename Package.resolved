@@ -1,0 +1,15 @@
+{
+  "originHash" : "ae567e2b42ae4a0c5812909970a3ad035f9862257cd0e860716024ab271f78d8",
+  "pins" : [
+    {
+      "identity" : "ilfoundation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alfwatt/ILFoundation.git",
+      "state" : {
+        "revision" : "8ee7236aa17919a126a38b489ca283e718e48d99",
+        "version" : "1.2.0"
+      }
+    }
+  ],
+  "version" : 3
+}
