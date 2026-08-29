@@ -1,5 +1,7 @@
 import Foundation
 
+@objc(ILFileSoup)
+@objcMembers
 open class FileSoup: SoupStock {
     public let filePath: String
 

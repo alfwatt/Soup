@@ -1,5 +1,7 @@
 import Foundation
 
+@objc(ILSoupSnapshot)
+@objcMembers
 open class SoupSnapshot: NSObject {
     public let snapshotMap: [String: Any]
 

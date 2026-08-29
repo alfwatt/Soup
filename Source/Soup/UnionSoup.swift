@@ -1,5 +1,6 @@
 import Foundation
 
+@objc(ILUnionSoupDelegate)
 public protocol UnionSoupDelegate: SoupDelegate {
     func unionSoup(_ unionSoup: UnionSoup, addedSoup soup: Soup)
     func unionSoup(_ unionSoup: UnionSoup, removedSoup soup: Soup)
@@ -22,6 +23,8 @@ public extension UnionSoupDelegate {
     }
 }
 
+@objc(ILUnionSoup)
+@objcMembers
 open class UnionSoup: SoupStock {
     public private(set) var loadedSoups: [Soup] = []
     public weak var unionDelegate: UnionSoupDelegate?

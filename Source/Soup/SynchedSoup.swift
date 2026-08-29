@@ -1,5 +1,7 @@
 import Foundation
 
+@objc(ILSynchedSoup)
+@objcMembers
 open class SynchedSoup: SoupStock {
     public var synchronized: Soup
     private let lock = NSRecursiveLock()

@@ -1,5 +1,7 @@
 import Foundation
 
+@objc(ILSoupClock)
+@objcMembers
 open class SoupClock: NSObject, SoupTime {
     public let earliest: Date
     public let latest: Date

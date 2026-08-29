@@ -1,7 +1,10 @@
 import Foundation
 
+@objc(ILQueuedSoupDelegate)
 public protocol QueuedSoupDelegate: SoupDelegate {}
 
+@objc(ILQueuedSoup)
+@objcMembers
 open class QueuedSoup: SoupStock {
     public var queued: Soup
     public var soupOperations: OperationQueue

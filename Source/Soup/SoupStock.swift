@@ -16,6 +16,8 @@ private func stockCanonicalOrderingString(for value: Any) -> String {
     return String(describing: value)
 }
 
+@objc(ILStockEntry)
+@objcMembers
 open class StockEntry: NSObject, MutableSoupEntry {
     private var storage: [String: Any]
 
@@ -102,6 +104,7 @@ open class StockEntry: NSObject, MutableSoupEntry {
     }
 }
 
+@objc(ILSoupCursor)
 public protocol SoupCursor: AnyObject {
     var entries: [SoupEntry] { get }
     var index: UInt { get }
@@ -112,7 +115,9 @@ public protocol SoupCursor: AnyObject {
     func entries(in entryRange: NSRange) -> [SoupEntry]
 }
 
-open class StockCursor: SoupCursor {
+@objc(ILStockCursor)
+@objcMembers
+open class StockCursor: NSObject, SoupCursor {
     public static let sharedEmpty = StockCursor(entries: [])
     public private(set) var entries: [SoupEntry]
     public private(set) var index: UInt = 0
@@ -124,6 +129,7 @@ open class StockCursor: SoupCursor {
 
     public required init(entries: [SoupEntry]) {
         self.entries = entries
+        super.init()
     }
 
     open func nextEntry() -> SoupEntry? {
@@ -148,7 +154,9 @@ open class StockCursor: SoupCursor {
     }
 }
 
-open class StockAliasCursor: SoupCursor {
+@objc(ILStockAliasCursor)
+@objcMembers
+open class StockAliasCursor: NSObject, SoupCursor {
     private let aliases: [SoupAlias]
     private weak var sourceSoup: Soup?
     public private(set) var index: UInt = 0
@@ -160,6 +168,7 @@ open class StockAliasCursor: SoupCursor {
     public init(aliases: [SoupAlias], inSoup sourceSoup: Soup?) {
         self.aliases = aliases
         self.sourceSoup = sourceSoup
+        super.init()
     }
 
     public func nextAlias() -> SoupAlias? {
@@ -191,6 +200,8 @@ open class StockAliasCursor: SoupCursor {
         return Array(currentEntries[entryRange.location..<end])
     }
 }
+@objc(ILStockSequenceSource)
+@objcMembers
 open class StockSequenceSource: NSObject, SoupSequenceSource {
     public let sampleDates: [Date]
     private let sequenceValues: [NSNumber]
@@ -210,6 +221,8 @@ open class StockSequenceSource: NSObject, SoupSequenceSource {
     }
 }
 
+@objc(ILStockSequence)
+@objcMembers
 open class StockSequence: NSObject, SoupSequence {
     public let sequencePath: String
     private var timelineByAlias: [SoupAlias: [(Date, NSNumber)]] = [:]
@@ -236,10 +249,20 @@ open class StockSequence: NSObject, SoupSequence {
         timelineByAlias[sequenceKey(for: entry)] != nil
     }
 
-    public func fetchSequence(for entry: SoupEntry, times: inout [Date], values: inout [NSNumber]) -> Bool {
+    @nonobjc public func fetchSequence(for entry: SoupEntry, times: inout [Date], values: inout [NSNumber]) -> Bool {
         guard let sequence = timelineByAlias[sequenceKey(for: entry)] else { return false }
         times = sequence.map { $0.0 }
         values = sequence.map { $0.1 }
+        return true
+    }
+
+    @objc(fetchSequenceFor:times:values:)
+    public func fetchSequence(for entry: SoupEntry, times: NSMutableArray, values: NSMutableArray) -> Bool {
+        var sequenceTimes: [Date] = []
+        var sequenceValues: [NSNumber] = []
+        guard fetchSequence(for: entry, times: &sequenceTimes, values: &sequenceValues) else { return false }
+        times.addObjects(from: sequenceTimes)
+        values.addObjects(from: sequenceValues)
         return true
     }
 
@@ -254,6 +277,8 @@ open class StockSequence: NSObject, SoupSequence {
         entry.entryHash
     }
 }
+@objc(ILStockIndex)
+@objcMembers
 open class StockIndex: NSObject, SoupIndex {
     public let indexPath: String
     public weak var containingSoup: Soup?
@@ -323,6 +348,8 @@ open class StockIndex: NSObject, SoupIndex {
     }
 }
 
+@objc(ILStockIdentityIndex)
+@objcMembers
 open class StockIdentityIndex: StockIndex, SoupIdentityIndex {
     open func entry(withValue value: Any) -> SoupEntry? {
         entries(withValue: value).entries.last
@@ -347,6 +374,8 @@ open class StockIdentityIndex: StockIndex, SoupIdentityIndex {
     }
 }
 
+@objc(ILStockAncestryIndex)
+@objcMembers
 open class StockAncestryIndex: StockIdentityIndex, SoupAncestryIndex {
     private var rootEntries: [SoupAlias: SoupEntry] = [:]
 
@@ -389,6 +418,8 @@ open class StockAncestryIndex: StockIdentityIndex, SoupAncestryIndex {
     }
 }
 
+@objc(ILStockTextIndex)
+@objcMembers
 open class StockTextIndex: StockIndex, SoupTextIndex {
     open func entries(matching pattern: String) -> SoupCursor {
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return StockCursor(entries: []) }
@@ -401,6 +432,8 @@ open class StockTextIndex: StockIndex, SoupTextIndex {
     }
 }
 
+@objc(ILStockNumberIndex)
+@objcMembers
 open class StockNumberIndex: StockIndex, SoupNumberIndex {
     open func entriesBetween(_ min: NSNumber, and max: NSNumber) -> SoupCursor {
         let values = entriesByAlias.values.filter { entry in
@@ -411,6 +444,8 @@ open class StockNumberIndex: StockIndex, SoupNumberIndex {
     }
 }
 
+@objc(ILStockDateIndex)
+@objcMembers
 open class StockDateIndex: StockIndex, SoupDateIndex {
     open func entriesBetween(_ early: Date, and late: Date) -> SoupCursor {
         let values = entriesByAlias.values.filter { entry in
@@ -425,6 +460,8 @@ open class StockDateIndex: StockIndex, SoupDateIndex {
     }
 }
 
+@objc(ILSoupStock)
+@objcMembers
 open class SoupStock: NSObject, Soup {
     public let soupUUID: UUID = UUID()
     public var soupName: String
@@ -473,7 +510,7 @@ open class SoupStock: NSObject, Soup {
         addEntry(entry)
     }
 
-    open func add(_ entry: Any) -> SoupAlias {
+    @nonobjc open func add(_ entry: Any) -> SoupAlias {
         if let soupEntry = entry as? SoupEntry {
             return addEntry(soupEntry)
         }
@@ -684,4 +721,6 @@ open class SoupStock: NSObject, Soup {
     }
 }
 
+@objc(ILMemorySoup)
+@objcMembers
 open class MemorySoup: SoupStock {}

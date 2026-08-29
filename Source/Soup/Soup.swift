@@ -17,6 +17,7 @@ public let ILSoupSnapshotMatchKeyPath = "MatchKeyPath"
 
 public typealias SoupAlias = URL
 
+@objc(ILSoupEntry)
 public protocol SoupEntry: AnyObject, NSCopying, NSMutableCopying {
     var entryHash: SoupAlias { get }
     var dataHash: String { get }
@@ -25,6 +26,7 @@ public protocol SoupEntry: AnyObject, NSCopying, NSMutableCopying {
     var sortedEntryKeys: [String] { get }
 }
 
+@objc(ILMutableSoupEntry)
 public protocol MutableSoupEntry: SoupEntry {
     init()
     init(keys: [String: Any])
@@ -38,6 +40,7 @@ public extension MutableSoupEntry {
     }
 }
 
+@objc(ILSoupTime)
 public protocol SoupTime: AnyObject {
     static func earlier() -> SoupTime
     static func earlierThan(_ latest: Date) -> SoupTime
@@ -70,21 +73,34 @@ public protocol SoupTime: AnyObject {
     func compare(_ date: Date) -> ComparisonResult
 }
 
+@objc(ILSoupSequence)
 public protocol SoupSequence: AnyObject {
     var sequencePath: String { get }
     static func sequence(withPath sequencePath: String) -> Self
     func sequenceEntry(_ entry: SoupEntry, atTime timeIndex: Date)
     func removeEntry(_ entry: SoupEntry)
     func includesEntry(_ entry: SoupEntry) -> Bool
-    func fetchSequence(for entry: SoupEntry, times: inout [Date], values: inout [NSNumber]) -> Bool
     func fetchSequenceSource(for entry: SoupEntry) -> SoupSequenceSource?
 }
 
+public extension SoupSequence {
+    func fetchSequence(for entry: SoupEntry, times: inout [Date], values: inout [NSNumber]) -> Bool {
+        guard let source = fetchSequenceSource(for: entry) else { return false }
+        times = source.sampleDates
+        values = source.sampleDates.indices.map {
+            NSNumber(value: Double(source.sampleValue(at: UInt($0))))
+        }
+        return true
+    }
+}
+
+@objc(ILSoupSequenceSource)
 public protocol SoupSequenceSource: AnyObject {
     var sampleDates: [Date] { get }
     func sampleValue(at index: UInt) -> CGFloat
 }
 
+@objc(ILSoupDelegate)
 public protocol SoupDelegate: AnyObject {
     func soup(_ deJour: Soup, createdEntry entry: SoupEntry)
     func soup(_ deJour: Soup, addedEntry entry: SoupEntry)
@@ -109,6 +125,7 @@ public extension SoupDelegate {
     func soupDone(_ deJour: Soup) {}
 }
 
+@objc(ILSoup)
 public protocol Soup: AnyObject {
     var soupUUID: UUID { get }
     var soupName: String { get set }
@@ -152,6 +169,7 @@ public protocol Soup: AnyObject {
     func doneWithSoup(_ appIdentifier: String)
 }
 
+@objc(ILSoupIndex)
 public protocol SoupIndex: AnyObject {
     var indexPath: String { get }
     var valueCount: Int { get }
@@ -165,10 +183,12 @@ public protocol SoupIndex: AnyObject {
     func entries(withValue value: Any?) -> SoupCursor
 }
 
+@objc(ILSoupIdentityIndex)
 public protocol SoupIdentityIndex: SoupIndex {
     func entry(withValue value: Any) -> SoupEntry?
 }
 
+@objc(ILSoupAncestryIndex)
 public protocol SoupAncestryIndex: SoupIdentityIndex {
     func ancestor(of descendant: SoupEntry) -> SoupEntry?
     func ancestry(of descendant: SoupEntry) -> SoupCursor
@@ -176,46 +196,56 @@ public protocol SoupAncestryIndex: SoupIdentityIndex {
     func progenitors() -> SoupCursor
 }
 
+@objc(ILSoupTextIndex)
 public protocol SoupTextIndex: SoupIndex {
     func entries(matching pattern: String) -> SoupCursor
 }
 
+@objc(ILSoupNumberIndex)
 public protocol SoupNumberIndex: SoupIndex {
     func entriesBetween(_ min: NSNumber, and max: NSNumber) -> SoupCursor
 }
 
+@objc(ILSoupDateIndex)
 public protocol SoupDateIndex: SoupIndex {
     func entriesBetween(_ early: Date, and late: Date) -> SoupCursor
     func entries(in timeRange: SoupTime) -> SoupCursor
 }
 
 public extension NSArray {
+    @objc(allValuesDigest)
     func allValuesDigest() -> Data {
         SoupDigest.allValuesDigest(self as? [Any] ?? [])
     }
 
+    @objc(deepMutableCopy)
     func deepMutableCopy() -> NSMutableArray {
         SoupDeepCopy.mutableArrayCopy(self as? [Any] ?? [])
     }
 }
 
 public extension NSDictionary {
+    @objc(allKeysDigest)
     func allKeysDigest() -> Data {
         SoupDigest.allKeysDigest(self as? [AnyHashable: Any] ?? [:])
     }
 
+    @objc(allKeysAndValuesDigest)
     func allKeysAndValuesDigest() -> Data {
         SoupDigest.allKeysAndValuesDigest(self as? [AnyHashable: Any] ?? [:])
     }
 
+    @objc(sha224AllKeys)
     func sha224AllKeys() -> String {
         allKeysDigest().base64EncodedString()
     }
 
+    @objc(sha224AllKeysAndValues)
     func sha224AllKeysAndValues() -> String {
         allKeysAndValuesDigest().base64EncodedString()
     }
 
+    @objc(deepMutableCopy)
     func deepMutableCopy() -> NSMutableDictionary {
         SoupDeepCopy.mutableDictionaryCopy(self as? [AnyHashable: Any] ?? [:])
     }
