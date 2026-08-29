@@ -19,20 +19,20 @@ public enum SoupDeepCopy {
 }
 
 private func mutableObjectCopy(_ value: Any) -> Any {
-    if let dictionary = value as? [AnyHashable: Any] {
-        return SoupDeepCopy.mutableDictionaryCopy(dictionary)
-    }
-
-    if let array = value as? [Any] {
-        return SoupDeepCopy.mutableArrayCopy(array)
-    }
-
     if let dictionary = value as? NSDictionary {
         return SoupDeepCopy.mutableDictionaryCopy(dictionary as? [AnyHashable: Any] ?? [:])
     }
 
     if let array = value as? NSArray {
         return SoupDeepCopy.mutableArrayCopy(array as? [Any] ?? [])
+    }
+
+    if let dictionary = value as? [AnyHashable: Any] {
+        return SoupDeepCopy.mutableDictionaryCopy(dictionary)
+    }
+
+    if let array = value as? [Any] {
+        return SoupDeepCopy.mutableArrayCopy(array)
     }
 
     return value
