@@ -84,7 +84,7 @@ extern NSString* ILSoupEntryMutationDate;
 /// @returns an `<ILMutableSoupEntry>` with mutated keys and values provided in `mutatedValues`
 /// creating a new entry with the same UUID and a new hash
 //  Note: mutatedCopy would be more natural but too easy to conflate with mutableCopy
-- (instancetype) mutatedEntry:(NSDictionary<NSString*,  id>*) mutatedValues;
+- (instancetype) mutatedEntry:(NSDictionary<NSString*, NSObject*>*) mutatedValues;
 
 /// duplicate entry, providing a mutable entry with a new UUID
 /// duplicate will have a ILSoupEntryDuplicateUUID key with the identity UUID of the original object

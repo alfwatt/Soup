@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,retain) NSDictionary<NSString*, id>* entryKeysStorage;
 @property(nonatomic,retain) NSMutableDictionary* entryKeysMutations;
 
-- (instancetype) initWithKeys:(NSDictionary<NSString*, id>*) entryKeys;
+- (instancetype) initWithKeys:(NSDictionary<NSString*, NSObject*>*) entryKeys;
 
 @end
 
@@ -55,7 +55,7 @@ void accessorSetter(id self, SEL _cmd, id newValue) {
 
 @implementation ILStockEntry
 
-+ (instancetype) soupEntryWithKeys:(NSDictionary<NSString*, id>*) entryKeys {
++ (instancetype) soupEntryWithKeys:(NSDictionary<NSString*, NSObject*>*) entryKeys {
     return [self.alloc initWithKeys:entryKeys];
 }
 
@@ -77,7 +77,7 @@ void accessorSetter(id self, SEL _cmd, id newValue) {
 
 // MARK: - ILSoupStockEntry
 
-- (instancetype) initWithKeys:(NSDictionary<NSString*, id>*) entryKeys {
+- (instancetype) initWithKeys:(NSDictionary<NSString*, NSObject*>*) entryKeys {
     if ((self = super.init)) {
         NSMutableDictionary<NSString*, id>* newEntryKeys = (entryKeys ? entryKeys.mutableCopy : NSMutableDictionary.new);
 
@@ -128,7 +128,7 @@ void accessorSetter(id self, SEL _cmd, id newValue) {
     return (NSString*) self.entryKeys[ILSoupEntryKeysHash];
 }
 
-- (NSDictionary<NSString*, id>*) entryKeys {
+- (NSDictionary<NSString*, NSObject*>*) entryKeys {
     return self.entryKeysStorage;
 }
 
