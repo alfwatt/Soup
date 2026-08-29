@@ -9,6 +9,13 @@ final class SoupSwiftTests: XCTestCase {
         XCTAssertEqual(firstDigest, secondDigest)
     }
 
+    func testAllValuesDigestAvoidsSeparatorCollisions() {
+        XCTAssertNotEqual(
+            SoupDigest.allValuesDigest(["a+b"]),
+            SoupDigest.allValuesDigest(["a", "b"])
+        )
+    }
+
     func testAllKeysAndValuesDigestChangesWithMutation() {
         var dictionary: [AnyHashable: Any] = ["name": "Soup", "version": 1]
         let firstDigest = SoupDigest.allKeysAndValuesDigest(dictionary)

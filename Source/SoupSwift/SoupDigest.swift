@@ -3,12 +3,12 @@ import Foundation
 public enum SoupDigest {
     public static func allValuesDigest(_ values: [Any]) -> Data {
         let valueHashes = values.map { digestComponent(for: $0) }
-        return valueHashes.joined(separator: "+").data(using: .utf8) ?? Data()
+        return encodedDigestData(from: valueHashes)
     }
 
     public static func allKeysDigest(_ dictionary: [AnyHashable: Any]) -> Data {
         let keyHashes = orderedKeys(for: dictionary).map { digestComponent(for: $0) }
-        return keyHashes.joined(separator: "+").data(using: .utf8) ?? Data()
+        return encodedDigestData(from: keyHashes)
     }
 
     public static func allKeysAndValuesDigest(_ dictionary: [AnyHashable: Any]) -> Data {
@@ -20,6 +20,13 @@ public enum SoupDigest {
         digest.append(valuesDigest)
         return digest
     }
+}
+
+private func encodedDigestData(from components: [String]) -> Data {
+    let encodedComponents = components.map { component in
+        "\(component.utf8.count):\(component)"
+    }
+    return encodedComponents.joined(separator: "|").data(using: .utf8) ?? Data()
 }
 
 private func orderedKeys(for dictionary: [AnyHashable: Any]) -> [AnyHashable] {

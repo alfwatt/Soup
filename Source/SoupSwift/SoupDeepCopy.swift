@@ -35,13 +35,5 @@ private func mutableObjectCopy(_ value: Any) -> Any {
         return mutableCopy
     }
 
-    if let dictionary = value as? [AnyHashable: Any] {
-        return SoupDeepCopy.mutableDictionaryCopy(dictionary)
-    }
-
-    if let array = value as? [Any] {
-        return SoupDeepCopy.mutableArrayCopy(array)
-    }
-
     return value
 }
