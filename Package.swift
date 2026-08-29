@@ -4,14 +4,18 @@ import PackageDescription
 
 let package = Package(
     name: "Soup",
-    platforms: [.macOS(.v10_14), .iOS(.v14), .tvOS(.v14)],
+    platforms: [.macOS(.v10_15), .iOS(.v14), .tvOS(.v14)],
     products: [
-        .library( name: "Soup", type: .dynamic, targets: ["Soup"])
+        .library(name: "Soup", type: .dynamic, targets: ["Soup"])
     ],
-    dependencies: [
-        .package( url: "https://github.com/alfwatt/ILFoundation.git", from: "1.1.0")
-    ],
+    dependencies: [],
     targets: [
-        .target( name: "Soup", dependencies: ["ILFoundation"]),
+        .target(
+            name: "Soup",
+            dependencies: [],
+            path: "Source/Soup",
+            exclude: ["Info.plist"]
+        ),
+        .testTarget(name: "SoupTests", dependencies: ["Soup"], path: "Source/SoupTests"),
     ]
 )

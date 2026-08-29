@@ -11,32 +11,32 @@ let ILParents = "parents"
 let ILSpouse = "spouse"
 
 class CanneryBrowser: NSWindowController {
-    var cannedSoup: ILSoup?
-    var visibleIndicies: [ILSoupIndex]?
-    var selectedEntry: ILSoupEntry?
-    var selectedAncestors: ILSoupCursor?
+    var cannedSoup: Soup?
+    var visibleIndicies: [SoupIndex]?
+    var selectedEntry: SoupEntry?
+    var selectedAncestors: SoupCursor?
     
     @IBOutlet private var entryList: NSOutlineView!
     @IBOutlet private var entryDetail: NSTableView!
     @IBOutlet private var entryAncestors: NSTableView!
 
-    func demoSoup() -> ILSoup {
+    func demoSoup() -> Soup {
         // create a memory soup
-        let memory: ILMemorySoup = ILMemorySoup(name: "Address Book")
+        let memory: MemorySoup = MemorySoup(name: "Address Book")
 
         // setup memory soup
         memory.soupDescription = "Address Book Example Soup"
-        memory.createEntryIdentityIndex()
-        memory.createAncestryIndex()
-        memory.createIndex(ILSoupEntryDataHash)
-        memory.createDateIndex(ILSoupEntryCreationDate)
-        memory.createDateIndex(ILSoupEntryMutationDate)
-        memory.createTextIndex(ILName)
-        memory.createIdentityIndex(ILEmail)
+        _ = memory.createEntryIdentityIndex()
+        _ = memory.createAncestryIndex()
+        _ = memory.createIndex(ILSoupEntryDataHash)
+        _ = memory.createDateIndex(ILSoupEntryCreationDate)
+        _ = memory.createDateIndex(ILSoupEntryMutationDate)
+        _ = memory.createTextIndex(ILName)
+        _ = memory.createIdentityIndex(ILEmail)
         // memory.createTextIndex(ILNotes)
         
         // add some entries to the union
-        memory.add(memory.createBlankEntry().mutatedEntry([
+        _ = memory.add(memory.createBlankEntry().mutatedEntry([
             ILName:  "iStumbler Labs",
             ILEmail: "support@istumbler.net",
             ILURL:   URL(string:"https://istumbler.net/labs") as Any,
@@ -48,35 +48,35 @@ class CanneryBrowser: NSWindowController {
             ILEmail: "luca@life.earth",
             ILNotes: "I live on the ocean floor"
         ])
-        memory.add(luca); // BUG: the hash luca gets stored as isn't the same that the mutated entries get
-        
+        _ = memory.add(luca); // BUG: the hash luca gets stored as isn't the same that the mutated entries get
+
         let john = luca.mutatedEntry([
             ILName:  "John Doe",
             ILEmail: "j.doe@example.com",
             ILNotes: NSNull()
         ])
-        memory.add(john)
+        _ = memory.add(john)
 
         let jane = luca.mutatedEntry([
             ILName:  "Jane Doe",
             ILEmail: "jane.d@example.com",
             ILNotes: NSNull()
         ])
-        memory.add(jane)
+        _ = memory.add(jane)
 
         let kim = luca.mutatedEntry([
             ILName:  "Kim Gru",
             ILEmail: "kim.g@example.com",
             ILNotes: NSNull()
         ])
-        memory.add(kim)
-        
+        _ = memory.add(kim)
+
         let sam = luca.mutatedEntry([
             ILName:  "Sam Liu",
             ILEmail: "sam.l@example.com",
             ILNotes: NSNull()
         ])
-        memory.add(sam)
+        _ = memory.add(sam)
 
         let fin = luca.mutatedEntry([
             ILName: "Fin Gru-Liu",
@@ -85,29 +85,29 @@ class CanneryBrowser: NSWindowController {
             ILParents: [kim.entryKeys[ILSoupEntryIdentityUUID],
                         sam.entryKeys[ILSoupEntryIdentityUUID]]
         ])
-        memory.add(fin)
-        
+        _ = memory.add(fin)
+
         let fin2 = fin.mutatedEntry([
             ILName: "Fin Gru-Liu the 2nd",
             ILEmail: "fin.gl2@example.com",
             ILBirthday: Date(),
             ILParents: [fin.entryKeys[ILSoupEntryIdentityUUID]] // cloned
         ])
-        memory.add(fin2)
-        
+        _ = memory.add(fin2)
+
         let fin3 = fin2.mutatedEntry([
             ILName: "Fin Gru-Liu the 3rd",
             ILEmail: "fin.gl2@example.com",
             ILBirthday: Date(),
             ILParents: [fin2.entryKeys[ILSoupEntryIdentityUUID]]
         ])
-        memory.add(fin3)
-        
+        _ = memory.add(fin3)
+
         // update the email to create a mutated fin3
         let fin3update = fin3.mutatedEntry([
             ILEmail: "fin.gl3@example.com"
         ])
-        memory.add(fin3update)
+        _ = memory.add(fin3update)
         
         return memory
     }
@@ -124,6 +124,31 @@ class CanneryBrowser: NSWindowController {
         
         return value
     }
+
+    private func isSoupAlias(_ value: Any?) -> Bool {
+        guard let url = value as? URL else { return false }
+        return url.scheme == "alias"
+    }
+
+    private func linkedAlias(_ alias: SoupAlias) -> NSAttributedString {
+        NSAttributedString(
+            string: alias.absoluteString,
+            attributes: [
+                .link: alias,
+                .foregroundColor: NSColor.linkColor,
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+        )
+    }
+
+    private func showEntry(for alias: SoupAlias) {
+        guard let entry = cannedSoup?.gotoAlias(alias) else { return }
+        selectedEntry = entry
+        selectedAncestors = cannedSoup?.queryAncestryIndex()?.ancestry(of: entry)
+        window?.title = "Cannery: " + entry.dataHash
+        entryDetail.reloadData()
+        entryAncestors.reloadData()
+    }
     
     // MARK: - NSNibAwakening
 
@@ -139,7 +164,7 @@ class CanneryBrowser: NSWindowController {
     
     @IBAction func onCreateEntry(_ sender: Any) {
         if let memory = cannedSoup {
-            memory.add(memory.createBlankEntry().mutatedEntry([
+            _ = memory.addEntry(memory.createBlankEntry().mutatedEntry([
                 ILName: "New Entry"
             ]))
         }
@@ -161,8 +186,8 @@ class CanneryBrowser: NSWindowController {
         for selectedRow in entryList.selectedRowIndexes {
             let selectedItem: Dictionary = entryList.item(atRow: selectedRow) as! Dictionary<String, Any>
             let selectedEntry = selectedItem["entry"]
-            if selectedEntry is ILSoupEntry {
-                self.cannedSoup?.delete(selectedEntry as! ILSoupEntry)
+            if selectedEntry is SoupEntry {
+                self.cannedSoup?.deleteEntry(selectedEntry as! SoupEntry)
             }
         }
         entryList.reloadItem(nil, reloadChildren:true)
@@ -178,11 +203,11 @@ extension CanneryBrowser: NSOutlineViewDataSource {
         if item == nil, let allIndicies = cannedSoup?.soupIndices {
             children = allIndicies.count
         }
-        else if let soupIndex = item as? ILSoupIndex {
+        else if let soupIndex = item as? SoupIndex {
             children = Int(soupIndex.valueCount)
         }
         else if let indexValue = item as? Dictionary<String, Any>,
-            let index = indexValue["index"] as? ILSoupIndex { // the dictionary has an index key
+            let index = indexValue["index"] as? SoupIndex { // the dictionary has an index key
             let entries = index.entries(withValue: indexValue["value"])
             children = (entries.count == 1 ? 0 : entries.count) // one is none (don't show children)
         }
@@ -192,11 +217,11 @@ extension CanneryBrowser: NSOutlineViewDataSource {
 
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         var expandable: Bool = false
-        if item is ILSoupIndex {
+        if item is SoupIndex {
             expandable = true
         }
         else if let indexValue = item as? Dictionary<String, Any>,
-                let index = indexValue["index"] as? ILSoupIndex {
+                let index = indexValue["index"] as? SoupIndex {
             let cursor = index.entries(withValue: indexValue["value"])
             expandable = (cursor.count > 1)
         }
@@ -211,14 +236,14 @@ extension CanneryBrowser: NSOutlineViewDataSource {
             childItem = allIndicies[index]
         }
         // if the item is an index, get the cursor for all entries
-        else if let soupIndex = item as? ILSoupIndex {
+        else if let soupIndex = item as? SoupIndex {
                 let descriptor = NSSortDescriptor(key: "description", ascending: true, selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
-            let value = soupIndex.allValuesOrdered(by: descriptor)[index]
+            let value = soupIndex.allValues(orderedBy: descriptor)[index]
             childItem = ["index": soupIndex, "value": value] as [String : Any]
         }
         // if we got an index and a value, fetch the entries
         else if let indexValue = item as? Dictionary<String, Any>,
-                let soupIndex = indexValue["index"] as? ILSoupIndex {
+                let soupIndex = indexValue["index"] as? SoupIndex {
             let cursor = soupIndex.entries(withValue: indexValue["value"])
             childItem = cursor.entry(at: UInt(index))
         }
@@ -228,7 +253,7 @@ extension CanneryBrowser: NSOutlineViewDataSource {
         
     func outlineView(_ outlineView: NSOutlineView, objectValueFor column: NSTableColumn?, byItem item: Any?) -> Any? {
         var data: Any?
-        if let soupIndex = item as? ILSoupIndex {
+        if let soupIndex = item as? SoupIndex {
             data = String(format:"%@ \"%@\" %i/%i",
                           String(describing:type(of: soupIndex)).replacingOccurrences(of: "ILStock", with: ""),
                           soupIndex.indexPath,
@@ -241,7 +266,7 @@ extension CanneryBrowser: NSOutlineViewDataSource {
                 data = array.joined(separator: ", ")
             }
         }
-        else if let entry = item as? ILSoupEntry {
+        else if let entry = item as? SoupEntry {
             data = entry.dataHash
         }
 
@@ -254,13 +279,13 @@ extension CanneryBrowser: NSOutlineViewDataSource {
 extension CanneryBrowser: NSOutlineViewDelegate {
     func outlineViewSelectionDidChange(_ notification: Notification) {
         let selectedItem = entryList.item(atRow: entryList.selectedRow)
-        if let index = selectedItem as? ILSoupIndex {
+        if let index = selectedItem as? SoupIndex {
             selectedEntry = nil
             selectedAncestors = nil
             self.window?.title = "Cannery: " + index.indexPath
         }
         else if let indexValue = selectedItem as? Dictionary<String, Any>,
-                let soupIndex = indexValue["index"] as? ILSoupIndex {
+                let soupIndex = indexValue["index"] as? SoupIndex {
             // TODO: show a list of entries when the user selects a value
             let cursor = soupIndex.entries(withValue: indexValue["value"])
             if cursor.count == 1 {
@@ -268,7 +293,7 @@ extension CanneryBrowser: NSOutlineViewDelegate {
             }
             // else present a list of entries in the middle panel
         }
-        else if let soupEntry = selectedItem as? ILSoupEntry {
+        else if let soupEntry = selectedItem as? SoupEntry {
             selectedEntry = soupEntry
         }
 
@@ -311,6 +336,9 @@ extension CanneryBrowser:  NSTableViewDataSource {
                     }
                     else if columnId.isEqual("entry.value") {
                         value = selectedEntry.entryKeys[selectedKey]
+                        if let alias = value as? SoupAlias, isSoupAlias(alias) {
+                            value = linkedAlias(alias)
+                        }
                     }
                 }
             }
@@ -321,7 +349,7 @@ extension CanneryBrowser:  NSTableViewDataSource {
                             value = row
                         }
                         if columnId.isEqual("ancestor.hash") {
-                            value = rowAncestor.dataHash as NSObject
+                            value = linkedAlias(rowAncestor.entryHash)
                         }
                         else if columnId.isEqual("ancestor.mutated"),
                             rowAncestor.entryKeys[ILSoupEntryMutationDate] != nil {
@@ -340,6 +368,37 @@ extension CanneryBrowser:  NSTableViewDataSource {
             }
         }
         return value
+    }
+}
+
+// MARK: - NSTableViewDelegate
+
+extension CanneryBrowser: NSTableViewDelegate {
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        guard let tableView = notification.object as? NSTableView,
+              tableView.selectedColumn >= 0,
+              tableView.selectedColumn < tableView.tableColumns.count else {
+            return
+        }
+        let column = tableView.tableColumns[tableView.selectedColumn]
+
+        if tableView == entryDetail,
+           column.identifier.rawValue == "entry.value",
+           selectedEntry != nil,
+           tableView.selectedRow >= 0,
+           tableView.selectedRow < selectedEntry!.sortedEntryKeys.count {
+            let key = selectedEntry!.sortedEntryKeys[tableView.selectedRow]
+            if let alias = selectedEntry!.entryKeys[key] as? SoupAlias, isSoupAlias(alias) {
+                showEntry(for: alias)
+            }
+        } else if tableView == entryAncestors,
+                  column.identifier.rawValue == "ancestor.hash",
+                  tableView.selectedRow >= 0,
+                  let ancestors = selectedAncestors?.entries,
+                  tableView.selectedRow < ancestors.count {
+            let ancestor = ancestors[tableView.selectedRow]
+            showEntry(for: ancestor.entryHash)
+        }
     }
 }
 
