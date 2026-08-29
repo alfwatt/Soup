@@ -26,17 +26,17 @@ class CanneryBrowser: NSWindowController {
 
         // setup memory soup
         memory.soupDescription = "Address Book Example Soup"
-        memory.createEntryIdentityIndex()
-        memory.createAncestryIndex()
-        memory.createIndex(ILSoupEntryDataHash)
-        memory.createDateIndex(ILSoupEntryCreationDate)
-        memory.createDateIndex(ILSoupEntryMutationDate)
-        memory.createTextIndex(ILName)
-        memory.createIdentityIndex(ILEmail)
+        _ = memory.createEntryIdentityIndex()
+        _ = memory.createAncestryIndex()
+        _ = memory.createIndex(ILSoupEntryDataHash)
+        _ = memory.createDateIndex(ILSoupEntryCreationDate)
+        _ = memory.createDateIndex(ILSoupEntryMutationDate)
+        _ = memory.createTextIndex(ILName)
+        _ = memory.createIdentityIndex(ILEmail)
         // memory.createTextIndex(ILNotes)
         
         // add some entries to the union
-        memory.add(memory.createBlankEntry().mutatedEntry([
+        _ = memory.add(memory.createBlankEntry().mutatedEntry([
             ILName:  "iStumbler Labs",
             ILEmail: "support@istumbler.net",
             ILURL:   URL(string:"https://istumbler.net/labs") as Any,
@@ -48,35 +48,35 @@ class CanneryBrowser: NSWindowController {
             ILEmail: "luca@life.earth",
             ILNotes: "I live on the ocean floor"
         ])
-        memory.add(luca); // BUG: the hash luca gets stored as isn't the same that the mutated entries get
-        
+        _ = memory.add(luca); // BUG: the hash luca gets stored as isn't the same that the mutated entries get
+
         let john = luca.mutatedEntry([
             ILName:  "John Doe",
             ILEmail: "j.doe@example.com",
             ILNotes: NSNull()
         ])
-        memory.add(john)
+        _ = memory.add(john)
 
         let jane = luca.mutatedEntry([
             ILName:  "Jane Doe",
             ILEmail: "jane.d@example.com",
             ILNotes: NSNull()
         ])
-        memory.add(jane)
+        _ = memory.add(jane)
 
         let kim = luca.mutatedEntry([
             ILName:  "Kim Gru",
             ILEmail: "kim.g@example.com",
             ILNotes: NSNull()
         ])
-        memory.add(kim)
-        
+        _ = memory.add(kim)
+
         let sam = luca.mutatedEntry([
             ILName:  "Sam Liu",
             ILEmail: "sam.l@example.com",
             ILNotes: NSNull()
         ])
-        memory.add(sam)
+        _ = memory.add(sam)
 
         let fin = luca.mutatedEntry([
             ILName: "Fin Gru-Liu",
@@ -85,29 +85,29 @@ class CanneryBrowser: NSWindowController {
             ILParents: [kim.entryKeys[ILSoupEntryIdentityUUID],
                         sam.entryKeys[ILSoupEntryIdentityUUID]]
         ])
-        memory.add(fin)
-        
+        _ = memory.add(fin)
+
         let fin2 = fin.mutatedEntry([
             ILName: "Fin Gru-Liu the 2nd",
             ILEmail: "fin.gl2@example.com",
             ILBirthday: Date(),
             ILParents: [fin.entryKeys[ILSoupEntryIdentityUUID]] // cloned
         ])
-        memory.add(fin2)
-        
+        _ = memory.add(fin2)
+
         let fin3 = fin2.mutatedEntry([
             ILName: "Fin Gru-Liu the 3rd",
             ILEmail: "fin.gl2@example.com",
             ILBirthday: Date(),
             ILParents: [fin2.entryKeys[ILSoupEntryIdentityUUID]]
         ])
-        memory.add(fin3)
-        
+        _ = memory.add(fin3)
+
         // update the email to create a mutated fin3
         let fin3update = fin3.mutatedEntry([
             ILEmail: "fin.gl3@example.com"
         ])
-        memory.add(fin3update)
+        _ = memory.add(fin3update)
         
         return memory
     }
