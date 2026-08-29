@@ -7,13 +7,13 @@ public enum SoupDigest {
     }
 
     public static func allKeysDigest(_ dictionary: [AnyHashable: Any]) -> Data {
-        let keyHashes = dictionary.keys.map { digestComponent(for: $0) }
+        let keyHashes = orderedKeys(for: dictionary).map { digestComponent(for: $0) }
         return keyHashes.joined(separator: "+").data(using: .utf8) ?? Data()
     }
 
     public static func allKeysAndValuesDigest(_ dictionary: [AnyHashable: Any]) -> Data {
         let keysDigest = allKeysDigest(dictionary)
-        let valuesDigest = allValuesDigest(Array(dictionary.values))
+        let valuesDigest = allValuesDigest(orderedValues(for: dictionary))
         var digest = Data()
         digest.append(keysDigest)
         digest.append(Data(":".utf8))
@@ -22,9 +22,38 @@ public enum SoupDigest {
     }
 }
 
+private func orderedKeys(for dictionary: [AnyHashable: Any]) -> [AnyHashable] {
+    dictionary.keys.sorted {
+        canonicalString(for: $0) < canonicalString(for: $1)
+    }
+}
+
+private func orderedValues(for dictionary: [AnyHashable: Any]) -> [Any] {
+    orderedKeys(for: dictionary).compactMap { dictionary[$0] }
+}
+
+private func canonicalString(for value: Any) -> String {
+    if let string = value as? String {
+        return string
+    }
+
+    if let number = value as? NSNumber {
+        return number.stringValue
+    }
+
+    if let date = value as? Date {
+        return String(date.timeIntervalSinceReferenceDate)
+    }
+
+    if let data = value as? Data {
+        return data.base64EncodedString()
+    }
+
+    return String(describing: value)
+}
+
 private func digestComponent(for value: Any) -> String {
     let object = value as AnyObject
-    let classHash = ObjectIdentifier(type(of: object)).hashValue
-    let valueHash = object.hash
-    return "\(classHash)-\(valueHash)"
+    let className = String(describing: type(of: object))
+    return "\(className)-\(canonicalString(for: value))"
 }

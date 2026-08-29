@@ -17,6 +17,12 @@ final class SoupSwiftTests: XCTestCase {
         XCTAssertNotEqual(firstDigest, secondDigest)
     }
 
+    func testAllKeysAndValuesDigestIgnoresInsertionOrder() {
+        let first: [AnyHashable: Any] = ["name": "Soup", "version": 1, "kind": "framework"]
+        let second: [AnyHashable: Any] = ["kind": "framework", "version": 1, "name": "Soup"]
+        XCTAssertEqual(SoupDigest.allKeysAndValuesDigest(first), SoupDigest.allKeysAndValuesDigest(second))
+    }
+
     func testMutableDictionaryCopyIsDeep() {
         let original: [AnyHashable: Any] = [
             "meta": [
