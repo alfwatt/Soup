@@ -109,7 +109,7 @@ final class SoupTests: XCTestCase {
         XCTAssert(first === firstFound, "First entry is firstFound")
 
         // copies
-        let copy = first.copy()
+        let copy = first.copy() as! ILMutableSoupEntry
         memory.add(copy)
         let copyFound = memory.queryEntryIdentityIndex(firstUUID)
         XCTAssert(first !== copyFound, "copyFound is not the first")
@@ -309,10 +309,10 @@ final class SoupTests: XCTestCase {
         XCTAssert(secondVersion != nil, "2nd Snapshot created")
 
         if let firstVersion = firstVersion, let secondVersion = secondVersion {
-            XCTAssert((firstVersion.entryKeys[ILSoupEntryIdentityUUID] as! any Any.Type) == (secondVersion.entryKeys[ILSoupEntryIdentityUUID] as! any Any.Type), "UUIDs match")
-            XCTAssert((firstVersion.entryKeys[ILEmail] as! any Any.Type) == (secondVersion.entryKeys[ILEmail] as! any Any.Type), "Emails match")
-            XCTAssert((firstVersion.entryKeys["NameStorage"] as! any Any.Type) != (secondVersion.entryKeys["NameStorage"] as! any Any.Type), "Names Changed")
-            XCTAssert((firstVersion.entryKeys["LastUpdated"] as! any Any.Type) != (secondVersion.entryKeys["LastUpdated"] as! any Any.Type), "Date Changed")
+            XCTAssert((firstVersion.entryKeys[ILSoupEntryIdentityUUID] as? String) == (secondVersion.entryKeys[ILSoupEntryIdentityUUID] as? String), "UUIDs match")
+            XCTAssert((firstVersion.entryKeys[ILEmail] as? String) == (secondVersion.entryKeys[ILEmail] as? String), "Emails match")
+            XCTAssert((firstVersion.entryKeys["NameStorage"] as? String) != (secondVersion.entryKeys["NameStorage"] as? String), "Names Changed")
+            XCTAssert((firstVersion.entryKeys["LastUpdated"] as? Date) != (secondVersion.entryKeys["LastUpdated"] as? Date), "Date Changed")
         }
     }
 

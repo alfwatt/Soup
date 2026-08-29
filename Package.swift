@@ -12,5 +12,6 @@ let package = Package(
     targets: [
         .target(name: "Soup", dependencies: [], path: "Source/SoupSwift"),
         .testTarget(name: "SoupTests", dependencies: ["Soup"], path: "Source/SoupTests"),
+        .testTarget(name: "SoupSwiftTests", dependencies: ["Soup"], path: "Source/SoupSwiftTests"),
     ]
 )

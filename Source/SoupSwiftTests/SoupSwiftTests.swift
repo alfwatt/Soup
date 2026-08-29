@@ -1,5 +1,5 @@
 import XCTest
-@testable import SoupSwift
+@testable import Soup
 
 final class SoupSwiftTests: XCTestCase {
     func testAllValuesDigestIsStable() {

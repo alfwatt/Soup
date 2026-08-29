@@ -1,5 +1,4 @@
 import Foundation
-import CoreGraphics
 
 public let ILSoupEntryIdentityUUID = "soup.entry.uuid"
 public let ILSoupEntryCreationDate = "soup.entry.created"
@@ -15,6 +14,22 @@ public let ILSoupSnapshotProperties = "Properties"
 public let ILSoupSnapshotStorageKey = "StorageKeyPath"
 public let ILSoupSnapshotValueTransformer = "ValueTransformer"
 public let ILSoupSnapshotMatchKeyPath = "MatchKeyPath"
+
+private func coreCanonicalOrderingString(for value: Any) -> String {
+    if let value = value as? String {
+        return value
+    }
+    if let value = value as? NSNumber {
+        return value.stringValue
+    }
+    if let value = value as? Date {
+        return String(value.timeIntervalSinceReferenceDate)
+    }
+    if let value = value as? Data {
+        return value.base64EncodedString()
+    }
+    return String(describing: value)
+}
 
 public protocol ILSoupEntry: AnyObject, NSCopying, NSMutableCopying {
     var entryHash: String { get }
@@ -37,7 +52,6 @@ public extension ILMutableSoupEntry {
     }
 }
 
-@objcMembers
 open class ILStockEntry: NSObject, ILMutableSoupEntry {
     private var storage: [String: Any]
 
@@ -71,6 +85,7 @@ open class ILStockEntry: NSObject, ILMutableSoupEntry {
     open var dataHash: String {
         let dataKeys = storage
             .filter { key, _ in !key.hasPrefix("soup.entry.") }
+            .sorted { $0.key < $1.key }
             .map { $0.value }
         return SoupDigest.allValuesDigest(dataKeys).base64EncodedString()
     }
@@ -172,7 +187,6 @@ open class ILStockCursor: ILSoupCursor {
 open class ILStockAliasCursor: ILSoupCursor {
     private let aliases: [String]
     private weak var sourceSoup: ILSoup?
-    private let fallbackEntries: [ILSoupEntry]
     public private(set) var index: UInt = 0
     public var count: Int { aliases.count }
     public var entries: [ILSoupEntry] {
@@ -182,7 +196,6 @@ open class ILStockAliasCursor: ILSoupCursor {
     public init(aliases: [String], inSoup sourceSoup: ILSoup?) {
         self.aliases = aliases
         self.sourceSoup = sourceSoup
-        self.fallbackEntries = aliases.compactMap { sourceSoup?.gotoAlias($0) }
     }
 
     public func nextAlias() -> String? {
@@ -208,9 +221,10 @@ open class ILStockAliasCursor: ILSoupCursor {
     }
 
     open func entries(in entryRange: NSRange) -> [ILSoupEntry] {
-        guard entryRange.location < fallbackEntries.count else { return [] }
-        let end = min(fallbackEntries.count, entryRange.location + entryRange.length)
-        return Array(fallbackEntries[entryRange.location..<end])
+        let currentEntries = entries
+        guard entryRange.location < currentEntries.count else { return [] }
+        let end = min(currentEntries.count, entryRange.location + entryRange.length)
+        return Array(currentEntries[entryRange.location..<end])
     }
 }
 
@@ -420,13 +434,13 @@ open class ILStockSequenceSource: NSObject, ILSoupSequenceSource {
         sequenceValues = values
     }
 
-    public class func sequenceSource(withTimes times: [Date], andValues values: [NSNumber]) -> Self {
-        self.init(times: times, andValues: values)
+    public class func sequenceSource(withTimes times: [Date], andValues values: [NSNumber]) -> ILStockSequenceSource {
+        ILStockSequenceSource(times: times, andValues: values)
     }
 
     public func sampleValue(at index: UInt) -> CGFloat {
         guard Int(index) < sequenceValues.count else { return 0 }
-        return CGFloat(truncating: sequenceValues[Int(index)])
+        return CGFloat(sequenceValues[Int(index)].doubleValue)
     }
 }
 
@@ -596,7 +610,8 @@ open class ILStockIndex: NSObject, ILSoupIndex {
     open var entryCount: Int { entriesByAlias.count }
 
     open func allValues() -> [Any] {
-        Array(Set(valueByAlias.values.map { canonicalOrderingString(for: $0) })).sorted()
+        let unique = Set(valueByAlias.values.map { coreCanonicalOrderingString(for: $0) })
+        return unique.sorted()
     }
 
     open func allValues(orderedBy descriptor: NSSortDescriptor) -> [Any] {
@@ -608,7 +623,7 @@ open class ILStockIndex: NSObject, ILSoupIndex {
         let alias = entry.entryHash
         entriesByAlias[alias] = entry
         guard let value = entry.entryKeys[indexPath] else { return }
-        let valueKey = canonicalOrderingString(for: value)
+        let valueKey = coreCanonicalOrderingString(for: value)
         valueByAlias[alias] = value
         keyByAlias[alias] = valueKey
         aliasesByValue[valueKey, default: []].append(alias)
@@ -636,7 +651,7 @@ open class ILStockIndex: NSObject, ILSoupIndex {
 
     open func entries(withValue value: Any?) -> ILSoupCursor {
         guard let value else { return ILStockCursor(entries: []) }
-        let valueKey = canonicalOrderingString(for: value)
+        let valueKey = coreCanonicalOrderingString(for: value)
         let aliases = aliasesByValue[valueKey] ?? []
         let entries = aliases.compactMap { entriesByAlias[$0] }
         return ILStockCursor(entries: entries)
@@ -653,7 +668,7 @@ open class ILStockIdentityIndex: ILStockIndex, ILSoupIdentityIndex {
         let alias = entry.entryHash
         entriesByAlias[alias] = entry
         guard let value = entry.entryKeys[indexPath] else { return }
-        let valueKey = canonicalOrderingString(for: value)
+        let valueKey = coreCanonicalOrderingString(for: value)
         valueByAlias[alias] = value
         keyByAlias[alias] = valueKey
         if let oldAliases = aliasesByValue[valueKey] {
@@ -668,6 +683,22 @@ open class ILStockIdentityIndex: ILStockIndex, ILSoupIdentityIndex {
 }
 
 open class ILStockAncestryIndex: ILStockIdentityIndex, ILSoupAncestryIndex {
+    private var rootEntries: [String: ILSoupEntry] = [:]
+
+    override open func indexEntry(_ entry: ILSoupEntry) {
+        guard entry.entryKeys[ILSoupEntryAncestorEntryHash] is String else {
+            rootEntries[entry.entryHash] = entry
+            return
+        }
+        rootEntries.removeValue(forKey: entry.entryHash)
+        super.indexEntry(entry)
+    }
+
+    override open func removeEntry(_ entry: ILSoupEntry) {
+        rootEntries.removeValue(forKey: entry.entryHash)
+        super.removeEntry(entry)
+    }
+
     open func ancestor(of descendant: ILSoupEntry) -> ILSoupEntry? {
         guard let ancestorAlias = descendant.entryKeys[ILSoupEntryAncestorEntryHash] as? String else { return nil }
         return containingSoup?.gotoAlias(ancestorAlias)
@@ -689,7 +720,7 @@ open class ILStockAncestryIndex: ILStockIdentityIndex, ILSoupAncestryIndex {
     }
 
     open func progenitors() -> ILSoupCursor {
-        var roots: [String: ILSoupEntry] = [:]
+        var roots: [String: ILSoupEntry] = rootEntries
         for entry in entriesByAlias.values {
             let chain = ancestry(of: entry).entries
             if let root = chain.last {
@@ -736,7 +767,6 @@ open class ILStockDateIndex: ILStockIndex, ILSoupDateIndex {
     }
 }
 
-@objcMembers
 open class ILSoupStock: NSObject, ILSoup {
     public let soupUUID: UUID = UUID()
     public var soupName: String
@@ -775,10 +805,8 @@ open class ILSoupStock: NSObject, ILSoup {
         var values = defaultEntry
         values[ILSoupEntryIdentityUUID] = UUID().uuidString
         values[ILSoupEntryCreationDate] = Date()
-        let entry = conformsToMutableSoupEntry.init()
-        if !values.isEmpty {
-            return entry.mutatedEntry(values)
-        }
+        values[ILSoupEntryClassName] = String(describing: conformsToMutableSoupEntry)
+        let entry = conformsToMutableSoupEntry.init(keys: values)
         delegate?.soup(self, createdEntry: entry)
         return entry
     }
@@ -791,7 +819,7 @@ open class ILSoupStock: NSObject, ILSoup {
         if let soupEntry = entry as? ILSoupEntry {
             return addEntry(soupEntry)
         }
-        return ""
+        preconditionFailure("Entry must conform to ILSoupEntry")
     }
 
     open func addEntry(_ entry: ILSoupEntry) -> String {
@@ -1004,7 +1032,7 @@ open class ILFileSoup: ILSoupStock {
     public let filePath: String
 
     public required init(name soupName: String) {
-        self.filePath = ""
+        self.filePath = soupName
         super.init(name: soupName)
     }
 
@@ -1036,8 +1064,8 @@ open class ILQueuedSoup: ILSoupStock {
         super.init(name: queuedSoup.soupName)
     }
 
-    public class func queuedSoup(_ queuedSoup: ILSoup, soupQueue soupOps: OperationQueue?) -> Self {
-        self.init(queuedSoup: queuedSoup, soupQueue: soupOps)
+    public class func queuedSoup(_ queuedSoup: ILSoup, soupQueue soupOps: OperationQueue?) -> ILQueuedSoup {
+        ILQueuedSoup(queuedSoup: queuedSoup, soupQueue: soupOps)
     }
 }
 
@@ -1055,14 +1083,95 @@ open class ILSynchedSoup: ILSoupStock {
         super.init(name: synched.soupName)
     }
 
-    public class func synchronizedSoup(_ synched: ILSoup) -> Self {
-        self.init(synched: synched)
+    public class func synchronizedSoup(_ synched: ILSoup) -> ILSynchedSoup {
+        ILSynchedSoup(synched: synched)
+    }
+
+    override open var soupName: String {
+        get { synchronized.soupName }
+        set {
+            lock.lock()
+            synchronized.soupName = newValue
+            lock.unlock()
+        }
+    }
+
+    override open var soupDescription: String {
+        get { synchronized.soupDescription }
+        set {
+            lock.lock()
+            synchronized.soupDescription = newValue
+            lock.unlock()
+        }
+    }
+
+    override open var soupQuery: NSPredicate {
+        get { synchronized.soupQuery }
+        set {
+            lock.lock()
+            synchronized.soupQuery = newValue
+            lock.unlock()
+        }
+    }
+
+    override open var cursor: ILSoupCursor {
+        lock.lock()
+        defer { lock.unlock() }
+        return synchronized.cursor
+    }
+
+    override open func createBlankEntry() -> ILMutableSoupEntry {
+        lock.lock()
+        defer { lock.unlock() }
+        return synchronized.createBlankEntry()
+    }
+
+    override open func createBlankEntry(ofClass conformsToMutableSoupEntry: ILMutableSoupEntry.Type) -> ILMutableSoupEntry? {
+        lock.lock()
+        defer { lock.unlock() }
+        return synchronized.createBlankEntry(ofClass: conformsToMutableSoupEntry)
     }
 
     override open func addEntry(_ entry: ILSoupEntry) -> String {
         lock.lock()
         defer { lock.unlock() }
         return synchronized.addEntry(entry)
+    }
+
+    override open func deleteEntry(_ entry: ILSoupEntry) {
+        lock.lock()
+        defer { lock.unlock() }
+        synchronized.deleteEntry(entry)
+    }
+
+    override open func gotoAlias(_ alias: String) -> ILMutableSoupEntry? {
+        lock.lock()
+        defer { lock.unlock() }
+        return synchronized.gotoAlias(alias)
+    }
+
+    override open func querySoup(_ query: NSPredicate) -> ILSoupCursor {
+        lock.lock()
+        defer { lock.unlock() }
+        return synchronized.querySoup(query)
+    }
+
+    override open func resetCursor() -> ILSoupCursor {
+        lock.lock()
+        defer { lock.unlock() }
+        return synchronized.resetCursor()
+    }
+
+    override open func createIndex(_ indexPath: String) -> ILSoupIndex {
+        lock.lock()
+        defer { lock.unlock() }
+        return synchronized.createIndex(indexPath)
+    }
+
+    override open func createSequence(_ sequencePath: String) -> ILSoupSequence {
+        lock.lock()
+        defer { lock.unlock() }
+        return synchronized.createSequence(sequencePath)
     }
 }
 
@@ -1072,7 +1181,7 @@ public protocol ILUnionSoupDelegate: ILSoupDelegate {
     func unionSoup(_ unionSoup: ILUnionSoup, copiedEntry entry: ILSoupEntry, fromSoup: ILSoup, toSoup: ILSoup)
     func unionSoup(_ unionSoup: ILUnionSoup, movedEntry entry: ILSoupEntry, fromSoup: ILSoup, toSoup: ILSoup)
     func unionSoup(_ unionSoup: ILUnionSoup, pushedEntry entry: ILSoupEntry, fromSoup: ILSoup, toSoup: ILSoup)
-    func unionSoup(_ unionSoup: ILUnionSoup, popedEntry entry: ILSoupEntry, fromSoup: ILSoup, toSoup: ILSoup)
+    func unionSoup(_ unionSoup: ILUnionSoup, poppedEntry entry: ILSoupEntry, fromSoup: ILSoup, toSoup: ILSoup)
 }
 
 public extension ILUnionSoupDelegate {
@@ -1081,7 +1190,11 @@ public extension ILUnionSoupDelegate {
     func unionSoup(_ unionSoup: ILUnionSoup, copiedEntry entry: ILSoupEntry, fromSoup: ILSoup, toSoup: ILSoup) {}
     func unionSoup(_ unionSoup: ILUnionSoup, movedEntry entry: ILSoupEntry, fromSoup: ILSoup, toSoup: ILSoup) {}
     func unionSoup(_ unionSoup: ILUnionSoup, pushedEntry entry: ILSoupEntry, fromSoup: ILSoup, toSoup: ILSoup) {}
-    func unionSoup(_ unionSoup: ILUnionSoup, popedEntry entry: ILSoupEntry, fromSoup: ILSoup, toSoup: ILSoup) {}
+    func unionSoup(_ unionSoup: ILUnionSoup, poppedEntry entry: ILSoupEntry, fromSoup: ILSoup, toSoup: ILSoup) {}
+    @available(*, deprecated, message: "Use poppedEntry (this misspelled API is retained only for compatibility)")
+    func unionSoup(_ unionSoup: ILUnionSoup, popedEntry entry: ILSoupEntry, fromSoup: ILSoup, toSoup: ILSoup) {
+        self.unionSoup(unionSoup, poppedEntry: entry, fromSoup: fromSoup, toSoup: toSoup)
+    }
 }
 
 open class ILUnionSoup: ILSoupStock {
@@ -1142,7 +1255,7 @@ open class ILUnionSoup: ILSoupStock {
         for i in stride(from: loadedSoups.count - 1, through: 1, by: -1) {
             if moveEntry(entryHash, fromSoup: loadedSoups[i], toSoup: loadedSoups[i - 1]) {
                 if let moved = loadedSoups[i - 1].gotoAlias(entryHash) {
-                    unionDelegate?.unionSoup(self, popedEntry: moved, fromSoup: loadedSoups[i], toSoup: loadedSoups[i - 1])
+                    unionDelegate?.unionSoup(self, poppedEntry: moved, fromSoup: loadedSoups[i], toSoup: loadedSoups[i - 1])
                 }
                 return true
             }
@@ -1165,9 +1278,7 @@ open class ILSoupSnapshot: NSObject {
         for (keyPath, config) in properties {
             let storageKey = (config[ILSoupSnapshotStorageKey] as? String) ?? keyPath
             let value = valueForSnapshot(from: object, keyPath: keyPath)
-            if let transformer = config[ILSoupSnapshotValueTransformer] as? ValueTransformer {
-                capture[storageKey] = transformer.transformedValue(value)
-            } else if let value {
+            if let value {
                 capture[storageKey] = value
             }
         }
@@ -1190,44 +1301,38 @@ open class ILSoupSnapshot: NSObject {
         if let dictionary = object as? NSDictionary {
             return dictionary[keyPath]
         }
-        return object.value(forKeyPath: keyPath)
+        let mirror = Mirror(reflecting: object)
+        return mirror.children.first(where: { $0.label == keyPath })?.value
     }
 }
 
 public extension NSArray {
-    @objc(allValuesDigest)
     func il_allValuesDigest() -> Data {
         SoupDigest.allValuesDigest(self as? [Any] ?? [])
     }
 
-    @objc(deepMutableCopy)
     func il_deepMutableCopy() -> NSMutableArray {
         SoupDeepCopy.mutableArrayCopy(self as? [Any] ?? [])
     }
 }
 
 public extension NSDictionary {
-    @objc(allKeysDigest)
     func il_allKeysDigest() -> Data {
         SoupDigest.allKeysDigest(self as? [AnyHashable: Any] ?? [:])
     }
 
-    @objc(allKeysAndValuesDigest)
     func il_allKeysAndValuesDigest() -> Data {
         SoupDigest.allKeysAndValuesDigest(self as? [AnyHashable: Any] ?? [:])
     }
 
-    @objc(sha224AllKeys)
     func il_sha224AllKeys() -> String {
         il_allKeysDigest().base64EncodedString()
     }
 
-    @objc(sha224AllKeysAndValues)
     func il_sha224AllKeysAndValues() -> String {
         il_allKeysAndValuesDigest().base64EncodedString()
     }
 
-    @objc(deepMutableCopy)
     func il_deepMutableCopy() -> NSMutableDictionary {
         SoupDeepCopy.mutableDictionaryCopy(self as? [AnyHashable: Any] ?? [:])
     }

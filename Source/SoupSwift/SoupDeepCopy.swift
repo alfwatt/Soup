@@ -10,11 +10,11 @@ public enum SoupDeepCopy {
     }
 
     public static func mutableDictionaryCopy(_ dictionary: [AnyHashable: Any]) -> NSMutableDictionary {
-        let mutableCopy = NSMutableDictionary(capacity: dictionary.count)
+        var swiftCopy: [AnyHashable: Any] = [:]
         for (key, value) in dictionary {
-            mutableCopy[key] = mutableObjectCopy(value)
+            swiftCopy[key] = mutableObjectCopy(value)
         }
-        return mutableCopy
+        return NSMutableDictionary(dictionary: swiftCopy)
     }
 }
 
@@ -28,11 +28,13 @@ private func mutableObjectCopy(_ value: Any) -> Any {
     }
 
     if let dictionary = value as? NSDictionary {
-        let mutableCopy = NSMutableDictionary(capacity: dictionary.count)
+        var swiftCopy: [AnyHashable: Any] = [:]
         for (key, nestedValue) in dictionary {
-            mutableCopy[key] = mutableObjectCopy(nestedValue)
+            if let key = key as? AnyHashable {
+                swiftCopy[key] = mutableObjectCopy(nestedValue)
+            }
         }
-        return mutableCopy
+        return NSMutableDictionary(dictionary: swiftCopy)
     }
 
     if let array = value as? NSArray {
