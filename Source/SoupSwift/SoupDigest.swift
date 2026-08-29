@@ -15,8 +15,11 @@ public enum SoupDigest {
         let keysDigest = allKeysDigest(dictionary)
         let valuesDigest = allValuesDigest(orderedValues(for: dictionary))
         var digest = Data()
+        var keysLength = UInt64(keysDigest.count).bigEndian
+        withUnsafeBytes(of: &keysLength) { rawBuffer in
+            digest.append(rawBuffer.bindMemory(to: UInt8.self))
+        }
         digest.append(keysDigest)
-        digest.append(Data(":".utf8))
         digest.append(valuesDigest)
         return digest
     }
