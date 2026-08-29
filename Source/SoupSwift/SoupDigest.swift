@@ -24,7 +24,7 @@ public enum SoupDigest {
 
 private func encodedDigestData(from components: [String]) -> Data {
     let encodedComponents = components.map { component in
-        "\(component.utf8.count):\(component)"
+        Data(component.utf8).base64EncodedString()
     }
     return encodedComponents.joined(separator: "|").data(using: .utf8) ?? Data()
 }
