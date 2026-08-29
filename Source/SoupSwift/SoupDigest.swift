@@ -52,7 +52,11 @@ private func canonicalString(for value: Any) -> String {
     }
 
     if let date = value as? Date {
-        return String(date.timeIntervalSinceReferenceDate)
+        return String(
+            format: "%.9f",
+            locale: Locale(identifier: "en_US_POSIX"),
+            date.timeIntervalSinceReferenceDate
+        )
     }
 
     if let data = value as? Data {
@@ -64,5 +68,6 @@ private func canonicalString(for value: Any) -> String {
 
 private func digestComponent(for value: Any) -> String {
     let className = String(describing: type(of: value))
-    return "\(className)-\(canonicalString(for: value))"
+    let valueString = canonicalString(for: value)
+    return "\(className.utf8.count):\(className)\(valueString.utf8.count):\(valueString)"
 }
