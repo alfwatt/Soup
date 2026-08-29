@@ -11,18 +11,18 @@ let ILParents = "parents"
 let ILSpouse = "spouse"
 
 class CanneryBrowser: NSWindowController {
-    var cannedSoup: ILSoup?
-    var visibleIndicies: [ILSoupIndex]?
-    var selectedEntry: ILSoupEntry?
-    var selectedAncestors: ILSoupCursor?
+    var cannedSoup: Soup?
+    var visibleIndicies: [SoupIndex]?
+    var selectedEntry: SoupEntry?
+    var selectedAncestors: SoupCursor?
     
     @IBOutlet private var entryList: NSOutlineView!
     @IBOutlet private var entryDetail: NSTableView!
     @IBOutlet private var entryAncestors: NSTableView!
 
-    func demoSoup() -> ILSoup {
+    func demoSoup() -> Soup {
         // create a memory soup
-        let memory: ILMemorySoup = ILMemorySoup(name: "Address Book")
+        let memory: MemorySoup = MemorySoup(name: "Address Book")
 
         // setup memory soup
         memory.soupDescription = "Address Book Example Soup"
@@ -139,7 +139,7 @@ class CanneryBrowser: NSWindowController {
     
     @IBAction func onCreateEntry(_ sender: Any) {
         if let memory = cannedSoup {
-            memory.add(memory.createBlankEntry().mutatedEntry([
+            _ = memory.addEntry(memory.createBlankEntry().mutatedEntry([
                 ILName: "New Entry"
             ]))
         }
@@ -161,8 +161,8 @@ class CanneryBrowser: NSWindowController {
         for selectedRow in entryList.selectedRowIndexes {
             let selectedItem: Dictionary = entryList.item(atRow: selectedRow) as! Dictionary<String, Any>
             let selectedEntry = selectedItem["entry"]
-            if selectedEntry is ILSoupEntry {
-                self.cannedSoup?.delete(selectedEntry as! ILSoupEntry)
+            if selectedEntry is SoupEntry {
+                self.cannedSoup?.deleteEntry(selectedEntry as! SoupEntry)
             }
         }
         entryList.reloadItem(nil, reloadChildren:true)
@@ -178,11 +178,11 @@ extension CanneryBrowser: NSOutlineViewDataSource {
         if item == nil, let allIndicies = cannedSoup?.soupIndices {
             children = allIndicies.count
         }
-        else if let soupIndex = item as? ILSoupIndex {
+        else if let soupIndex = item as? SoupIndex {
             children = Int(soupIndex.valueCount)
         }
         else if let indexValue = item as? Dictionary<String, Any>,
-            let index = indexValue["index"] as? ILSoupIndex { // the dictionary has an index key
+            let index = indexValue["index"] as? SoupIndex { // the dictionary has an index key
             let entries = index.entries(withValue: indexValue["value"])
             children = (entries.count == 1 ? 0 : entries.count) // one is none (don't show children)
         }
@@ -192,11 +192,11 @@ extension CanneryBrowser: NSOutlineViewDataSource {
 
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         var expandable: Bool = false
-        if item is ILSoupIndex {
+        if item is SoupIndex {
             expandable = true
         }
         else if let indexValue = item as? Dictionary<String, Any>,
-                let index = indexValue["index"] as? ILSoupIndex {
+                let index = indexValue["index"] as? SoupIndex {
             let cursor = index.entries(withValue: indexValue["value"])
             expandable = (cursor.count > 1)
         }
@@ -211,14 +211,14 @@ extension CanneryBrowser: NSOutlineViewDataSource {
             childItem = allIndicies[index]
         }
         // if the item is an index, get the cursor for all entries
-        else if let soupIndex = item as? ILSoupIndex {
+        else if let soupIndex = item as? SoupIndex {
                 let descriptor = NSSortDescriptor(key: "description", ascending: true, selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
-            let value = soupIndex.allValuesOrdered(by: descriptor)[index]
+            let value = soupIndex.allValues(orderedBy: descriptor)[index]
             childItem = ["index": soupIndex, "value": value] as [String : Any]
         }
         // if we got an index and a value, fetch the entries
         else if let indexValue = item as? Dictionary<String, Any>,
-                let soupIndex = indexValue["index"] as? ILSoupIndex {
+                let soupIndex = indexValue["index"] as? SoupIndex {
             let cursor = soupIndex.entries(withValue: indexValue["value"])
             childItem = cursor.entry(at: UInt(index))
         }
@@ -228,7 +228,7 @@ extension CanneryBrowser: NSOutlineViewDataSource {
         
     func outlineView(_ outlineView: NSOutlineView, objectValueFor column: NSTableColumn?, byItem item: Any?) -> Any? {
         var data: Any?
-        if let soupIndex = item as? ILSoupIndex {
+        if let soupIndex = item as? SoupIndex {
             data = String(format:"%@ \"%@\" %i/%i",
                           String(describing:type(of: soupIndex)).replacingOccurrences(of: "ILStock", with: ""),
                           soupIndex.indexPath,
@@ -241,7 +241,7 @@ extension CanneryBrowser: NSOutlineViewDataSource {
                 data = array.joined(separator: ", ")
             }
         }
-        else if let entry = item as? ILSoupEntry {
+        else if let entry = item as? SoupEntry {
             data = entry.dataHash
         }
 
@@ -254,13 +254,13 @@ extension CanneryBrowser: NSOutlineViewDataSource {
 extension CanneryBrowser: NSOutlineViewDelegate {
     func outlineViewSelectionDidChange(_ notification: Notification) {
         let selectedItem = entryList.item(atRow: entryList.selectedRow)
-        if let index = selectedItem as? ILSoupIndex {
+        if let index = selectedItem as? SoupIndex {
             selectedEntry = nil
             selectedAncestors = nil
             self.window?.title = "Cannery: " + index.indexPath
         }
         else if let indexValue = selectedItem as? Dictionary<String, Any>,
-                let soupIndex = indexValue["index"] as? ILSoupIndex {
+                let soupIndex = indexValue["index"] as? SoupIndex {
             // TODO: show a list of entries when the user selects a value
             let cursor = soupIndex.entries(withValue: indexValue["value"])
             if cursor.count == 1 {
@@ -268,7 +268,7 @@ extension CanneryBrowser: NSOutlineViewDelegate {
             }
             // else present a list of entries in the middle panel
         }
-        else if let soupEntry = selectedItem as? ILSoupEntry {
+        else if let soupEntry = selectedItem as? SoupEntry {
             selectedEntry = soupEntry
         }
 

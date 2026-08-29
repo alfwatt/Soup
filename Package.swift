@@ -10,8 +10,12 @@ let package = Package(
     ],
     dependencies: [],
     targets: [
-        .target(name: "Soup", dependencies: [], path: "Source/SoupSwift"),
+        .target(
+            name: "Soup",
+            dependencies: [],
+            path: "Source/Soup",
+            exclude: ["Info.plist"]
+        ),
         .testTarget(name: "SoupTests", dependencies: ["Soup"], path: "Source/SoupTests"),
-        .testTarget(name: "SoupSwiftTests", dependencies: ["Soup"], path: "Source/SoupSwiftTests"),
     ]
 )

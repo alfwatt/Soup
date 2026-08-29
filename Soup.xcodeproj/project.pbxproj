@@ -23,58 +23,29 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		7543242D20A39B5C006EE620 /* addresses.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543242C20A39B5C006EE620 /* addresses.m */; };
-		7580B785218188FE00D1E62F /* ILMemorySoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323EC20A2C055006EE620 /* ILMemorySoup.m */; };
-		7580B786218188FE00D1E62F /* ILFileSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323EE20A2C0B7006EE620 /* ILFileSoup.m */; };
-		7580B787218188FE00D1E62F /* ILSoupStock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543242220A384C9006EE620 /* ILSoupStock.m */; };
-		7580B788218188FE00D1E62F /* ILStockIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243B20A3A2E4006EE620 /* ILStockIndex.m */; };
-		7580B789218188FE00D1E62F /* ILUnionSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754323F720A373F3006EE620 /* ILUnionSoup.m */; };
-		7580B78B218188FE00D1E62F /* ILStockEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243620A3A153006EE620 /* ILStockEntry.m */; };
-		7580B78C218188FE00D1E62F /* ILStockSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543243F20A3A312006EE620 /* ILStockSequence.m */; };
-		7580B78D218188FE00D1E62F /* ILSynchedSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7543244320A8B289006EE620 /* ILSynchedSoup.m */; };
-		7580B78F218188FE00D1E62F /* ILQueuedSoup.m in Sources */ = {isa = PBXBuildFile; fileRef = 754324B820AE39FF006EE620 /* ILQueuedSoup.m */; };
-		7580B794218188FE00D1E62F /* Soup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543240220A37870006EE620 /* Soup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B795218188FE00D1E62F /* ILSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323E820A2BF56006EE620 /* ILSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B796218188FE00D1E62F /* ILSoupEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F320A2C3D0006EE620 /* ILSoupEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B797218188FE00D1E62F /* ILSoupIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F420A2C77B006EE620 /* ILSoupIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B798218188FE00D1E62F /* ILSynchedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543244220A8B289006EE620 /* ILSynchedSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B799218188FE00D1E62F /* ILSoupSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F520A2C7E5006EE620 /* ILSoupSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B79A218188FE00D1E62F /* ILSoupStock.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543242120A384C9006EE620 /* ILSoupStock.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B79B218188FE00D1E62F /* ILStockEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243520A3A153006EE620 /* ILStockEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B79C218188FE00D1E62F /* ILStockIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243A20A3A2E4006EE620 /* ILStockIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B79D218188FE00D1E62F /* ILStockSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 7543243E20A3A312006EE620 /* ILStockSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B79E218188FE00D1E62F /* ILMemorySoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323EB20A2C055006EE620 /* ILMemorySoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B79F218188FE00D1E62F /* ILFileSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323ED20A2C0B7006EE620 /* ILFileSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B7A0218188FE00D1E62F /* ILUnionSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754323F620A373F3006EE620 /* ILUnionSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7580B7A4218188FE00D1E62F /* ILQueuedSoup.h in Headers */ = {isa = PBXBuildFile; fileRef = 754324B720AE39FF006EE620 /* ILQueuedSoup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		758C8CE52267E8B7001B366E /* ILSoupTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 758C8CE42267E8B7001B366E /* ILSoupTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		758C8CEA2267ED79001B366E /* ILSoupClock.h in Headers */ = {isa = PBXBuildFile; fileRef = 758C8CE82267ED79001B366E /* ILSoupClock.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		758C8CED2267ED79001B366E /* ILSoupClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 758C8CE92267ED79001B366E /* ILSoupClock.m */; };
-		75945A482DDD323000EBE1B8 /* ILSoupSnapshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 75945A462DDD323000EBE1B8 /* ILSoupSnapshot.m */; };
-		759602C42DDD58300037C92F /* ILSoupSnapshot.h in Headers */ = {isa = PBXBuildFile; fileRef = 75F1DB7C2DDD1E69006B74B7 /* ILSoupSnapshot.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7543242D20A39B5C006EE620 /* addresses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7543242C20A39B5C006EE620 /* addresses.swift */; };
 		75967A9C2963838E00BE394B /* SoupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75967A9B2963838E00BE394B /* SoupTests.swift */; };
-		75A72A962DB3F2A1003F6532 /* NSDictionary+Soup.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A72A952DB3F2A1003F6532 /* NSDictionary+Soup.m */; };
-		75A73D632DC02F7D00186BC3 /* ILFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75A73D622DC02F7D00186BC3 /* ILFoundation.framework */; };
-		75A73D662DC02F8400186BC3 /* ILFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75A73D622DC02F7D00186BC3 /* ILFoundation.framework */; };
 		75A73D6A2DC02FA100186BC3 /* Soup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7580B7A9218188FE00D1E62F /* Soup.framework */; };
 		75A73D6B2DC02FA100186BC3 /* Soup.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7580B7A9218188FE00D1E62F /* Soup.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		75A73D6E2DC02FA100186BC3 /* ILFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75A73D622DC02F7D00186BC3 /* ILFoundation.framework */; };
-		75A73D6F2DC02FA100186BC3 /* ILFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 75A73D622DC02F7D00186BC3 /* ILFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		75A73D702DC02FA100186BC3 /* ILFoundationSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75A73D692DC02FA100186BC3 /* ILFoundationSwift.framework */; };
-		75A73D712DC02FA100186BC3 /* ILFoundationSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 75A73D692DC02FA100186BC3 /* ILFoundationSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		75A73D722DC02FBC00186BC3 /* ILFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75A73D622DC02F7D00186BC3 /* ILFoundation.framework */; };
-		75A73D762DC02FD000186BC3 /* ILFoundationSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75A73D752DC02FD000186BC3 /* ILFoundationSwift.framework */; };
 		75D12D712378BF40003F2899 /* CanneryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D12D702378BF40003F2899 /* CanneryDelegate.swift */; };
 		75D12D732378BF40003F2899 /* CanneryBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D12D722378BF40003F2899 /* CanneryBrowser.swift */; };
 		75D12D752378BF42003F2899 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75D12D742378BF42003F2899 /* Assets.xcassets */; };
 		75D12D782378BF42003F2899 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75D12D762378BF42003F2899 /* Main.storyboard */; };
 		75D12D842378BF42003F2899 /* CanneryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D12D832378BF42003F2899 /* CanneryTests.swift */; };
 		75D12D9423791C9D003F2899 /* CanneryBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D12D9323791C9D003F2899 /* CanneryBrowser.xib */; };
-		75E291852DBEB0FB00531D08 /* NSArray+Soup.h in Headers */ = {isa = PBXBuildFile; fileRef = 75E291842DBEB0FB00531D08 /* NSArray+Soup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		75E291872DBEB10600531D08 /* NSArray+Soup.m in Sources */ = {isa = PBXBuildFile; fileRef = 75E291862DBEB10600531D08 /* NSArray+Soup.m */; };
-		75E2A20B2DB19B3D007EB907 /* NSDictionary+Soup.h in Headers */ = {isa = PBXBuildFile; fileRef = 75E2A2082DB19B3D007EB907 /* NSDictionary+Soup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75E2A2142DB1A629007EB907 /* Soup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7580B7A9218188FE00D1E62F /* Soup.framework */; };
 		75E2A22B2DB1A662007EB907 /* Soup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7580B7A9218188FE00D1E62F /* Soup.framework */; };
+		B11CE001B11CE001B11CE001 /* Soup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11CE001A11CE001A11CE001 /* Soup.swift */; };
+		B11CE002B11CE002B11CE002 /* SoupDeepCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11CE002A11CE002A11CE002 /* SoupDeepCopy.swift */; };
+		B11CE003B11CE003B11CE003 /* SoupDigest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11CE003A11CE003A11CE003 /* SoupDigest.swift */; };
+		B11CE004B11CE004B11CE004 /* SoupStock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11CE004A11CE004A11CE004 /* SoupStock.swift */; };
+		B11CE005B11CE005B11CE005 /* SoupSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11CE005A11CE005A11CE005 /* SoupSwiftTests.swift */; };
+		B11CE006B11CE006B11CE006 /* FileSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11CE006A11CE006A11CE006 /* FileSoup.swift */; };
+		B11CE007B11CE007B11CE007 /* QueuedSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11CE007A11CE007A11CE007 /* QueuedSoup.swift */; };
+		B11CE008B11CE008B11CE008 /* SoupClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11CE008A11CE008A11CE008 /* SoupClock.swift */; };
+		B11CE009B11CE009B11CE009 /* SoupSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11CE009A11CE009A11CE009 /* SoupSnapshot.swift */; };
+		B11CE010B11CE010B11CE010 /* SynchedSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11CE010A11CE010A11CE010 /* SynchedSoup.swift */; };
+		B11CE011B11CE011B11CE011 /* UnionSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11CE011A11CE011A11CE011 /* UnionSoup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,13 +69,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 7543242920A39B5B006EE620;
 			remoteInfo = addresses;
-		};
-		75A73D7B2DC02FF100186BC3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 75A73D782DC02FF100186BC3 /* ILFoundation.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7582F6692D3F642F008588DD;
-			remoteInfo = ILFoundation;
 		};
 		75A73D802DC02FF200186BC3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -155,27 +119,6 @@
 			remoteGlobalIDString = 7580B783218188FE00D1E62F;
 			remoteInfo = Soup;
 		};
-		75F1DB0C2DDA75C8006B74B7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 75A73D5F2DC02F6E00186BC3 /* ILFoundation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7582F67B2D3F642F008588DD;
-			remoteInfo = ILFoundation;
-		};
-		75F1DB0E2DDA75C8006B74B7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 75A73D5F2DC02F6E00186BC3 /* ILFoundation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 75EEF6A92D638CFB00B2EE80;
-			remoteInfo = ILFoundationSwift;
-		};
-		75F1DB102DDA75C8006B74B7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 75A73D5F2DC02F6E00186BC3 /* ILFoundation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 75CB089F2C9B945D00B83BC3;
-			remoteInfo = ILFoundationTests;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -194,8 +137,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				75A73D6F2DC02FA100186BC3 /* ILFoundation.framework in Embed Frameworks */,
-				75A73D712DC02FA100186BC3 /* ILFoundationSwift.framework in Embed Frameworks */,
 				75A73D6B2DC02FA100186BC3 /* Soup.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -206,45 +147,13 @@
 /* Begin PBXFileReference section */
 		7519C115277567C600EACA50 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		7542328121AD1E7B008004E0 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		754323E820A2BF56006EE620 /* ILSoup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoup.h; sourceTree = "<group>"; };
-		754323EB20A2C055006EE620 /* ILMemorySoup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILMemorySoup.h; sourceTree = "<group>"; };
-		754323EC20A2C055006EE620 /* ILMemorySoup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILMemorySoup.m; sourceTree = "<group>"; };
-		754323ED20A2C0B7006EE620 /* ILFileSoup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILFileSoup.h; sourceTree = "<group>"; };
-		754323EE20A2C0B7006EE620 /* ILFileSoup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILFileSoup.m; sourceTree = "<group>"; };
-		754323F320A2C3D0006EE620 /* ILSoupEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupEntry.h; sourceTree = "<group>"; };
-		754323F420A2C77B006EE620 /* ILSoupIndex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupIndex.h; sourceTree = "<group>"; };
-		754323F520A2C7E5006EE620 /* ILSoupSequence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupSequence.h; sourceTree = "<group>"; };
-		754323F620A373F3006EE620 /* ILUnionSoup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILUnionSoup.h; sourceTree = "<group>"; };
-		754323F720A373F3006EE620 /* ILUnionSoup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILUnionSoup.m; sourceTree = "<group>"; };
-		7543240220A37870006EE620 /* Soup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Soup.h; sourceTree = "<group>"; };
 		7543240320A37870006EE620 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7543242120A384C9006EE620 /* ILSoupStock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupStock.h; sourceTree = "<group>"; };
-		7543242220A384C9006EE620 /* ILSoupStock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSoupStock.m; sourceTree = "<group>"; };
 		7543242A20A39B5B006EE620 /* addresses */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = addresses; sourceTree = BUILT_PRODUCTS_DIR; };
-		7543242C20A39B5C006EE620 /* addresses.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = addresses.m; sourceTree = "<group>"; };
-		7543243520A3A153006EE620 /* ILStockEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILStockEntry.h; sourceTree = "<group>"; };
-		7543243620A3A153006EE620 /* ILStockEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILStockEntry.m; sourceTree = "<group>"; };
-		7543243A20A3A2E4006EE620 /* ILStockIndex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILStockIndex.h; sourceTree = "<group>"; };
-		7543243B20A3A2E4006EE620 /* ILStockIndex.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILStockIndex.m; sourceTree = "<group>"; };
-		7543243E20A3A312006EE620 /* ILStockSequence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILStockSequence.h; sourceTree = "<group>"; };
-		7543243F20A3A312006EE620 /* ILStockSequence.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILStockSequence.m; sourceTree = "<group>"; };
-		7543244220A8B289006EE620 /* ILSynchedSoup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSynchedSoup.h; sourceTree = "<group>"; };
-		7543244320A8B289006EE620 /* ILSynchedSoup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSynchedSoup.m; sourceTree = "<group>"; };
-		754324B720AE39FF006EE620 /* ILQueuedSoup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILQueuedSoup.h; sourceTree = "<group>"; };
-		754324B820AE39FF006EE620 /* ILQueuedSoup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILQueuedSoup.m; sourceTree = "<group>"; };
+		7543242C20A39B5C006EE620 /* addresses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addresses.swift; sourceTree = "<group>"; };
 		754EA4472C73E3E7004BBC13 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		7580B7A9218188FE00D1E62F /* Soup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Soup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		758C8CE42267E8B7001B366E /* ILSoupTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupTime.h; sourceTree = "<group>"; };
-		758C8CE82267ED79001B366E /* ILSoupClock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupClock.h; sourceTree = "<group>"; };
-		758C8CE92267ED79001B366E /* ILSoupClock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSoupClock.m; sourceTree = "<group>"; };
-		75945A462DDD323000EBE1B8 /* ILSoupSnapshot.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ILSoupSnapshot.m; sourceTree = "<group>"; };
 		75967A992963838E00BE394B /* SoupTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoupTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		75967A9B2963838E00BE394B /* SoupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoupTests.swift; sourceTree = "<group>"; };
-		75A72A952DB3F2A1003F6532 /* NSDictionary+Soup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Soup.m"; sourceTree = "<group>"; };
-		75A73D5F2DC02F6E00186BC3 /* ILFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ILFoundation.xcodeproj; path = ../ILFoundation/ILFoundation.xcodeproj; sourceTree = SOURCE_ROOT; };
-		75A73D622DC02F7D00186BC3 /* ILFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ILFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		75A73D692DC02FA100186BC3 /* ILFoundationSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ILFoundationSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		75A73D752DC02FD000186BC3 /* ILFoundationSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ILFoundationSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75A73D782DC02FF100186BC3 /* ILFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ILFoundation.xcodeproj; path = /Users/alf/Developer/ILFoundation/ILFoundation.xcodeproj; sourceTree = "<absolute>"; };
 		75D12D6E2378BF40003F2899 /* Cannery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cannery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75D12D702378BF40003F2899 /* CanneryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanneryDelegate.swift; sourceTree = "<group>"; };
@@ -257,11 +166,18 @@
 		75D12D832378BF42003F2899 /* CanneryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanneryTests.swift; sourceTree = "<group>"; };
 		75D12D852378BF42003F2899 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75D12D9323791C9D003F2899 /* CanneryBrowser.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CanneryBrowser.xib; sourceTree = "<group>"; };
-		75E291842DBEB0FB00531D08 /* NSArray+Soup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Soup.h"; sourceTree = "<group>"; };
-		75E291862DBEB10600531D08 /* NSArray+Soup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Soup.m"; sourceTree = "<group>"; };
-		75E2A2082DB19B3D007EB907 /* NSDictionary+Soup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Soup.h"; sourceTree = "<group>"; };
 		75EA39BC1B20D6340058E49D /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
-		75F1DB7C2DDD1E69006B74B7 /* ILSoupSnapshot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ILSoupSnapshot.h; sourceTree = "<group>"; };
+		A11CE001A11CE001A11CE001 /* Soup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Soup.swift; sourceTree = "<group>"; };
+		A11CE002A11CE002A11CE002 /* SoupDeepCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoupDeepCopy.swift; sourceTree = "<group>"; };
+		A11CE003A11CE003A11CE003 /* SoupDigest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoupDigest.swift; sourceTree = "<group>"; };
+		A11CE004A11CE004A11CE004 /* SoupStock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoupStock.swift; sourceTree = "<group>"; };
+		A11CE005A11CE005A11CE005 /* SoupSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoupSwiftTests.swift; sourceTree = "<group>"; };
+		A11CE006A11CE006A11CE006 /* FileSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSoup.swift; sourceTree = "<group>"; };
+		A11CE007A11CE007A11CE007 /* QueuedSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedSoup.swift; sourceTree = "<group>"; };
+		A11CE008A11CE008A11CE008 /* SoupClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoupClock.swift; sourceTree = "<group>"; };
+		A11CE009A11CE009A11CE009 /* SoupSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoupSnapshot.swift; sourceTree = "<group>"; };
+		A11CE010A11CE010A11CE010 /* SynchedSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchedSoup.swift; sourceTree = "<group>"; };
+		A11CE011A11CE011A11CE011 /* UnionSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnionSoup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,7 +185,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75A73D662DC02F8400186BC3 /* ILFoundation.framework in Frameworks */,
 				75E2A2142DB1A629007EB907 /* Soup.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -278,7 +193,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75A73D632DC02F7D00186BC3 /* ILFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,8 +200,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75A73D722DC02FBC00186BC3 /* ILFoundation.framework in Frameworks */,
-				75A73D762DC02FD000186BC3 /* ILFoundationSwift.framework in Frameworks */,
 				75E2A22B2DB1A662007EB907 /* Soup.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -296,8 +208,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75A73D6E2DC02FA100186BC3 /* ILFoundation.framework in Frameworks */,
-				75A73D702DC02FA100186BC3 /* ILFoundationSwift.framework in Frameworks */,
 				75A73D6A2DC02FA100186BC3 /* Soup.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -327,55 +237,25 @@
 		7543242B20A39B5C006EE620 /* addresses */ = {
 			isa = PBXGroup;
 			children = (
-				7543242C20A39B5C006EE620 /* addresses.m */,
+				7543242C20A39B5C006EE620 /* addresses.swift */,
 			);
 			path = addresses;
-			sourceTree = "<group>";
-		};
-		754EA4442C73E339004BBC13 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				7543240220A37870006EE620 /* Soup.h */,
-				754323ED20A2C0B7006EE620 /* ILFileSoup.h */,
-				754323EB20A2C055006EE620 /* ILMemorySoup.h */,
-				754324B720AE39FF006EE620 /* ILQueuedSoup.h */,
-				754323E820A2BF56006EE620 /* ILSoup.h */,
-				758C8CE82267ED79001B366E /* ILSoupClock.h */,
-				754323F320A2C3D0006EE620 /* ILSoupEntry.h */,
-				754323F420A2C77B006EE620 /* ILSoupIndex.h */,
-				754323F520A2C7E5006EE620 /* ILSoupSequence.h */,
-				75F1DB7C2DDD1E69006B74B7 /* ILSoupSnapshot.h */,
-				7543242120A384C9006EE620 /* ILSoupStock.h */,
-				758C8CE42267E8B7001B366E /* ILSoupTime.h */,
-				7543243520A3A153006EE620 /* ILStockEntry.h */,
-				7543243A20A3A2E4006EE620 /* ILStockIndex.h */,
-				7543243E20A3A312006EE620 /* ILStockSequence.h */,
-				7543244220A8B289006EE620 /* ILSynchedSoup.h */,
-				754323F620A373F3006EE620 /* ILUnionSoup.h */,
-				75E291842DBEB0FB00531D08 /* NSArray+Soup.h */,
-				75E2A2082DB19B3D007EB907 /* NSDictionary+Soup.h */,
-			);
-			path = include;
 			sourceTree = "<group>";
 		};
 		754EA4452C73E339004BBC13 /* Soup */ = {
 			isa = PBXGroup;
 			children = (
-				754323EE20A2C0B7006EE620 /* ILFileSoup.m */,
-				754323EC20A2C055006EE620 /* ILMemorySoup.m */,
-				754324B820AE39FF006EE620 /* ILQueuedSoup.m */,
-				758C8CE92267ED79001B366E /* ILSoupClock.m */,
-				75945A462DDD323000EBE1B8 /* ILSoupSnapshot.m */,
-				7543242220A384C9006EE620 /* ILSoupStock.m */,
-				7543243620A3A153006EE620 /* ILStockEntry.m */,
-				7543243B20A3A2E4006EE620 /* ILStockIndex.m */,
-				7543243F20A3A312006EE620 /* ILStockSequence.m */,
-				7543244320A8B289006EE620 /* ILSynchedSoup.m */,
-				754323F720A373F3006EE620 /* ILUnionSoup.m */,
-				754EA4442C73E339004BBC13 /* include */,
+				A11CE006A11CE006A11CE006 /* FileSoup.swift */,
+				A11CE007A11CE007A11CE007 /* QueuedSoup.swift */,
+				A11CE008A11CE008A11CE008 /* SoupClock.swift */,
+				A11CE009A11CE009A11CE009 /* SoupSnapshot.swift */,
+				A11CE010A11CE010A11CE010 /* SynchedSoup.swift */,
+				A11CE011A11CE011A11CE011 /* UnionSoup.swift */,
 				7543240320A37870006EE620 /* Info.plist */,
-				75E291862DBEB10600531D08 /* NSArray+Soup.m */,
-				75A72A952DB3F2A1003F6532 /* NSDictionary+Soup.m */,
+				A11CE001A11CE001A11CE001 /* Soup.swift */,
+				A11CE002A11CE002A11CE002 /* SoupDeepCopy.swift */,
+				A11CE003A11CE003A11CE003 /* SoupDigest.swift */,
+				A11CE004A11CE004A11CE004 /* SoupStock.swift */,
 			);
 			path = Soup;
 			sourceTree = "<group>";
@@ -396,19 +276,9 @@
 			isa = PBXGroup;
 			children = (
 				75967A9B2963838E00BE394B /* SoupTests.swift */,
+				A11CE005A11CE005A11CE005 /* SoupSwiftTests.swift */,
 			);
 			path = SoupTests;
-			sourceTree = "<group>";
-		};
-		75A73D5E2DC02F5A00186BC3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				75A73D752DC02FD000186BC3 /* ILFoundationSwift.framework */,
-				75A73D692DC02FA100186BC3 /* ILFoundationSwift.framework */,
-				75A73D622DC02F7D00186BC3 /* ILFoundation.framework */,
-				75A73D5F2DC02F6E00186BC3 /* ILFoundation.xcodeproj */,
-			);
-			path = Frameworks;
 			sourceTree = "<group>";
 		};
 		75A73D792DC02FF100186BC3 /* Products */ = {
@@ -448,7 +318,6 @@
 		75EA39B51B20D5A00058E49D = {
 			isa = PBXGroup;
 			children = (
-				75A73D5E2DC02F5A00186BC3 /* Frameworks */,
 				7542328121AD1E7B008004E0 /* Makefile */,
 				75EA39BC1B20D6340058E49D /* Readme.md */,
 				754EA4472C73E3E7004BBC13 /* Package.swift */,
@@ -458,16 +327,6 @@
 			);
 			sourceTree = "<group>";
 		};
-		75F1DB072DDA75C8006B74B7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				75F1DB0D2DDA75C8006B74B7 /* ILFoundation.framework */,
-				75F1DB0F2DDA75C8006B74B7 /* ILFoundationSwift.framework */,
-				75F1DB112DDA75C8006B74B7 /* ILFoundationTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -475,25 +334,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7580B794218188FE00D1E62F /* Soup.h in Headers */,
-				7580B79F218188FE00D1E62F /* ILFileSoup.h in Headers */,
-				7580B79E218188FE00D1E62F /* ILMemorySoup.h in Headers */,
-				7580B7A4218188FE00D1E62F /* ILQueuedSoup.h in Headers */,
-				7580B7A0218188FE00D1E62F /* ILUnionSoup.h in Headers */,
-				7580B795218188FE00D1E62F /* ILSoup.h in Headers */,
-				7580B796218188FE00D1E62F /* ILSoupEntry.h in Headers */,
-				7580B797218188FE00D1E62F /* ILSoupIndex.h in Headers */,
-				7580B799218188FE00D1E62F /* ILSoupSequence.h in Headers */,
-				7580B79A218188FE00D1E62F /* ILSoupStock.h in Headers */,
-				758C8CE52267E8B7001B366E /* ILSoupTime.h in Headers */,
-				758C8CEA2267ED79001B366E /* ILSoupClock.h in Headers */,
-				7580B79B218188FE00D1E62F /* ILStockEntry.h in Headers */,
-				7580B79C218188FE00D1E62F /* ILStockIndex.h in Headers */,
-				7580B79D218188FE00D1E62F /* ILStockSequence.h in Headers */,
-				759602C42DDD58300037C92F /* ILSoupSnapshot.h in Headers */,
-				75E291852DBEB0FB00531D08 /* NSArray+Soup.h in Headers */,
-				7580B798218188FE00D1E62F /* ILSynchedSoup.h in Headers */,
-				75E2A20B2DB19B3D007EB907 /* NSDictionary+Soup.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,7 +370,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				75A73D7C2DC02FF100186BC3 /* PBXTargetDependency */,
 			);
 			name = Soup;
 			productName = Soup;
@@ -648,10 +487,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 75F1DB072DDA75C8006B74B7 /* Products */;
-					ProjectRef = 75A73D5F2DC02F6E00186BC3 /* ILFoundation.xcodeproj */;
-				},
-				{
 					ProductGroup = 75A73D792DC02FF100186BC3 /* Products */;
 					ProjectRef = 75A73D782DC02FF100186BC3 /* ILFoundation.xcodeproj */;
 				},
@@ -660,10 +495,10 @@
 			targets = (
 				754EA4482C73E437004BBC13 /* Soup (All) */,
 				7580B783218188FE00D1E62F /* Soup */,
-				7543242920A39B5B006EE620 /* addresses */,
+				75967A982963838E00BE394B /* SoupTests */,
 				75D12D6D2378BF40003F2899 /* Cannery */,
 				75D12D7E2378BF42003F2899 /* CanneryTests */,
-				75967A982963838E00BE394B /* SoupTests */,
+				7543242920A39B5B006EE620 /* addresses */,
 			);
 		};
 /* End PBXProject section */
@@ -688,27 +523,6 @@
 			fileType = wrapper.cfbundle;
 			path = ILFoundationTests.xctest;
 			remoteRef = 75A73D842DC02FF200186BC3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		75F1DB0D2DDA75C8006B74B7 /* ILFoundation.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ILFoundation.framework;
-			remoteRef = 75F1DB0C2DDA75C8006B74B7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		75F1DB0F2DDA75C8006B74B7 /* ILFoundationSwift.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ILFoundationSwift.framework;
-			remoteRef = 75F1DB0E2DDA75C8006B74B7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		75F1DB112DDA75C8006B74B7 /* ILFoundationTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ILFoundationTests.xctest;
-			remoteRef = 75F1DB102DDA75C8006B74B7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -752,7 +566,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7543242D20A39B5C006EE620 /* addresses.m in Sources */,
+				7543242D20A39B5C006EE620 /* addresses.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -760,19 +574,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7580B785218188FE00D1E62F /* ILMemorySoup.m in Sources */,
-				7580B786218188FE00D1E62F /* ILFileSoup.m in Sources */,
-				7580B787218188FE00D1E62F /* ILSoupStock.m in Sources */,
-				7580B788218188FE00D1E62F /* ILStockIndex.m in Sources */,
-				7580B789218188FE00D1E62F /* ILUnionSoup.m in Sources */,
-				7580B78B218188FE00D1E62F /* ILStockEntry.m in Sources */,
-				7580B78C218188FE00D1E62F /* ILStockSequence.m in Sources */,
-				75E291872DBEB10600531D08 /* NSArray+Soup.m in Sources */,
-				758C8CED2267ED79001B366E /* ILSoupClock.m in Sources */,
-				75945A482DDD323000EBE1B8 /* ILSoupSnapshot.m in Sources */,
-				7580B78D218188FE00D1E62F /* ILSynchedSoup.m in Sources */,
-				7580B78F218188FE00D1E62F /* ILQueuedSoup.m in Sources */,
-				75A72A962DB3F2A1003F6532 /* NSDictionary+Soup.m in Sources */,
+				B11CE006B11CE006B11CE006 /* FileSoup.swift in Sources */,
+				B11CE007B11CE007B11CE007 /* QueuedSoup.swift in Sources */,
+				B11CE008B11CE008B11CE008 /* SoupClock.swift in Sources */,
+				B11CE009B11CE009B11CE009 /* SoupSnapshot.swift in Sources */,
+				B11CE010B11CE010B11CE010 /* SynchedSoup.swift in Sources */,
+				B11CE011B11CE011B11CE011 /* UnionSoup.swift in Sources */,
+				B11CE001B11CE001B11CE001 /* Soup.swift in Sources */,
+				B11CE002B11CE002B11CE002 /* SoupDeepCopy.swift in Sources */,
+				B11CE003B11CE003B11CE003 /* SoupDigest.swift in Sources */,
+				B11CE004B11CE004B11CE004 /* SoupStock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -781,6 +592,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				75967A9C2963838E00BE394B /* SoupTests.swift in Sources */,
+				B11CE005B11CE005B11CE005 /* SoupSwiftTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -818,11 +630,6 @@
 			isa = PBXTargetDependency;
 			target = 7543242920A39B5B006EE620 /* addresses */;
 			targetProxy = 754EA4542C73E446004BBC13 /* PBXContainerItemProxy */;
-		};
-		75A73D7C2DC02FF100186BC3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ILFoundation;
-			targetProxy = 75A73D7B2DC02FF100186BC3 /* PBXContainerItemProxy */;
 		};
 		75A73D872DC02FFA00186BC3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -913,11 +720,16 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 5.10;
+				TVOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_TVOS_DEPLOYMENT_TARGET)";
+				WATCHOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_WATCHOS_DEPLOYMENT_TARGET)";
+				XROS_DEPLOYMENT_TARGET = "$(RECOMMENDED_XROS_DEPLOYMENT_TARGET)";
 			};
 			name = Debug;
 		};
@@ -970,10 +782,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 5.10;
+				TVOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_TVOS_DEPLOYMENT_TARGET)";
+				WATCHOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_WATCHOS_DEPLOYMENT_TARGET)";
+				XROS_DEPLOYMENT_TARGET = "$(RECOMMENDED_XROS_DEPLOYMENT_TARGET)";
 			};
 			name = Release;
 		};
@@ -982,7 +799,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -992,7 +809,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1057,19 +874,25 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Source/Soup/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.istumbler.labs.soup;
 				PRODUCT_NAME = Soup;
 				STRIP_SWIFT_SYMBOLS = NO;
 				SUPPORTED_PLATFORMS = "xrsimulator xros watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SWIFT_VERSION = 5.10;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4,6,7";
+				TVOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_TVOS_DEPLOYMENT_TARGET)";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_WATCHOS_DEPLOYMENT_TARGET)";
+				XROS_DEPLOYMENT_TARGET = "$(RECOMMENDED_XROS_DEPLOYMENT_TARGET)";
 			};
 			name = Debug;
 		};
@@ -1128,18 +951,24 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Source/Soup/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.istumbler.labs.soup;
 				PRODUCT_NAME = Soup;
 				STRIP_SWIFT_SYMBOLS = NO;
 				SUPPORTED_PLATFORMS = "xrsimulator xros watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SWIFT_VERSION = 5.10;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4,6,7";
+				TVOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_TVOS_DEPLOYMENT_TARGET)";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_WATCHOS_DEPLOYMENT_TARGET)";
+				XROS_DEPLOYMENT_TARGET = "$(RECOMMENDED_XROS_DEPLOYMENT_TARGET)";
 			};
 			name = Release;
 		};
@@ -1282,11 +1111,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Source/Cannery/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 1.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1298,6 +1128,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TVOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_TVOS_DEPLOYMENT_TARGET)";
+				WATCHOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_WATCHOS_DEPLOYMENT_TARGET)";
+				XROS_DEPLOYMENT_TARGET = "$(RECOMMENDED_XROS_DEPLOYMENT_TARGET)";
 			};
 			name = Debug;
 		};
@@ -1354,11 +1187,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Source/Cannery/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 1.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -1369,6 +1203,9 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
+				TVOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_TVOS_DEPLOYMENT_TARGET)";
+				WATCHOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_WATCHOS_DEPLOYMENT_TARGET)";
+				XROS_DEPLOYMENT_TARGET = "$(RECOMMENDED_XROS_DEPLOYMENT_TARGET)";
 			};
 			name = Release;
 		};
@@ -1428,13 +1265,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = CanneryTests/Info.plist;
+				INFOPLIST_FILE = Source/CanneryTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1499,13 +1336,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = CanneryTests/Info.plist;
+				INFOPLIST_FILE = Source/CanneryTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.istumbler.labs.CanneryTests;

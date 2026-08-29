@@ -11,7 +11,7 @@ let ILParents = "entryParents"
 let ILSpouse = "entrySpouse"
 
 
-final class AddressBookEntry: ILStockEntry {
+final class AddressBookEntry: StockEntry {
     dynamic var entryName: String? = nil
     dynamic var entryEmail: String? = nil
     dynamic var entryPhone: String? = nil
@@ -32,66 +32,66 @@ final class SoupTests: XCTestCase {
 
     override func setUpWithError() throws {}
 
-    // MARK: - ILSoupClock
+    // MARK: - SoupClock
 
     func testSoupClockEarlier() {
         let earlier: Date = Date(timeIntervalSinceNow: -1) // a second earlier
-        XCTAssert(ILSoupClock.earlier().compare(earlier) == .orderedSame)
+        XCTAssert(SoupClock.earlier().compare(earlier) == .orderedSame)
     }
 
     func testSoupClockLater() {
         let later: Date = Date(timeIntervalSinceNow: 1) // a second later
-        XCTAssert(ILSoupClock.later().compare(later) == .orderedSame)
+        XCTAssert(SoupClock.later().compare(later) == .orderedSame)
     }
 
     func testSoupClockAnytime() {
-        XCTAssert(ILSoupClock.anytime().compare(Date()) == .orderedSame)
+        XCTAssert(SoupClock.anytime().compare(Date()) == .orderedSame)
     }
 
     func testSoupClockNever() {
-        XCTAssert(ILSoupClock.never().compare(Date()) == .orderedAscending)
+        XCTAssert(SoupClock.never().compare(Date()) == .orderedAscending)
     }
 
     func testSoupClockWhenever() {
-        XCTAssert(ILSoupClock.whenever().compare(Date()) == .orderedSame)
+        XCTAssert(SoupClock.whenever().compare(Date()) == .orderedSame)
     }
 
-    // MARK: - ILSoup
+    // MARK: - Soup
 
     // TODO: make these test cases functions which take the soup as an argument
     // add driver methods to test various soup types (memory/file/remote/&c.)
 
     func testSoupCreation() throws {
-        let memory: ILMemorySoup? = ILMemorySoup(name: "Soup Creation Test")
+        let memory: MemorySoup? = MemorySoup(name: "Soup Creation Test")
         XCTAssert(memory != nil, "Create Test Soup")
     }
 
     func testSoupDescription() throws {
-        let memory: ILMemorySoup = ILMemorySoup(name: "Soup Description Test")
+        let memory: MemorySoup = MemorySoup(name: "Soup Description Test")
         memory.soupDescription = "Test Soup"
         XCTAssert(memory.soupDescription == "Test Soup", "make sure soup description is readable")
     }
 
     func testSoupCreateBlankEntry() throws {
-        let memory: ILMemorySoup = ILMemorySoup(name: "Create Blank Entry Test")
-        let blankEntry: ILSoupEntry? = memory.createBlankEntry()
+        let memory: MemorySoup = MemorySoup(name: "Create Blank Entry Test")
+        let blankEntry: SoupEntry? = memory.createBlankEntry()
         XCTAssert(blankEntry != nil, "Created Blank Entry")
     }
 
     func testSoupIdentityIndexCreation() throws {
-        let memory: ILMemorySoup = ILMemorySoup(name: "Identity Index Creation Test")
+        let memory: MemorySoup = MemorySoup(name: "Identity Index Creation Test")
         memory.createEntryIdentityIndex()
         XCTAssert(memory.queryIndex(ILSoupEntryIdentityUUID) != nil, "Created Entry Identity Index")
     }
 
     func testSoupValueIndexCreation() throws {
-        let memory: ILMemorySoup = ILMemorySoup(name: "Value Index Creation Test")
+        let memory: MemorySoup = MemorySoup(name: "Value Index Creation Test")
         memory.createValueIndex(ILName)
         XCTAssert(memory.queryIndex(ILName) != nil, "Created Value Index")
     }
 
     func testSoupValueIndexQueries() throws {
-        let memory: ILMemorySoup = ILMemorySoup(name: "Value Index Creation Test")
+        let memory: MemorySoup = MemorySoup(name: "Value Index Creation Test")
         memory.createValueIndex(ILName)
         XCTAssert(memory.queryIndex(ILName) != nil, "Created Value Index")
 
@@ -99,7 +99,7 @@ final class SoupTests: XCTestCase {
     }
 
     func testSoupIdentityIndex() throws {
-        let memory = ILMemorySoup(name: "Identity Index Test")
+        let memory = MemorySoup(name: "Identity Index Test")
         memory.createEntryIdentityIndex()
 
         let first = memory.createBlankEntry()
@@ -109,7 +109,7 @@ final class SoupTests: XCTestCase {
         XCTAssert(first === firstFound, "First entry is firstFound")
 
         // copies
-        let copy = first.copy() as! ILMutableSoupEntry
+        let copy = first.copy() as! MutableSoupEntry
         memory.add(copy)
         let copyFound = memory.queryEntryIdentityIndex(firstUUID)
         XCTAssert(first !== copyFound, "copyFound is not the first")
@@ -137,7 +137,7 @@ final class SoupTests: XCTestCase {
     }
 
     func testSoupAncestryIndex() throws {
-        let memory = ILMemorySoup(name: "Ancestry Index Test")
+        let memory = MemorySoup(name: "Ancestry Index Test")
         memory.createAncestryIndex()
 
         if let ancestery = memory.queryAncestryIndex() {
@@ -186,7 +186,7 @@ final class SoupTests: XCTestCase {
         }
     }
 
-    // tests the uses of dynamic properties from a swfit defined subclass of ILStockEntry
+    // tests the uses of dynamic properties from a swfit defined subclass of StockEntry
     func testSoupAddressBookEntry() throws {
         var testEntry: AddressBookEntry? = AddressBookEntry()
         testEntry!.entryName = "test entry name"
@@ -199,7 +199,7 @@ final class SoupTests: XCTestCase {
         nextEntry!.entryEmail = "test@example.com"
         nextEntry!.entryNotes = "on to the next one"
 
-        let memory: ILMemorySoup = ILMemorySoup(name: "Test Soup");
+        let memory: MemorySoup = MemorySoup(name: "Test Soup");
         let nextEntryAlias = memory.add(nextEntry!)
         nextEntry = nil // should still exist in the soup, let's look it up
 
@@ -208,7 +208,7 @@ final class SoupTests: XCTestCase {
     }
 
     func testSoupNumberIndex() throws {
-        let memory = ILMemorySoup(name: "Numbers")
+        let memory = MemorySoup(name: "Numbers")
         memory.createNumberIndex("number")
 
         // create some numbers to populate the index
@@ -241,7 +241,7 @@ final class SoupTests: XCTestCase {
     }
 
     func testSoupTextIndexDuplicates() throws {
-        let memory = ILMemorySoup(name: "Identity")
+        let memory = MemorySoup(name: "Identity")
         let name = memory.createTextIndex(ILName)
         let email = memory.createTextIndex(ILEmail)
 
@@ -275,14 +275,14 @@ final class SoupTests: XCTestCase {
 
     }
 
-    // MARK: - ILSoupSnapshot
+    // MARK: - SoupSnapshot
 
     func testSoupSnapShot() throws {
-        let memory: ILMemorySoup = ILMemorySoup(name: "Snappy Soup")
+        let memory: MemorySoup = MemorySoup(name: "Snappy Soup")
         memory.createEntryIdentityIndex()
         memory.createIdentityIndex(ILEmail)
 
-        let snapshot = ILSoupSnapshot(map: [
+        let snapshot = SoupSnapshot(map: [
             ILSoupSnapshotProperties: [
                 ILName: [
                     ILSoupSnapshotStorageKey: "NameStorage"

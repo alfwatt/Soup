@@ -16,7 +16,7 @@ private func stockCanonicalOrderingString(for value: Any) -> String {
     return String(describing: value)
 }
 
-open class ILStockEntry: NSObject, ILMutableSoupEntry {
+open class StockEntry: NSObject, MutableSoupEntry {
     private var storage: [String: Any]
 
     public required override init() {
@@ -102,19 +102,19 @@ open class ILStockEntry: NSObject, ILMutableSoupEntry {
     }
 }
 
-public protocol ILSoupCursor: AnyObject {
-    var entries: [ILSoupEntry] { get }
+public protocol SoupCursor: AnyObject {
+    var entries: [SoupEntry] { get }
     var index: UInt { get }
     var count: Int { get }
-    func nextEntry() -> ILSoupEntry?
+    func nextEntry() -> SoupEntry?
     func resetCursor()
-    func entry(at entryIndex: UInt) -> ILSoupEntry
-    func entries(in entryRange: NSRange) -> [ILSoupEntry]
+    func entry(at entryIndex: UInt) -> SoupEntry
+    func entries(in entryRange: NSRange) -> [SoupEntry]
 }
 
-open class ILStockCursor: ILSoupCursor {
-    public static let sharedEmpty = ILStockCursor(entries: [])
-    public private(set) var entries: [ILSoupEntry]
+open class StockCursor: SoupCursor {
+    public static let sharedEmpty = StockCursor(entries: [])
+    public private(set) var entries: [SoupEntry]
     public private(set) var index: UInt = 0
     public var count: Int { entries.count }
 
@@ -122,11 +122,11 @@ open class ILStockCursor: ILSoupCursor {
         self.init(entries: [])
     }
 
-    public required init(entries: [ILSoupEntry]) {
+    public required init(entries: [SoupEntry]) {
         self.entries = entries
     }
 
-    open func nextEntry() -> ILSoupEntry? {
+    open func nextEntry() -> SoupEntry? {
         let i = Int(index)
         guard i < entries.count else { return nil }
         defer { index += 1 }
@@ -137,27 +137,27 @@ open class ILStockCursor: ILSoupCursor {
         index = 0
     }
 
-    open func entry(at entryIndex: UInt) -> ILSoupEntry {
+    open func entry(at entryIndex: UInt) -> SoupEntry {
         entries[Int(entryIndex)]
     }
 
-    open func entries(in entryRange: NSRange) -> [ILSoupEntry] {
+    open func entries(in entryRange: NSRange) -> [SoupEntry] {
         guard entryRange.location < entries.count else { return [] }
         let end = min(entries.count, entryRange.location + entryRange.length)
         return Array(entries[entryRange.location..<end])
     }
 }
 
-open class ILStockAliasCursor: ILSoupCursor {
+open class StockAliasCursor: SoupCursor {
     private let aliases: [String]
-    private weak var sourceSoup: ILSoup?
+    private weak var sourceSoup: Soup?
     public private(set) var index: UInt = 0
     public var count: Int { aliases.count }
-    public var entries: [ILSoupEntry] {
+    public var entries: [SoupEntry] {
         aliases.compactMap { sourceSoup?.gotoAlias($0) }
     }
 
-    public init(aliases: [String], inSoup sourceSoup: ILSoup?) {
+    public init(aliases: [String], inSoup sourceSoup: Soup?) {
         self.aliases = aliases
         self.sourceSoup = sourceSoup
     }
@@ -169,7 +169,7 @@ open class ILStockAliasCursor: ILSoupCursor {
         return aliases[i]
     }
 
-    open func nextEntry() -> ILSoupEntry? {
+    open func nextEntry() -> SoupEntry? {
         if let alias = nextAlias() {
             return sourceSoup?.gotoAlias(alias)
         }
@@ -180,18 +180,18 @@ open class ILStockAliasCursor: ILSoupCursor {
         index = 0
     }
 
-    open func entry(at entryIndex: UInt) -> ILSoupEntry {
+    open func entry(at entryIndex: UInt) -> SoupEntry {
         entries[Int(entryIndex)]
     }
 
-    open func entries(in entryRange: NSRange) -> [ILSoupEntry] {
+    open func entries(in entryRange: NSRange) -> [SoupEntry] {
         let currentEntries = entries
         guard entryRange.location < currentEntries.count else { return [] }
         let end = min(currentEntries.count, entryRange.location + entryRange.length)
         return Array(currentEntries[entryRange.location..<end])
     }
 }
-open class ILStockSequenceSource: NSObject, ILSoupSequenceSource {
+open class StockSequenceSource: NSObject, SoupSequenceSource {
     public let sampleDates: [Date]
     private let sequenceValues: [NSNumber]
 
@@ -200,8 +200,8 @@ open class ILStockSequenceSource: NSObject, ILSoupSequenceSource {
         sequenceValues = values
     }
 
-    public class func sequenceSource(withTimes times: [Date], andValues values: [NSNumber]) -> ILStockSequenceSource {
-        ILStockSequenceSource(times: times, andValues: values)
+    public class func sequenceSource(withTimes times: [Date], andValues values: [NSNumber]) -> StockSequenceSource {
+        StockSequenceSource(times: times, andValues: values)
     }
 
     public func sampleValue(at index: UInt) -> CGFloat {
@@ -210,7 +210,7 @@ open class ILStockSequenceSource: NSObject, ILSoupSequenceSource {
     }
 }
 
-open class ILStockSequence: NSObject, ILSoupSequence {
+open class StockSequence: NSObject, SoupSequence {
     public let sequencePath: String
     private var timelineByAlias: [String: [(Date, NSNumber)]] = [:]
 
@@ -222,52 +222,52 @@ open class ILStockSequence: NSObject, ILSoupSequence {
         self.init(path: sequencePath)
     }
 
-    public func sequenceEntry(_ entry: ILSoupEntry, atTime timeIndex: Date = Date()) {
+    public func sequenceEntry(_ entry: SoupEntry, atTime timeIndex: Date = Date()) {
         guard let rawValue = entry.entryKeys[sequencePath] else { return }
         let value = rawValue as? NSNumber ?? NSNumber(value: 0)
         timelineByAlias[sequenceKey(for: entry), default: []].append((timeIndex, value))
     }
 
-    public func removeEntry(_ entry: ILSoupEntry) {
+    public func removeEntry(_ entry: SoupEntry) {
         timelineByAlias.removeValue(forKey: sequenceKey(for: entry))
     }
 
-    public func includesEntry(_ entry: ILSoupEntry) -> Bool {
+    public func includesEntry(_ entry: SoupEntry) -> Bool {
         timelineByAlias[sequenceKey(for: entry)] != nil
     }
 
-    public func fetchSequence(for entry: ILSoupEntry, times: inout [Date], values: inout [NSNumber]) -> Bool {
+    public func fetchSequence(for entry: SoupEntry, times: inout [Date], values: inout [NSNumber]) -> Bool {
         guard let sequence = timelineByAlias[sequenceKey(for: entry)] else { return false }
         times = sequence.map { $0.0 }
         values = sequence.map { $0.1 }
         return true
     }
 
-    public func fetchSequenceSource(for entry: ILSoupEntry) -> ILSoupSequenceSource? {
+    public func fetchSequenceSource(for entry: SoupEntry) -> SoupSequenceSource? {
         var times: [Date] = []
         var values: [NSNumber] = []
         guard fetchSequence(for: entry, times: &times, values: &values) else { return nil }
-        return ILStockSequenceSource(times: times, andValues: values)
+        return StockSequenceSource(times: times, andValues: values)
     }
 
-    private func sequenceKey(for entry: ILSoupEntry) -> String {
+    private func sequenceKey(for entry: SoupEntry) -> String {
         (entry.entryKeys[ILSoupEntryIdentityUUID] as? String) ?? entry.entryHash
     }
 }
-open class ILStockIndex: NSObject, ILSoupIndex {
+open class StockIndex: NSObject, SoupIndex {
     public let indexPath: String
-    public weak var containingSoup: ILSoup?
-    fileprivate var entriesByAlias: [String: ILSoupEntry] = [:]
+    public weak var containingSoup: Soup?
+    fileprivate var entriesByAlias: [String: SoupEntry] = [:]
     fileprivate var aliasesByValue: [String: [String]] = [:]
     fileprivate var valueByAlias: [String: Any] = [:]
     fileprivate var keyByAlias: [String: String] = [:]
 
-    public required init(path indexPath: String, inSoup containingSoup: ILSoup) {
+    public required init(path indexPath: String, inSoup containingSoup: Soup) {
         self.indexPath = indexPath
         self.containingSoup = containingSoup
     }
 
-    public class func index(withPath indexPath: String, inSoup containingSoup: ILSoup) -> Self {
+    public class func index(withPath indexPath: String, inSoup containingSoup: Soup) -> Self {
         self.init(path: indexPath, inSoup: containingSoup)
     }
 
@@ -283,7 +283,7 @@ open class ILStockIndex: NSObject, ILSoupIndex {
         (allValues() as NSArray).sortedArray(using: [descriptor])
     }
 
-    open func indexEntry(_ entry: ILSoupEntry) {
+    open func indexEntry(_ entry: SoupEntry) {
         removeEntry(entry)
         let alias = entry.entryHash
         entriesByAlias[alias] = entry
@@ -294,7 +294,7 @@ open class ILStockIndex: NSObject, ILSoupIndex {
         aliasesByValue[valueKey, default: []].append(alias)
     }
 
-    open func removeEntry(_ entry: ILSoupEntry) {
+    open func removeEntry(_ entry: SoupEntry) {
         let alias = entry.entryHash
         entriesByAlias.removeValue(forKey: alias)
         valueByAlias.removeValue(forKey: alias)
@@ -306,29 +306,29 @@ open class ILStockIndex: NSObject, ILSoupIndex {
         }
     }
 
-    open func includesEntry(_ entry: ILSoupEntry) -> Bool {
+    open func includesEntry(_ entry: SoupEntry) -> Bool {
         entriesByAlias[entry.entryHash] != nil
     }
 
-    open func allEntries() -> ILSoupCursor {
-        ILStockCursor(entries: Array(entriesByAlias.values))
+    open func allEntries() -> SoupCursor {
+        StockCursor(entries: Array(entriesByAlias.values))
     }
 
-    open func entries(withValue value: Any?) -> ILSoupCursor {
-        guard let value else { return ILStockCursor(entries: []) }
+    open func entries(withValue value: Any?) -> SoupCursor {
+        guard let value else { return StockCursor(entries: []) }
         let valueKey = stockCanonicalOrderingString(for: value)
         let aliases = aliasesByValue[valueKey] ?? []
         let entries = aliases.compactMap { entriesByAlias[$0] }
-        return ILStockCursor(entries: entries)
+        return StockCursor(entries: entries)
     }
 }
 
-open class ILStockIdentityIndex: ILStockIndex, ILSoupIdentityIndex {
-    open func entry(withValue value: Any) -> ILSoupEntry? {
+open class StockIdentityIndex: StockIndex, SoupIdentityIndex {
+    open func entry(withValue value: Any) -> SoupEntry? {
         entries(withValue: value).entries.last
     }
 
-    override open func indexEntry(_ entry: ILSoupEntry) {
+    override open func indexEntry(_ entry: SoupEntry) {
         removeEntry(entry)
         let alias = entry.entryHash
         entriesByAlias[alias] = entry
@@ -347,10 +347,10 @@ open class ILStockIdentityIndex: ILStockIndex, ILSoupIdentityIndex {
     }
 }
 
-open class ILStockAncestryIndex: ILStockIdentityIndex, ILSoupAncestryIndex {
-    private var rootEntries: [String: ILSoupEntry] = [:]
+open class StockAncestryIndex: StockIdentityIndex, SoupAncestryIndex {
+    private var rootEntries: [String: SoupEntry] = [:]
 
-    override open func indexEntry(_ entry: ILSoupEntry) {
+    override open func indexEntry(_ entry: SoupEntry) {
         guard entry.entryKeys[ILSoupEntryAncestorEntryHash] is String else {
             rootEntries[entry.entryHash] = entry
             return
@@ -359,73 +359,73 @@ open class ILStockAncestryIndex: ILStockIdentityIndex, ILSoupAncestryIndex {
         super.indexEntry(entry)
     }
 
-    override open func removeEntry(_ entry: ILSoupEntry) {
+    override open func removeEntry(_ entry: SoupEntry) {
         rootEntries.removeValue(forKey: entry.entryHash)
         super.removeEntry(entry)
     }
 
-    open func ancestor(of descendant: ILSoupEntry) -> ILSoupEntry? {
+    open func ancestor(of descendant: SoupEntry) -> SoupEntry? {
         guard let ancestorAlias = descendant.entryKeys[ILSoupEntryAncestorEntryHash] as? String else { return nil }
         return containingSoup?.gotoAlias(ancestorAlias)
     }
 
-    open func ancestry(of descendant: ILSoupEntry) -> ILSoupCursor {
-        var chain: [ILSoupEntry] = [descendant]
+    open func ancestry(of descendant: SoupEntry) -> SoupCursor {
+        var chain: [SoupEntry] = [descendant]
         var cursor = descendant
         while let next = ancestor(of: cursor) {
             chain.append(next)
             cursor = next
         }
-        return ILStockCursor(entries: chain)
+        return StockCursor(entries: chain)
     }
 
-    open func descendants(of ancestor: ILSoupEntry) -> ILSoupCursor {
+    open func descendants(of ancestor: SoupEntry) -> SoupCursor {
         let aliases = aliasesByValue[stockCanonicalOrderingString(for: ancestor.entryHash)] ?? []
-        return ILStockCursor(entries: aliases.compactMap { entriesByAlias[$0] })
+        return StockCursor(entries: aliases.compactMap { entriesByAlias[$0] })
     }
 
-    open func progenitors() -> ILSoupCursor {
-        ILStockCursor(entries: Array(rootEntries.values))
+    open func progenitors() -> SoupCursor {
+        StockCursor(entries: Array(rootEntries.values))
     }
 }
 
-open class ILStockTextIndex: ILStockIndex, ILSoupTextIndex {
-    open func entries(matching pattern: String) -> ILSoupCursor {
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return ILStockCursor(entries: []) }
+open class StockTextIndex: StockIndex, SoupTextIndex {
+    open func entries(matching pattern: String) -> SoupCursor {
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return StockCursor(entries: []) }
         let matches = entriesByAlias.values.filter { entry in
             guard let string = entry.entryKeys[indexPath] as? String else { return false }
             let range = NSRange(location: 0, length: string.utf16.count)
             return regex.firstMatch(in: string, range: range) != nil
         }
-        return ILStockCursor(entries: matches)
+        return StockCursor(entries: matches)
     }
 }
 
-open class ILStockNumberIndex: ILStockIndex, ILSoupNumberIndex {
-    open func entriesBetween(_ min: NSNumber, and max: NSNumber) -> ILSoupCursor {
+open class StockNumberIndex: StockIndex, SoupNumberIndex {
+    open func entriesBetween(_ min: NSNumber, and max: NSNumber) -> SoupCursor {
         let values = entriesByAlias.values.filter { entry in
             guard let number = entry.entryKeys[indexPath] as? NSNumber else { return false }
             return number.doubleValue >= min.doubleValue && number.doubleValue <= max.doubleValue
         }
-        return ILStockCursor(entries: values)
+        return StockCursor(entries: values)
     }
 }
 
-open class ILStockDateIndex: ILStockIndex, ILSoupDateIndex {
-    open func entriesBetween(_ early: Date, and late: Date) -> ILSoupCursor {
+open class StockDateIndex: StockIndex, SoupDateIndex {
+    open func entriesBetween(_ early: Date, and late: Date) -> SoupCursor {
         let values = entriesByAlias.values.filter { entry in
             guard let date = entry.entryKeys[indexPath] as? Date else { return false }
             return date >= early && date <= late
         }
-        return ILStockCursor(entries: values)
+        return StockCursor(entries: values)
     }
 
-    open func entries(in timeRange: ILSoupTime) -> ILSoupCursor {
+    open func entries(in timeRange: SoupTime) -> SoupCursor {
         entriesBetween(timeRange.earliest, and: timeRange.latest)
     }
 }
 
-open class ILSoupStock: NSObject, ILSoup {
+open class SoupStock: NSObject, Soup {
     public let soupUUID: UUID = UUID()
     public var soupName: String
     public var soupDescription: String = ""
@@ -433,12 +433,12 @@ open class ILSoupStock: NSObject, ILSoup {
         didSet { _ = resetCursor() }
     }
     public var defaultEntry: [String: Any] = [:]
-    public weak var delegate: ILSoupDelegate?
+    public weak var delegate: SoupDelegate?
 
-    private var entriesByAlias: [String: ILMutableSoupEntry] = [:]
-    private var indicesByPath: [String: ILSoupIndex] = [:]
-    private var sequencesByPath: [String: ILSoupSequence] = [:]
-    private var defaultCursor: ILSoupCursor = ILStockCursor(entries: [])
+    private var entriesByAlias: [String: MutableSoupEntry] = [:]
+    private var indicesByPath: [String: SoupIndex] = [:]
+    private var sequencesByPath: [String: SoupSequence] = [:]
+    private var defaultCursor: SoupCursor = StockCursor(entries: [])
 
     public required init(name soupName: String) {
         self.soupName = soupName
@@ -451,15 +451,15 @@ open class ILSoupStock: NSObject, ILSoup {
         self.init(name: soupName)
     }
 
-    open var cursor: ILSoupCursor { defaultCursor }
-    open var soupIndices: [ILSoupIndex] { indicesByPath.values.sorted { $0.indexPath < $1.indexPath } }
-    open var soupSequences: [ILSoupSequence] { sequencesByPath.values.sorted { $0.sequencePath < $1.sequencePath } }
+    open var cursor: SoupCursor { defaultCursor }
+    open var soupIndices: [SoupIndex] { indicesByPath.values.sorted { $0.indexPath < $1.indexPath } }
+    open var soupSequences: [SoupSequence] { sequencesByPath.values.sorted { $0.sequencePath < $1.sequencePath } }
 
-    open func createBlankEntry() -> ILMutableSoupEntry {
-        createBlankEntry(ofClass: ILStockEntry.self) ?? ILStockEntry()
+    open func createBlankEntry() -> MutableSoupEntry {
+        createBlankEntry(ofClass: StockEntry.self) ?? StockEntry()
     }
 
-    open func createBlankEntry(ofClass conformsToMutableSoupEntry: ILMutableSoupEntry.Type) -> ILMutableSoupEntry? {
+    open func createBlankEntry(ofClass conformsToMutableSoupEntry: MutableSoupEntry.Type) -> MutableSoupEntry? {
         var values = defaultEntry
         values[ILSoupEntryIdentityUUID] = UUID().uuidString
         values[ILSoupEntryCreationDate] = Date()
@@ -469,22 +469,22 @@ open class ILSoupStock: NSObject, ILSoup {
         return entry
     }
 
-    open func add(_ entry: ILSoupEntry) -> String {
+    open func add(_ entry: SoupEntry) -> String {
         addEntry(entry)
     }
 
     open func add(_ entry: Any) -> String {
-        if let soupEntry = entry as? ILSoupEntry {
+        if let soupEntry = entry as? SoupEntry {
             return addEntry(soupEntry)
         }
-        preconditionFailure("Entry must conform to ILSoupEntry")
+        preconditionFailure("Entry must conform to SoupEntry")
     }
 
-    open func addEntry(_ entry: ILSoupEntry) -> String {
+    open func addEntry(_ entry: SoupEntry) -> String {
         let alias = entryAlias(entry)
-        if let mutable = entry as? ILMutableSoupEntry {
+        if let mutable = entry as? MutableSoupEntry {
             entriesByAlias[alias] = mutable
-        } else if let copied = entry.mutableCopy() as? ILMutableSoupEntry {
+        } else if let copied = entry.mutableCopy() as? MutableSoupEntry {
             entriesByAlias[alias] = copied
         }
         indexEntry(entry)
@@ -494,7 +494,7 @@ open class ILSoupStock: NSObject, ILSoup {
         return alias
     }
 
-    open func deleteEntry(_ entry: ILSoupEntry) {
+    open func deleteEntry(_ entry: SoupEntry) {
         let alias = entryAlias(entry)
         entriesByAlias.removeValue(forKey: alias)
         removeFromIndices(entry)
@@ -503,169 +503,169 @@ open class ILSoupStock: NSObject, ILSoup {
         _ = resetCursor()
     }
 
-    open func entryAlias(_ entry: ILSoupEntry) -> String {
+    open func entryAlias(_ entry: SoupEntry) -> String {
         entry.entryHash
     }
 
-    open func gotoAlias(_ alias: String) -> ILMutableSoupEntry? {
+    open func gotoAlias(_ alias: String) -> MutableSoupEntry? {
         entriesByAlias[alias]
     }
 
-    open func querySoup(_ query: NSPredicate) -> ILSoupCursor {
+    open func querySoup(_ query: NSPredicate) -> SoupCursor {
         let values = entriesByAlias.values.filter { entry in
             query.evaluate(with: entry.entryKeys)
         }
-        return ILStockCursor(entries: values)
+        return StockCursor(entries: values)
     }
 
     @discardableResult
-    open func resetCursor() -> ILSoupCursor {
+    open func resetCursor() -> SoupCursor {
         defaultCursor = querySoup(soupQuery)
         return defaultCursor
     }
 
-    open func indexForPath(_ indexPath: String) -> ILSoupIndex {
+    open func indexForPath(_ indexPath: String) -> SoupIndex {
         queryIndex(indexPath) ?? createIndex(indexPath)
     }
 
-    open func createIndex(_ indexPath: String) -> ILSoupIndex {
-        let index = ILStockIndex(path: indexPath, inSoup: self)
+    open func createIndex(_ indexPath: String) -> SoupIndex {
+        let index = StockIndex(path: indexPath, inSoup: self)
         indicesByPath[indexPath] = index
         entriesByAlias.values.forEach { index.indexEntry($0) }
         delegate?.soup(self, createdIndex: index)
         return index
     }
 
-    open func queryIndex(_ indexPath: String) -> ILSoupIndex? {
+    open func queryIndex(_ indexPath: String) -> SoupIndex? {
         indicesByPath[indexPath]
     }
 
-    open func createEntryIdentityIndex() -> ILSoupIdentityIndex {
+    open func createEntryIdentityIndex() -> SoupIdentityIndex {
         if let index = queryIdentityIndex(ILSoupEntryIdentityUUID) { return index }
-        let index = ILStockIdentityIndex(path: ILSoupEntryIdentityUUID, inSoup: self)
+        let index = StockIdentityIndex(path: ILSoupEntryIdentityUUID, inSoup: self)
         indicesByPath[ILSoupEntryIdentityUUID] = index
         entriesByAlias.values.forEach { index.indexEntry($0) }
         delegate?.soup(self, createdIndex: index)
         return index
     }
 
-    open func queryEntryIdentityIndex(_ entryIdentityUUID: String) -> ILSoupEntry? {
+    open func queryEntryIdentityIndex(_ entryIdentityUUID: String) -> SoupEntry? {
         queryIdentityIndex(ILSoupEntryIdentityUUID)?.entry(withValue: entryIdentityUUID)
     }
 
-    open func createAncestryIndex() -> ILSoupAncestryIndex {
+    open func createAncestryIndex() -> SoupAncestryIndex {
         if let index = queryAncestryIndex() { return index }
-        let index = ILStockAncestryIndex(path: ILSoupEntryAncestorEntryHash, inSoup: self)
+        let index = StockAncestryIndex(path: ILSoupEntryAncestorEntryHash, inSoup: self)
         indicesByPath[ILSoupEntryAncestorEntryHash] = index
         entriesByAlias.values.forEach { index.indexEntry($0) }
         delegate?.soup(self, createdIndex: index)
         return index
     }
 
-    open func queryAncestryIndex() -> ILSoupAncestryIndex? {
-        indicesByPath[ILSoupEntryAncestorEntryHash] as? ILSoupAncestryIndex
+    open func queryAncestryIndex() -> SoupAncestryIndex? {
+        indicesByPath[ILSoupEntryAncestorEntryHash] as? SoupAncestryIndex
     }
 
-    open func createValueIndex(_ indexPath: String) -> ILSoupIndex {
+    open func createValueIndex(_ indexPath: String) -> SoupIndex {
         if let existing = queryValueIndex(indexPath) { return existing }
-        let index = ILStockIndex(path: indexPath, inSoup: self)
+        let index = StockIndex(path: indexPath, inSoup: self)
         indicesByPath[indexPath] = index
         entriesByAlias.values.forEach { index.indexEntry($0) }
         delegate?.soup(self, createdIndex: index)
         return index
     }
 
-    open func queryValueIndex(_ indexPath: String) -> ILSoupIndex? {
+    open func queryValueIndex(_ indexPath: String) -> SoupIndex? {
         indicesByPath[indexPath]
     }
 
-    open func createIdentityIndex(_ indexPath: String) -> ILSoupIdentityIndex {
+    open func createIdentityIndex(_ indexPath: String) -> SoupIdentityIndex {
         if let existing = queryIdentityIndex(indexPath) { return existing }
-        let index = ILStockIdentityIndex(path: indexPath, inSoup: self)
+        let index = StockIdentityIndex(path: indexPath, inSoup: self)
         indicesByPath[indexPath] = index
         entriesByAlias.values.forEach { index.indexEntry($0) }
         delegate?.soup(self, createdIndex: index)
         return index
     }
 
-    open func queryIdentityIndex(_ indexPath: String) -> ILSoupIdentityIndex? {
-        indicesByPath[indexPath] as? ILSoupIdentityIndex
+    open func queryIdentityIndex(_ indexPath: String) -> SoupIdentityIndex? {
+        indicesByPath[indexPath] as? SoupIdentityIndex
     }
 
-    open func createTextIndex(_ indexPath: String) -> ILSoupTextIndex {
+    open func createTextIndex(_ indexPath: String) -> SoupTextIndex {
         if let existing = queryTextIndex(indexPath) { return existing }
-        let index = ILStockTextIndex(path: indexPath, inSoup: self)
+        let index = StockTextIndex(path: indexPath, inSoup: self)
         indicesByPath[indexPath] = index
         entriesByAlias.values.forEach { index.indexEntry($0) }
         delegate?.soup(self, createdIndex: index)
         return index
     }
 
-    open func queryTextIndex(_ indexPath: String) -> ILSoupTextIndex? {
-        indicesByPath[indexPath] as? ILSoupTextIndex
+    open func queryTextIndex(_ indexPath: String) -> SoupTextIndex? {
+        indicesByPath[indexPath] as? SoupTextIndex
     }
 
-    open func createNumberIndex(_ indexPath: String) -> ILSoupNumberIndex {
+    open func createNumberIndex(_ indexPath: String) -> SoupNumberIndex {
         if let existing = queryNumberIndex(indexPath) { return existing }
-        let index = ILStockNumberIndex(path: indexPath, inSoup: self)
+        let index = StockNumberIndex(path: indexPath, inSoup: self)
         indicesByPath[indexPath] = index
         entriesByAlias.values.forEach { index.indexEntry($0) }
         delegate?.soup(self, createdIndex: index)
         return index
     }
 
-    open func queryNumberIndex(_ indexPath: String) -> ILSoupNumberIndex? {
-        indicesByPath[indexPath] as? ILSoupNumberIndex
+    open func queryNumberIndex(_ indexPath: String) -> SoupNumberIndex? {
+        indicesByPath[indexPath] as? SoupNumberIndex
     }
 
-    open func createDateIndex(_ indexPath: String) -> ILSoupDateIndex {
+    open func createDateIndex(_ indexPath: String) -> SoupDateIndex {
         if let existing = queryDateIndex(indexPath) { return existing }
-        let index = ILStockDateIndex(path: indexPath, inSoup: self)
+        let index = StockDateIndex(path: indexPath, inSoup: self)
         indicesByPath[indexPath] = index
         entriesByAlias.values.forEach { index.indexEntry($0) }
         delegate?.soup(self, createdIndex: index)
         return index
     }
 
-    open func queryDateIndex(_ indexPath: String) -> ILSoupDateIndex? {
-        indicesByPath[indexPath] as? ILSoupDateIndex
+    open func queryDateIndex(_ indexPath: String) -> SoupDateIndex? {
+        indicesByPath[indexPath] as? SoupDateIndex
     }
 
-    open func createSequence(_ sequencePath: String) -> ILSoupSequence {
+    open func createSequence(_ sequencePath: String) -> SoupSequence {
         if let existing = querySequence(sequencePath) { return existing }
-        let sequence = ILStockSequence(path: sequencePath)
+        let sequence = StockSequence(path: sequencePath)
         sequencesByPath[sequencePath] = sequence
         entriesByAlias.values.forEach { sequence.sequenceEntry($0, atTime: Date()) }
         delegate?.soup(self, createdSequence: sequence)
         return sequence
     }
 
-    open func querySequence(_ sequencePath: String) -> ILSoupSequence? {
+    open func querySequence(_ sequencePath: String) -> SoupSequence? {
         sequencesByPath[sequencePath]
     }
 
-    open func indexEntry(_ entry: ILSoupEntry) {
+    open func indexEntry(_ entry: SoupEntry) {
         for index in indicesByPath.values {
             index.indexEntry(entry)
             delegate?.soup(self, updatedIndex: index)
         }
     }
 
-    open func removeFromIndices(_ entry: ILSoupEntry) {
+    open func removeFromIndices(_ entry: SoupEntry) {
         for index in indicesByPath.values {
             index.removeEntry(entry)
             delegate?.soup(self, updatedIndex: index)
         }
     }
 
-    open func sequenceEntry(_ entry: ILSoupEntry) {
+    open func sequenceEntry(_ entry: SoupEntry) {
         for sequence in sequencesByPath.values {
             sequence.sequenceEntry(entry, atTime: Date())
             delegate?.soup(self, updatedSequence: sequence)
         }
     }
 
-    open func removeFromSequences(_ entry: ILSoupEntry) {
+    open func removeFromSequences(_ entry: SoupEntry) {
         for sequence in sequencesByPath.values {
             sequence.removeEntry(entry)
             delegate?.soup(self, updatedSequence: sequence)
@@ -684,4 +684,4 @@ open class ILSoupStock: NSObject, ILSoup {
     }
 }
 
-open class ILMemorySoup: ILSoupStock {}
+open class MemorySoup: SoupStock {}
