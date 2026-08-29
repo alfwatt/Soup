@@ -225,19 +225,19 @@ open class ILStockSequence: NSObject, ILSoupSequence {
     public func sequenceEntry(_ entry: ILSoupEntry, atTime timeIndex: Date = Date()) {
         guard let rawValue = entry.entryKeys[sequencePath] else { return }
         let value = rawValue as? NSNumber ?? NSNumber(value: 0)
-        timelineByAlias[entry.entryHash, default: []].append((timeIndex, value))
+        timelineByAlias[sequenceKey(for: entry), default: []].append((timeIndex, value))
     }
 
     public func removeEntry(_ entry: ILSoupEntry) {
-        timelineByAlias.removeValue(forKey: entry.entryHash)
+        timelineByAlias.removeValue(forKey: sequenceKey(for: entry))
     }
 
     public func includesEntry(_ entry: ILSoupEntry) -> Bool {
-        timelineByAlias[entry.entryHash] != nil
+        timelineByAlias[sequenceKey(for: entry)] != nil
     }
 
     public func fetchSequence(for entry: ILSoupEntry, times: inout [Date], values: inout [NSNumber]) -> Bool {
-        guard let sequence = timelineByAlias[entry.entryHash] else { return false }
+        guard let sequence = timelineByAlias[sequenceKey(for: entry)] else { return false }
         times = sequence.map { $0.0 }
         values = sequence.map { $0.1 }
         return true
@@ -248,6 +248,10 @@ open class ILStockSequence: NSObject, ILSoupSequence {
         var values: [NSNumber] = []
         guard fetchSequence(for: entry, times: &times, values: &values) else { return nil }
         return ILStockSequenceSource(times: times, andValues: values)
+    }
+
+    private func sequenceKey(for entry: ILSoupEntry) -> String {
+        (entry.entryKeys[ILSoupEntryIdentityUUID] as? String) ?? entry.entryHash
     }
 }
 open class ILStockIndex: NSObject, ILSoupIndex {
@@ -376,19 +380,12 @@ open class ILStockAncestryIndex: ILStockIdentityIndex, ILSoupAncestryIndex {
     }
 
     open func descendants(of ancestor: ILSoupEntry) -> ILSoupCursor {
-        let aliases = aliasesByValue[ancestor.entryHash] ?? []
+        let aliases = aliasesByValue[stockCanonicalOrderingString(for: ancestor.entryHash)] ?? []
         return ILStockCursor(entries: aliases.compactMap { entriesByAlias[$0] })
     }
 
     open func progenitors() -> ILSoupCursor {
-        var roots: [String: ILSoupEntry] = rootEntries
-        for entry in entriesByAlias.values {
-            let chain = ancestry(of: entry).entries
-            if let root = chain.last {
-                roots[root.entryHash] = root
-            }
-        }
-        return ILStockCursor(entries: Array(roots.values))
+        ILStockCursor(entries: Array(rootEntries.values))
     }
 }
 
