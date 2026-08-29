@@ -63,7 +63,7 @@ open class SynchedSoup: SoupStock {
         return synchronized.createBlankEntry(ofClass: conformsToMutableSoupEntry)
     }
 
-    override open func addEntry(_ entry: SoupEntry) -> String {
+    override open func addEntry(_ entry: SoupEntry) -> SoupAlias {
         lock.lock()
         defer { lock.unlock() }
         return synchronized.addEntry(entry)
@@ -75,7 +75,7 @@ open class SynchedSoup: SoupStock {
         synchronized.deleteEntry(entry)
     }
 
-    override open func gotoAlias(_ alias: String) -> MutableSoupEntry? {
+    override open func gotoAlias(_ alias: SoupAlias) -> MutableSoupEntry? {
         lock.lock()
         defer { lock.unlock() }
         return synchronized.gotoAlias(alias)

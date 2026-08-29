@@ -200,7 +200,7 @@ final class SoupTests: XCTestCase {
         nextEntry!.entryNotes = "on to the next one"
 
         let memory: MemorySoup = MemorySoup(name: "Test Soup");
-        let nextEntryAlias = memory.add(nextEntry!)
+        let nextEntryAlias: SoupAlias = memory.add(nextEntry!)
         nextEntry = nil // should still exist in the soup, let's look it up
 
         let storedEntry: AddressBookEntry = memory.gotoAlias(nextEntryAlias) as! AddressBookEntry

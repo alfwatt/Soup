@@ -1,14 +1,15 @@
 import Foundation
+import CryptoKit
 
 public enum SoupDigest {
     public static func allValuesDigest(_ values: [Any]) -> Data {
         let valueHashes = values.map { digestComponent(for: $0) }
-        return encodedDigestData(from: valueHashes)
+        return sha256(encodedDigestData(from: valueHashes))
     }
 
     public static func allKeysDigest(_ dictionary: [AnyHashable: Any]) -> Data {
         let keyHashes = orderedKeys(for: dictionary).map { digestComponent(for: $0) }
-        return encodedDigestData(from: keyHashes)
+        return sha256(encodedDigestData(from: keyHashes))
     }
 
     public static func allKeysAndValuesDigest(_ dictionary: [AnyHashable: Any]) -> Data {
@@ -17,8 +18,44 @@ public enum SoupDigest {
         var digest = Data()
         appendChunk(keysDigest, to: &digest)
         appendChunk(valuesDigest, to: &digest)
-        return digest
+        return sha256(digest)
     }
+
+    static func alias(for digest: Data) -> SoupAlias {
+        precondition(digest.count >= 16, "A SoupAlias requires at least 124 digest bits")
+
+        var prefix = Array(digest.prefix(16))
+        prefix[15] &= 0xF0
+        guard let alias = URL(string: "alias:\(base58Encode(prefix, paddedTo: 22))") else {
+            preconditionFailure("Unable to create SoupAlias URL")
+        }
+        return alias
+    }
+}
+
+private func sha256(_ data: Data) -> Data {
+    Data(SHA256.hash(data: data))
+}
+
+private func base58Encode(_ bytes: [UInt8], paddedTo length: Int) -> String {
+    let alphabet = Array("123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz")
+    var digits: [UInt8] = []
+
+    for byte in bytes {
+        var carry = Int(byte)
+        for index in digits.indices {
+            carry += Int(digits[index]) << 8
+            digits[index] = UInt8(carry % 58)
+            carry /= 58
+        }
+        while carry > 0 {
+            digits.append(UInt8(carry % 58))
+            carry /= 58
+        }
+    }
+
+    let encoded = String(digits.reversed().map { alphabet[Int($0)] })
+    return String(repeating: "1", count: length - encoded.count) + encoded
 }
 
 private func encodedDigestData(from components: [Data]) -> Data {

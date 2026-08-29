@@ -54,8 +54,8 @@ open class StockEntry: NSObject, MutableSoupEntry {
         return SoupDigest.allValuesDigest(dataKeys).base64EncodedString()
     }
 
-    open var entryHash: String {
-        SoupDigest.allKeysAndValuesDigest(storage).base64EncodedString()
+    open var entryHash: SoupAlias {
+        SoupDigest.alias(for: SoupDigest.allKeysAndValuesDigest(storage))
     }
 
     open func copy(with zone: NSZone? = nil) -> Any {
@@ -149,7 +149,7 @@ open class StockCursor: SoupCursor {
 }
 
 open class StockAliasCursor: SoupCursor {
-    private let aliases: [String]
+    private let aliases: [SoupAlias]
     private weak var sourceSoup: Soup?
     public private(set) var index: UInt = 0
     public var count: Int { aliases.count }
@@ -157,12 +157,12 @@ open class StockAliasCursor: SoupCursor {
         aliases.compactMap { sourceSoup?.gotoAlias($0) }
     }
 
-    public init(aliases: [String], inSoup sourceSoup: Soup?) {
+    public init(aliases: [SoupAlias], inSoup sourceSoup: Soup?) {
         self.aliases = aliases
         self.sourceSoup = sourceSoup
     }
 
-    public func nextAlias() -> String? {
+    public func nextAlias() -> SoupAlias? {
         let i = Int(index)
         guard i < aliases.count else { return nil }
         defer { index += 1 }
@@ -212,7 +212,7 @@ open class StockSequenceSource: NSObject, SoupSequenceSource {
 
 open class StockSequence: NSObject, SoupSequence {
     public let sequencePath: String
-    private var timelineByAlias: [String: [(Date, NSNumber)]] = [:]
+    private var timelineByAlias: [SoupAlias: [(Date, NSNumber)]] = [:]
 
     public required init(path: String) {
         self.sequencePath = path
@@ -250,17 +250,17 @@ open class StockSequence: NSObject, SoupSequence {
         return StockSequenceSource(times: times, andValues: values)
     }
 
-    private func sequenceKey(for entry: SoupEntry) -> String {
-        (entry.entryKeys[ILSoupEntryIdentityUUID] as? String) ?? entry.entryHash
+    private func sequenceKey(for entry: SoupEntry) -> SoupAlias {
+        entry.entryHash
     }
 }
 open class StockIndex: NSObject, SoupIndex {
     public let indexPath: String
     public weak var containingSoup: Soup?
-    fileprivate var entriesByAlias: [String: SoupEntry] = [:]
-    fileprivate var aliasesByValue: [String: [String]] = [:]
-    fileprivate var valueByAlias: [String: Any] = [:]
-    fileprivate var keyByAlias: [String: String] = [:]
+    fileprivate var entriesByAlias: [SoupAlias: SoupEntry] = [:]
+    fileprivate var aliasesByValue: [String: [SoupAlias]] = [:]
+    fileprivate var valueByAlias: [SoupAlias: Any] = [:]
+    fileprivate var keyByAlias: [SoupAlias: String] = [:]
 
     public required init(path indexPath: String, inSoup containingSoup: Soup) {
         self.indexPath = indexPath
@@ -348,10 +348,10 @@ open class StockIdentityIndex: StockIndex, SoupIdentityIndex {
 }
 
 open class StockAncestryIndex: StockIdentityIndex, SoupAncestryIndex {
-    private var rootEntries: [String: SoupEntry] = [:]
+    private var rootEntries: [SoupAlias: SoupEntry] = [:]
 
     override open func indexEntry(_ entry: SoupEntry) {
-        guard entry.entryKeys[ILSoupEntryAncestorEntryHash] is String else {
+        guard entry.entryKeys[ILSoupEntryAncestorEntryHash] is SoupAlias else {
             rootEntries[entry.entryHash] = entry
             return
         }
@@ -365,7 +365,7 @@ open class StockAncestryIndex: StockIdentityIndex, SoupAncestryIndex {
     }
 
     open func ancestor(of descendant: SoupEntry) -> SoupEntry? {
-        guard let ancestorAlias = descendant.entryKeys[ILSoupEntryAncestorEntryHash] as? String else { return nil }
+        guard let ancestorAlias = descendant.entryKeys[ILSoupEntryAncestorEntryHash] as? SoupAlias else { return nil }
         return containingSoup?.gotoAlias(ancestorAlias)
     }
 
@@ -435,7 +435,7 @@ open class SoupStock: NSObject, Soup {
     public var defaultEntry: [String: Any] = [:]
     public weak var delegate: SoupDelegate?
 
-    private var entriesByAlias: [String: MutableSoupEntry] = [:]
+    private var entriesByAlias: [SoupAlias: MutableSoupEntry] = [:]
     private var indicesByPath: [String: SoupIndex] = [:]
     private var sequencesByPath: [String: SoupSequence] = [:]
     private var defaultCursor: SoupCursor = StockCursor(entries: [])
@@ -469,18 +469,18 @@ open class SoupStock: NSObject, Soup {
         return entry
     }
 
-    open func add(_ entry: SoupEntry) -> String {
+    open func add(_ entry: SoupEntry) -> SoupAlias {
         addEntry(entry)
     }
 
-    open func add(_ entry: Any) -> String {
+    open func add(_ entry: Any) -> SoupAlias {
         if let soupEntry = entry as? SoupEntry {
             return addEntry(soupEntry)
         }
         preconditionFailure("Entry must conform to SoupEntry")
     }
 
-    open func addEntry(_ entry: SoupEntry) -> String {
+    open func addEntry(_ entry: SoupEntry) -> SoupAlias {
         let alias = entryAlias(entry)
         if let mutable = entry as? MutableSoupEntry {
             entriesByAlias[alias] = mutable
@@ -503,11 +503,11 @@ open class SoupStock: NSObject, Soup {
         _ = resetCursor()
     }
 
-    open func entryAlias(_ entry: SoupEntry) -> String {
+    open func entryAlias(_ entry: SoupEntry) -> SoupAlias {
         entry.entryHash
     }
 
-    open func gotoAlias(_ alias: String) -> MutableSoupEntry? {
+    open func gotoAlias(_ alias: SoupAlias) -> MutableSoupEntry? {
         entriesByAlias[alias]
     }
 

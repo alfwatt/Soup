@@ -41,8 +41,8 @@ addEntry([
 addEntry([name: "John Doe", email: "j.doe@example.com"])
 addEntry([name: "Jane Doe", email: "jane.doe@example.com"])
 
-let kimAlias = soup.addEntry(memory.createBlankEntry().mutatedEntry([name: "Kim Gru", email: "kim.g@example.com"]))
-let samAlias = soup.addEntry(memory.createBlankEntry().mutatedEntry([name: "Sam Liu", email: "sam.l@example.com"]))
+let kimAlias: SoupAlias = soup.addEntry(memory.createBlankEntry().mutatedEntry([name: "Kim Gru", email: "kim.g@example.com"]))
+let samAlias: SoupAlias = soup.addEntry(memory.createBlankEntry().mutatedEntry([name: "Sam Liu", email: "sam.l@example.com"]))
 let kimUUID = soup.gotoAlias(kimAlias)?.entryKeys[ILSoupEntryIdentityUUID] as? String
 let samUUID = soup.gotoAlias(samAlias)?.entryKeys[ILSoupEntryIdentityUUID] as? String
 

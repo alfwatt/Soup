@@ -30,6 +30,17 @@ final class SoupSwiftTests: XCTestCase {
         XCTAssertEqual(SoupDigest.allKeysAndValuesDigest(first), SoupDigest.allKeysAndValuesDigest(second))
     }
 
+    func testEntryAliasIsFixedLengthDigest() {
+        let entry = StockEntry(keys: ["name": "Soup", "version": 1])
+        let alias: SoupAlias = entry.entryHash
+        let encodedAlias = String(alias.absoluteString.dropFirst("alias:".count))
+
+        XCTAssertEqual(alias.scheme, "alias")
+        XCTAssertEqual(encodedAlias.utf8.count, 22)
+        XCTAssertTrue(encodedAlias.allSatisfy { "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz".contains($0) })
+        XCTAssertEqual(alias, entry.entryHash)
+    }
+
     func testMutableDictionaryCopyIsDeep() {
         let original: [AnyHashable: Any] = [
             "meta": [

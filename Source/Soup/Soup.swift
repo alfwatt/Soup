@@ -15,8 +15,10 @@ public let ILSoupSnapshotStorageKey = "StorageKeyPath"
 public let ILSoupSnapshotValueTransformer = "ValueTransformer"
 public let ILSoupSnapshotMatchKeyPath = "MatchKeyPath"
 
+public typealias SoupAlias = URL
+
 public protocol SoupEntry: AnyObject, NSCopying, NSMutableCopying {
-    var entryHash: String { get }
+    var entryHash: SoupAlias { get }
     var dataHash: String { get }
     var keysHash: String { get }
     var entryKeys: [String: Any] { get }
@@ -119,10 +121,10 @@ public protocol Soup: AnyObject {
     init(name soupName: String)
     func createBlankEntry() -> MutableSoupEntry
     func createBlankEntry(ofClass conformsToMutableSoupEntry: MutableSoupEntry.Type) -> MutableSoupEntry?
-    func addEntry(_ entry: SoupEntry) -> String
+    func addEntry(_ entry: SoupEntry) -> SoupAlias
     func deleteEntry(_ entry: SoupEntry)
-    func entryAlias(_ entry: SoupEntry) -> String
-    func gotoAlias(_ alias: String) -> MutableSoupEntry?
+    func entryAlias(_ entry: SoupEntry) -> SoupAlias
+    func gotoAlias(_ alias: SoupAlias) -> MutableSoupEntry?
     func querySoup(_ query: NSPredicate) -> SoupCursor
     @discardableResult func resetCursor() -> SoupCursor
     var soupIndices: [SoupIndex] { get }

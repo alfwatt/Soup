@@ -46,27 +46,27 @@ open class UnionSoup: SoupStock {
         unionDelegate?.unionSoup(self, removedSoup: soup)
     }
 
-    open func copyEntry(_ entryHash: String, fromSoup: Soup, toSoup: Soup) -> Bool {
-        guard let entry = fromSoup.gotoAlias(entryHash) else { return false }
+    open func copyEntry(_ alias: SoupAlias, fromSoup: Soup, toSoup: Soup) -> Bool {
+        guard let entry = fromSoup.gotoAlias(alias) else { return false }
         let copy = entry.copy() as? SoupEntry ?? entry
         _ = toSoup.addEntry(copy)
         unionDelegate?.unionSoup(self, copiedEntry: copy, fromSoup: fromSoup, toSoup: toSoup)
         return true
     }
 
-    open func moveEntry(_ entryHash: String, fromSoup: Soup, toSoup: Soup) -> Bool {
-        guard let entry = fromSoup.gotoAlias(entryHash) else { return false }
+    open func moveEntry(_ alias: SoupAlias, fromSoup: Soup, toSoup: Soup) -> Bool {
+        guard let entry = fromSoup.gotoAlias(alias) else { return false }
         _ = toSoup.addEntry(entry)
         fromSoup.deleteEntry(entry)
         unionDelegate?.unionSoup(self, movedEntry: entry, fromSoup: fromSoup, toSoup: toSoup)
         return true
     }
 
-    open func pushEntry(_ entryHash: String) -> Bool {
+    open func pushEntry(_ alias: SoupAlias) -> Bool {
         guard loadedSoups.count > 1 else { return false }
         for i in 0..<(loadedSoups.count - 1) {
-            if moveEntry(entryHash, fromSoup: loadedSoups[i], toSoup: loadedSoups[i + 1]) {
-                if let moved = loadedSoups[i + 1].gotoAlias(entryHash) {
+            if moveEntry(alias, fromSoup: loadedSoups[i], toSoup: loadedSoups[i + 1]) {
+                if let moved = loadedSoups[i + 1].gotoAlias(alias) {
                     unionDelegate?.unionSoup(self, pushedEntry: moved, fromSoup: loadedSoups[i], toSoup: loadedSoups[i + 1])
                 }
                 return true
@@ -75,11 +75,11 @@ open class UnionSoup: SoupStock {
         return false
     }
 
-    open func popEntry(_ entryHash: String) -> Bool {
+    open func popEntry(_ alias: SoupAlias) -> Bool {
         guard loadedSoups.count > 1 else { return false }
         for i in stride(from: loadedSoups.count - 1, through: 1, by: -1) {
-            if moveEntry(entryHash, fromSoup: loadedSoups[i], toSoup: loadedSoups[i - 1]) {
-                if let moved = loadedSoups[i - 1].gotoAlias(entryHash) {
+            if moveEntry(alias, fromSoup: loadedSoups[i], toSoup: loadedSoups[i - 1]) {
+                if let moved = loadedSoups[i - 1].gotoAlias(alias) {
                     unionDelegate?.unionSoup(self, poppedEntry: moved, fromSoup: loadedSoups[i], toSoup: loadedSoups[i - 1])
                 }
                 return true

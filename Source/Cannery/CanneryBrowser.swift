@@ -124,6 +124,31 @@ class CanneryBrowser: NSWindowController {
         
         return value
     }
+
+    private func isSoupAlias(_ value: Any?) -> Bool {
+        guard let url = value as? URL else { return false }
+        return url.scheme == "alias"
+    }
+
+    private func linkedAlias(_ alias: SoupAlias) -> NSAttributedString {
+        NSAttributedString(
+            string: alias.absoluteString,
+            attributes: [
+                .link: alias,
+                .foregroundColor: NSColor.linkColor,
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+        )
+    }
+
+    private func showEntry(for alias: SoupAlias) {
+        guard let entry = cannedSoup?.gotoAlias(alias) else { return }
+        selectedEntry = entry
+        selectedAncestors = cannedSoup?.queryAncestryIndex()?.ancestry(of: entry)
+        window?.title = "Cannery: " + entry.dataHash
+        entryDetail.reloadData()
+        entryAncestors.reloadData()
+    }
     
     // MARK: - NSNibAwakening
 
@@ -311,6 +336,9 @@ extension CanneryBrowser:  NSTableViewDataSource {
                     }
                     else if columnId.isEqual("entry.value") {
                         value = selectedEntry.entryKeys[selectedKey]
+                        if let alias = value as? SoupAlias, isSoupAlias(alias) {
+                            value = linkedAlias(alias)
+                        }
                     }
                 }
             }
@@ -321,7 +349,7 @@ extension CanneryBrowser:  NSTableViewDataSource {
                             value = row
                         }
                         if columnId.isEqual("ancestor.hash") {
-                            value = rowAncestor.dataHash as NSObject
+                            value = linkedAlias(rowAncestor.entryHash)
                         }
                         else if columnId.isEqual("ancestor.mutated"),
                             rowAncestor.entryKeys[ILSoupEntryMutationDate] != nil {
@@ -340,6 +368,37 @@ extension CanneryBrowser:  NSTableViewDataSource {
             }
         }
         return value
+    }
+}
+
+// MARK: - NSTableViewDelegate
+
+extension CanneryBrowser: NSTableViewDelegate {
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        guard let tableView = notification.object as? NSTableView,
+              tableView.selectedColumn >= 0,
+              tableView.selectedColumn < tableView.tableColumns.count else {
+            return
+        }
+        let column = tableView.tableColumns[tableView.selectedColumn]
+
+        if tableView == entryDetail,
+           column.identifier.rawValue == "entry.value",
+           selectedEntry != nil,
+           tableView.selectedRow >= 0,
+           tableView.selectedRow < selectedEntry!.sortedEntryKeys.count {
+            let key = selectedEntry!.sortedEntryKeys[tableView.selectedRow]
+            if let alias = selectedEntry!.entryKeys[key] as? SoupAlias, isSoupAlias(alias) {
+                showEntry(for: alias)
+            }
+        } else if tableView == entryAncestors,
+                  column.identifier.rawValue == "ancestor.hash",
+                  tableView.selectedRow >= 0,
+                  let ancestors = selectedAncestors?.entries,
+                  tableView.selectedRow < ancestors.count {
+            let ancestor = ancestors[tableView.selectedRow]
+            showEntry(for: ancestor.entryHash)
+        }
     }
 }
 
