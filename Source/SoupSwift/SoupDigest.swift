@@ -53,7 +53,6 @@ private func canonicalString(for value: Any) -> String {
 }
 
 private func digestComponent(for value: Any) -> String {
-    let object = value as AnyObject
-    let className = String(describing: type(of: object))
+    let className = String(describing: type(of: value))
     return "\(className)-\(canonicalString(for: value))"
 }
