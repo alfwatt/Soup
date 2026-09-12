@@ -20,6 +20,7 @@ private func stockCanonicalOrderingString(for value: Any) -> String {
 @objcMembers
 open class StockEntry: NSObject, MutableSoupEntry {
     private var storage: [String: Any]
+    private var mutations: [String: Any] = [:]
 
     public required override init() {
         let identity = UUID().uuidString
@@ -68,8 +69,18 @@ open class StockEntry: NSObject, MutableSoupEntry {
         Self.init(keys: storage)
     }
 
+    /// Reads a keyed value, preferring any pending mutation over the original storage.
+    open func entryValue(forKey key: String) -> Any? {
+        mutations[key] ?? storage[key]
+    }
+
+    /// Records a pending mutation for a keyed value; `entryKeys` is unaffected until `entryWithPropertyMutations()` is called.
+    open func setEntryValue(_ value: Any?, forKey key: String) {
+        mutations[key] = value ?? NSNull()
+    }
+
     open func propertyMutations() -> [String: Any]? {
-        nil
+        mutations.isEmpty ? nil : mutations
     }
 
     open func entryWithPropertyMutations() -> Self {
