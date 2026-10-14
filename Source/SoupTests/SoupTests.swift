@@ -316,6 +316,38 @@ final class SoupTests: XCTestCase {
         }
     }
 
+    func testSoupSnapShotOfObject() throws {
+        let memory: MemorySoup = MemorySoup(name: "Snappy Object Soup")
+        _ = memory.createIdentityIndex("uuid")
+
+        let snapshot = SoupSnapshot(map: [
+            ILSoupSnapshotProperties: [
+                "identifier.UUIDString": [ILSoupSnapshotStorageKey: "uuid"], // KVC through a dotted key path
+                "name": [ILSoupSnapshotValueTransformer: SnapshotUppercaseTransformer()],
+                "missing.key": [:] // not KVC compliant, captures nothing
+            ],
+            ILSoupEntryClassName: NSStringFromClass(SnapshotEntry.self),
+            ILSoupSnapshotMatchKeyPath: "identifier.UUIDString" // matched in the "uuid" storage key's index
+        ])
+
+        let object = SnapshotSubject()
+        let capture = snapshot.capture(object)
+        XCTAssertEqual(capture["uuid"] as? String, object.identifier.uuidString, "dotted key path captured")
+        XCTAssertEqual(capture["name"] as? String, "SUBJECT", "value transformed")
+        XCTAssertNil(capture["missing.key"], "unknown key captures nothing")
+
+        let firstVersion = snapshot.snapshot(object, in: memory, with: ["rssi": NSNumber(value: -60)])
+        XCTAssert(firstVersion is SnapshotEntry, "entry class from the map")
+        XCTAssertEqual(firstVersion?.entryKeys["rssi"] as? NSNumber, NSNumber(value: -60), "additional values merged")
+
+        object.name = "renamed"
+        let secondVersion = snapshot.snapshot(object, in: memory, with: ["rssi": NSNumber(value: -50)])
+        XCTAssertEqual(firstVersion?.entryKeys[ILSoupEntryIdentityUUID] as? String,
+                       secondVersion?.entryKeys[ILSoupEntryIdentityUUID] as? String, "matched the previous version")
+        XCTAssertEqual(secondVersion?.entryKeys["name"] as? String, "RENAMED", "name updated")
+        XCTAssertEqual(memory.queryIdentityIndex("uuid")?.entryCount, 1, "one entry per identifier")
+    }
+
     // MARK: - Teardown
 
     override func tearDownWithError() throws {
@@ -328,4 +360,19 @@ final class SoupTests: XCTestCase {
     // Put the code you want to measure the time of here.
     //    }
     // }
+}
+
+// MARK: - Snapshot Fixtures
+
+final class SnapshotEntry: StockEntry {}
+
+final class SnapshotSubject: NSObject {
+    @objc let identifier = NSUUID()
+    @objc var name = "subject"
+}
+
+final class SnapshotUppercaseTransformer: ValueTransformer {
+    override func transformedValue(_ value: Any?) -> Any? {
+        (value as? String)?.uppercased()
+    }
 }
