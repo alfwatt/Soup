@@ -50,25 +50,37 @@ open class SoupSnapshot: NSObject {
         snapshot(object, in: soup, with: [:])
     }
 
-    /// capture the object, merge in the additional values and add the new version of the entry to the soup
-    ///
-    /// the previous version is found in the identity index of the match key path's storage key, a new entry
-    /// of the ILSoupEntryClassName class is created if there isn't one
     open func snapshot(_ object: NSObject, in soup: Soup, with additional: [String: Any]) -> SoupEntry? {
+        snapshot(object, in: soup, with: additional, edits: nil)
+    }
+
+    /// @returns the previous version of the entry the values match, from the identity index of the match key path's storage key
+    open func previousEntry(matching values: [String: Any], in soup: Soup) -> MutableSoupEntry? {
+        guard let matchKeyPath = snapshotMap[ILSoupSnapshotMatchKeyPath] as? String else { return nil }
+        let matchKey = storageKey(for: matchKeyPath)
+        guard let matchValue = values[matchKey], let identity = soup.queryIdentityIndex(matchKey) else { return nil }
+        return identity.entry(withValue: matchValue) as? MutableSoupEntry
+    }
+
+    /// capture the object, merge in the additional values, apply the edits and add the new version of the entry to the soup
+    ///
+    /// the previous version is found with `previousEntry(matching:in:)`, the edits get it and the values to store,
+    /// e.g. to keep a previous value the object doesn't have this time, the new version is mutated from the previous one,
+    /// chaining their ancestry, or a new entry of the ILSoupEntryClassName class is created if there isn't one
+    open func snapshot(_ object: NSObject, in soup: Soup, with additional: [String: Any],
+                       edits: ((_ previous: SoupEntry?, _ values: inout [String: Any]) -> Void)?) -> SoupEntry? {
         var capture = capture(object)
         for (key, value) in additional {
             capture[key] = value
         }
 
-        if let matchKeyPath = snapshotMap[ILSoupSnapshotMatchKeyPath] as? String {
-            let matchKey = storageKey(for: matchKeyPath)
-            if let matchValue = capture[matchKey],
-               let identity = soup.queryIdentityIndex(matchKey),
-               let existing = identity.entry(withValue: matchValue) as? MutableSoupEntry {
-                let next = existing.mutatedEntry(capture)
-                _ = soup.addEntry(next)
-                return next
-            }
+        let previous = previousEntry(matching: capture, in: soup)
+        edits?(previous, &capture)
+
+        if let previous {
+            let next = previous.mutatedEntry(capture)
+            _ = soup.addEntry(next)
+            return next
         }
 
         let blank = entryClass.flatMap { soup.createBlankEntry(ofClass: $0) } ?? soup.createBlankEntry()

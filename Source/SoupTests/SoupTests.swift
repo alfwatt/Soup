@@ -348,6 +348,51 @@ final class SoupTests: XCTestCase {
         XCTAssertEqual(memory.queryIdentityIndex("uuid")?.entryCount, 1, "one entry per identifier")
     }
 
+    func testSnapshotEditsChainVersions() throws {
+        let memory = MemorySoup(name: "Chained Soup")
+        _ = memory.createIdentityIndex("uuid")
+        let snapshot = SoupSnapshot(map: [
+            ILSoupSnapshotProperties: ["identifier.UUIDString": [ILSoupSnapshotStorageKey: "uuid"], "name": [:]],
+            ILSoupSnapshotMatchKeyPath: "identifier.UUIDString"
+        ])
+
+        let object = SnapshotSubject()
+        let first = snapshot.snapshot(object, in: memory, with: ["kind": "keyboard"], edits: { previous, values in
+            XCTAssertNil(previous, "no previous version")
+        })
+        XCTAssertNotNil(snapshot.previousEntry(matching: ["uuid": object.identifier.uuidString], in: memory), "found by identity")
+
+        let second = snapshot.snapshot(object, in: memory, with: [:], edits: { previous, values in
+            XCTAssertEqual(previous?.entryKeys["kind"] as? String, "keyboard", "edits get the previous version")
+            values["kind"] = values["kind"] ?? previous?.entryKeys["kind"] // keep a value this snapshot doesn't have
+        })
+        XCTAssertEqual(second?.entryKeys["kind"] as? String, "keyboard", "kept by the edits")
+        XCTAssertEqual(second?.entryKeys[ILSoupEntryAncestorEntryHash] as? SoupAlias, first?.entryHash, "chained to the previous version")
+    }
+
+    func testSequenceAcrossVersions() throws {
+        let memory = MemorySoup(name: "Sequence Soup")
+        guard let sequence = memory.createSequence("signal") as? StockSequence else { return XCTFail("stock sequence") }
+        sequence.timeKeyPath = "sampleDate"
+        sequence.maximumValues = 3
+
+        let start = Date()
+        var entry = memory.createBlankEntry().mutatedEntry(["signal": NSNumber(value: -60), "sampleDate": start])
+        _ = memory.addEntry(entry)
+        for step in 1...3 { // each sample is a new version of the entry
+            entry = entry.mutatedEntry(["signal": NSNumber(value: -60 - step), "sampleDate": start.addingTimeInterval(TimeInterval(step))])
+            _ = memory.addEntry(entry)
+        }
+        _ = memory.addEntry(entry.mutatedEntry(["name": "renamed"])) // same sample date, replaces the last value
+        _ = memory.addEntry(entry.mutatedEntry(["signal": NSNull(), "sampleDate": start.addingTimeInterval(10)])) // no value, skipped
+
+        var times: [Date] = []
+        var values: [NSNumber] = []
+        XCTAssertTrue(sequence.fetchSequence(for: entry, times: &times, values: &values), "sequence for the entry")
+        XCTAssertEqual(values.map { $0.intValue }, [-61, -62, -63], "every version adds to one timeline, capped at 3")
+        XCTAssertEqual(times.first, start.addingTimeInterval(1), "times from the sample date")
+    }
+
     // MARK: - Teardown
 
     override func tearDownWithError() throws {

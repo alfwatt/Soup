@@ -236,7 +236,15 @@ open class StockSequenceSource: NSObject, SoupSequenceSource {
 @objcMembers
 open class StockSequence: NSObject, SoupSequence {
     public let sequencePath: String
-    private var timelineByAlias: [SoupAlias: [(Date, NSNumber)]] = [:]
+
+    /// a key path of the entry with the Date of the value, e.g. a sample date, the time the entry is sequenced if nil
+    public var timeKeyPath: String?
+
+    /// the most values kept for each entry, the oldest are dropped first, 0 keeps all of them
+    public var maximumValues: Int = 0
+
+    /// values are sequenced by entry identity, so every version of an entry adds to the same timeline
+    private var timelineByAlias: [String: [(Date, NSNumber)]] = [:]
 
     public required init(path: String) {
         self.sequencePath = path
@@ -247,9 +255,20 @@ open class StockSequence: NSObject, SoupSequence {
     }
 
     public func sequenceEntry(_ entry: SoupEntry, atTime timeIndex: Date = Date()) {
-        guard let rawValue = entry.entryKeys[sequencePath] else { return }
-        let value = rawValue as? NSNumber ?? NSNumber(value: 0)
-        timelineByAlias[sequenceKey(for: entry), default: []].append((timeIndex, value))
+        guard let value = entry.entryKeys[sequencePath] as? NSNumber else { return } // no value, or NSNull
+        let time = timeKeyPath.flatMap { entry.entryKeys[$0] as? Date } ?? timeIndex
+        let key = sequenceKey(for: entry)
+        var timeline = timelineByAlias[key, default: []]
+        if let last = timeline.last, last.0 == time { // the same sample from another version of the entry
+            timeline[timeline.count - 1] = (time, value)
+        }
+        else {
+            timeline.append((time, value))
+        }
+        if maximumValues > 0 && timeline.count > maximumValues {
+            timeline.removeFirst(timeline.count - maximumValues)
+        }
+        timelineByAlias[key] = timeline
     }
 
     public func removeEntry(_ entry: SoupEntry) {
@@ -284,8 +303,9 @@ open class StockSequence: NSObject, SoupSequence {
         return StockSequenceSource(times: times, andValues: values)
     }
 
-    private func sequenceKey(for entry: SoupEntry) -> SoupAlias {
-        entry.entryHash
+    /// the identity of the entry, which mutated versions keep, or its hash if it doesn't have one
+    private func sequenceKey(for entry: SoupEntry) -> String {
+        (entry.entryKeys[ILSoupEntryIdentityUUID] as? String) ?? entry.entryHash.absoluteString
     }
 }
 @objc(ILStockIndex)
