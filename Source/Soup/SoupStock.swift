@@ -19,7 +19,7 @@ private func stockCanonicalOrderingString(for value: Any) -> String {
 @objc(ILStockEntry)
 @objcMembers
 open class StockEntry: NSObject, MutableSoupEntry {
-    private var storage: [String: Any]
+    private let storage: [String: Any]
     private var mutations: [String: Any] = [:]
 
     public required override init() {
@@ -29,11 +29,13 @@ open class StockEntry: NSObject, MutableSoupEntry {
             ILSoupEntryCreationDate: Date(),
             ILSoupEntryClassName: NSStringFromClass(Self.self)
         ]
+        storageHash = SoupDigest.alias(for: SoupDigest.allKeysAndValuesDigest(storage))
         super.init()
     }
 
     public required init(keys: [String: Any]) {
         storage = keys
+        storageHash = SoupDigest.alias(for: SoupDigest.allKeysAndValuesDigest(keys))
         super.init()
     }
 
@@ -57,8 +59,12 @@ open class StockEntry: NSObject, MutableSoupEntry {
         return SoupDigest.allValuesDigest(dataKeys).base64EncodedString()
     }
 
+    /// the storage doesn't change, mutations make a new entry, so the hash is computed once, indexing reads it often,
+    /// in the initializer, entries are read across threads
+    private let storageHash: SoupAlias
+
     open var entryHash: SoupAlias {
-        SoupDigest.alias(for: SoupDigest.allKeysAndValuesDigest(storage))
+        storageHash
     }
 
     open func copy(with zone: NSZone? = nil) -> Any {
@@ -508,6 +514,9 @@ open class SoupStock: NSObject, Soup {
     private var sequencesByPath: [String: SoupSequence] = [:]
     private var defaultCursor: SoupCursor = StockCursor(entries: [])
 
+    /// the default cursor is queried again when it's next used, adding entries doesn't query the whole soup
+    private var cursorIsStale = false
+
     public required init(name soupName: String) {
         self.soupName = soupName
         super.init()
@@ -519,7 +528,10 @@ open class SoupStock: NSObject, Soup {
         self.init(name: soupName)
     }
 
-    open var cursor: SoupCursor { defaultCursor }
+    open var cursor: SoupCursor {
+        if cursorIsStale { resetCursor() }
+        return defaultCursor
+    }
     open var soupIndices: [SoupIndex] { indicesByPath.values.sorted { $0.indexPath < $1.indexPath } }
     open var soupSequences: [SoupSequence] { sequencesByPath.values.sorted { $0.sequencePath < $1.sequencePath } }
 
@@ -558,7 +570,7 @@ open class SoupStock: NSObject, Soup {
         indexEntry(entry)
         sequenceEntry(entry)
         delegate?.soup(self, addedEntry: entry)
-        _ = resetCursor()
+        cursorIsStale = true
         return alias
     }
 
@@ -568,7 +580,79 @@ open class SoupStock: NSObject, Soup {
         removeFromIndices(entry)
         removeFromSequences(entry)
         delegate?.soup(self, deletedEntry: entry)
-        _ = resetCursor()
+        cursorIsStale = true
+    }
+
+    /// remove old versions of entries from the soup and its indices, keeping their values in the sequences,
+    /// which hold the history of the entry's identity across its versions
+    open func pruneEntries(_ entries: [SoupEntry]) {
+        for entry in entries {
+            entriesByAlias.removeValue(forKey: entryAlias(entry))
+            for index in indicesByPath.values {
+                index.removeEntry(entry)
+            }
+            delegate?.soup(self, deletedEntry: entry)
+        }
+        if !entries.isEmpty {
+            indicesByPath.values.forEach { delegate?.soup(self, updatedIndex: $0) }
+            cursorIsStale = true
+        }
+    }
+
+    /// remove the entries which match the predicate, evaluated with their entry keys, e.g. `date < %@` with the oldest date to keep
+    open func pruneEntries(matching predicate: NSPredicate) {
+        pruneEntries(entriesByAlias.values.filter { predicate.evaluate(with: $0.entryKeys) })
+    }
+
+    /// remove the ancestors of the entry, the versions it was mutated from, leaving the entry as its most recent version
+    ///
+    /// - Parameters:
+    ///   - keeping: the nearest ancestors to keep, e.g. an undo limit, 0 keeps none
+    ///   - predicate: the ancestors beyond those kept which are removed, evaluated with their entry keys, nil removes all
+    open func pruneAncestors(of entry: SoupEntry, keeping: Int = 0, matching predicate: NSPredicate? = nil) {
+        let (pruned, _) = ancestors(of: entry, keeping: keeping, matching: predicate)
+        pruneEntries(pruned)
+    }
+
+    /// remove the ancestors of every entry, leaving the most recent version of each entry
+    ///
+    /// - Parameters:
+    ///   - keeping: the nearest ancestors of each entry to keep, e.g. an undo limit, 0 keeps none
+    ///   - predicate: the ancestors beyond those kept which are removed, evaluated with their entry keys, nil removes all
+    open func pruneAncestors(keeping: Int = 0, matching predicate: NSPredicate? = nil) {
+        let ancestorAliases = Set(entriesByAlias.values.compactMap { $0.entryKeys[ILSoupEntryAncestorEntryHash] as? SoupAlias })
+        if keeping <= 0 && predicate == nil {
+            pruneEntries(ancestorAliases.compactMap { entriesByAlias[$0] })
+            return
+        }
+
+        // walk back from each most recent version, an ancestor shared by versions is kept if any of them keeps it
+        var pruned: [SoupAlias: SoupEntry] = [:]
+        var kept = Set<SoupAlias>()
+        for (alias, entry) in entriesByAlias where !ancestorAliases.contains(alias) {
+            let chain = ancestors(of: entry, keeping: keeping, matching: predicate)
+            chain.pruned.forEach { pruned[entryAlias($0)] = $0 }
+            kept.formUnion(chain.kept)
+        }
+        pruneEntries(pruned.filter { !kept.contains($0.key) }.map { $0.value })
+    }
+
+    /// @returns the ancestors of the entry which are pruned, and the aliases of those which are kept, nearest first
+    private func ancestors(of entry: SoupEntry, keeping: Int, matching predicate: NSPredicate?) -> (pruned: [SoupEntry], kept: Set<SoupAlias>) {
+        var pruned: [SoupEntry] = []
+        var kept = Set<SoupAlias>()
+        var visited = Set<SoupAlias>()
+        var alias = entry.entryKeys[ILSoupEntryAncestorEntryHash] as? SoupAlias
+        while let next = alias, visited.insert(next).inserted, let ancestor = gotoAlias(next) {
+            if visited.count > keeping && (predicate?.evaluate(with: ancestor.entryKeys) ?? true) {
+                pruned.append(ancestor)
+            }
+            else {
+                kept.insert(next)
+            }
+            alias = ancestor.entryKeys[ILSoupEntryAncestorEntryHash] as? SoupAlias
+        }
+        return (pruned, kept)
     }
 
     open func entryAlias(_ entry: SoupEntry) -> SoupAlias {
@@ -588,6 +672,7 @@ open class SoupStock: NSObject, Soup {
 
     @discardableResult
     open func resetCursor() -> SoupCursor {
+        cursorIsStale = false
         defaultCursor = querySoup(soupQuery)
         return defaultCursor
     }
