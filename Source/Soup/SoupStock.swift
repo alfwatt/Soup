@@ -249,6 +249,9 @@ open class StockSequence: NSObject, SoupSequence {
     /// the most values kept for each entry, the oldest are dropped first, 0 keeps all of them
     public var maximumValues: Int = 0
 
+    /// the oldest value kept for each entry, in seconds before its newest value, the older values are dropped, 0 keeps all of them
+    public var maximumAge: TimeInterval = 0
+
     /// values are sequenced by entry identity, so every version of an entry adds to the same timeline
     private var timelineByAlias: [String: [(Date, NSNumber)]] = [:]
 
@@ -273,6 +276,9 @@ open class StockSequence: NSObject, SoupSequence {
         }
         if maximumValues > 0 && timeline.count > maximumValues {
             timeline.removeFirst(timeline.count - maximumValues)
+        }
+        if maximumAge > 0, let newest = timeline.last?.0, let kept = timeline.firstIndex(where: { newest.timeIntervalSince($0.0) <= maximumAge }), kept > 0 {
+            timeline.removeFirst(kept)
         }
         timelineByAlias[key] = timeline
     }
