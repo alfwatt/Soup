@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "Soup",
-    platforms: [.macOS(.v10_15), .iOS(.v14), .tvOS(.v14), .visionOS(.v26)],
+    platforms: [.macOS(.v10_15), .iOS(.v14), .tvOS(.v14), .watchOS(.v10), .visionOS(.v26)],
     products: [
         .library(name: "Soup", type: .dynamic, targets: ["Soup"])
     ],
