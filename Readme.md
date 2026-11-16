@@ -20,6 +20,7 @@ Soup on [GitHub](https://github.com/alfwatt/Soup)
 - [Objective-C Interoperability](#objective-c-interoperability)
 - [Stock](#stock)
 - [Flavors](#flavors)
+- [Persistence](#persistence)
 - [Examples](#examples)
 - [MIT License](#license)
 
@@ -156,6 +157,24 @@ in your applications.
 - `UnionSoup` — combines several soups into one virtual store.
   - `UnionSoupDelegate` receives union-specific notifications.
 
+<a id="persistence"></a>
+## Soup Persistence
+
+Any `SoupStock` writes itself to a file and reads one back, in
+[FileSoup.swift](Source/Soup/FileSoup.swift):
+
+- `write(to:)` and `soupData()` save every entry, each version oldest first, and each
+  sequence's values for every entry identity, which keep the history of versions pruned
+  before it was saved, as a binary property list.
+- `read(from:adjustingDates:)` and `read(_:adjustingDates:)` add them to a soup, whose own
+  indices and sequences are built from them. Entries keep their classes, by their
+  `soup.entry.className`, and ancestry. Each date passes through `adjustingDates`, e.g. to
+  move recorded data to the present with `newestDate(in:)`.
+- `FileSoup` adds `save()` and `load()` at its file path.
+
+Values which aren't property list types, URLs or UUIDs are left out, `soupData()` counts
+them, and no classes are unarchived, so a soup's file is safe to read from anywhere.
+
 <a id="example"></a>
 ## Example: Address Book
 
@@ -191,6 +210,7 @@ See the complete [addresses Swift example](Source/addresses/addresses.swift).
 <a id="history"></a>
 ## History
 
+- 0.6 — 15 November 2026: Soup persistence, files of entries and sequences
 - 0.5 — 29 August 2026: Swift API, `SoupAlias` URL support, and updated package targets
 - 0.2 — 19 August 2024: Swift Package Manager Support
 - 0.1 — 3 June 2018

@@ -133,4 +133,86 @@ final class SoupSwiftTests: XCTestCase {
         soup.pruneEntries(matching: NSPredicate(format: "date < %@", Date(timeIntervalSince1970: 4) as NSDate))
         XCTAssertEqual(present(), [false, false, false, false, true, true])
     }
+
+    // MARK: - Persistence
+
+    /// a soup with an identity index and a sequence, as the reader of a saved soup sets itself up
+    private func persistentSoup() -> SoupStock {
+        let soup = SoupStock(name: "persistent")
+        _ = soup.createIdentityIndex("mac")
+        (soup.createSequence("value") as? StockSequence)?.timeKeyPath = "date"
+        return soup
+    }
+
+    func testSoupFileRoundTripsEntriesVersionsAndSequences() throws {
+        let soup = persistentSoup()
+        let first = StockEntry().mutatedEntry(["mac": "00:11", "value": NSNumber(value: 1), "date": Date(timeIntervalSince1970: 1),
+                                               "link": URL(string: "https://istumbler.net")!])
+        let second = first.mutatedEntry(["value": NSNumber(value: 2), "date": Date(timeIntervalSince1970: 2)])
+        let third = second.mutatedEntry(["value": NSNumber(value: 3), "date": Date(timeIntervalSince1970: 3)])
+        [first, second, third].forEach { _ = soup.addEntry($0) }
+        soup.pruneAncestors(of: third) // the sequence keeps the history of the pruned versions
+
+        let read = persistentSoup()
+        try read.read(soup.soupData().data)
+        let latest = try XCTUnwrap(read.queryIdentityIndex("mac")?.entry(withValue: "00:11"))
+        XCTAssertEqual(latest.entryKeys["value"] as? NSNumber, 3)
+        XCTAssertEqual(latest.entryKeys["link"] as? URL, URL(string: "https://istumbler.net"))
+        XCTAssertTrue(latest.entryKeys[ILSoupEntryAncestorEntryHash] is SoupAlias)
+        XCTAssertTrue(type(of: latest) == StockEntry.self)
+
+        var times: [Date] = [], values: [NSNumber] = []
+        XCTAssertTrue(try XCTUnwrap(read.querySequence("value")).fetchSequence(for: latest, times: &times, values: &values))
+        XCTAssertEqual(values, [1, 2, 3])
+        XCTAssertEqual(times, [1, 2, 3].map { Date(timeIntervalSince1970: $0) })
+    }
+
+    func testSoupFileLeavesOutValuesAPropertyListCantHave() throws {
+        let soup = persistentSoup()
+        _ = soup.addEntry(StockEntry(keys: ["mac": "00:22", "object": NSObject(), "missing": NSNull()]))
+        let (data, omitted) = try soup.soupData()
+        XCTAssertEqual(omitted, 2)
+
+        let read = persistentSoup()
+        try read.read(data)
+        let entry = try XCTUnwrap(read.queryIdentityIndex("mac")?.entry(withValue: "00:22"))
+        XCTAssertNil(entry.entryKeys["object"])
+        XCTAssertNil(entry.entryKeys["missing"])
+    }
+
+    func testSoupFileAdjustsDatesAsItsRead() throws {
+        let soup = persistentSoup()
+        let first = StockEntry().mutatedEntry(["mac": "00:33", "value": NSNumber(value: 1), "date": Date(timeIntervalSince1970: 10)])
+        _ = soup.addEntry(first)
+        _ = soup.addEntry(first.mutatedEntry(["value": NSNumber(value: 2), "date": Date(timeIntervalSince1970: 20)]))
+        let data = try soup.soupData().data
+
+        // moved so the newest date, a version's mutation date, is an hour from now
+        let now = Date().addingTimeInterval(3600)
+        let newest = try XCTUnwrap(SoupStock.newestDate(in: data))
+        let shift = now.timeIntervalSince(newest)
+        let read = persistentSoup()
+        try read.read(data) { $0.addingTimeInterval(shift) }
+        let latest = try XCTUnwrap(read.queryIdentityIndex("mac")?.entry(withValue: "00:33"))
+        XCTAssertEqual(latest.entryKeys["date"] as? Date, Date(timeIntervalSince1970: 20 + shift))
+        var times: [Date] = [], values: [NSNumber] = []
+        _ = read.querySequence("value")?.fetchSequence(for: latest, times: &times, values: &values)
+        XCTAssertEqual(times.count, 2)
+        XCTAssertEqual(times.last?.timeIntervalSince(times.first ?? .distantPast), 10)
+    }
+
+    func testFileSoupSavesAndLoads() throws {
+        let path = NSTemporaryDirectory() + UUID().uuidString + ".soup"
+        defer { try? FileManager.default.removeItem(atPath: path) }
+        let soup = FileSoup(filePath: path)
+        _ = soup.createIdentityIndex("mac")
+        _ = soup.addEntry(StockEntry(keys: ["mac": "00:44", ILSoupEntryIdentityUUID: "four"]))
+        try soup.save()
+
+        let loaded = FileSoup(filePath: path)
+        _ = loaded.createIdentityIndex("mac")
+        try loaded.load()
+        XCTAssertNotNil(loaded.queryIdentityIndex("mac")?.entry(withValue: "00:44"))
+        XCTAssertThrowsError(try loaded.read(Data("not a soup".utf8)))
+    }
 }

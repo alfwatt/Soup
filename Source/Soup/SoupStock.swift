@@ -315,6 +315,21 @@ open class StockSequence: NSObject, SoupSequence {
         return StockSequenceSource(times: times, andValues: values)
     }
 
+    /// the identities of the entries with values, which a soup's file saves with their timelines
+    @nonobjc public var timelineIdentities: [String] {
+        Array(timelineByAlias.keys)
+    }
+
+    /// the values of the entry identity, oldest first
+    @nonobjc public func timeline(for identity: String) -> [(date: Date, value: NSNumber)] {
+        (timelineByAlias[identity] ?? []).map { (date: $0.0, value: $0.1) }
+    }
+
+    /// replace the values of the entry identity, oldest first, e.g. the history of versions pruned before a soup was saved
+    @nonobjc public func setTimeline(_ timeline: [(date: Date, value: NSNumber)], for identity: String) {
+        timelineByAlias[identity] = timeline.map { ($0.date, $0.value) }
+    }
+
     /// the identity of the entry, which mutated versions keep, or its hash if it doesn't have one
     private func sequenceKey(for entry: SoupEntry) -> String {
         (entry.entryKeys[ILSoupEntryIdentityUUID] as? String) ?? entry.entryHash.absoluteString

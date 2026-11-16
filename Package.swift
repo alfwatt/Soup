@@ -1,4 +1,4 @@
-// swift-tools-version:5.10
+// swift-tools-version:6.2
 
 import PackageDescription
 
@@ -17,5 +17,6 @@ let package = Package(
             exclude: ["Info.plist"]
         ),
         .testTarget(name: "SoupTests", dependencies: ["Soup"], path: "Source/SoupTests"),
-    ]
+    ],
+    swiftLanguageModes: [.v5]
 )
